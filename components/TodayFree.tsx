@@ -5,7 +5,7 @@ export default function TodayFree() {
       title: "Измаил 88",
       type: "2+1 • Центр города",
       price: "от 800 лей",
-      image: "/apartments/izmail88-20/living.png",
+      image: "/apartments/izmail88-20/2.png",
       link: "/apartment/izmail88-20",
     },
     {
@@ -13,7 +13,7 @@ export default function TodayFree() {
       title: "Измаил 88",
       type: "1+1 • Центр города",
       price: "от 800 лей",
-      image: "/apartments/izmail88-20/spalnea.png",
+      image: "/apartments/izmail88-20/3.png",
       link: "/apartment/izmail88-42",
     },
     {
