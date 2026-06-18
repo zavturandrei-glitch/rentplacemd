@@ -21,7 +21,7 @@ export default function TodayFree() {
       title: "Измаил 88",
       type: "2+1 • 2 спальни • Центр",
       price: "от 900 лей",
-      image: "/apartments/izmail88-13/1.png",
+      image: "/apartments/izmail88-13/5.png",
       link: "/apartment/izmail88-13",
     },
   ];
@@ -58,9 +58,10 @@ export default function TodayFree() {
 
         <div className="grid gap-7 md:grid-cols-3">
           {apartments.map((apartment) => (
-            <article
+            <a
               key={apartment.id}
-              className="group overflow-hidden rounded-[2rem] bg-[#fffdf8] shadow-2xl ring-1 ring-black/5 transition hover:-translate-y-2 hover:shadow-[0_25px_80px_rgba(212,20,111,0.18)]"
+              href={apartment.link}
+              className="group block overflow-hidden rounded-[2rem] bg-[#fffdf8] shadow-2xl ring-1 ring-black/5 transition hover:-translate-y-2 hover:shadow-[0_25px_80px_rgba(212,20,111,0.18)]"
             >
               <div className="relative h-64 overflow-hidden bg-[#f1f5f9]">
                 <img
@@ -96,15 +97,12 @@ export default function TodayFree() {
                     </p>
                   </div>
 
-                  <a
-                    href={apartment.link}
-                    className="rounded-2xl bg-[#020617] px-6 py-4 text-base font-black text-white shadow-lg transition hover:scale-105"
-                  >
+                  <div className="rounded-2xl bg-[#020617] px-6 py-4 text-base font-black text-white shadow-lg transition group-hover:scale-105">
                     Подробнее
-                  </a>
+                  </div>
                 </div>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </div>
