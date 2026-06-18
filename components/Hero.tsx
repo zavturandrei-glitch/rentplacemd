@@ -59,13 +59,16 @@ export default function Hero() {
             Квартиры посуточно в Кишинёве
           </h1>
 
-          <p className="mx-auto mt-4 max-w-3xl text-lg font-bold leading-8 text-white/90 sm:text-2xl">
-            12 проверенных квартир в центре города • Заселение 24/7
+          <p className="mx-auto mt-4 max-w-4xl text-lg font-bold leading-8 text-white/90 sm:text-2xl">
+            12 квартир в одном комплексе • Измаил 88 • Центр города • 24/7
           </p>
         </div>
 
         <div className="relative z-10 mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
-          <div className="rounded-[2rem] border border-white/25 bg-[#d4146f]/70 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(212,20,111,0.35)]">
+          <div
+            onClick={() => !showRequest && setShowRequest(true)}
+            className="cursor-pointer rounded-[2rem] border border-white/25 bg-[#d4146f]/70 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(212,20,111,0.35)]"
+          >
             {!showRequest ? (
               <>
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl shadow-lg">
@@ -85,7 +88,10 @@ export default function Hero() {
                 </p>
 
                 <button
-                  onClick={() => setShowRequest(true)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowRequest(true);
+                  }}
                   className="mt-5 w-full rounded-2xl bg-white px-6 py-4 text-lg font-black text-[#d4146f] shadow-xl transition hover:scale-105"
                 >
                   Подобрать
@@ -105,6 +111,7 @@ export default function Hero() {
 
                 <textarea
                   value={message}
+                  onClick={(e) => e.stopPropagation()}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Например: с 20 по 23 июня, 2 взрослых..."
                   className="mt-4 min-h-24 w-full resize-none rounded-2xl border border-white/30 bg-white/20 p-4 text-base font-semibold text-white outline-none placeholder:text-white/70 focus:bg-white/25"
@@ -114,13 +121,17 @@ export default function Hero() {
                   <a
                     href={whatsappLink}
                     target="_blank"
+                    onClick={(e) => e.stopPropagation()}
                     className="rounded-2xl bg-[#25D366] px-6 py-4 text-center text-base font-black text-white shadow-lg transition hover:scale-105"
                   >
                     Отправить в WhatsApp
                   </a>
 
                   <button
-                    onClick={() => setShowRequest(false)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowRequest(false);
+                    }}
                     className="rounded-2xl border border-white/30 px-6 py-3 text-base font-black text-white transition hover:bg-white/10"
                   >
                     Назад
@@ -132,7 +143,7 @@ export default function Hero() {
 
           <button
             onClick={scrollToApartments}
-            className="rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,210,31,0.35)]"
+            className="cursor-pointer rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,210,31,0.35)]"
           >
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/35 text-2xl shadow-lg">
               🏠
@@ -155,7 +166,7 @@ export default function Hero() {
             </div>
           </button>
 
-          <div className="rounded-[2rem] border border-white/25 bg-white/25 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,255,255,0.25)]">
+          <div className="cursor-pointer rounded-[2rem] border border-white/25 bg-white/25 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,255,255,0.25)]">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/25 text-2xl shadow-lg">
               🆔
             </div>
