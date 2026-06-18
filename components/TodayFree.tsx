@@ -21,7 +21,7 @@ export default function TodayFree() {
       title: "Измаил 88",
       type: "2+1 • 2 спальни • Центр",
       price: "от 900 лей",
-      image: "/apartments/izmail88-13/5.png",
+      image: "/apartments/izmail88-13/2.png",
       link: "/apartment/izmail88-13",
     },
   ];
