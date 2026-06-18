@@ -65,7 +65,7 @@ export default function Hero() {
         </div>
 
         <div className="relative z-10 mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
-          <div className="rounded-[2rem] border border-white/25 bg-[#d4146f]/70 p-6 text-white shadow-2xl backdrop-blur-xl">
+          <div className="rounded-[2rem] border border-white/25 bg-[#d4146f]/70 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(212,20,111,0.35)]">
             {!showRequest ? (
               <>
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl shadow-lg">
@@ -121,7 +121,7 @@ export default function Hero() {
 
                   <button
                     onClick={() => setShowRequest(false)}
-                    className="rounded-2xl border border-white/30 px-6 py-3 text-base font-black text-white"
+                    className="rounded-2xl border border-white/30 px-6 py-3 text-base font-black text-white transition hover:bg-white/10"
                   >
                     Назад
                   </button>
@@ -132,7 +132,7 @@ export default function Hero() {
 
           <button
             onClick={scrollToApartments}
-            className="rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:scale-[1.02]"
+            className="rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,210,31,0.35)]"
           >
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/35 text-2xl shadow-lg">
               🏠
@@ -150,12 +150,12 @@ export default function Hero() {
               Фото, цены, описание и ID каждого варианта.
             </p>
 
-            <div className="mt-5 rounded-2xl bg-black px-6 py-4 text-center text-lg font-black text-white shadow-xl">
+            <div className="mt-5 rounded-2xl bg-black px-6 py-4 text-center text-lg font-black text-white shadow-xl transition hover:scale-105">
               Открыть каталог
             </div>
           </button>
 
-          <div className="rounded-[2rem] border border-white/25 bg-white/25 p-6 text-white shadow-2xl backdrop-blur-xl">
+          <div className="rounded-[2rem] border border-white/25 bg-white/25 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,255,255,0.25)]">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/25 text-2xl shadow-lg">
               🆔
             </div>
