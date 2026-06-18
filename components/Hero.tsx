@@ -16,9 +16,7 @@ export default function Hero() {
   )}`;
 
   function scrollToApartments() {
-    const section =
-      document.getElementById("today-free") ||
-      document.getElementById("apartments");
+    const section = document.getElementById("today-free");
 
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
@@ -55,13 +53,13 @@ export default function Hero() {
 
       <div className="absolute inset-0 bg-black/45" />
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-16 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-10 max-w-5xl text-center">
+      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 lg:px-8">
+        <div className="mx-auto mb-8 max-w-5xl text-center">
           <h1 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
             Квартиры посуточно в Кишинёве
           </h1>
 
-          <p className="mx-auto mt-4 max-w-3xl text-xl font-bold leading-8 text-white/90 sm:text-2xl">
+          <p className="mx-auto mt-4 max-w-3xl text-lg font-bold leading-8 text-white/90 sm:text-2xl">
             12 проверенных квартир в центре города • Заселение 24/7
           </p>
         </div>
@@ -70,7 +68,7 @@ export default function Hero() {
           <div className="rounded-[2rem] border border-white/25 bg-[#d4146f]/70 p-6 text-white shadow-2xl backdrop-blur-xl">
             {!showRequest ? (
               <>
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-3xl shadow-lg">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl shadow-lg">
                   🔑
                 </div>
 
@@ -78,17 +76,17 @@ export default function Hero() {
                   Быстрый подбор
                 </p>
 
-                <h2 className="text-2xl font-black leading-tight sm:text-3xl">
+                <h2 className="text-2xl font-black leading-tight">
                   Подобрать квартиру в один клик
                 </h2>
 
-                <p className="mt-4 text-base font-semibold leading-7 text-white/90">
+                <p className="mt-4 text-base font-semibold leading-6 text-white/90">
                   Напишите дату заезда, дату выезда и сколько будет персон.
                 </p>
 
                 <button
                   onClick={() => setShowRequest(true)}
-                  className="mt-6 w-full rounded-2xl bg-white px-6 py-4 text-lg font-black text-[#d4146f] shadow-xl transition hover:scale-105"
+                  className="mt-5 w-full rounded-2xl bg-white px-6 py-4 text-lg font-black text-[#d4146f] shadow-xl transition hover:scale-105"
                 >
                   Подобрать
                 </button>
@@ -101,7 +99,7 @@ export default function Hero() {
 
                 <h2 className="text-2xl font-black">Напишите одним текстом</h2>
 
-                <p className="mt-3 text-base font-semibold leading-7 text-white/90">
+                <p className="mt-3 text-base font-semibold leading-6 text-white/90">
                   Дата заезда, дата выезда и сколько персон.
                 </p>
 
@@ -109,7 +107,7 @@ export default function Hero() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Например: с 20 по 23 июня, 2 взрослых..."
-                  className="mt-5 min-h-28 w-full resize-none rounded-2xl border border-white/30 bg-white/20 p-4 text-base font-semibold text-white outline-none placeholder:text-white/70 focus:bg-white/25"
+                  className="mt-4 min-h-24 w-full resize-none rounded-2xl border border-white/30 bg-white/20 p-4 text-base font-semibold text-white outline-none placeholder:text-white/70 focus:bg-white/25"
                 />
 
                 <div className="mt-4 grid gap-3">
@@ -123,7 +121,7 @@ export default function Hero() {
 
                   <button
                     onClick={() => setShowRequest(false)}
-                    className="rounded-2xl border border-white/30 px-6 py-4 text-base font-black text-white"
+                    className="rounded-2xl border border-white/30 px-6 py-3 text-base font-black text-white"
                   >
                     Назад
                   </button>
@@ -136,7 +134,7 @@ export default function Hero() {
             onClick={scrollToApartments}
             className="rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:scale-[1.02]"
           >
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/35 text-3xl shadow-lg">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/35 text-2xl shadow-lg">
               🏠
             </div>
 
@@ -144,21 +142,21 @@ export default function Hero() {
               Каталог
             </p>
 
-            <h2 className="text-2xl font-black leading-tight sm:text-3xl">
+            <h2 className="text-2xl font-black leading-tight">
               Смотреть квартиры
             </h2>
 
-            <p className="mt-4 text-base font-semibold leading-7 text-black/75">
+            <p className="mt-4 text-base font-semibold leading-6 text-black/75">
               Фото, цены, описание и ID каждого варианта.
             </p>
 
-            <div className="mt-6 rounded-2xl bg-black px-6 py-4 text-center text-lg font-black text-white shadow-xl">
+            <div className="mt-5 rounded-2xl bg-black px-6 py-4 text-center text-lg font-black text-white shadow-xl">
               Открыть каталог
             </div>
           </button>
 
           <div className="rounded-[2rem] border border-white/25 bg-white/25 p-6 text-white shadow-2xl backdrop-blur-xl">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/25 text-3xl shadow-lg">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/25 text-2xl shadow-lg">
               🆔
             </div>
 
@@ -166,15 +164,13 @@ export default function Hero() {
               Быстрый переход
             </p>
 
-            <h2 className="text-2xl font-black leading-tight sm:text-3xl">
-              Поиск по ID
-            </h2>
+            <h2 className="text-2xl font-black leading-tight">Поиск по ID</h2>
 
-            <p className="mt-4 text-base font-semibold leading-7 text-white/90">
+            <p className="mt-4 text-base font-semibold leading-6 text-white/90">
               Введите номер квартиры, который вам сказали по телефону.
             </p>
 
-            <div className="mt-6 flex gap-3">
+            <div className="mt-5 flex gap-3">
               <input
                 value={apartmentId}
                 onChange={(e) => setApartmentId(e.target.value)}
