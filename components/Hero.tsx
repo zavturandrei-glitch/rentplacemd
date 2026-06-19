@@ -19,25 +19,25 @@ export default function Hero() {
     const section = document.getElementById("today-free");
 
     if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
     }
+
+    window.location.href = "/#today-free";
   }
 
   function openApartmentById() {
-    const id = apartmentId.trim();
+    const id = apartmentId.trim().replace("ID", "").replace("id", "").trim();
 
-    if (id === "20") {
-      window.location.href = "/apartment/izmail88-20";
-      return;
-    }
+    const apartments: Record<string, string> = {
+      "13": "/apartment/izmail88-13",
+      "20": "/apartment/izmail88-20",
+      "21": "/apartment/izmail88-21",
+      "42": "/apartment/izmail88-42",
+    };
 
-    if (id === "42") {
-      window.location.href = "/apartment/izmail88-42";
-      return;
-    }
-
-    if (id === "13") {
-      window.location.href = "/apartment/izmail88-13";
+    if (apartments[id]) {
+      window.location.href = apartments[id];
       return;
     }
 
@@ -142,6 +142,7 @@ export default function Hero() {
           </div>
 
           <button
+            type="button"
             onClick={scrollToApartments}
             className="cursor-pointer rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,210,31,0.35)]"
           >
@@ -185,11 +186,17 @@ export default function Hero() {
               <input
                 value={apartmentId}
                 onChange={(e) => setApartmentId(e.target.value)}
-                placeholder="20"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    openApartmentById();
+                  }
+                }}
+                placeholder="21"
                 className="w-full rounded-2xl border border-white/30 bg-white/25 px-5 py-4 text-lg font-black text-white outline-none placeholder:text-white/70 focus:bg-white/30"
               />
 
               <button
+                type="button"
                 onClick={openApartmentById}
                 className="rounded-2xl bg-[#d4146f] px-6 py-4 text-lg font-black text-white shadow-lg transition hover:scale-105"
               >
@@ -198,7 +205,7 @@ export default function Hero() {
             </div>
 
             <p className="mt-4 text-sm font-bold text-white/75">
-              Пример: ID 20, ID 42 или ID 13.
+              Пример: ID 20, ID 21, ID 42 или ID 13.
             </p>
           </div>
         </div>
