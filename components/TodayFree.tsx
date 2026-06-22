@@ -16,6 +16,22 @@ const apartments = [
     link: "/apartment/izmail88-21",
   },
   {
+    id: 22,
+    title: "Измаил 88",
+    info: "Студия • до 2 гостей • Центр",
+    price: "800 лей",
+    image: "/apartments/izmail88-22/1.png",
+    link: "/apartment/izmail88-22",
+  },
+  {
+    id: 23,
+    title: "Измаил 88",
+    info: "Студия • до 2 гостей • Центр",
+    price: "800 лей",
+    image: "/apartments/izmail88-23/1.png",
+    link: "/apartment/izmail88-23",
+  },
+  {
     id: 38,
     title: "Измаил 88",
     info: "1+1 • до 4 гостей • Центр",
@@ -48,11 +64,11 @@ export default function TodayFree() {
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
             <h2 className="text-5xl font-black text-[#d4146f]">
-              Свободно сегодня
+              Все квартиры
             </h2>
             <p className="mt-4 max-w-3xl text-xl font-bold text-gray-800">
-              Актуальные квартиры посуточно в Кишинёве. Уточняйте свободные
-              даты по телефону или через мессенджер.
+              Квартиры посуточно в центре Кишинёва. Выберите подходящий вариант
+              и уточните доступность на нужные даты.
             </p>
           </div>
 
@@ -64,7 +80,7 @@ export default function TodayFree() {
           </a>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-5">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
           {apartments.map((apartment) => (
             <a
               key={apartment.id}

@@ -26,18 +26,33 @@ export default function Hero() {
     window.location.href = "/#today-free";
   }
 
+  function cleanApartmentId(value: string) {
+    return value
+      .toLowerCase()
+      .replace("id", "")
+      .replace("№", "")
+      .replace("#", "")
+      .replaceAll(" ", "")
+      .trim();
+  }
+
   function openApartmentById() {
-    const id = apartmentId.trim().replace("ID", "").replace("id", "").trim();
+    const id = cleanApartmentId(apartmentId);
 
     const apartments: Record<string, string> = {
       "13": "/apartment/izmail88-13",
       "20": "/apartment/izmail88-20",
       "21": "/apartment/izmail88-21",
+      "22": "/apartment/izmail88-22",
+      "23": "/apartment/izmail88-23",
+      "38": "/apartment/izmail88-38",
       "42": "/apartment/izmail88-42",
     };
 
-    if (apartments[id]) {
-      window.location.href = apartments[id];
+    const apartmentLink = apartments[id];
+
+    if (apartmentLink) {
+      window.location.href = apartmentLink;
       return;
     }
 
@@ -191,7 +206,7 @@ export default function Hero() {
                     openApartmentById();
                   }
                 }}
-                placeholder="21"
+                placeholder="22"
                 className="w-full rounded-2xl border border-white/30 bg-white/25 px-5 py-4 text-lg font-black text-white outline-none placeholder:text-white/70 focus:bg-white/30"
               />
 
@@ -205,7 +220,7 @@ export default function Hero() {
             </div>
 
             <p className="mt-4 text-sm font-bold text-white/75">
-              Пример: ID 20, ID 21, ID 42 или ID 13.
+              Доступные ID: 13, 20, 21, 22, 23, 38, 42.
             </p>
           </div>
         </div>
