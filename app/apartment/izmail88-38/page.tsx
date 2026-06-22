@@ -1,10 +1,10 @@
 export default function ApartmentPage() {
   const images = [
-    "/apartments/izmail88-20/1.png",
-    "/apartments/izmail88-20/2.png",
-    "/apartments/izmail88-20/3.png",
-    "/apartments/izmail88-20/4.png",
-    "/apartments/izmail88-20/5.png",
+    "/apartments/izmail88-38/1.png",
+    "/apartments/izmail88-38/2.png",
+    "/apartments/izmail88-38/3.png",
+    "/apartments/izmail88-38/4.png",
+    "/apartments/izmail88-38/5.png",
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function ApartmentPage() {
             </div>
 
             <a
-              href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 20"
+              href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 38"
               target="_blank"
               className="rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black text-white"
             >
@@ -53,12 +53,14 @@ export default function ApartmentPage() {
             </a>
           </div>
 
-          <a
-            href="tel:+37369990190"
-            className="rounded-2xl bg-[#d4146f] px-4 py-3 text-sm font-black text-white lg:hidden"
-          >
-            Звонок
-          </a>
+          <div className="flex gap-2 lg:hidden">
+            <a
+              href="tel:+37369990190"
+              className="rounded-2xl bg-[#d4146f] px-4 py-3 text-sm font-black text-white"
+            >
+              Звонок
+            </a>
+          </div>
         </div>
       </header>
 
@@ -75,7 +77,7 @@ export default function ApartmentPage() {
             <div className="flex flex-col justify-center p-6 text-white sm:p-9 lg:p-10">
               <div className="mb-5 flex flex-wrap gap-3">
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
-                  ID 20
+                  ID 38
                 </span>
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
                   Центр
@@ -90,8 +92,8 @@ export default function ApartmentPage() {
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/75">
-                Просторная квартира 2+1 в центре Кишинёва. Отдельная спальня,
-                большая кухня-ливинг, диван и всё необходимое для проживания.
+                Уютная квартира 1+1 в центре Кишинёва. Двуспальная кровать,
+                раскладной диван, кухня и всё необходимое для проживания.
               </p>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -101,7 +103,7 @@ export default function ApartmentPage() {
                 </div>
 
                 <a
-                  href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 20"
+                  href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 38"
                   target="_blank"
                   className="flex items-center justify-center rounded-3xl bg-[#25D366] p-5 text-center text-lg font-black text-white"
                 >
@@ -119,12 +121,12 @@ export default function ApartmentPage() {
 
             <div className="relative h-[360px] sm:h-[520px] lg:h-[590px]">
               <img
-                src={images[1]}
-                alt="Квартира Измаил 88 ID 20"
+                src={images[0]}
+                alt="Квартира Измаил 88 ID 38"
                 className="h-full w-full object-cover object-center"
               />
               <div className="absolute bottom-5 left-5 rounded-3xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur">
-                <p className="text-sm font-bold text-gray-500">2+1 квартира</p>
+                <p className="text-sm font-bold text-gray-500">1+1 квартира</p>
                 <p className="text-xl font-black text-[#111827]">
                   Центр Кишинёва
                 </p>
@@ -144,30 +146,43 @@ export default function ApartmentPage() {
           <div className="mt-5 grid gap-4 lg:grid-cols-12">
             <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-6 lg:row-span-2">
               <img
-                src={images[1]}
-                alt="Главное фото ID 20"
+                src={images[0]}
+                alt="Спальня ID 38"
                 className="h-[320px] w-full rounded-[26px] object-cover sm:h-[520px]"
               />
             </div>
 
-            {[
-              images[0],
-              images[2],
-              images[3],
-              images[4],
-            ].map((image, index) => (
-              <div
-                key={image}
-                className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3"
-              >
-                <img
-                  src={image}
-                  alt={`Фото квартиры ID 20 ${index + 2}`}
-                  loading="lazy"
-                  className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
-                />
-              </div>
-            ))}
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3">
+              <img
+                src={images[1]}
+                alt="Кухня ID 38"
+                className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
+              />
+            </div>
+
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3">
+              <img
+                src={images[2]}
+                alt="Гостиная ID 38"
+                className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
+              />
+            </div>
+
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3">
+              <img
+                src={images[3]}
+                alt="Комната ID 38"
+                className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
+              />
+            </div>
+
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3">
+              <img
+                src={images[4]}
+                alt="Ванная ID 38"
+                className="h-[260px] w-full rounded-[26px] object-cover object-top sm:h-[330px]"
+              />
+            </div>
           </div>
         </section>
 
@@ -178,28 +193,26 @@ export default function ApartmentPage() {
             </p>
 
             <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-              Просторный вариант для 2–4 гостей
+              Комфортный вариант для 2–4 гостей
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-gray-700">
               Квартира находится в центре города, в комплексе Измаил 88. Есть
-              отдельная спальня, большая кухня-ливинг, диван, Smart TV,
-              кондиционер, стиральная машина, холодильник, микроволновка,
-              чистое бельё и быстрый интернет.
+              двуспальная кровать, раскладной кожаный диван, кухня,
+              холодильник, микроволновка, чистое бельё и быстрый интернет.
+              Подходит для пары, семьи или гостей, которым важно жить в центре.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {[
-                "2+1 планировка",
+                "1+1 планировка",
                 "До 4 гостей",
                 "Двуспальная кровать",
-                "Диван в ливинге",
+                "Раскладной диван",
                 "Wi-Fi",
-                "Smart TV",
                 "Кондиционер",
-                "Стиральная машина",
                 "Кухня",
-                "Микроволновка",
+                "Чистое бельё",
                 "Центр города",
                 "Заселение 24/7",
               ].map((item) => (
@@ -223,7 +236,7 @@ export default function ApartmentPage() {
 
             <div className="mt-6 space-y-3">
               <a
-                href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 20"
+                href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 38"
                 target="_blank"
                 className="block rounded-2xl bg-white py-4 text-center text-lg font-black text-[#d4146f]"
               >
@@ -278,7 +291,7 @@ export default function ApartmentPage() {
 
       <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 lg:hidden">
         <a
-          href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 20"
+          href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 38"
           target="_blank"
           className="rounded-2xl bg-[#25D366] py-4 text-center text-base font-black text-white shadow-2xl"
         >

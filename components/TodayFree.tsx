@@ -3,7 +3,7 @@ const apartments = [
     id: 20,
     title: "Измаил 88",
     info: "2+1 • Центр города",
-    price: "от 800 лей",
+    price: "800 лей",
     image: "/apartments/izmail88-20/4.png",
     link: "/apartment/izmail88-20",
   },
@@ -11,15 +11,23 @@ const apartments = [
     id: 21,
     title: "Измаил 88",
     info: "1-комнатная • до 4 гостей • Центр",
-    price: "от 800 лей",
+    price: "800 лей",
     image: "/apartments/izmail88-21/1.png",
     link: "/apartment/izmail88-21",
+  },
+  {
+    id: 38,
+    title: "Измаил 88",
+    info: "1+1 • до 4 гостей • Центр",
+    price: "800 лей",
+    image: "/apartments/izmail88-38/1.png",
+    link: "/apartment/izmail88-38",
   },
   {
     id: 13,
     title: "Измаил 88",
     info: "2+1 • 2 спальни • Центр",
-    price: "от 900 лей",
+    price: "900 лей",
     image: "/apartments/izmail88-13/4.png",
     link: "/apartment/izmail88-13",
   },
@@ -27,7 +35,7 @@ const apartments = [
     id: 42,
     title: "Измаил 88",
     info: "2+1 • 2 спальни • Центр",
-    price: "от 1000 лей",
+    price: "1000 лей",
     image: "/apartments/izmail88-42/1.png",
     link: "/apartment/izmail88-42",
   },
@@ -56,7 +64,7 @@ export default function TodayFree() {
           </a>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-5">
           {apartments.map((apartment) => (
             <a
               key={apartment.id}
