@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "RentPlaceMD — квартиры посуточно в Кишинёве",
   description:
     "Квартиры посуточно в Кишинёве. Центр города. Измаил 88. Заселение 24/7.",
+
   keywords: [
     "квартиры посуточно",
     "Кишинёв",
@@ -24,6 +25,32 @@ export const metadata: Metadata = {
     "Измаил 88",
     "апартаменты Кишинёв",
   ],
+
+  openGraph: {
+    title: "RentPlaceMD — квартиры посуточно в Кишинёве",
+    description:
+      "Центр города. Заселение 24/7. Чистые квартиры посуточно.",
+    url: "https://rentplace.md",
+    siteName: "RentPlaceMD",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "RentPlaceMD",
+      },
+    ],
+    locale: "ru_RU",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "RentPlaceMD — квартиры посуточно в Кишинёве",
+    description:
+      "Центр города. Заселение 24/7. Чистые квартиры посуточно.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({
