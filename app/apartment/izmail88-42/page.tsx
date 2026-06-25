@@ -8,7 +8,7 @@ export default function ApartmentPage() {
 
   const facadePhoto = "/common/building.png";
 
-  const galleryImages = [images[0], images[2], images[3]];
+  const galleryImages = [images[2], images[3], images[1], images[0]];
 
   return (
     <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">
@@ -122,7 +122,7 @@ export default function ApartmentPage() {
 
             <div className="relative h-[360px] overflow-hidden sm:h-[520px] lg:h-[590px]">
               <img
-                src={images[1]}
+                src={images[0]}
                 alt="Квартира Измаил 88 ID 42"
                 className="h-full w-full object-cover object-[center_45%]"
               />
@@ -147,7 +147,7 @@ export default function ApartmentPage() {
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg">
               <img
-                src={images[1]}
+                src={images[0]}
                 alt="Главное фото ID 42"
                 className="h-[340px] w-full rounded-[26px] object-cover object-[center_45%] sm:h-[560px] lg:h-[760px]"
               />

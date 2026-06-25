@@ -4,12 +4,11 @@ export default function ApartmentPage() {
     "/apartments/izmail88-371/2.png",
     "/apartments/izmail88-371/3.png",
     "/apartments/izmail88-371/4.png",
-    "/apartments/izmail88-371/5.png",
   ];
 
   const facadePhoto = "/common/building.png";
 
-  const galleryImages = [images[0], images[2], images[3], images[4]];
+  const galleryImages = [images[0], images[2], images[3], images[1]];
 
   return (
     <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">

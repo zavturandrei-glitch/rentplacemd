@@ -8,7 +8,7 @@ export default function ApartmentPage() {
 
   const facadePhoto = "/common/building.png";
 
-  const galleryImages = [images[0], images[2], images[3]];
+  const galleryImages = [images[0], images[2], images[3], images[1]];
 
   return (
     <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">
