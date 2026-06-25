@@ -40,13 +40,18 @@ export default function Hero() {
     const id = cleanApartmentId(apartmentId);
 
     const apartments: Record<string, string> = {
+      "10": "/apartment/izmail88-10",
+      "11": "/apartment/izmail88-11",
+      "12": "/apartment/izmail88-12",
       "13": "/apartment/izmail88-13",
       "20": "/apartment/izmail88-20",
       "21": "/apartment/izmail88-21",
       "22": "/apartment/izmail88-22",
       "23": "/apartment/izmail88-23",
+      "37": "/apartment/izmail88-37",
       "38": "/apartment/izmail88-38",
       "42": "/apartment/izmail88-42",
+      "371": "/apartment/izmail88-371",
     };
 
     const apartmentLink = apartments[id];
@@ -220,7 +225,7 @@ export default function Hero() {
             </div>
 
             <p className="mt-4 text-sm font-bold text-white/75">
-              Доступные ID: 13, 20, 21, 22, 23, 38, 42.
+              Доступные ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.
             </p>
           </div>
         </div>
