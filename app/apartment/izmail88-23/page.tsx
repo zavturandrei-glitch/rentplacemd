@@ -7,6 +7,10 @@ export default function ApartmentPage() {
     "/apartments/izmail88-23/5.png",
   ];
 
+  const facadePhoto = "/common/building.png";
+
+  const galleryImages = [images[0], images[2], images[3], images[4]];
+
   return (
     <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">
       <header className="sticky top-0 z-40 border-b border-black/5 bg-white/95 backdrop-blur-xl">
@@ -38,7 +42,7 @@ export default function ApartmentPage() {
             </div>
 
             <a
-              href="https://wa.me/37369990190?text=Здравствуйте! Интересует студия Измаил 88, ID 23"
+              href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 23"
               target="_blank"
               className="rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black text-white"
             >
@@ -90,9 +94,7 @@ export default function ApartmentPage() {
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/75">
-                Светлая студия в центре Кишинёва. Отличный вариант для одного
-                человека или пары: удобная спальная зона, кухня, ванная комната
-                и всё необходимое для проживания.
+                Уютная студия в центре Кишинёва. кухня и комфортное размещение до 3 гостей.
               </p>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -102,7 +104,7 @@ export default function ApartmentPage() {
                 </div>
 
                 <a
-                  href="https://wa.me/37369990190?text=Здравствуйте! Интересует студия Измаил 88, ID 23"
+                  href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 23"
                   target="_blank"
                   className="flex items-center justify-center rounded-3xl bg-[#25D366] p-5 text-center text-lg font-black text-white"
                 >
@@ -118,16 +120,16 @@ export default function ApartmentPage() {
               </div>
             </div>
 
-            <div className="relative h-[360px] sm:h-[520px] lg:h-[590px]">
+            <div className="relative h-[360px] overflow-hidden sm:h-[520px] lg:h-[590px]">
               <img
-                src={images[0]}
-                alt="Студия Измаил 88 ID 23"
-                className="h-full w-full object-cover object-center"
+                src={images[1]}
+                alt="Квартира Измаил 88 ID 23"
+                className="h-full w-full object-cover object-[center_45%]"
               />
               <div className="absolute bottom-5 left-5 rounded-3xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur">
                 <p className="text-sm font-bold text-gray-500">Студия</p>
                 <p className="text-xl font-black text-[#111827]">
-                  Центр Кишинёва
+                  До 2 гостей
                 </p>
               </div>
             </div>
@@ -142,30 +144,39 @@ export default function ApartmentPage() {
             Галерея квартиры
           </h2>
 
-          <div className="mt-5 grid gap-4 lg:grid-cols-12">
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-6 lg:row-span-2">
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg">
               <img
-                src={images[0]}
+                src={images[1]}
                 alt="Главное фото ID 23"
-                className="h-[320px] w-full rounded-[26px] object-cover sm:h-[520px]"
+                className="h-[340px] w-full rounded-[26px] object-cover object-[center_45%] sm:h-[560px] lg:h-[760px]"
               />
             </div>
 
-            {[images[1], images[2], images[3], images[4]].map(
-              (image, index) => (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {galleryImages.map((image, index) => (
                 <div
                   key={image}
-                  className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3"
+                  className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg"
                 >
                   <img
                     src={image}
-                    alt={`Фото студии ID 23 ${index + 2}`}
+                    alt={`Фото квартиры ID 23 ${index + 1}`}
                     loading="lazy"
-                    className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
+                    className="h-[240px] w-full rounded-[26px] object-cover object-center sm:h-[260px] lg:h-[250px]"
                   />
                 </div>
-              )
-            )}
+              ))}
+
+              <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg sm:col-span-2">
+                <img
+                  src={facadePhoto}
+                  alt="Фасад дома Измаил 88"
+                  loading="lazy"
+                  className="h-[260px] w-full rounded-[26px] object-cover object-center lg:h-[224px]"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -176,30 +187,36 @@ export default function ApartmentPage() {
             </p>
 
             <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-              Светлая студия для 1–2 гостей
+              Уютная студия для двоих
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-gray-700">
-              Аккуратная студия в комплексе Измаил 88, в центре Кишинёва.
-              Подходит для пары, одного гостя, командировки или короткой
-              остановки в городе. В квартире есть спальная зона, кухня, ванная
-              комната, чистое бельё и всё необходимое для комфортного
-              проживания.
+              Уютная студия в центре Кишинёва, комплекс Измаил 88.
+              В квартире есть отдельная спальня, гостиная зона, оборудованная
+              кухня, чистое бельё, Wi-Fi, TV, кондиционер и всё необходимое для
+              комфортного проживания.
+            </p>
+
+            <p className="mt-5 text-lg leading-8 text-gray-700">
+              Хорошо подходит для пары, семьи или гостей в командировке.
+              Удобная локация в центре города, рядом магазины, транспорт и всё
+              необходимое для проживания.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {[
-                "Студия",
+                "1+1 планировка",
+                "Отдельная спальня",
                 "До 2 гостей",
                 "Двуспальная кровать",
+                "Диван",
                 "Wi-Fi",
-                "Телевизор",
+                "TV",
                 "Кондиционер",
-                "Стиральная машина",
                 "Кухня",
-                "Микроволновка",
                 "Чистое бельё",
-                "Центр города",
+                "Душ",
+                "Парковка рядом",
                 "Заселение 24/7",
               ].map((item) => (
                 <div
@@ -222,7 +239,7 @@ export default function ApartmentPage() {
 
             <div className="mt-6 space-y-3">
               <a
-                href="https://wa.me/37369990190?text=Здравствуйте! Интересует студия Измаил 88, ID 23"
+                href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 23"
                 target="_blank"
                 className="block rounded-2xl bg-white py-4 text-center text-lg font-black text-[#d4146f]"
               >
@@ -246,7 +263,7 @@ export default function ApartmentPage() {
 
             <p className="mt-6 rounded-2xl bg-white/10 p-4 text-center font-bold text-white/85">
               Напишите даты и количество гостей — быстро проверим свободна ли
-              студия.
+              квартира.
             </p>
           </aside>
         </section>
@@ -277,7 +294,7 @@ export default function ApartmentPage() {
 
       <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 lg:hidden">
         <a
-          href="https://wa.me/37369990190?text=Здравствуйте! Интересует студия Измаил 88, ID 23"
+          href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 23"
           target="_blank"
           className="rounded-2xl bg-[#25D366] py-4 text-center text-base font-black text-white shadow-2xl"
         >

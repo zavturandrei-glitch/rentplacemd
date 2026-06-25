@@ -7,6 +7,10 @@ export default function ApartmentPage() {
     "/apartments/izmail88-13/5.png",
   ];
 
+  const facadePhoto = "/common/building.png";
+
+  const galleryImages = [images[0], images[1], images[2], images[4]];
+
   return (
     <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">
       <header className="sticky top-0 z-40 border-b border-black/5 bg-white/95 backdrop-blur-xl">
@@ -118,11 +122,11 @@ export default function ApartmentPage() {
               </div>
             </div>
 
-            <div className="relative h-[360px] sm:h-[520px] lg:h-[590px]">
+            <div className="relative h-[360px] overflow-hidden sm:h-[520px] lg:h-[590px]">
               <img
                 src={images[3]}
                 alt="Квартира Измаил 88 ID 13"
-                className="h-full w-full object-cover object-center"
+                className="h-full w-full object-cover object-[center_45%]"
               />
               <div className="absolute bottom-5 left-5 rounded-3xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur">
                 <p className="text-sm font-bold text-gray-500">2+1 квартира</p>
@@ -142,33 +146,39 @@ export default function ApartmentPage() {
             Галерея квартиры
           </h2>
 
-          <div className="mt-5 grid gap-4 lg:grid-cols-12">
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-6 lg:row-span-2">
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg">
               <img
                 src={images[3]}
                 alt="Главное фото ID 13"
-                className="h-[320px] w-full rounded-[26px] object-cover sm:h-[520px]"
+                className="h-[340px] w-full rounded-[26px] object-cover object-[center_45%] sm:h-[560px] lg:h-[760px]"
               />
             </div>
 
-            {[
-              images[0],
-              images[1],
-              images[2],
-              images[4],
-            ].map((image, index) => (
-              <div
-                key={image}
-                className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3"
-              >
+            <div className="grid gap-4 sm:grid-cols-2">
+              {galleryImages.map((image, index) => (
+                <div
+                  key={image}
+                  className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg"
+                >
+                  <img
+                    src={image}
+                    alt={`Фото квартиры ID 13 ${index + 1}`}
+                    loading="lazy"
+                    className="h-[240px] w-full rounded-[26px] object-cover object-center sm:h-[260px] lg:h-[250px]"
+                  />
+                </div>
+              ))}
+
+              <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg sm:col-span-2">
                 <img
-                  src={image}
-                  alt={`Фото квартиры ID 13 ${index + 2}`}
+                  src={facadePhoto}
+                  alt="Фасад дома Измаил 88"
                   loading="lazy"
-                  className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
+                  className="h-[260px] w-full rounded-[26px] object-cover object-center lg:h-[224px]"
                 />
               </div>
-            ))}
+            </div>
           </div>
         </section>
 

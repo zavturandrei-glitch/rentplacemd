@@ -4,7 +4,12 @@ export default function ApartmentPage() {
     "/apartments/izmail88-42/2.png",
     "/apartments/izmail88-42/3.png",
     "/apartments/izmail88-42/4.png",
+    "/apartments/izmail88-42/5.png",
   ];
+
+  const facadePhoto = "/common/building.png";
+
+  const galleryImages = [images[0], images[2], images[3], images[4]];
 
   return (
     <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">
@@ -77,7 +82,7 @@ export default function ApartmentPage() {
                   ID 42
                 </span>
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
-                  2 спальни
+                  2+1 квартира
                 </span>
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
                   До 5 гостей
@@ -89,9 +94,8 @@ export default function ApartmentPage() {
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/75">
-                Просторная квартира 2+1 в центре Кишинёва. Две раздельные
-                спальни, большой living, кухня и комфортное размещение до 5
-                гостей.
+                Уютная квартира 1+1 в центре Кишинёва. 2 отдельные спальни,
+                гостиная зона, кухня и комфортное размещение до 4 гостей.
               </p>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -117,16 +121,16 @@ export default function ApartmentPage() {
               </div>
             </div>
 
-            <div className="relative h-[360px] sm:h-[520px] lg:h-[590px]">
+            <div className="relative h-[360px] overflow-hidden sm:h-[520px] lg:h-[590px]">
               <img
-                src={images[0]}
+                src={images[1]}
                 alt="Квартира Измаил 88 ID 42"
-                className="h-full w-full object-cover object-center"
+                className="h-full w-full object-cover object-[center_45%]"
               />
               <div className="absolute bottom-5 left-5 rounded-3xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur">
                 <p className="text-sm font-bold text-gray-500">2+1 квартира</p>
                 <p className="text-xl font-black text-[#111827]">
-                  До 5 гостей
+                  2 отдельные спальни
                 </p>
               </div>
             </div>
@@ -141,40 +145,38 @@ export default function ApartmentPage() {
             Галерея квартиры
           </h2>
 
-          <div className="mt-5 grid gap-4 lg:grid-cols-12">
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-6 lg:row-span-2">
-              <img
-                src={images[0]}
-                alt="Главное фото ID 42"
-                className="h-[320px] w-full rounded-[26px] object-cover sm:h-[520px]"
-              />
-            </div>
-
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3">
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg">
               <img
                 src={images[1]}
-                alt="Спальня ID 42"
-                loading="lazy"
-                className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
+                alt="Главное фото ID 42"
+                className="h-[340px] w-full rounded-[26px] object-cover object-[center_45%] sm:h-[560px] lg:h-[760px]"
               />
             </div>
 
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-3">
-              <img
-                src={images[2]}
-                alt="Вторая спальня ID 42"
-                loading="lazy"
-                className="h-[260px] w-full rounded-[26px] object-cover sm:h-[330px]"
-              />
-            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {galleryImages.map((image, index) => (
+                <div
+                  key={image}
+                  className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg"
+                >
+                  <img
+                    src={image}
+                    alt={`Фото квартиры ID 42 ${index + 1}`}
+                    loading="lazy"
+                    className="h-[240px] w-full rounded-[26px] object-cover object-center sm:h-[260px] lg:h-[250px]"
+                  />
+                </div>
+              ))}
 
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg lg:col-span-6">
-              <img
-                src={images[3]}
-                alt="Ванная ID 42"
-                loading="lazy"
-                className="h-[260px] w-full rounded-[26px] object-cover object-top sm:h-[330px]"
-              />
+              <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg sm:col-span-2">
+                <img
+                  src={facadePhoto}
+                  alt="Фасад дома Измаил 88"
+                  loading="lazy"
+                  className="h-[260px] w-full rounded-[26px] object-cover object-center lg:h-[224px]"
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -186,34 +188,36 @@ export default function ApartmentPage() {
             </p>
 
             <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-              Просторный вариант для семьи или компании
+              Удобная квартира в центре
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-gray-700">
-              Просторная квартира 2+1 в центре Кишинёва. Две раздельные спальни
-              с двуспальными кроватями, большой living с диваном, полностью
-              оборудованная кухня, современная ванная комната, кондиционер,
-              Wi-Fi и Smart TV.
+              Уютная квартира 1+1 в центре Кишинёва, комплекс Измаил 88.
+              В квартире есть отдельная спальня, гостиная зона, оборудованная
+              кухня, чистое бельё, Wi-Fi, TV, кондиционер и всё необходимое для
+              комфортного проживания.
             </p>
 
             <p className="mt-5 text-lg leading-8 text-gray-700">
-              Отличный вариант для семьи, гостей города или командировки. Дом
-              находится в центре, рядом удобно добираться до нужных точек города.
+              Хорошо подходит для пары, семьи или гостей в командировке.
+              Удобная локация в центре города, рядом магазины, транспорт и всё
+              необходимое для проживания.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {[
                 "2+1 планировка",
-                "2 раздельные спальни",
+                "2 отдельные спальни",
                 "До 5 гостей",
-                "2 двуспальные кровати",
-                "Диван в living",
+                "Двуспальная кровать",
+                "Диван",
                 "Wi-Fi",
-                "Smart TV",
+                "TV",
                 "Кондиционер",
-                "Стиральная машина",
                 "Кухня",
                 "Чистое бельё",
+                "Душ",
+                "Парковка рядом",
                 "Заселение 24/7",
               ].map((item) => (
                 <div

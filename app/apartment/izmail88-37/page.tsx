@@ -1,10 +1,10 @@
 export default function ApartmentPage() {
   const images = [
-    "/apartments/izmail88-21/1.png",
-    "/apartments/izmail88-21/2.png",
-    "/apartments/izmail88-21/3.png",
-    "/apartments/izmail88-21/4.png",
-    "/apartments/izmail88-21/5.png",
+    "/apartments/izmail88-37/1.png",
+    "/apartments/izmail88-37/2.png",
+    "/apartments/izmail88-37/3.png",
+    "/apartments/izmail88-37/4.png",
+    "/apartments/izmail88-37/5.png",
   ];
 
   const facadePhoto = "/common/building.png";
@@ -42,7 +42,7 @@ export default function ApartmentPage() {
             </div>
 
             <a
-              href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 21"
+              href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 37"
               target="_blank"
               className="rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black text-white"
             >
@@ -79,13 +79,13 @@ export default function ApartmentPage() {
             <div className="flex flex-col justify-center p-6 text-white sm:p-9 lg:p-10">
               <div className="mb-5 flex flex-wrap gap-3">
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
-                  ID 21
+                  ID 37
                 </span>
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
                   1+1 квартира
                 </span>
                 <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">
-                  До 3 гостей
+                  До 4 гостей
                 </span>
               </div>
 
@@ -95,7 +95,7 @@ export default function ApartmentPage() {
 
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/75">
                 Уютная квартира 1+1 в центре Кишинёва. Отдельная спальня,
-                гостиная зона, кухня и комфортное размещение до 3 гостей.
+                гостиная зона, кухня и комфортное размещение до 4 гостей.
               </p>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -105,7 +105,7 @@ export default function ApartmentPage() {
                 </div>
 
                 <a
-                  href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 21"
+                  href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 37"
                   target="_blank"
                   className="flex items-center justify-center rounded-3xl bg-[#25D366] p-5 text-center text-lg font-black text-white"
                 >
@@ -124,13 +124,13 @@ export default function ApartmentPage() {
             <div className="relative h-[360px] overflow-hidden sm:h-[520px] lg:h-[590px]">
               <img
                 src={images[1]}
-                alt="Квартира Измаил 88 ID 21"
+                alt="Квартира Измаил 88 ID 37"
                 className="h-full w-full object-cover object-[center_45%]"
               />
               <div className="absolute bottom-5 left-5 rounded-3xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur">
                 <p className="text-sm font-bold text-gray-500">1+1 квартира</p>
                 <p className="text-xl font-black text-[#111827]">
-                  До 3 гостей
+                  Спальня + гостиная
                 </p>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function ApartmentPage() {
             <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg">
               <img
                 src={images[1]}
-                alt="Главное фото ID 21"
+                alt="Главное фото ID 37"
                 className="h-[340px] w-full rounded-[26px] object-cover object-[center_45%] sm:h-[560px] lg:h-[760px]"
               />
             </div>
@@ -162,7 +162,7 @@ export default function ApartmentPage() {
                 >
                   <img
                     src={image}
-                    alt={`Фото квартиры ID 21 ${index + 1}`}
+                    alt={`Фото квартиры ID 37 ${index + 1}`}
                     loading="lazy"
                     className="h-[240px] w-full rounded-[26px] object-cover object-center sm:h-[260px] lg:h-[250px]"
                   />
@@ -208,7 +208,7 @@ export default function ApartmentPage() {
               {[
                 "1+1 планировка",
                 "Отдельная спальня",
-                "До 3 гостей",
+                "До 4 гостей",
                 "Двуспальная кровать",
                 "Диван",
                 "Wi-Fi",
@@ -240,7 +240,7 @@ export default function ApartmentPage() {
 
             <div className="mt-6 space-y-3">
               <a
-                href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 21"
+                href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 37"
                 target="_blank"
                 className="block rounded-2xl bg-white py-4 text-center text-lg font-black text-[#d4146f]"
               >
@@ -295,7 +295,7 @@ export default function ApartmentPage() {
 
       <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 lg:hidden">
         <a
-          href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 21"
+          href="https://wa.me/37369990190?text=Здравствуйте! Интересует квартира Измаил 88, ID 37"
           target="_blank"
           className="rounded-2xl bg-[#25D366] py-4 text-center text-base font-black text-white shadow-2xl"
         >
