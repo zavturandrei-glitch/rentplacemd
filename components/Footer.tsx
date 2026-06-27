@@ -2,31 +2,8 @@ export default function Footer() {
   return (
     <footer className="bg-[#182230] text-white">
       <div className="mx-auto max-w-7xl px-4 py-10 pb-28 sm:px-6 lg:px-8 lg:pb-10">
-        <div className="grid gap-8 md:grid-cols-3">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#ffb800] to-[#d4146f] text-2xl shadow-lg">
-                🏠
-              </div>
-
-              <div>
-                <h2 className="text-3xl font-black leading-none">
-                  Rent<span className="text-[#d4146f]">Place</span>
-                  <span className="text-[#ffb800]">MD</span>™
-                </h2>
-                <p className="mt-2 text-sm font-semibold text-slate-300">
-                  Квартиры посуточно в Кишинёве
-                </p>
-              </div>
-            </div>
-
-            <p className="mt-5 max-w-sm text-base leading-7 text-slate-300">
-              Центр • Новострои • Заселение 24/7. Подберём свободную квартиру
-              под ваши даты, количество гостей и бюджет.
-            </p>
-          </div>
-
-          <div>
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.25fr_1fr] lg:items-start">
+          <div className="order-2 lg:order-1">
             <h3 className="mb-4 text-sm font-black uppercase tracking-[0.25em] text-[#ffb800]">
               Быстрые ссылки
             </h3>
@@ -52,7 +29,30 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          <div className="order-1 text-left lg:order-2 lg:text-center">
+            <div className="flex items-center gap-3 lg:justify-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#ffb800] to-[#d4146f] text-2xl shadow-lg">
+                🏠
+              </div>
+
+              <div>
+                <h2 className="text-3xl font-black leading-none sm:text-4xl">
+                  Rent<span className="text-[#d4146f]">Place</span>
+                  <span className="text-[#ffb800]">MD</span>™
+                </h2>
+                <p className="mt-2 text-sm font-semibold text-slate-300 sm:text-base">
+                  Квартиры посуточно в Кишинёве
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-5 max-w-md text-base leading-7 text-slate-300 lg:mx-auto">
+              Центр • Новострои • Заселение 24/7. Подберём свободную квартиру
+              под ваши даты, количество гостей и бюджет.
+            </p>
+          </div>
+
+          <div className="order-3">
             <h3 className="mb-4 text-sm font-black uppercase tracking-[0.25em] text-[#ffb800]">
               Контакты
             </h3>
@@ -93,13 +93,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 px-5 py-5 text-center shadow-inner sm:flex sm:items-center sm:justify-between sm:text-left">
-          <p className="text-base font-bold text-white">
-            © 2026 RentPlaceMD™
-          </p>
-
-          <p className="mt-2 text-sm font-semibold text-slate-300 sm:mt-0">
-            Все права защищены • Работаем ежедневно • Заселение 24/7
+        <div className="mt-10 border-t border-white/10 pt-6 text-sm font-semibold text-slate-400 lg:flex lg:items-center lg:justify-between">
+          <p>© 2026 RentPlaceMD™. Все права защищены.</p>
+          <p className="mt-2 lg:mt-0">
+            Работаем ежедневно • Заселение 24/7
           </p>
         </div>
       </div>
