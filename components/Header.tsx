@@ -36,8 +36,8 @@ export default function Header() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-        <div className="relative grid items-center gap-3 lg:grid-cols-[1.2fr_0.9fr_1fr]">
-          <a href="/" className="flex items-center gap-3 pr-12 sm:pr-0">
+        <div className="relative flex items-center justify-between gap-3">
+          <a href="/" className="flex items-center gap-3 pr-12">
             <LogoIcon />
 
             <div>
@@ -50,24 +50,7 @@ export default function Header() {
             </div>
           </a>
 
-          <div className="rounded-3xl border border-white/15 bg-white/5 px-4 py-3 shadow-inner">
-            <div className="flex items-center justify-center gap-3">
-              <SmallBuildingIcon />
-              <div>
-                <p className="text-base font-black leading-tight sm:text-lg">
-                  12 квартир
-                </p>
-                <p className="text-xs font-bold text-white/75 sm:text-sm">
-                  в одном комплексе
-                </p>
-                <p className="mt-1 text-base font-black text-[#ff4fa3] sm:text-lg">
-                  от 800 лей
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="hidden items-center justify-end gap-5 lg:flex">
+          <div className="hidden items-center gap-5 lg:flex">
             <div className="space-y-1 text-right text-xl font-black">
               <a
                 href="tel:+37369990190"
@@ -83,19 +66,19 @@ export default function Header() {
               </a>
             </div>
 
-            <div className="grid gap-2">
+            <div className="flex gap-2">
               <a
                 href="https://wa.me/37369990190"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl bg-[#25D366] px-7 py-3 text-center text-base font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+                className="rounded-2xl bg-[#25D366] px-5 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
               >
                 WhatsApp
               </a>
 
               <a
                 href="viber://chat?number=%2B37369990190"
-                className="rounded-2xl bg-[#7360F2] px-7 py-3 text-center text-base font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+                className="rounded-2xl bg-[#7360F2] px-5 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Viber
               </a>
@@ -104,7 +87,7 @@ export default function Header() {
                 href="https://t.me/rentplacemd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl bg-[#229ED9] px-7 py-3 text-center text-base font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+                className="rounded-2xl bg-[#229ED9] px-5 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Telegram
               </a>
@@ -120,7 +103,7 @@ export default function Header() {
           </a>
         </div>
 
-        <div className="mt-3 rounded-3xl border border-[#d4146f]/40 bg-[#9b124c]/80 px-3 py-4 shadow-xl backdrop-blur sm:px-4">
+        <div className="mt-3 rounded-3xl border border-[#d4146f]/40 bg-[#9b124c]/80 px-3 py-3 shadow-xl backdrop-blur sm:px-4">
           <div className="grid grid-cols-4 gap-2 text-center text-white">
             <div>
               <MapIcon />
@@ -202,17 +185,6 @@ function LogoIcon() {
         <path d="M66 70V52" stroke="#d4146f" strokeWidth="4" strokeLinecap="round" />
       </svg>
     </div>
-  );
-}
-
-function SmallBuildingIcon() {
-  return (
-    <svg viewBox="0 0 64 64" className="h-10 w-10 sm:h-12 sm:w-12" fill="none">
-      <path d="M10 54C20 50 44 50 54 54" stroke="#d4146f" strokeWidth="3" strokeLinecap="round" />
-      <path d="M14 52V28L27 21V52" stroke="#d4146f" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M27 52V12L40 6V52" stroke="#d4146f" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M40 52V28L52 35V52" stroke="#d4146f" strokeWidth="3" strokeLinejoin="round" />
-    </svg>
   );
 }
 
