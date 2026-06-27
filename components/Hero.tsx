@@ -71,27 +71,27 @@ export default function Hero() {
         style={{ backgroundImage: "url('/main.jpg')" }}
       />
 
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/50 sm:bg-black/45" />
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-8 max-w-5xl text-center">
-          <h1 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+      <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8">
+        <div className="mx-auto mb-6 max-w-5xl text-center sm:mb-8">
+          <h1 className="mx-auto max-w-[390px] text-[34px] font-black leading-[1.12] tracking-tight text-white sm:max-w-5xl sm:text-5xl lg:text-6xl">
             Квартиры посуточно в Кишинёве
           </h1>
 
-          <p className="mx-auto mt-4 max-w-4xl text-lg font-bold leading-8 text-white/90 sm:text-2xl">
+          <p className="mx-auto mt-3 max-w-[360px] text-[19px] font-bold leading-7 text-white/90 sm:mt-4 sm:max-w-4xl sm:text-2xl sm:leading-8">
             12 квартир в одном комплексе • Измаил 88 • Центр города • 24/7
           </p>
         </div>
 
-        <div className="relative z-10 mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-4 sm:gap-5 lg:grid-cols-3">
           <div
             onClick={() => !showRequest && setShowRequest(true)}
-            className="cursor-pointer rounded-[2rem] border border-white/25 bg-[#d4146f]/70 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(212,20,111,0.35)]"
+            className="cursor-pointer rounded-[1.75rem] border border-white/25 bg-[#d4146f]/75 p-5 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(212,20,111,0.35)] sm:rounded-[2rem] sm:p-6"
           >
             {!showRequest ? (
               <>
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl shadow-lg">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/20 text-2xl shadow-lg sm:h-12 sm:w-12">
                   🔑
                 </div>
 
@@ -99,11 +99,11 @@ export default function Hero() {
                   Быстрый подбор
                 </p>
 
-                <h2 className="text-2xl font-black leading-tight">
+                <h2 className="text-[25px] font-black leading-tight sm:text-2xl">
                   Подобрать квартиру в один клик
                 </h2>
 
-                <p className="mt-4 text-base font-semibold leading-6 text-white/90">
+                <p className="mt-3 text-base font-semibold leading-6 text-white/90 sm:mt-4">
                   Напишите дату заезда, дату выезда и сколько будет персон.
                 </p>
 
@@ -112,7 +112,7 @@ export default function Hero() {
                     e.stopPropagation();
                     setShowRequest(true);
                   }}
-                  className="mt-5 w-full rounded-2xl bg-white px-6 py-4 text-lg font-black text-[#d4146f] shadow-xl transition hover:scale-105"
+                  className="mt-4 w-full rounded-2xl bg-white px-6 py-3.5 text-lg font-black text-[#d4146f] shadow-xl transition hover:scale-105 sm:mt-5 sm:py-4"
                 >
                   Подобрать
                 </button>
@@ -164,9 +164,9 @@ export default function Hero() {
           <button
             type="button"
             onClick={scrollToApartments}
-            className="cursor-pointer rounded-[2rem] border border-white/25 bg-[#ffd21f]/75 p-6 text-left text-black shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,210,31,0.35)]"
+            className="cursor-pointer rounded-[1.75rem] border border-white/25 bg-[#ffd21f]/80 p-5 text-left text-black shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,210,31,0.35)] sm:rounded-[2rem] sm:p-6"
           >
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/35 text-2xl shadow-lg">
+            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/35 text-2xl shadow-lg sm:h-12 sm:w-12">
               🏠
             </div>
 
@@ -174,21 +174,21 @@ export default function Hero() {
               Каталог
             </p>
 
-            <h2 className="text-2xl font-black leading-tight">
+            <h2 className="text-[25px] font-black leading-tight sm:text-2xl">
               Смотреть квартиры
             </h2>
 
-            <p className="mt-4 text-base font-semibold leading-6 text-black/75">
+            <p className="mt-3 text-base font-semibold leading-6 text-black/75 sm:mt-4">
               Фото, цены, описание и ID каждого варианта.
             </p>
 
-            <div className="mt-5 rounded-2xl bg-black px-6 py-4 text-center text-lg font-black text-white shadow-xl transition hover:scale-105">
+            <div className="mt-4 rounded-2xl bg-black px-6 py-3.5 text-center text-lg font-black text-white shadow-xl transition hover:scale-105 sm:mt-5 sm:py-4">
               Открыть каталог
             </div>
           </button>
 
-          <div className="cursor-pointer rounded-[2rem] border border-white/25 bg-white/25 p-6 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,255,255,0.25)]">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/25 text-2xl shadow-lg">
+          <div className="cursor-pointer rounded-[1.75rem] border border-white/25 bg-white/25 p-5 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_25px_80px_rgba(255,255,255,0.25)] sm:rounded-[2rem] sm:p-6">
+            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/25 text-2xl shadow-lg sm:h-12 sm:w-12">
               🆔
             </div>
 
@@ -196,13 +196,13 @@ export default function Hero() {
               Быстрый переход
             </p>
 
-            <h2 className="text-2xl font-black leading-tight">Поиск по ID</h2>
+            <h2 className="text-[25px] font-black leading-tight sm:text-2xl">Поиск по ID</h2>
 
-            <p className="mt-4 text-base font-semibold leading-6 text-white/90">
+            <p className="mt-3 text-base font-semibold leading-6 text-white/90 sm:mt-4">
               Введите номер квартиры, который вам сказали по телефону.
             </p>
 
-            <div className="mt-5 flex gap-3">
+            <div className="mt-4 flex gap-3 sm:mt-5">
               <input
                 value={apartmentId}
                 onChange={(e) => setApartmentId(e.target.value)}

@@ -18,13 +18,14 @@ function MobileHeader() {
 
   return (
     <div className="lg:hidden">
-      <div className="border-b border-slate-200 bg-slate-50 px-4 py-2">
+      <div className="border-b border-slate-200 bg-slate-50 px-4 py-1.5">
         <div className="flex items-center justify-center gap-3">
           {languages.map((lang) => (
             <button
               key={lang.code}
               type="button"
               className="flex items-center gap-1 text-[11px] font-black text-slate-600"
+              aria-label={lang.code}
             >
               <span className="h-3.5 w-5 overflow-hidden rounded-[3px] shadow-sm">
                 {lang.flag}
@@ -35,22 +36,33 @@ function MobileHeader() {
         </div>
       </div>
 
-      <div className="px-4 py-3">
-        <a href="/" className="flex items-center gap-3">
-          <LogoIcon size="mobile" />
+      <div className="px-4 py-2.5">
+        <div className="flex items-center justify-between gap-3">
+          <a href="/" className="flex min-w-0 items-center gap-2.5">
+            <LogoIcon size="mobile" />
 
-          <div className="min-w-0">
-            <div className="truncate text-[25px] font-black leading-none tracking-tight">
-              RentPlace<span className="text-[#d4146f]">MD</span>
-              <sup className="ml-0.5 align-super text-[10px] font-bold">™</sup>
+            <div className="min-w-0">
+              <div className="truncate text-[23px] font-black leading-none tracking-tight">
+                RentPlace<span className="text-[#d4146f]">MD</span>
+                <sup className="ml-0.5 align-super text-[9px] font-bold">™</sup>
+              </div>
+              <p className="mt-1 truncate text-[12px] font-semibold text-slate-600">
+                Квартиры посуточно в Кишинёве
+              </p>
             </div>
-            <p className="mt-1 text-[13px] font-semibold text-slate-600">
-              Квартиры посуточно в Кишинёве
-            </p>
-          </div>
-        </a>
+          </a>
 
-        <div className="mt-3 flex items-center justify-between gap-3">
+          <div className="shrink-0 text-right text-[13px] font-black leading-4 text-slate-900">
+            <a href="tel:+37369990190" className="block">
+              +373 69 990 190
+            </a>
+            <a href="tel:+37379990190" className="block">
+              +373 79 990 190
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-2.5 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <a
               href="https://wa.me/37369990190"
@@ -89,14 +101,12 @@ function MobileHeader() {
             </a>
           </div>
 
-          <div className="text-right text-[14px] font-black leading-5 text-slate-900">
-            <a href="tel:+37369990190" className="block">
-              +373 69 990 190
-            </a>
-            <a href="tel:+37379990190" className="block">
-              +373 79 990 190
-            </a>
-          </div>
+          <a
+            href="#today-free"
+            className="rounded-xl bg-[#07111f] px-3.5 py-2 text-[12px] font-black text-white shadow-md active:scale-95"
+          >
+            Свободные
+          </a>
         </div>
       </div>
     </div>
@@ -260,10 +270,10 @@ function DesktopHeader() {
 function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
   const boxClass =
     size === "mobile"
-      ? "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md"
+      ? "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md"
       : "flex h-[72px] w-[72px] shrink-0 items-center justify-center";
 
-  const svgClass = size === "mobile" ? "h-11 w-11" : "h-[72px] w-[72px]";
+  const svgClass = size === "mobile" ? "h-9 w-9" : "h-[72px] w-[72px]";
 
   const mainColor = size === "mobile" ? "#07111f" : "white";
 
