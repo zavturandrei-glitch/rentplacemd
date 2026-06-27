@@ -114,7 +114,14 @@ function DesktopHeader() {
   return (
     <div className="hidden lg:block">
       <div className="border-b border-white/10 bg-white/5">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-3">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-10 py-3">
+          <div className="flex items-center gap-6 text-sm font-bold text-white/90">
+            <span className="text-[#ff4fa3]">●</span>
+            <span>Центр Кишинёва</span>
+            <span className="text-[#ff4fa3]">●</span>
+            <span>Заселение 24/7</span>
+          </div>
+
           <div className="flex items-center gap-5">
             {languages.map((lang) => (
               <button
@@ -129,17 +136,10 @@ function DesktopHeader() {
               </button>
             ))}
           </div>
-
-          <div className="flex items-center gap-6 text-sm font-bold text-white/90">
-            <span className="text-[#ff4fa3]">●</span>
-            <span>Центр Кишинёва</span>
-            <span className="text-[#ff4fa3]">●</span>
-            <span>Заселение 24/7</span>
-          </div>
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-8 py-6">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-10 px-10 py-7">
         <a href="/" className="flex items-center gap-4">
           <LogoIcon size="desktop" />
 
@@ -153,47 +153,91 @@ function DesktopHeader() {
           </div>
         </a>
 
-        <div className="flex items-center gap-6">
-          <div className="space-y-1 text-right text-xl font-black">
-            <a
-              href="tel:+37369990190"
-              className="block transition hover:text-[#ff4fa3]"
-            >
-              +373 69 990 190
-            </a>
-            <a
-              href="tel:+37379990190"
-              className="block transition hover:text-[#ff4fa3]"
-            >
-              +373 79 990 190
-            </a>
-          </div>
-
-          <div className="flex gap-2">
+        <div className="flex items-center gap-7">
+          <div className="flex items-center gap-3">
             <a
               href="https://wa.me/37369990190"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-2xl bg-[#25D366] px-5 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#25D366] text-xl font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+              aria-label="WhatsApp"
             >
-              WhatsApp
+              W
             </a>
 
             <a
               href="viber://chat?number=%2B37369990190"
-              className="rounded-2xl bg-[#7360F2] px-5 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#7360F2] text-xl font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+              aria-label="Viber"
             >
-              Viber
+              V
             </a>
 
             <a
               href="https://t.me/rentplacemd"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-2xl bg-[#229ED9] px-5 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#229ED9] text-xl font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+              aria-label="Telegram"
             >
-              Telegram
+              T
             </a>
+          </div>
+
+          <div className="h-16 w-px bg-white/20" />
+
+          <div className="space-y-1 text-right text-2xl font-black leading-tight">
+            <a
+              href="tel:+37379990190"
+              className="block transition hover:text-[#ff4fa3]"
+            >
+              +373 79 990 190
+            </a>
+            <a
+              href="tel:+37369990190"
+              className="block transition hover:text-[#ff4fa3]"
+            >
+              +373 69 990 190
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full bg-[#9b124c] shadow-xl">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-10 py-5 text-white">
+          <div className="flex items-center justify-center gap-4">
+            <MapIcon />
+            <p className="text-base font-black leading-tight">
+              Центр
+              <br />
+              Кишинёва
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-4">
+            <ShieldIcon />
+            <p className="text-base font-black leading-tight">
+              Надёжно
+              <br />и безопасно
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-4">
+            <ClockIcon />
+            <p className="text-base font-black leading-tight">
+              24/7
+              <br />
+              Заселение
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-4">
+            <HomeIcon />
+            <p className="text-base font-black leading-tight">
+              Комфорт
+              <br />
+              как дома
+            </p>
           </div>
         </div>
       </div>
@@ -263,6 +307,88 @@ function PhoneIcon() {
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function MapIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none">
+      <path
+        d="M12 21S5 14.7 5 9.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 12A2.5 2.5 0 1 0 12 7A2.5 2.5 0 0 0 12 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none">
+      <path
+        d="M12 3L19 6V11C19 15.5 16.1 19.7 12 21C7.9 19.7 5 15.5 5 11V6L12 3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.8 12L11 14.2L15.6 9.6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none">
+      <path
+        d="M12 21A9 9 0 1 0 12 3A9 9 0 0 0 12 21Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="M12 7V12L15 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function HomeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none">
+      <path
+        d="M3 11L12 4L21 11"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 10.5V20H19V10.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 20V14H15V20"
+        stroke="currentColor"
+        strokeWidth="2"
         strokeLinejoin="round"
       />
     </svg>
