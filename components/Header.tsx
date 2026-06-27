@@ -18,88 +18,90 @@ function MobileHeader() {
 
   return (
     <div className="lg:hidden bg-[#07111f] text-white shadow-2xl">
-      <div className="border-b border-white/10 bg-[#050b14] px-4 py-2">
-        <div className="flex items-center justify-start gap-3 pl-2">
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              type="button"
-              title={lang.code}
-              className="flex items-center gap-1 text-[11px] font-black text-white/85 transition active:scale-95"
-              aria-label={lang.code}
-            >
-              <span className="h-3.5 w-5 overflow-hidden rounded-[3px] shadow-sm ring-1 ring-white/10">
-                {lang.flag}
-              </span>
-              <span>{lang.code}</span>
-            </button>
-          ))}
+      <div className="border-b border-white/10 bg-[#050b14] px-3 py-1.5">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                type="button"
+                title={lang.code}
+                className="flex items-center gap-1 text-[10px] font-black text-white/85 transition active:scale-95"
+                aria-label={lang.code}
+              >
+                <span className="h-3 w-[18px] overflow-hidden rounded-[3px] shadow-sm ring-1 ring-white/10">
+                  {lang.flag}
+                </span>
+                <span>{lang.code}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[8px] font-black uppercase tracking-[0.14em] text-emerald-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.95)]" />
+            Онлайн
+          </div>
         </div>
       </div>
 
-      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-4 py-3">
-        <div className="flex items-center justify-between gap-3">
-          <a href="/" className="ml-[-4px] flex min-w-0 items-center gap-3">
+      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-2.5">
+        <div className="flex items-start justify-between gap-2">
+          <a href="/" className="flex min-w-0 items-center gap-2.5">
             <LogoIcon size="mobile" />
 
             <div className="min-w-0">
-              <div className="truncate text-[22px] font-black leading-none tracking-tight text-white">
+              <div className="truncate text-[21px] font-black leading-none tracking-tight text-white">
                 RentPlace<span className="text-[#d4146f]">MD</span>
                 <sup className="ml-0.5 align-super text-[8px] font-bold text-white/80">
                   ™
                 </sup>
               </div>
-              <p className="mt-1 whitespace-nowrap text-[10px] font-semibold leading-none text-white/65">
+              <p className="mt-1 whitespace-nowrap text-[9px] font-semibold leading-none text-white/65">
                 Квартиры посуточно в Кишинёве
               </p>
             </div>
           </a>
 
-          <div className="shrink-0 text-right">
-            <div className="mb-1 flex items-center justify-start gap-1.5 text-[9px] font-black uppercase tracking-[0.16em] text-emerald-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.9)]" />
-              Онлайн
-            </div>
-
-            <div className="space-y-0.5 text-[15px] font-black leading-[1.05] text-white">
-              <a href="tel:+37369990190" className="block">
-                +373 69 990 190
-              </a>
+          <div className="shrink-0 pt-0 text-right">
+            <div className="space-y-0.5 text-[14px] font-black leading-[1.02] text-white">
               <a href="tel:+37379990190" className="block">
                 +373 79 990 190
               </a>
+              <a href="tel:+37369990190" className="block">
+                +373 69 990 190
+              </a>
+            </div>
+
+            <div className="mt-1.5 flex items-center justify-end gap-1.5">
+              <a
+                href="https://wa.me/37369990190"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-5 w-5 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-lg shadow-emerald-500/25 ring-1 ring-white/10 transition active:scale-95"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon />
+              </a>
+
+              <a
+                href="viber://chat?number=%2B37369990190"
+                className="flex h-5 w-5 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-lg shadow-violet-500/25 ring-1 ring-white/10 transition active:scale-95"
+                aria-label="Viber"
+              >
+                <ViberIcon />
+              </a>
+
+              <a
+                href="https://t.me/rentplacemd"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-5 w-5 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-lg shadow-sky-500/25 ring-1 ring-white/10 transition active:scale-95"
+                aria-label="Telegram"
+              >
+                <TelegramIcon />
+              </a>
             </div>
           </div>
-        </div>
-
-        <div className="mt-3 flex items-center justify-center gap-2">
-          <a
-            href="https://wa.me/37369990190"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-5 w-5 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/30 ring-1 ring-white/10 transition active:scale-95"
-            aria-label="WhatsApp"
-          >
-            <WhatsAppIcon />
-          </a>
-
-          <a
-            href="viber://chat?number=%2B37369990190"
-            className="flex h-5 w-5 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/30 ring-1 ring-white/10 transition active:scale-95"
-            aria-label="Viber"
-          >
-            <ViberIcon />
-          </a>
-
-          <a
-            href="https://t.me/rentplacemd"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-5 w-5 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/30 ring-1 ring-white/10 transition active:scale-95"
-            aria-label="Telegram"
-          >
-            <TelegramIcon />
-          </a>
         </div>
       </div>
     </div>
@@ -117,138 +119,138 @@ function DesktopHeader() {
 
   return (
     <div className="hidden lg:block">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-8 px-10 py-4">
+      <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-7 px-10 py-3">
         <a
           href="/"
-          className="group flex items-center gap-4 transition duration-200 hover:scale-[1.015]"
+          className="group flex items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
         >
           <LogoIcon size="desktop" />
 
           <div>
-            <div className="text-[34px] font-black leading-none tracking-tight">
+            <div className="text-[31px] font-black leading-none tracking-tight">
               RentPlace<span className="text-[#d4146f]">MD</span>
               <sup className="ml-0.5 align-super text-[9px] font-bold text-white/80">
                 ™
               </sup>
             </div>
-            <p className="mt-2 text-[14px] font-semibold text-white/70">
+            <p className="mt-1.5 text-[12px] font-semibold text-white/65">
               Квартиры посуточно в Кишинёве
             </p>
           </div>
         </a>
 
-        <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 shadow-inner">
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              type="button"
-              title={lang.code}
-              className="flex h-7 w-9 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
-              aria-label={lang.code}
-            >
-              <span className="h-4 w-6 overflow-hidden rounded-[3px] shadow-sm">
-                {lang.flag}
-              </span>
-            </button>
-          ))}
-        </div>
+        <div className="flex flex-1 items-start justify-end gap-5">
+          <div className="flex items-center justify-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 shadow-inner">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                type="button"
+                title={lang.code}
+                className="flex h-6 w-8 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
+                aria-label={lang.code}
+              >
+                <span className="h-3.5 w-5 overflow-hidden rounded-[3px] shadow-sm">
+                  {lang.flag}
+                </span>
+              </button>
+            ))}
 
-        <div className="flex items-center gap-5">
-          <div className="flex items-center gap-2.5">
-            <a
-              href="https://wa.me/37369990190"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
-              aria-label="WhatsApp"
-            >
-              <WhatsAppIcon />
-            </a>
-
-            <a
-              href="viber://chat?number=%2B37369990190"
-              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
-              aria-label="Viber"
-            >
-              <ViberIcon />
-            </a>
-
-            <a
-              href="https://t.me/rentplacemd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
-              aria-label="Telegram"
-            >
-              <TelegramIcon />
-            </a>
-          </div>
-
-          <div className="h-11 w-px bg-white/20" />
-
-          <div className="text-right">
-            <div className="mb-1 flex items-center justify-end gap-2 text-[12px] font-black uppercase tracking-[0.18em] text-emerald-300">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+            <div className="ml-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]" />
               Онлайн 24/7
             </div>
-
-            <div className="space-y-0.5 text-[22px] font-black leading-tight">
-              <a
-                href="tel:+37379990190"
-                className="block transition hover:text-[#ff4fa3]"
-              >
-                +373 79 990 190
-              </a>
-              <a
-                href="tel:+37369990190"
-                className="block transition hover:text-[#ff4fa3]"
-              >
-                +373 69 990 190
-              </a>
-            </div>
           </div>
 
-          <a
-            href="#today-free"
-            className="rounded-2xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
-          >
-            Свободные квартиры
-          </a>
+          <div className="flex items-start gap-4">
+            <div className="pt-0 text-right">
+              <div className="space-y-0.5 text-[20px] font-black leading-[1.05]">
+                <a
+                  href="tel:+37379990190"
+                  className="block transition hover:text-[#ff4fa3]"
+                >
+                  +373 79 990 190
+                </a>
+                <a
+                  href="tel:+37369990190"
+                  className="block transition hover:text-[#ff4fa3]"
+                >
+                  +373 69 990 190
+                </a>
+              </div>
+
+              <div className="mt-2 flex items-center justify-end gap-2">
+                <a
+                  href="https://wa.me/37369990190"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                  aria-label="WhatsApp"
+                >
+                  <WhatsAppIcon />
+                </a>
+
+                <a
+                  href="viber://chat?number=%2B37369990190"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                  aria-label="Viber"
+                >
+                  <ViberIcon />
+                </a>
+
+                <a
+                  href="https://t.me/rentplacemd"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                  aria-label="Telegram"
+                >
+                  <TelegramIcon />
+                </a>
+              </div>
+            </div>
+
+            <a
+              href="#today-free"
+              className="rounded-xl bg-white px-4 py-2.5 text-[13px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
+            >
+              Свободные квартиры
+            </a>
+          </div>
         </div>
       </div>
 
       <div className="w-full bg-[#9b124c] shadow-xl">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-10 py-3 text-white">
-          <div className="flex items-center justify-center gap-3">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-10 py-2 text-white">
+          <div className="flex items-center justify-center gap-2.5">
             <MapIcon />
-            <p className="text-[15px] font-black leading-tight">
+            <p className="text-[14px] font-black leading-tight">
               Центр
               <br />
               города
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2.5">
             <ClockIcon />
-            <p className="text-[15px] font-black leading-tight">
+            <p className="text-[14px] font-black leading-tight">
               Заселение
               <br />
               24/7
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2.5">
             <HomeIcon />
-            <p className="text-[15px] font-black leading-tight">
+            <p className="text-[14px] font-black leading-tight">
               Более 12
               <br />
               квартир
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2.5">
             <ShieldIcon />
-            <p className="text-[15px] font-black leading-tight">
+            <p className="text-[14px] font-black leading-tight">
               Без
               <br />
               посредников
@@ -263,10 +265,10 @@ function DesktopHeader() {
 function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
   const boxClass =
     size === "mobile"
-      ? "flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-2xl bg-white shadow-lg shadow-black/30"
-      : "flex h-[72px] w-[72px] shrink-0 items-center justify-center";
+      ? "flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-2xl bg-white shadow-lg shadow-black/30"
+      : "flex h-[64px] w-[64px] shrink-0 items-center justify-center";
 
-  const svgClass = size === "mobile" ? "h-11 w-11" : "h-[72px] w-[72px]";
+  const svgClass = size === "mobile" ? "h-10 w-10" : "h-[64px] w-[64px]";
 
   const mainColor = size === "mobile" ? "#07111f" : "white";
 
@@ -356,7 +358,7 @@ function PhoneIcon() {
 
 function MapIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none">
+    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
       <path
         d="M12 21S5 14.7 5 9.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21Z"
         stroke="currentColor"
@@ -374,7 +376,7 @@ function MapIcon() {
 
 function ShieldIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none">
+    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
       <path
         d="M12 3L19 6V11C19 15.5 16.1 19.7 12 21C7.9 19.7 5 15.5 5 11V6L12 3Z"
         stroke="currentColor"
@@ -394,7 +396,7 @@ function ShieldIcon() {
 
 function ClockIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none">
+    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
       <path
         d="M12 21A9 9 0 1 0 12 3A9 9 0 0 0 12 21Z"
         stroke="currentColor"
@@ -412,7 +414,7 @@ function ClockIcon() {
 
 function HomeIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none">
+    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
       <path
         d="M3 11L12 4L21 11"
         stroke="currentColor"
