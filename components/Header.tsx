@@ -119,10 +119,10 @@ function DesktopHeader() {
 
   return (
     <div className="hidden lg:block">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-7 px-10 py-3">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-8 px-10 py-3">
         <a
           href="/"
-          className="group flex shrink-0 items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
+          className="group flex w-[420px] shrink-0 items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
         >
           <LogoIcon size="desktop" />
 
@@ -140,16 +140,16 @@ function DesktopHeader() {
         </a>
 
         <div className="flex flex-1 items-center justify-center">
-          <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2 shadow-inner">
+          <div className="flex items-center justify-center gap-3.5 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 shadow-inner">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 type="button"
                 title={lang.code}
-                className="flex h-7 w-10 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
+                className="flex h-8 w-11 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
                 aria-label={lang.code}
               >
-                <span className="h-4 w-6 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10">
+                <span className="h-[18px] w-7 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10">
                   {lang.flag}
                 </span>
               </button>
@@ -157,21 +157,21 @@ function DesktopHeader() {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center justify-end gap-5">
+        <div className="flex w-[590px] shrink-0 items-center justify-end gap-6">
           <a
             href="#today-free"
-            className="rounded-xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
+            className="rounded-xl bg-white px-6 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
           >
             Свободные квартиры
           </a>
 
-          <div className="flex min-w-[250px] flex-col items-end text-right">
-            <div className="mb-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
+          <div className="flex min-w-[270px] flex-col items-end text-right">
+            <div className="mb-1 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]" />
               Онлайн 24/7
             </div>
 
-            <div className="space-y-0.5 text-[22px] font-black leading-[1.03]">
+            <div className="space-y-0 text-[23px] font-black leading-[1.02]">
               <a
                 href="tel:+37379990190"
                 className="block transition hover:text-[#ff4fa3]"
@@ -186,7 +186,7 @@ function DesktopHeader() {
               </a>
             </div>
 
-            <div className="mt-2 flex items-center justify-end gap-2">
+            <div className="mt-1.5 flex items-center justify-end gap-2">
               <a
                 href="https://wa.me/37369990190"
                 target="_blank"
