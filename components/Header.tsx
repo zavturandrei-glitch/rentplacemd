@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-[#07111f] text-white shadow-2xl">
+    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-md lg:bg-[#07111f] lg:text-white lg:shadow-2xl">
       <MobileHeader />
       <DesktopHeader />
     </header>
@@ -18,15 +18,15 @@ function MobileHeader() {
 
   return (
     <div className="lg:hidden">
-      <div className="border-b border-white/10 bg-white/5 px-3 py-2">
-        <div className="flex items-center justify-center gap-3">
+      <div className="border-b border-slate-200 bg-slate-50 px-4 py-2">
+        <div className="flex items-center justify-end gap-3 pr-2">
           {languages.map((lang) => (
             <button
               key={lang.code}
               type="button"
-              className="flex items-center gap-1 text-xs font-black text-white/90"
+              className="flex items-center gap-1 text-[11px] font-black text-slate-600"
             >
-              <span className="h-4 w-6 overflow-hidden rounded-[3px]">
+              <span className="h-3.5 w-5 overflow-hidden rounded-[3px] shadow-sm">
                 {lang.flag}
               </span>
               <span>{lang.code}</span>
@@ -36,61 +36,66 @@ function MobileHeader() {
       </div>
 
       <div className="px-4 py-3">
-        <div className="flex items-center justify-between gap-3">
-          <a href="/" className="flex min-w-0 items-center gap-3">
-            <LogoIcon size="mobile" />
+        <a href="/" className="flex items-center gap-3">
+          <LogoIcon size="mobile" />
 
-            <div className="min-w-0">
-              <div className="truncate text-[26px] font-black leading-none tracking-tight">
-                RentPlace<span className="text-[#d4146f]">MD</span>™
-              </div>
-              <p className="mt-1 text-[13px] font-semibold text-white/70">
-                Квартиры посуточно в Кишинёве
-              </p>
+          <div className="min-w-0">
+            <div className="truncate text-[25px] font-black leading-none tracking-tight">
+              RentPlace<span className="text-[#d4146f]">MD</span>™
             </div>
-          </a>
-
-          <a
-            href="tel:+37369990190"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#d4146f] text-white shadow-xl"
-            aria-label="Позвонить"
-          >
-            <PhoneIcon />
-          </a>
-        </div>
-
-        <a
-          href="tel:+37369990190"
-          className="mt-3 block rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-center text-[15px] font-black text-white"
-        >
-          +373 69 990 190
+            <p className="mt-1 text-[13px] font-semibold text-slate-600">
+              Квартиры посуточно в Кишинёве
+            </p>
+          </div>
         </a>
 
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          <a
-            href="https://wa.me/37369990190"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-2xl bg-[#25D366] px-3 py-3 text-center text-sm font-black text-white shadow-lg"
-          >
-            WhatsApp
-          </a>
+        <div className="mt-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <a
+              href="https://wa.me/37369990190"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-sm font-black text-white shadow-md"
+              aria-label="WhatsApp"
+            >
+              W
+            </a>
 
-          <a
-            href="viber://chat?number=%2B37369990190"
-            className="rounded-2xl bg-[#7360F2] px-3 py-3 text-center text-sm font-black text-white shadow-lg"
-          >
-            Viber
-          </a>
+            <a
+              href="viber://chat?number=%2B37369990190"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7360F2] text-sm font-black text-white shadow-md"
+              aria-label="Viber"
+            >
+              V
+            </a>
 
-          <a
-            href="https://t.me/rentplacemd"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-2xl bg-[#229ED9] px-3 py-3 text-center text-sm font-black text-white shadow-lg"
-          >
-            Telegram
-          </a>
+            <a
+              href="tel:+37369990190"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d4146f] text-white shadow-md"
+              aria-label="Позвонить"
+            >
+              <PhoneIcon />
+            </a>
+
+            <a
+              href="https://t.me/rentplacemd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9] text-sm font-black text-white shadow-md"
+              aria-label="Telegram"
+            >
+              T
+            </a>
+          </div>
+
+          <div className="text-right text-[14px] font-black leading-5 text-slate-900">
+            <a href="tel:+37369990190" className="block">
+              +373 69 990 190
+            </a>
+            <a href="tel:+37379990190" className="block">
+              +373 79 990 190
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -199,29 +204,31 @@ function DesktopHeader() {
 function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
   const boxClass =
     size === "mobile"
-      ? "flex h-14 w-14 shrink-0 items-center justify-center"
+      ? "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md"
       : "flex h-20 w-20 shrink-0 items-center justify-center";
 
-  const svgClass = size === "mobile" ? "h-14 w-14" : "h-20 w-20";
+  const svgClass = size === "mobile" ? "h-11 w-11" : "h-20 w-20";
+
+  const mainColor = size === "mobile" ? "#07111f" : "white";
 
   return (
     <div className={boxClass}>
       <svg viewBox="0 0 96 96" className={svgClass} fill="none">
         <path
           d="M12 76C28 70 68 70 84 76"
-          stroke="white"
+          stroke={mainColor}
           strokeWidth="4"
           strokeLinecap="round"
         />
         <path
           d="M18 70V38L36 28V70"
-          stroke="white"
+          stroke={mainColor}
           strokeWidth="4"
           strokeLinejoin="round"
         />
         <path
           d="M36 70V18L56 8V70"
-          stroke="white"
+          stroke={mainColor}
           strokeWidth="4"
           strokeLinejoin="round"
         />
@@ -233,7 +240,7 @@ function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
         />
         <path
           d="M27 70V48"
-          stroke="white"
+          stroke={mainColor}
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -250,7 +257,7 @@ function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
 
 function PhoneIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
+    <svg viewBox="0 0 24 24" className="h-4.5 w-4.5" fill="none">
       <path
         d="M7.2 4.5L9.1 8.8C9.4 9.4 9.2 10.1 8.7 10.5L7.4 11.5C8.5 13.8 10.3 15.6 12.6 16.7L13.6 15.4C14 14.9 14.7 14.7 15.3 15L19.6 16.9C20.3 17.2 20.7 17.9 20.5 18.6L20.1 20.2C19.9 21 19.2 21.5 18.4 21.5C9.6 21.5 2.5 14.4 2.5 5.6C2.5 4.8 3 4.1 3.8 3.9L5.4 3.5C6.1 3.3 6.9 3.8 7.2 4.5Z"
         stroke="currentColor"
