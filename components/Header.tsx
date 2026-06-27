@@ -41,7 +41,7 @@ function MobileHeader() {
 
           <div className="min-w-0">
             <div className="truncate text-[25px] font-black leading-none tracking-tight">
-              RentPlace<span className="text-[#d4146f]">MD</span>™
+              RentPlace<span className="text-[#d4146f]">MD</span><sup className="ml-0.5 text-[10px] font-bold align-super">™</sup>
             </div>
             <p className="mt-1 text-[13px] font-semibold text-slate-600">
               Квартиры посуточно в Кишинёве
@@ -119,7 +119,7 @@ function DesktopHeader() {
 
           <div>
             <div className="text-[34px] font-black leading-none tracking-tight">
-              RentPlace<span className="text-[#d4146f]">MD</span>™
+              RentPlace<span className="text-[#d4146f]">MD</span><sup className="ml-1 text-[12px] font-bold align-super">™</sup>
             </div>
             <p className="mt-2 text-[15px] font-semibold text-white/75">
               Квартиры посуточно в Кишинёве
