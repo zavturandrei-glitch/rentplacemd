@@ -488,4 +488,3 @@ function CzechFlag() {
     </svg>
   );
 }
-
