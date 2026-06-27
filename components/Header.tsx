@@ -26,7 +26,7 @@ function MobileHeader() {
               type="button"
               className="flex items-center gap-1 text-xs font-black text-white/90"
             >
-              <span className="h-4 w-6 overflow-hidden rounded-[3px] shadow-sm">
+              <span className="h-4 w-6 overflow-hidden rounded-[3px]">
                 {lang.flag}
               </span>
               <span>{lang.code}</span>
@@ -38,13 +38,13 @@ function MobileHeader() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between gap-3">
           <a href="/" className="flex min-w-0 items-center gap-3">
-            <LogoIcon small />
+            <LogoIcon size="mobile" />
 
             <div className="min-w-0">
-              <div className="truncate text-2xl font-black leading-none tracking-tight">
+              <div className="truncate text-[26px] font-black leading-none tracking-tight">
                 RentPlace<span className="text-[#d4146f]">MD</span>™
               </div>
-              <p className="mt-1 text-xs font-semibold text-white/75">
+              <p className="mt-1 text-[13px] font-semibold text-white/70">
                 Квартиры посуточно в Кишинёве
               </p>
             </div>
@@ -58,6 +58,13 @@ function MobileHeader() {
             <PhoneIcon />
           </a>
         </div>
+
+        <a
+          href="tel:+37369990190"
+          className="mt-3 block rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-center text-[15px] font-black text-white"
+        >
+          +373 69 990 190
+        </a>
 
         <div className="mt-3 grid grid-cols-3 gap-2">
           <a
@@ -85,13 +92,6 @@ function MobileHeader() {
             Telegram
           </a>
         </div>
-
-        <a
-          href="tel:+37369990190"
-          className="mt-3 block rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-base font-black text-white shadow-inner"
-        >
-          Позвонить: +373 69 990 190
-        </a>
       </div>
     </div>
   );
@@ -117,7 +117,7 @@ function DesktopHeader() {
                 type="button"
                 className="flex items-center gap-1.5 text-sm font-black text-white/90 transition hover:text-[#ff4fa3]"
               >
-                <span className="h-4 w-6 overflow-hidden rounded-[3px] shadow-sm">
+                <span className="h-4 w-6 overflow-hidden rounded-[3px]">
                   {lang.flag}
                 </span>
                 <span>{lang.code}</span>
@@ -136,7 +136,7 @@ function DesktopHeader() {
 
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-8 py-6">
         <a href="/" className="flex items-center gap-4">
-          <LogoIcon />
+          <LogoIcon size="desktop" />
 
           <div>
             <div className="text-4xl font-black leading-none tracking-tight">
@@ -196,20 +196,17 @@ function DesktopHeader() {
   );
 }
 
-function LogoIcon({ small = false }: { small?: boolean }) {
+function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
+  const boxClass =
+    size === "mobile"
+      ? "flex h-14 w-14 shrink-0 items-center justify-center"
+      : "flex h-20 w-20 shrink-0 items-center justify-center";
+
+  const svgClass = size === "mobile" ? "h-14 w-14" : "h-20 w-20";
+
   return (
-    <div
-      className={
-        small
-          ? "flex h-14 w-14 shrink-0 items-center justify-center"
-          : "flex h-20 w-20 shrink-0 items-center justify-center"
-      }
-    >
-      <svg
-        viewBox="0 0 96 96"
-        className={small ? "h-14 w-14" : "h-20 w-20"}
-        fill="none"
-      >
+    <div className={boxClass}>
+      <svg viewBox="0 0 96 96" className={svgClass} fill="none">
         <path
           d="M12 76C28 70 68 70 84 76"
           stroke="white"
