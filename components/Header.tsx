@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-md lg:bg-[#07111f] lg:text-white lg:shadow-2xl">
+    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-md lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
       <MobileHeader />
       <DesktopHeader />
     </header>
@@ -41,7 +41,8 @@ function MobileHeader() {
 
           <div className="min-w-0">
             <div className="truncate text-[25px] font-black leading-none tracking-tight">
-              RentPlace<span className="text-[#d4146f]">MD</span><sup className="ml-0.5 text-[10px] font-bold align-super">™</sup>
+              RentPlace<span className="text-[#d4146f]">MD</span>
+              <sup className="ml-0.5 align-super text-[10px] font-bold">™</sup>
             </div>
             <p className="mt-1 text-[13px] font-semibold text-slate-600">
               Квартиры посуточно в Кишинёве
@@ -113,42 +114,49 @@ function DesktopHeader() {
 
   return (
     <div className="hidden lg:block">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-8 px-10 py-5">
-        <a href="/" className="flex items-center gap-4">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-8 px-10 py-4">
+        <a
+          href="/"
+          className="group flex items-center gap-4 transition duration-200 hover:scale-[1.015]"
+        >
           <LogoIcon size="desktop" />
 
           <div>
             <div className="text-[34px] font-black leading-none tracking-tight">
-              RentPlace<span className="text-[#d4146f]">MD</span><sup className="ml-1 text-[12px] font-bold align-super">™</sup>
+              RentPlace<span className="text-[#d4146f]">MD</span>
+              <sup className="ml-0.5 align-super text-[9px] font-bold text-white/80">
+                ™
+              </sup>
             </div>
-            <p className="mt-2 text-[15px] font-semibold text-white/75">
+            <p className="mt-2 text-[14px] font-semibold text-white/70">
               Квартиры посуточно в Кишинёве
             </p>
           </div>
         </a>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 shadow-inner">
           {languages.map((lang) => (
             <button
               key={lang.code}
               type="button"
-              className="flex items-center gap-1.5 text-sm font-black text-white/90 transition hover:text-[#ff4fa3]"
+              title={lang.code}
+              className="flex h-7 w-9 items-center justify-center rounded-full transition hover:bg-white/10 hover:scale-110"
+              aria-label={lang.code}
             >
-              <span className="h-4 w-6 overflow-hidden rounded-[3px]">
+              <span className="h-4 w-6 overflow-hidden rounded-[3px] shadow-sm">
                 {lang.flag}
               </span>
-              <span>{lang.code}</span>
             </button>
           ))}
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2.5">
             <a
               href="https://wa.me/37369990190"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
               aria-label="WhatsApp"
             >
               <WhatsAppIcon />
@@ -156,7 +164,7 @@ function DesktopHeader() {
 
             <a
               href="viber://chat?number=%2B37369990190"
-              className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
               aria-label="Viber"
             >
               <ViberIcon />
@@ -166,66 +174,81 @@ function DesktopHeader() {
               href="https://t.me/rentplacemd"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
               aria-label="Telegram"
             >
               <TelegramIcon />
             </a>
           </div>
 
-          <div className="h-12 w-px bg-white/20" />
+          <div className="h-11 w-px bg-white/20" />
 
-          <div className="space-y-0.5 text-right text-[25px] font-black leading-tight">
-            <a
-              href="tel:+37379990190"
-              className="block transition hover:text-[#ff4fa3]"
-            >
-              +373 79 990 190
-            </a>
-            <a
-              href="tel:+37369990190"
-              className="block transition hover:text-[#ff4fa3]"
-            >
-              +373 69 990 190
-            </a>
+          <div className="text-right">
+            <div className="mb-1 flex items-center justify-end gap-2 text-[12px] font-black uppercase tracking-[0.18em] text-emerald-300">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+              Онлайн 24/7
+            </div>
+
+            <div className="space-y-0.5 text-[22px] font-black leading-tight">
+              <a
+                href="tel:+37379990190"
+                className="block transition hover:text-[#ff4fa3]"
+              >
+                +373 79 990 190
+              </a>
+              <a
+                href="tel:+37369990190"
+                className="block transition hover:text-[#ff4fa3]"
+              >
+                +373 69 990 190
+              </a>
+            </div>
           </div>
+
+          <a
+            href="#today-free"
+            className="rounded-2xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
+          >
+            Свободные квартиры
+          </a>
         </div>
       </div>
 
       <div className="w-full bg-[#9b124c] shadow-xl">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-10 py-4 text-white">
-          <div className="flex items-center justify-center gap-4">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-10 py-3 text-white">
+          <div className="flex items-center justify-center gap-3">
             <MapIcon />
-            <p className="text-base font-black leading-tight">
+            <p className="text-[15px] font-black leading-tight">
               Центр
               <br />
-              Кишинёва
+              города
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-4">
-            <ShieldIcon />
-            <p className="text-base font-black leading-tight">
-              Надёжно
-              <br />и безопасно
-            </p>
-          </div>
-
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3">
             <ClockIcon />
-            <p className="text-base font-black leading-tight">
-              24/7
-              <br />
+            <p className="text-[15px] font-black leading-tight">
               Заселение
+              <br />
+              24/7
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3">
             <HomeIcon />
-            <p className="text-base font-black leading-tight">
-              Комфорт
+            <p className="text-[15px] font-black leading-tight">
+              Более 12
               <br />
-              как дома
+              квартир
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-3">
+            <ShieldIcon />
+            <p className="text-[15px] font-black leading-tight">
+              Без
+              <br />
+              посредников
             </p>
           </div>
         </div>
@@ -238,9 +261,9 @@ function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
   const boxClass =
     size === "mobile"
       ? "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md"
-      : "flex h-16 w-16 shrink-0 items-center justify-center";
+      : "flex h-[72px] w-[72px] shrink-0 items-center justify-center";
 
-  const svgClass = size === "mobile" ? "h-11 w-11" : "h-16 w-16";
+  const svgClass = size === "mobile" ? "h-11 w-11" : "h-[72px] w-[72px]";
 
   const mainColor = size === "mobile" ? "#07111f" : "white";
 
