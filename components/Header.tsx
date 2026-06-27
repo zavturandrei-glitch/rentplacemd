@@ -11,7 +11,7 @@ export default function Header() {
     <>
       <header className="sticky top-0 z-50 bg-[#07111f] text-white shadow-2xl">
         <div className="border-b border-white/10 bg-white/5">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-2 sm:justify-between sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 sm:gap-5">
               {languages.map((lang) => (
                 <button
@@ -35,8 +35,8 @@ export default function Header() {
         </div>
 
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-5 lg:grid-cols-[1.2fr_0.9fr_1fr]">
-            <a href="/" className="flex items-center gap-4">
+          <div className="relative grid items-center gap-5 lg:grid-cols-[1.2fr_0.9fr_1fr]">
+            <a href="/" className="flex items-center gap-4 pr-14 sm:pr-0">
               <LogoIcon />
 
               <div>
@@ -72,13 +72,13 @@ export default function Header() {
                   href="tel:+37369990190"
                   className="block transition hover:text-[#ff4fa3]"
                 >
-                  ☎ +373 69 990 190
+                  +373 69 990 190
                 </a>
                 <a
                   href="tel:+37379990190"
                   className="block transition hover:text-[#ff4fa3]"
                 >
-                  ☎ +373 79 990 190
+                  +373 79 990 190
                 </a>
               </div>
 
@@ -112,18 +112,18 @@ export default function Header() {
 
             <a
               href="tel:+37369990190"
-              className="absolute right-4 top-[72px] flex h-12 w-12 items-center justify-center rounded-2xl bg-[#d4146f] text-2xl shadow-xl lg:hidden"
+              className="absolute right-0 top-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#d4146f] text-white shadow-xl transition hover:scale-105 lg:hidden"
               aria-label="Позвонить"
             >
-              ☎
+              <PhoneIcon />
             </a>
           </div>
 
           <div className="mt-5 rounded-3xl border border-[#d4146f]/40 bg-[#9b124c]/80 px-4 py-5 shadow-xl backdrop-blur">
             <div className="grid grid-cols-4 gap-3 text-center text-white">
               <div>
-                <div className="text-3xl">⌖</div>
-                <p className="mt-1 text-xs font-bold sm:text-sm">
+                <MapIcon />
+                <p className="mt-2 text-xs font-bold sm:text-sm">
                   Центр
                   <br />
                   Кишинёва
@@ -131,16 +131,16 @@ export default function Header() {
               </div>
 
               <div>
-                <div className="text-3xl">盾</div>
-                <p className="mt-1 text-xs font-bold sm:text-sm">
-                  Надежно
+                <ShieldIcon />
+                <p className="mt-2 text-xs font-bold sm:text-sm">
+                  Надёжно
                   <br />и безопасно
                 </p>
               </div>
 
               <div>
-                <div className="text-3xl">24/7</div>
-                <p className="mt-1 text-xs font-bold sm:text-sm">
+                <ClockIcon />
+                <p className="mt-2 text-xs font-bold sm:text-sm">
                   24/7
                   <br />
                   Заселение
@@ -148,8 +148,8 @@ export default function Header() {
               </div>
 
               <div>
-                <div className="text-3xl">钥</div>
-                <p className="mt-1 text-xs font-bold sm:text-sm">
+                <HomeIcon />
+                <p className="mt-2 text-xs font-bold sm:text-sm">
                   Комфорт
                   <br />
                   как дома
@@ -260,6 +260,102 @@ function SmallBuildingIcon() {
         d="M40 52V28L52 35V52"
         stroke="#d4146f"
         strokeWidth="3"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none">
+      <path
+        d="M7.2 4.5L9.1 8.8C9.4 9.4 9.2 10.1 8.7 10.5L7.4 11.5C8.5 13.8 10.3 15.6 12.6 16.7L13.6 15.4C14 14.9 14.7 14.7 15.3 15L19.6 16.9C20.3 17.2 20.7 17.9 20.5 18.6L20.1 20.2C19.9 21 19.2 21.5 18.4 21.5C9.6 21.5 2.5 14.4 2.5 5.6C2.5 4.8 3 4.1 3.8 3.9L5.4 3.5C6.1 3.3 6.9 3.8 7.2 4.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function MapIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mx-auto h-8 w-8" fill="none">
+      <path
+        d="M12 21S5 14.7 5 9.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 12A2.5 2.5 0 1 0 12 7A2.5 2.5 0 0 0 12 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mx-auto h-8 w-8" fill="none">
+      <path
+        d="M12 3L19 6V11C19 15.5 16.1 19.7 12 21C7.9 19.7 5 15.5 5 11V6L12 3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.8 12L11 14.2L15.6 9.6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mx-auto h-8 w-8" fill="none">
+      <path
+        d="M12 21A9 9 0 1 0 12 3A9 9 0 0 0 12 21Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="M12 7V12L15 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function HomeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mx-auto h-8 w-8" fill="none">
+      <path
+        d="M3 11L12 4L21 11"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 10.5V20H19V10.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 20V14H15V20"
+        stroke="currentColor"
+        strokeWidth="2"
         strokeLinejoin="round"
       />
     </svg>
