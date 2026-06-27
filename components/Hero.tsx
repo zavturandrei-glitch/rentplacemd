@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
   const [showRequest, setShowRequest] = useState(false);
   const [message, setMessage] = useState("");
   const [apartmentId, setApartmentId] = useState("");
 
-  const whatsappText =
-    message.trim() ||
-    "Здравствуйте! Хочу квартиру посуточно. Дата заезда: ___ . Дата выезда: ___ . Количество персон: ___.";
+  const whatsappText = message.trim() || t.hero.whatsappDefault;
 
   const whatsappLink = `https://wa.me/37369990190?text=${encodeURIComponent(
     whatsappText
@@ -61,7 +61,7 @@ export default function Hero() {
       return;
     }
 
-    alert("Квартира с таким ID пока не найдена. Позвоните нам, и мы подскажем.");
+    alert(t.hero.notFound);
   }
 
   return (
@@ -76,11 +76,11 @@ export default function Hero() {
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-7 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8">
         <div className="mx-auto mb-5 max-w-5xl text-center sm:mb-8">
           <h1 className="mx-auto max-w-[360px] text-[30px] font-black leading-[1.12] tracking-tight text-white sm:max-w-5xl sm:text-5xl lg:text-6xl">
-            Квартиры посуточно в Кишинёве
+            {t.hero.title}
           </h1>
 
           <p className="mx-auto mt-3 max-w-[340px] text-[17px] font-bold leading-6 text-white/90 sm:mt-4 sm:max-w-4xl sm:text-2xl sm:leading-8">
-            12 квартир в одном комплексе • Измаил 88 • Центр города • 24/7
+            {t.hero.subtitle}
           </p>
         </div>
 
@@ -96,15 +96,15 @@ export default function Hero() {
                 </div>
 
                 <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-white/80">
-                  Быстрый подбор
+                  {t.hero.quickPickLabel}
                 </p>
 
                 <h2 className="text-[24px] font-black leading-tight sm:text-2xl">
-                  Подобрать квартиру в один клик
+                  {t.hero.quickPickTitle}
                 </h2>
 
                 <p className="mt-3 text-base font-semibold leading-6 text-white/90 sm:mt-4">
-                  Напишите дату заезда, дату выезда и сколько будет персон.
+                  {t.hero.quickPickText}
                 </p>
 
                 <button
@@ -114,26 +114,26 @@ export default function Hero() {
                   }}
                   className="mt-4 w-full rounded-2xl bg-white px-6 py-3.5 text-lg font-black text-[#d4146f] shadow-xl transition hover:scale-105 sm:mt-5 sm:py-4"
                 >
-                  Подобрать
+                  {t.hero.quickPickButton}
                 </button>
               </>
             ) : (
               <>
                 <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-white/80">
-                  Заявка
+                  {t.hero.requestLabel}
                 </p>
 
-                <h2 className="text-2xl font-black">Напишите одним текстом</h2>
+                <h2 className="text-2xl font-black">{t.hero.requestTitle}</h2>
 
                 <p className="mt-3 text-base font-semibold leading-6 text-white/90">
-                  Дата заезда, дата выезда и сколько персон.
+                  {t.hero.requestText}
                 </p>
 
                 <textarea
                   value={message}
                   onClick={(e) => e.stopPropagation()}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Например: с 20 по 23 июня, 2 взрослых..."
+                  placeholder={t.hero.textareaPlaceholder}
                   className="mt-4 min-h-24 w-full resize-none rounded-2xl border border-white/30 bg-white/20 p-4 text-base font-semibold text-white outline-none placeholder:text-white/70 focus:bg-white/25"
                 />
 
@@ -144,7 +144,7 @@ export default function Hero() {
                     onClick={(e) => e.stopPropagation()}
                     className="rounded-2xl bg-[#25D366] px-6 py-4 text-center text-base font-black text-white shadow-lg transition hover:scale-105"
                   >
-                    Отправить в WhatsApp
+                    {t.hero.sendWhatsApp}
                   </a>
 
                   <button
@@ -154,7 +154,7 @@ export default function Hero() {
                     }}
                     className="rounded-2xl border border-white/30 px-6 py-3 text-base font-black text-white transition hover:bg-white/10"
                   >
-                    Назад
+                    {t.hero.back}
                   </button>
                 </div>
               </>
@@ -171,19 +171,19 @@ export default function Hero() {
             </div>
 
             <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-[#d4146f]">
-              Каталог
+              {t.hero.catalogLabel}
             </p>
 
             <h2 className="text-[24px] font-black leading-tight sm:text-2xl">
-              Смотреть квартиры
+              {t.hero.catalogTitle}
             </h2>
 
             <p className="mt-3 text-base font-semibold leading-6 text-black/75 sm:mt-4">
-              Фото, цены, описание и ID каждого варианта.
+              {t.hero.catalogText}
             </p>
 
             <div className="mt-4 rounded-2xl bg-black px-6 py-3.5 text-center text-lg font-black text-white shadow-xl transition hover:scale-105 sm:mt-5 sm:py-4">
-              Открыть каталог
+              {t.hero.openCatalog}
             </div>
           </button>
 
@@ -193,13 +193,15 @@ export default function Hero() {
             </div>
 
             <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-[#ffd21f]">
-              Быстрый переход
+              {t.hero.idLabel}
             </p>
 
-            <h2 className="text-[24px] font-black leading-tight sm:text-2xl">Поиск по ID</h2>
+            <h2 className="text-[24px] font-black leading-tight sm:text-2xl">
+              {t.hero.idTitle}
+            </h2>
 
             <p className="mt-3 text-base font-semibold leading-6 text-white/90 sm:mt-4">
-              Введите номер квартиры, который вам сказали по телефону.
+              {t.hero.idText}
             </p>
 
             <div className="mt-4 flex gap-3 sm:mt-5">
@@ -220,12 +222,12 @@ export default function Hero() {
                 onClick={openApartmentById}
                 className="rounded-2xl bg-[#d4146f] px-6 py-4 text-lg font-black text-white shadow-lg transition hover:scale-105"
               >
-                Найти
+                {t.hero.find}
               </button>
             </div>
 
             <p className="mt-4 text-sm font-bold text-white/75">
-              Доступные ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.
+              {t.hero.availableIds}
             </p>
           </div>
         </div>
