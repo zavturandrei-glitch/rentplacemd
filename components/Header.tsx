@@ -36,23 +36,23 @@ function MobileHeader() {
         </div>
       </div>
 
-      <div className="px-4 py-2.5">
-        <div className="flex items-center justify-between gap-3">
+      <div className="px-4 py-2">
+        <div className="flex items-start justify-between gap-3">
           <a href="/" className="flex min-w-0 items-center gap-2.5">
             <LogoIcon size="mobile" />
 
             <div className="min-w-0">
-              <div className="truncate text-[23px] font-black leading-none tracking-tight">
+              <div className="truncate text-[22px] font-black leading-none tracking-tight">
                 RentPlace<span className="text-[#d4146f]">MD</span>
-                <sup className="ml-0.5 align-super text-[9px] font-bold">™</sup>
+                <sup className="ml-0.5 align-super text-[8px] font-bold">™</sup>
               </div>
-              <p className="mt-1 truncate text-[12px] font-semibold text-slate-600">
+              <p className="mt-1 truncate text-[11px] font-semibold text-slate-600">
                 Квартиры посуточно в Кишинёве
               </p>
             </div>
           </a>
 
-          <div className="shrink-0 text-right text-[13px] font-black leading-4 text-slate-900">
+          <div className="shrink-0 pt-1 text-right text-[13px] font-black leading-4 text-slate-900">
             <a href="tel:+37369990190" className="block">
               +373 69 990 190
             </a>
@@ -62,50 +62,41 @@ function MobileHeader() {
           </div>
         </div>
 
-        <div className="mt-2.5 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <a
-              href="https://wa.me/37369990190"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-md shadow-emerald-500/20 ring-1 ring-black/5 transition active:scale-95"
-              aria-label="WhatsApp"
-            >
-              <WhatsAppIcon />
-            </a>
-
-            <a
-              href="viber://chat?number=%2B37369990190"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-md shadow-violet-500/20 ring-1 ring-black/5 transition active:scale-95"
-              aria-label="Viber"
-            >
-              <ViberIcon />
-            </a>
-
-            <a
-              href="tel:+37369990190"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d4146f] text-white shadow-md shadow-pink-500/20 ring-1 ring-black/5 transition active:scale-95"
-              aria-label="Позвонить"
-            >
-              <PhoneIcon />
-            </a>
-
-            <a
-              href="https://t.me/rentplacemd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-md shadow-sky-500/20 ring-1 ring-black/5 transition active:scale-95"
-              aria-label="Telegram"
-            >
-              <TelegramIcon />
-            </a>
-          </div>
+        <div className="mt-2 flex items-center justify-end gap-2">
+          <a
+            href="https://wa.me/37369990190"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-md shadow-emerald-500/20 ring-1 ring-black/5 transition active:scale-95"
+            aria-label="WhatsApp"
+          >
+            <WhatsAppIcon />
+          </a>
 
           <a
-            href="#today-free"
-            className="rounded-xl bg-[#07111f] px-3.5 py-2 text-[12px] font-black text-white shadow-md active:scale-95"
+            href="viber://chat?number=%2B37369990190"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-md shadow-violet-500/20 ring-1 ring-black/5 transition active:scale-95"
+            aria-label="Viber"
           >
-            Свободные
+            <ViberIcon />
+          </a>
+
+          <a
+            href="tel:+37369990190"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#d4146f] text-white shadow-md shadow-pink-500/20 ring-1 ring-black/5 transition active:scale-95"
+            aria-label="Позвонить"
+          >
+            <PhoneIcon />
+          </a>
+
+          <a
+            href="https://t.me/rentplacemd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-md shadow-sky-500/20 ring-1 ring-black/5 transition active:scale-95"
+            aria-label="Telegram"
+          >
+            <TelegramIcon />
           </a>
         </div>
       </div>
