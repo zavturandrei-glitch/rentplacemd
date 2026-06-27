@@ -119,10 +119,10 @@ function DesktopHeader() {
 
   return (
     <div className="hidden lg:block">
-      <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-7 px-10 py-3">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-7 px-10 py-3">
         <a
           href="/"
-          className="group flex items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
+          className="group flex shrink-0 items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
         >
           <LogoIcon size="desktop" />
 
@@ -139,82 +139,82 @@ function DesktopHeader() {
           </div>
         </a>
 
-        <div className="flex flex-1 items-start justify-end gap-5">
-          <div className="flex items-center justify-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 shadow-inner">
+        <div className="flex flex-1 items-center justify-center">
+          <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2 shadow-inner">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 type="button"
                 title={lang.code}
-                className="flex h-6 w-8 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
+                className="flex h-7 w-10 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
                 aria-label={lang.code}
               >
-                <span className="h-3.5 w-5 overflow-hidden rounded-[3px] shadow-sm">
+                <span className="h-4 w-6 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10">
                   {lang.flag}
                 </span>
               </button>
             ))}
+          </div>
+        </div>
 
-            <div className="ml-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
+        <div className="flex shrink-0 items-center justify-end gap-5">
+          <a
+            href="#today-free"
+            className="rounded-xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
+          >
+            Свободные квартиры
+          </a>
+
+          <div className="flex min-w-[250px] flex-col items-end text-right">
+            <div className="mb-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]" />
               Онлайн 24/7
             </div>
-          </div>
 
-          <div className="flex items-start gap-4">
-            <div className="pt-0 text-right">
-              <div className="space-y-0.5 text-[20px] font-black leading-[1.05]">
-                <a
-                  href="tel:+37379990190"
-                  className="block transition hover:text-[#ff4fa3]"
-                >
-                  +373 79 990 190
-                </a>
-                <a
-                  href="tel:+37369990190"
-                  className="block transition hover:text-[#ff4fa3]"
-                >
-                  +373 69 990 190
-                </a>
-              </div>
-
-              <div className="mt-2 flex items-center justify-end gap-2">
-                <a
-                  href="https://wa.me/37369990190"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
-                  aria-label="WhatsApp"
-                >
-                  <WhatsAppIcon />
-                </a>
-
-                <a
-                  href="viber://chat?number=%2B37369990190"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
-                  aria-label="Viber"
-                >
-                  <ViberIcon />
-                </a>
-
-                <a
-                  href="https://t.me/rentplacemd"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
-                  aria-label="Telegram"
-                >
-                  <TelegramIcon />
-                </a>
-              </div>
+            <div className="space-y-0.5 text-[22px] font-black leading-[1.03]">
+              <a
+                href="tel:+37379990190"
+                className="block transition hover:text-[#ff4fa3]"
+              >
+                +373 79 990 190
+              </a>
+              <a
+                href="tel:+37369990190"
+                className="block transition hover:text-[#ff4fa3]"
+              >
+                +373 69 990 190
+              </a>
             </div>
 
-            <a
-              href="#today-free"
-              className="rounded-xl bg-white px-4 py-2.5 text-[13px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
-            >
-              Свободные квартиры
-            </a>
+            <div className="mt-2 flex items-center justify-end gap-2">
+              <a
+                href="https://wa.me/37369990190"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon />
+              </a>
+
+              <a
+                href="viber://chat?number=%2B37369990190"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                aria-label="Viber"
+              >
+                <ViberIcon />
+              </a>
+
+              <a
+                href="https://t.me/rentplacemd"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                aria-label="Telegram"
+              >
+                <TelegramIcon />
+              </a>
+            </div>
           </div>
         </div>
       </div>
