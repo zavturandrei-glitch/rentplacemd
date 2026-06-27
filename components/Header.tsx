@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-md lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
+    <header className="sticky top-0 z-50 bg-[#f4f5f7] text-slate-950 shadow-md lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
       <MobileHeader />
       <DesktopHeader />
     </header>
@@ -18,7 +18,7 @@ function MobileHeader() {
 
   return (
     <div className="lg:hidden">
-      <div className="border-b border-slate-200 bg-slate-50 px-4 py-1.5">
+      <div className="border-b border-slate-300 bg-[#eef1f5] px-4 py-1.5">
         <div className="flex items-center justify-center gap-3">
           {languages.map((lang) => (
             <button
@@ -36,7 +36,7 @@ function MobileHeader() {
         </div>
       </div>
 
-      <div className="px-4 py-2">
+      <div className="bg-[#f6f7f9] px-4 py-2">
         <div className="flex items-start justify-between gap-3">
           <a href="/" className="flex min-w-0 items-center gap-2.5">
             <LogoIcon size="mobile" />
@@ -62,12 +62,12 @@ function MobileHeader() {
           </div>
         </div>
 
-        <div className="mt-2 flex items-center justify-end gap-2">
+        <div className="mt-1.5 flex items-center justify-end gap-1.5 pr-0.5">
           <a
             href="https://wa.me/37369990190"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-md shadow-emerald-500/20 ring-1 ring-black/5 transition active:scale-95"
+            className="flex h-6 w-6 items-center justify-center rounded-md bg-[#128C7E] text-white shadow-sm shadow-emerald-900/15 ring-1 ring-black/10 transition active:scale-95"
             aria-label="WhatsApp"
           >
             <WhatsAppIcon />
@@ -75,25 +75,18 @@ function MobileHeader() {
 
           <a
             href="viber://chat?number=%2B37369990190"
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-md shadow-violet-500/20 ring-1 ring-black/5 transition active:scale-95"
+            className="flex h-6 w-6 items-center justify-center rounded-md bg-[#5f4bd8] text-white shadow-sm shadow-violet-900/15 ring-1 ring-black/10 transition active:scale-95"
             aria-label="Viber"
           >
             <ViberIcon />
           </a>
 
-          <a
-            href="tel:+37369990190"
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#d4146f] text-white shadow-md shadow-pink-500/20 ring-1 ring-black/5 transition active:scale-95"
-            aria-label="Позвонить"
-          >
-            <PhoneIcon />
-          </a>
 
           <a
             href="https://t.me/rentplacemd"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-md shadow-sky-500/20 ring-1 ring-black/5 transition active:scale-95"
+            className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1688bd] text-white shadow-sm shadow-sky-900/15 ring-1 ring-black/10 transition active:scale-95"
             aria-label="Telegram"
           >
             <TelegramIcon />
