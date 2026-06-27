@@ -49,7 +49,7 @@ function MobileHeader() {
                   ™
                 </sup>
               </div>
-              <p className="mt-1 truncate text-[12px] font-semibold text-white/65">
+              <p className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-white/65">
                 Квартиры посуточно в Кишинёве
               </p>
             </div>
