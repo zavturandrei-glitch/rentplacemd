@@ -1,3 +1,135 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
+
+const LANG_STORAGE_KEY = "rentplacemd-language";
+
+const headerText: Record<
+  Lang,
+  {
+    tagline: string;
+    online: string;
+    online247: string;
+    freeApartments: string;
+    center: string;
+    city: string;
+    checkin: string;
+    apartmentsCountTop: string;
+    apartmentsCountBottom: string;
+    noAgentsTop: string;
+    noAgentsBottom: string;
+  }
+> = {
+  RU: {
+    tagline: "Квартиры посуточно в Кишинёве",
+    online: "Онлайн",
+    online247: "Онлайн 24/7",
+    freeApartments: "Свободные квартиры",
+    center: "Центр",
+    city: "города",
+    checkin: "Заселение",
+    apartmentsCountTop: "Более 12",
+    apartmentsCountBottom: "квартир",
+    noAgentsTop: "Без",
+    noAgentsBottom: "посредников",
+  },
+  RO: {
+    tagline: "Apartamente în regim hotelier în Chișinău",
+    online: "Online",
+    online247: "Online 24/7",
+    freeApartments: "Apartamente libere",
+    center: "Centrul",
+    city: "orașului",
+    checkin: "Cazare",
+    apartmentsCountTop: "Peste 12",
+    apartmentsCountBottom: "apartamente",
+    noAgentsTop: "Fără",
+    noAgentsBottom: "intermediari",
+  },
+  EN: {
+    tagline: "Daily rent apartments in Chișinău",
+    online: "Online",
+    online247: "Online 24/7",
+    freeApartments: "Available apartments",
+    center: "City",
+    city: "center",
+    checkin: "Check-in",
+    apartmentsCountTop: "Over 12",
+    apartmentsCountBottom: "apartments",
+    noAgentsTop: "No",
+    noAgentsBottom: "middlemen",
+  },
+  CS: {
+    tagline: "Apartmány k pronájmu na den v Kišiněvě",
+    online: "Online",
+    online247: "Online 24/7",
+    freeApartments: "Volné apartmány",
+    center: "Centrum",
+    city: "města",
+    checkin: "Ubytování",
+    apartmentsCountTop: "Více než 12",
+    apartmentsCountBottom: "apartmánů",
+    noAgentsTop: "Bez",
+    noAgentsBottom: "prostředníků",
+  },
+  UK: {
+    tagline: "Квартири подобово в Кишиневі",
+    online: "Онлайн",
+    online247: "Онлайн 24/7",
+    freeApartments: "Вільні квартири",
+    center: "Центр",
+    city: "міста",
+    checkin: "Заселення",
+    apartmentsCountTop: "Понад 12",
+    apartmentsCountBottom: "квартир",
+    noAgentsTop: "Без",
+    noAgentsBottom: "посередників",
+  },
+};
+
+function getSavedLanguage(): Lang {
+  if (typeof window === "undefined") return "RU";
+  const saved = window.localStorage.getItem(LANG_STORAGE_KEY) as Lang | null;
+  return saved && saved in headerText ? saved : "RU";
+}
+
+function useRentPlaceLanguage() {
+  const [language, setLanguage] = useState<Lang>("RU");
+
+  useEffect(() => {
+    setLanguage(getSavedLanguage());
+
+    const handleLanguageChange = (event: Event) => {
+      const customEvent = event as CustomEvent<Lang>;
+      if (customEvent.detail && customEvent.detail in headerText) {
+        setLanguage(customEvent.detail);
+      }
+    };
+
+    window.addEventListener(
+      "rentplacemd-language-change",
+      handleLanguageChange,
+    );
+    return () =>
+      window.removeEventListener(
+        "rentplacemd-language-change",
+        handleLanguageChange,
+      );
+  }, []);
+
+  const changeLanguage = (nextLanguage: Lang) => {
+    setLanguage(nextLanguage);
+    window.localStorage.setItem(LANG_STORAGE_KEY, nextLanguage);
+    window.dispatchEvent(
+      new CustomEvent("rentplacemd-language-change", { detail: nextLanguage }),
+    );
+  };
+
+  return { language, changeLanguage, text: headerText[language] };
+}
+
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
@@ -8,12 +140,14 @@ export default function Header() {
 }
 
 function MobileHeader() {
+  const { language, changeLanguage, text } = useRentPlaceLanguage();
+
   const languages = [
     { code: "RU", flag: <RussiaFlag /> },
     { code: "RO", flag: <MoldovaFlag /> },
     { code: "EN", flag: <UkFlag /> },
-    { code: "UA", flag: <UkraineFlag /> },
-    { code: "CZ", flag: <CzechFlag /> },
+    { code: "UK", flag: <UkraineFlag /> },
+    { code: "CS", flag: <CzechFlag /> },
   ];
 
   return (
@@ -26,7 +160,8 @@ function MobileHeader() {
                 key={lang.code}
                 type="button"
                 title={lang.code}
-                className="flex items-center gap-1 text-[10px] font-black text-white/85 transition active:scale-95"
+                onClick={() => changeLanguage(lang.code as Lang)}
+                className={`flex items-center gap-1 text-[10px] font-black transition active:scale-95 ${language === lang.code ? "text-[#ffd21f]" : "text-white/85"}`}
                 aria-label={lang.code}
               >
                 <span className="h-3 w-[18px] overflow-hidden rounded-[3px] shadow-sm ring-1 ring-white/10">
@@ -39,7 +174,7 @@ function MobileHeader() {
 
           <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[8px] font-black uppercase tracking-[0.14em] text-emerald-300">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.95)]" />
-            Онлайн
+            {text.online}
           </div>
         </div>
       </div>
@@ -57,7 +192,7 @@ function MobileHeader() {
                 </sup>
               </div>
               <p className="mt-1 whitespace-nowrap text-[9px] font-semibold leading-none text-white/65">
-                Квартиры посуточно в Кишинёве
+                {text.tagline}
               </p>
             </div>
           </a>
@@ -109,12 +244,14 @@ function MobileHeader() {
 }
 
 function DesktopHeader() {
+  const { language, changeLanguage, text } = useRentPlaceLanguage();
+
   const languages = [
     { code: "RU", flag: <RussiaFlag /> },
     { code: "RO", flag: <MoldovaFlag /> },
     { code: "EN", flag: <UkFlag /> },
-    { code: "UA", flag: <UkraineFlag /> },
-    { code: "CZ", flag: <CzechFlag /> },
+    { code: "UK", flag: <UkraineFlag /> },
+    { code: "CS", flag: <CzechFlag /> },
   ];
 
   return (
@@ -134,7 +271,7 @@ function DesktopHeader() {
               </sup>
             </div>
             <p className="mt-1.5 text-[12px] font-semibold text-white/65">
-              Квартиры посуточно в Кишинёве
+              {text.tagline}
             </p>
           </div>
         </a>
@@ -146,7 +283,8 @@ function DesktopHeader() {
                 key={lang.code}
                 type="button"
                 title={lang.code}
-                className="flex h-7 w-10 items-center justify-center rounded-full transition hover:scale-110 hover:bg-white/10"
+                onClick={() => changeLanguage(lang.code as Lang)}
+                className={`flex h-7 w-10 items-center justify-center rounded-full transition hover:scale-110 ${language === lang.code ? "bg-[#ffd21f] shadow-lg shadow-yellow-400/20" : "hover:bg-white/10"}`}
                 aria-label={lang.code}
               >
                 <span className="h-4 w-6 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10">
@@ -162,13 +300,13 @@ function DesktopHeader() {
             href="#today-free"
             className="rounded-xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
           >
-            Свободные квартиры
+            {text.freeApartments}
           </a>
 
           <div className="flex min-w-[250px] flex-col items-end text-right">
             <div className="mb-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]" />
-              Онлайн 24/7
+              {text.online247}
             </div>
 
             <div className="space-y-0.5 text-[22px] font-black leading-[1.03]">
@@ -224,16 +362,16 @@ function DesktopHeader() {
           <div className="flex items-center justify-center gap-2.5">
             <MapIcon />
             <p className="text-[14px] font-black leading-tight">
-              Центр
+              {text.center}
               <br />
-              города
+              {text.city}
             </p>
           </div>
 
           <div className="flex items-center justify-center gap-2.5">
             <ClockIcon />
             <p className="text-[14px] font-black leading-tight">
-              Заселение
+              {text.checkin}
               <br />
               24/7
             </p>
@@ -242,18 +380,18 @@ function DesktopHeader() {
           <div className="flex items-center justify-center gap-2.5">
             <HomeIcon />
             <p className="text-[14px] font-black leading-tight">
-              Более 12
+              {text.apartmentsCountTop}
               <br />
-              квартир
+              {text.apartmentsCountBottom}
             </p>
           </div>
 
           <div className="flex items-center justify-center gap-2.5">
             <ShieldIcon />
             <p className="text-[14px] font-black leading-tight">
-              Без
+              {text.noAgentsTop}
               <br />
-              посредников
+              {text.noAgentsBottom}
             </p>
           </div>
         </div>
