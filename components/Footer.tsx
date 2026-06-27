@@ -28,6 +28,13 @@ function MobileFooter() {
           </div>
         </a>
 
+        <div className="mt-6 grid grid-cols-2 gap-2.5">
+          <BenefitItem icon={<LocationIcon />} text="Центр Кишинёва" />
+          <BenefitItem icon={<HomeIcon />} text="Более 12 квартир" />
+          <BenefitItem icon={<ClockIcon />} text="Заселение 24/7" />
+          <BenefitItem icon={<ShieldIcon />} text="Без посредников" />
+        </div>
+
         <div className="mt-6 rounded-3xl border border-white/10 bg-[#050b14]/55 p-4">
           <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[#ffd21f]">
             Наши контакты
@@ -80,14 +87,25 @@ function MobileFooter() {
               <TelegramIcon />
             </a>
           </div>
+
+          <p className="mt-4 text-center text-[12px] font-black uppercase tracking-[0.22em] text-[#ffd21f]">
+            Свободные квартиры сегодня
+          </p>
+
+          <a
+            href="#today-free"
+            className="mt-3 flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition active:scale-[0.98]"
+          >
+            Смотреть квартиры
+          </a>
         </div>
 
         <div className="mt-5 border-t border-white/10 pt-5 text-center">
           <p className="text-[13px] font-bold leading-relaxed text-white/70">
-            Центр • Новострои • Заселение 24/7
-          </p>
-          <p className="mt-3 rounded-2xl bg-white/[0.04] px-4 py-3 text-[13px] font-bold leading-relaxed text-white/75">
             © 2026 RentPlaceMD™. Все права защищены.
+          </p>
+          <p className="mt-2 text-[12px] font-semibold leading-relaxed text-white/45">
+            Квартиры посуточно в Кишинёве • Центр • Новостройки
           </p>
         </div>
       </div>
@@ -103,12 +121,12 @@ function DesktopFooter() {
           <div>
             <a
               href="/"
-              className="group flex items-center gap-4 transition duration-200 hover:scale-[1.01]"
+              className="group flex items-center gap-5 transition duration-200 hover:scale-[1.01]"
             >
               <LogoIcon size="desktop" />
 
               <div>
-                <div className="text-[36px] font-black leading-none tracking-tight text-white">
+                <div className="text-[39px] font-black leading-none tracking-tight text-white">
                   RentPlace<span className="text-[#d4146f]">MD</span>
                   <sup className="ml-0.5 align-super text-[9px] font-bold text-white/80">
                     ™
@@ -121,10 +139,12 @@ function DesktopFooter() {
               </div>
             </a>
 
-            <p className="mt-5 max-w-xl text-[17px] font-medium leading-8 text-white/60">
-              Центр • Новострои • Заселение 24/7. Подберём свободную квартиру
-              под ваши даты, количество гостей и бюджет.
-            </p>
+            <div className="mt-6 grid max-w-xl grid-cols-2 gap-3">
+              <BenefitItem icon={<LocationIcon />} text="Центр Кишинёва" />
+              <BenefitItem icon={<HomeIcon />} text="Более 12 квартир" />
+              <BenefitItem icon={<ClockIcon />} text="Заселение 24/7" />
+              <BenefitItem icon={<ShieldIcon />} text="Без посредников" />
+            </div>
           </div>
 
           <div className="justify-self-center">
@@ -132,21 +152,31 @@ function DesktopFooter() {
               Наши контакты
             </p>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <a
                 href="tel:+37369990190"
-                className="flex items-center gap-3 text-[23px] font-black text-white transition hover:text-[#ff4fa3]"
+                className="group block rounded-2xl px-1 py-1 transition hover:text-[#ff4fa3]"
               >
-                <PhoneIcon />
-                +373 69 990 190
+                <span className="mb-1 block text-[11px] font-black uppercase tracking-[0.22em] text-white/35 group-hover:text-[#ffd21f]">
+                  WhatsApp / Viber
+                </span>
+                <span className="flex items-center gap-3 text-[23px] font-black text-white transition group-hover:text-[#ff4fa3]">
+                  <PhoneIcon />
+                  +373 69 990 190
+                </span>
               </a>
 
               <a
                 href="tel:+37379990190"
-                className="flex items-center gap-3 text-[23px] font-black text-white transition hover:text-[#ff4fa3]"
+                className="group block rounded-2xl px-1 py-1 transition hover:text-[#ff4fa3]"
               >
-                <PhoneIcon />
-                +373 79 990 190
+                <span className="mb-1 block text-[11px] font-black uppercase tracking-[0.22em] text-white/35 group-hover:text-[#ffd21f]">
+                  Позвонить / Telegram
+                </span>
+                <span className="flex items-center gap-3 text-[23px] font-black text-white transition group-hover:text-[#ff4fa3]">
+                  <PhoneIcon />
+                  +373 79 990 190
+                </span>
               </a>
             </div>
           </div>
@@ -157,7 +187,7 @@ function DesktopFooter() {
                 href="https://wa.me/37369990190"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
                 aria-label="WhatsApp"
               >
                 <WhatsAppIcon />
@@ -165,7 +195,7 @@ function DesktopFooter() {
 
               <a
                 href="viber://chat?number=%2B37369990190"
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
                 aria-label="Viber"
               >
                 <ViberIcon />
@@ -175,32 +205,47 @@ function DesktopFooter() {
                 href="https://t.me/rentplacemd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
                 aria-label="Telegram"
               >
                 <TelegramIcon />
               </a>
             </div>
 
+            <p className="mt-5 text-center text-[12px] font-black uppercase tracking-[0.24em] text-[#ffd21f]">
+              Свободные квартиры сегодня
+            </p>
+
             <a
               href="#today-free"
-              className="mt-5 flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
+              className="mt-3 flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
             >
               Смотреть квартиры
             </a>
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-6">
+        <div className="mt-6 border-t border-white/10 pt-6 text-center">
           <p className="text-[14px] font-bold text-white/55">
             © 2026 RentPlaceMD™. Все права защищены.
           </p>
 
-          <p className="text-[14px] font-bold text-white/45">
-            Центр • Новострои • Заселение 24/7
+          <p className="mt-2 text-[13px] font-semibold text-white/40">
+            Квартиры посуточно в Кишинёве • Центр • Новостройки
           </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function BenefitItem({ icon, text }: { icon: React.ReactNode; text: string }) {
+  return (
+    <div className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.05] px-3 py-3 text-[13px] font-bold text-white/75">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#ffd21f]/12 text-[#ffd21f]">
+        {icon}
+      </span>
+      <span className="leading-tight">{text}</span>
     </div>
   );
 }
@@ -209,9 +254,9 @@ function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
   const boxClass =
     size === "mobile"
       ? "flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[22px] bg-white shadow-lg shadow-black/30"
-      : "flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-[26px] bg-white shadow-lg shadow-black/25";
+      : "flex h-[80px] w-[80px] shrink-0 items-center justify-center rounded-[28px] bg-white shadow-lg shadow-black/25";
 
-  const svgClass = size === "mobile" ? "h-[46px] w-[46px]" : "h-[58px] w-[58px]";
+  const svgClass = size === "mobile" ? "h-[46px] w-[46px]" : "h-[64px] w-[64px]";
 
   return (
     <div className={boxClass}>
@@ -262,6 +307,97 @@ function PhoneIcon() {
     <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none">
       <path
         d="M7.2 4.5L9.1 8.8C9.4 9.4 9.2 10.1 8.7 10.5L7.4 11.5C8.5 13.8 10.3 15.6 12.6 16.7L13.6 15.4C14 14.9 14.7 14.7 15.3 15L19.6 16.9C20.3 17.2 20.7 17.9 20.5 18.6L20.1 20.2C19.9 21 19.2 21.5 18.4 21.5C9.6 21.5 2.5 14.4 2.5 5.6C2.5 4.8 3 4.1 3.8 3.9L5.4 3.5C6.1 3.3 6.9 3.8 7.2 4.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function LocationIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M12 21S5 15.8 5 9.8C5 5.9 8.1 3 12 3s7 2.9 7 6.8C19 15.8 12 21 12 21Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 12.2a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function HomeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M3 11.5 12 4l9 7.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5.5 10.5V20h13v-9.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.5 20v-5h5v5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 7.5V12l3 2"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M12 21s7-3.5 7-10V5.8L12 3 5 5.8V11c0 6.5 7 10 7 10Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9.2 11.7 1.9 1.9 3.9-4"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
