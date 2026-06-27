@@ -19,7 +19,7 @@ function MobileHeader() {
   return (
     <div className="lg:hidden bg-[#07111f] text-white shadow-2xl">
       <div className="border-b border-white/10 bg-[#050b14] px-4 py-2">
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center justify-start gap-3 pl-2">
           {languages.map((lang) => (
             <button
               key={lang.code}
@@ -56,7 +56,7 @@ function MobileHeader() {
           </a>
 
           <div className="shrink-0 text-right">
-            <div className="mb-1 flex items-center justify-end gap-1.5 text-[9px] font-black uppercase tracking-[0.16em] text-emerald-300">
+            <div className="mb-1 flex items-center justify-start gap-1.5 text-[9px] font-black uppercase tracking-[0.16em] text-emerald-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.9)]" />
               Онлайн
             </div>
@@ -72,12 +72,12 @@ function MobileHeader() {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-end gap-2">
+        <div className="mt-3 flex items-center justify-center gap-2">
           <a
             href="https://wa.me/37369990190"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/30 ring-1 ring-white/10 transition active:scale-95"
+            className="flex h-5 w-5 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/30 ring-1 ring-white/10 transition active:scale-95"
             aria-label="WhatsApp"
           >
             <WhatsAppIcon />
@@ -85,7 +85,7 @@ function MobileHeader() {
 
           <a
             href="viber://chat?number=%2B37369990190"
-            className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/30 ring-1 ring-white/10 transition active:scale-95"
+            className="flex h-5 w-5 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/30 ring-1 ring-white/10 transition active:scale-95"
             aria-label="Viber"
           >
             <ViberIcon />
@@ -95,7 +95,7 @@ function MobileHeader() {
             href="https://t.me/rentplacemd"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/30 ring-1 ring-white/10 transition active:scale-95"
+            className="flex h-5 w-5 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/30 ring-1 ring-white/10 transition active:scale-95"
             aria-label="Telegram"
           >
             <TelegramIcon />
