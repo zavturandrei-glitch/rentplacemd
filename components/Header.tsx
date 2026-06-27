@@ -39,7 +39,7 @@ function MobileHeader() {
 
       <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-4 py-3">
         <div className="flex items-center justify-between gap-3">
-          <a href="/" className="flex min-w-0 items-center gap-3">
+          <a href="/" className="ml-[-4px] flex min-w-0 items-center gap-3">
             <LogoIcon size="mobile" />
 
             <div className="min-w-0">
@@ -49,7 +49,7 @@ function MobileHeader() {
                   ™
                 </sup>
               </div>
-              <p className="mt-1 whitespace-nowrap text-[11px] font-semibold leading-none text-white/65">
+              <p className="mt-1 whitespace-nowrap text-[10px] font-semibold leading-none text-white/65">
                 Квартиры посуточно в Кишинёве
               </p>
             </div>
