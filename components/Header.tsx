@@ -147,11 +147,11 @@ function MobileHeader() {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
-    { code: "RU", flag: <RussiaFlag /> },
-    { code: "RO", flag: <MoldovaFlag /> },
-    { code: "EN", flag: <UkFlag /> },
-    { code: "UK", flag: <UkraineFlag /> },
-    { code: "CS", flag: <CzechFlag /> },
+    { code: "RU", display: "RU", flag: <RussiaFlag /> },
+    { code: "RO", display: "RO", flag: <MoldovaFlag /> },
+    { code: "EN", display: "EN", flag: <UkFlag /> },
+    { code: "UK", display: "UA", flag: <UkraineFlag /> },
+    { code: "CS", display: "CZ", flag: <CzechFlag /> },
   ];
 
   return (
@@ -163,15 +163,15 @@ function MobileHeader() {
               <button
                 key={lang.code}
                 type="button"
-                title={lang.code}
+                title={lang.display}
                 onClick={() => changeLanguage(lang.code as Lang)}
                 className={`flex items-center gap-1 text-[10px] font-black transition active:scale-95 ${language === lang.code ? "text-[#ffd21f]" : "text-white/85"}`}
-                aria-label={lang.code}
+                aria-label={lang.display}
               >
                 <span className="h-3 w-[18px] overflow-hidden rounded-[3px] shadow-sm ring-1 ring-white/10">
                   {lang.flag}
                 </span>
-                <span>{lang.code}</span>
+                <span>{lang.display}</span>
               </button>
             ))}
           </div>
@@ -251,11 +251,11 @@ function DesktopHeader() {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
-    { code: "RU", flag: <RussiaFlag /> },
-    { code: "RO", flag: <MoldovaFlag /> },
-    { code: "EN", flag: <UkFlag /> },
-    { code: "UK", flag: <UkraineFlag /> },
-    { code: "CS", flag: <CzechFlag /> },
+    { code: "RU", display: "RU", flag: <RussiaFlag /> },
+    { code: "RO", display: "RO", flag: <MoldovaFlag /> },
+    { code: "EN", display: "EN", flag: <UkFlag /> },
+    { code: "UK", display: "UA", flag: <UkraineFlag /> },
+    { code: "CS", display: "CZ", flag: <CzechFlag /> },
   ];
 
   return (
@@ -286,10 +286,10 @@ function DesktopHeader() {
               <button
                 key={lang.code}
                 type="button"
-                title={lang.code}
+                title={lang.display}
                 onClick={() => changeLanguage(lang.code as Lang)}
                 className={`flex h-7 w-10 items-center justify-center rounded-full transition hover:scale-110 ${language === lang.code ? "bg-[#ffd21f] shadow-lg shadow-yellow-400/20" : "hover:bg-white/10"}`}
-                aria-label={lang.code}
+                aria-label={lang.display}
               >
                 <span className="h-4 w-6 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10">
                   {lang.flag}
