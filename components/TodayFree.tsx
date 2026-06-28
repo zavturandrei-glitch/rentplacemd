@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
 
@@ -291,8 +292,8 @@ export default function TodayFree() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <h2 className="text-5xl font-black text-[#d4146f]">{text.title}</h2>
-            <p className="mt-4 max-w-3xl text-xl font-bold text-gray-800">
+            <h2 className="text-4xl font-black leading-tight text-[#d4146f] sm:text-5xl">{text.title}</h2>
+            <p className="mt-4 max-w-3xl text-lg font-bold leading-7 text-gray-800 sm:text-xl">
               {text.description}
             </p>
           </div>
@@ -316,23 +317,26 @@ export default function TodayFree() {
               <a
                 key={apartment.id}
                 href={apartment.link}
-                className="group overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
+                className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
               >
-                <div className="rpm-watermark-frame rpm-watermark-frame--compact relative aspect-[4/3] overflow-hidden bg-[#f4f1ee]">
-                  <img
-                    src={apartment.image}
-                    alt={`${text.altPrefix} ${apartment.id}`}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-                    style={{ objectPosition: "imagePosition" in apartment ? apartment.imagePosition : "center" }}
-                  />
-
-                  <div className="absolute left-4 top-4 rounded-full bg-[#ffd21f] px-4 py-2 text-sm font-black text-gray-900 shadow sm:left-5 sm:top-5 sm:px-5 sm:py-2.5 sm:text-base">
+                                <ResponsiveImage
+                  src={apartment.image}
+                  alt={`${text.altPrefix} ${apartment.id}`}
+                  className="aspect-[4/3]"
+                  imgClassName="transition duration-500 group-hover:scale-[1.03]"
+                  sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+                  objectPosition={"imagePosition" in apartment ? apartment.imagePosition : "center"}
+                  priority={apartment.id <= 13}
+                  withWatermark
+                  compactWatermark
+                >
+                  <div className="absolute left-4 top-4 z-10 rounded-full bg-[#ffd21f] px-4 py-2 text-sm font-black text-gray-900 shadow sm:left-5 sm:top-5 sm:px-5 sm:py-2.5 sm:text-base">
                     ID {apartment.id}
                   </div>
-                </div>
+                </ResponsiveImage>
 
-                <div className="p-5">
-                  <div className="rounded-3xl bg-white p-5 shadow-lg">
+                <div className="flex flex-1 flex-col p-4 sm:p-5">
+                  <div className="min-h-[116px] rounded-2xl bg-[#fffaf0] p-4 shadow-inner ring-1 ring-black/5 sm:min-h-[128px] sm:p-5">
                     <h3 className="text-xl font-black text-gray-900 sm:text-2xl">
                       {info.addressTitle}
                     </h3>
@@ -341,7 +345,7 @@ export default function TodayFree() {
                     </p>
                   </div>
 
-                  <div className="mt-5 flex items-end justify-between gap-3">
+                  <div className="mt-auto flex items-end justify-between gap-3 pt-5">
                     <p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">
                       {apartment.price} {info.lei}
                     </p>

@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
 
@@ -313,10 +314,18 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 <a href="tel:+37369990190" className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#ffb800] p-3 text-center text-sm font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105 sm:min-h-[92px] sm:p-5 sm:text-base">{text.call}</a>
               </div>
             </div>
-            <div className="rpm-watermark-frame relative h-[270px] overflow-hidden bg-[#07111f] sm:h-[460px] lg:h-[500px]">
-              <img src={apartment.images[0]} alt={text.addressTitle + " ID " + apartment.id} className="h-full w-full object-contain lg:object-cover" style={{ objectPosition: heroPosition }} />
-              <div className="absolute bottom-4 left-4 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{text.kinds[apartment.kind]}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{text.overlay[apartment.kind]}</p></div>
-            </div>
+            <ResponsiveImage
+              src={apartment.images[0]}
+              alt={text.addressTitle + " ID " + apartment.id}
+              className="h-[270px] bg-[#07111f] sm:h-[460px] lg:h-[500px]"
+              imgClassName="object-contain lg:object-cover"
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              objectPosition={heroPosition}
+              priority
+              withWatermark
+            >
+              <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{text.kinds[apartment.kind]}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{text.overlay[apartment.kind]}</p></div>
+            </ResponsiveImage>
           </div>
         </div>
 
@@ -324,10 +333,10 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.photo}</p>
           <h2 className="mt-2 text-3xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="rpm-watermark-frame overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><img src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] w-full rounded-[18px] object-contain sm:h-[460px] sm:rounded-[20px] lg:h-[500px] lg:object-cover" style={{ objectPosition: heroPosition }} /></div>
+            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName="object-contain lg:object-cover" sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} priority withWatermark /></div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              {galleryImages.map((image, index) => (<div key={image} className="rpm-watermark-frame rpm-watermark-frame--compact overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><img src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} loading="lazy" className="h-[220px] w-full rounded-[16px] object-contain object-center sm:h-[230px] sm:rounded-[18px] sm:object-cover lg:h-[178px]" /></div>))}
-              <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><img src={facadePhoto} alt={text.facadeAlt} loading="lazy" className="h-[220px] w-full rounded-[18px] object-cover object-center lg:h-[178px]" /></div>
+              {galleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[178px]" imgClassName="object-contain object-center sm:object-cover" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark compactWatermark /></div>))}
+              <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" /></div>
             </div>
           </div>
         </section>

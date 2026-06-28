@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffaf0;
+  --foreground: #07111f;
+  --brand-dark: #07111f;
+  --brand-pink: #d4146f;
+  --brand-gold: #ffd21f;
+  --surface-warm: #fffaf0;
+  --surface-cream: #f4f1ee;
 }
 
 @theme inline {
@@ -12,17 +17,41 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+  text-rendering: optimizeLegibility;
 }
 
 body {
+  min-width: 320px;
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+}
+
+.rpm-photo {
+  filter: saturate(0.96) contrast(1.03) brightness(1.015) sepia(0.018);
+  transform: translateZ(0);
 }
 
 .rpm-watermark-frame {
@@ -31,22 +60,22 @@ body {
 }
 
 .rpm-watermark-frame::after {
-  content: "RentPlaceMD™";
+  content: "RentPlaceMD\2122";
   position: absolute;
-  right: clamp(14px, 3.2%, 28px);
-  bottom: clamp(14px, 3.2%, 28px);
-  z-index: 4;
-  max-width: min(62%, 360px);
-  padding: clamp(8px, 1.1vw, 14px) clamp(14px, 1.8vw, 24px) clamp(8px, 1.1vw, 14px) clamp(38px, 3.8vw, 56px);
-  border: 1px solid rgba(255, 255, 255, 0.36);
+  right: clamp(12px, 3%, 26px);
+  bottom: clamp(12px, 3%, 26px);
+  z-index: 5;
+  max-width: calc(100% - 24px);
+  padding: clamp(8px, 1.15vw, 13px) clamp(15px, 1.9vw, 24px) clamp(8px, 1.15vw, 13px) clamp(38px, 3.8vw, 54px);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 999px;
   background:
-    radial-gradient(circle at 28px 50%, rgba(255, 255, 255, 0.2) 0 13px, transparent 14px),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(7, 17, 31, 0.2) 44%, rgba(7, 17, 31, 0.12));
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+    radial-gradient(circle at 25px 50%, rgba(255, 255, 255, 0.24) 0 12px, transparent 13px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(7, 17, 31, 0.22) 48%, rgba(7, 17, 31, 0.14));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   color: rgba(255, 255, 255, 0.78);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(14px, 1.65vw, 30px);
+  font-size: clamp(14px, 1.55vw, 28px);
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.1px;
@@ -59,53 +88,68 @@ body {
 .rpm-watermark-frame::before {
   content: "R";
   position: absolute;
-  right: calc(clamp(14px, 3.2%, 28px) + clamp(14px, 1.8vw, 24px) + clamp(160px, 17.6vw, 302px));
-  bottom: calc(clamp(14px, 3.2%, 28px) + clamp(7px, 0.95vw, 12px));
-  z-index: 5;
+  right: calc(clamp(12px, 3%, 26px) + clamp(154px, 17vw, 286px));
+  bottom: calc(clamp(12px, 3%, 26px) + clamp(6px, 0.75vw, 10px));
+  z-index: 6;
   display: grid;
-  width: clamp(22px, 2.4vw, 40px);
-  height: clamp(22px, 2.4vw, 40px);
+  width: clamp(21px, 2.25vw, 38px);
+  height: clamp(21px, 2.25vw, 38px);
   place-items: center;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(255, 210, 31, 0.68), rgba(212, 20, 111, 0.48));
   color: rgba(255, 255, 255, 0.76);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(12px, 1.25vw, 21px);
+  font-size: clamp(11px, 1.16vw, 20px);
   font-weight: 900;
   line-height: 1;
   pointer-events: none;
 }
 
 .rpm-watermark-frame--compact::after {
-  right: 12px;
-  bottom: 12px;
-  padding: 7px 12px 7px 34px;
-  font-size: clamp(12px, 0.95vw, 16px);
-  max-width: calc(100% - 24px);
+  right: 10px;
+  bottom: 10px;
+  padding: 7px 11px 7px 32px;
+  font-size: clamp(11px, 0.9vw, 15px);
+  max-width: calc(100% - 20px);
 }
 
 .rpm-watermark-frame--compact::before {
-  right: calc(12px + 128px);
-  bottom: 18px;
-  width: 19px;
-  height: 19px;
-  font-size: 11px;
+  right: 132px;
+  bottom: 16px;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
 }
 
 @media (max-width: 640px) {
   .rpm-watermark-frame::after {
-    right: 10px;
-    bottom: 10px;
-    padding: 7px 12px 7px 34px;
-    font-size: 12px;
-    max-width: calc(100% - 20px);
+    right: 9px;
+    bottom: 9px;
+    padding: 7px 11px 7px 32px;
+    font-size: 11px;
+    max-width: calc(100% - 18px);
   }
 
   .rpm-watermark-frame::before {
-    right: calc(10px + 126px);
-    bottom: 16px;
-    width: 19px;
-    height: 19px;
-    font-size: 11px;
+    right: 129px;
+    bottom: 15px;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

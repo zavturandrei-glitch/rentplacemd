@@ -136,7 +136,7 @@ function useRentPlaceLanguage() {
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
+    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:static lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
       <MobileHeader />
       <DesktopHeader />
     </header>

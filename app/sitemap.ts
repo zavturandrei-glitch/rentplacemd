@@ -1,62 +1,24 @@
 import { MetadataRoute } from "next";
+import { apartmentDetailsById } from "@/data/apartments";
+
+const baseUrl = "https://rentplace.md";
+const lastModified = new Date("2026-06-28");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://rentplace.md";
+  const apartmentRoutes = Object.keys(apartmentDetailsById).map((id) => ({
+    url: baseUrl + "/apartment/izmail88-" + id,
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
 
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "daily",
       priority: 1,
     },
-    {
-      url: `${baseUrl}/apartment/izmail88-10`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-11`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-12`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-13`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-20`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-21`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-22`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-23`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-37`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-38`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-42`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/apartment/izmail88-371`,
-      lastModified: new Date(),
-    },
+    ...apartmentRoutes,
   ];
 }

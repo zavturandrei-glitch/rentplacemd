@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -66,9 +67,14 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-black">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/main.jpg')" }}
+      <Image
+        src="/main.jpg"
+        alt="RentPlaceMD apartments in Chisinau"
+        fill
+        priority
+        sizes="100vw"
+        quality={84}
+        className="object-cover object-center rpm-photo"
       />
 
       <div className="absolute inset-0 bg-black/50 sm:bg-black/45" />
