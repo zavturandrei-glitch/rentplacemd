@@ -1,7 +1,9 @@
 "use client";
 
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { languages, type Language } from "@/locales/translations";
+import { type Language } from "@/locales/translations";
 
 export type ApartmentKind = "studio" | "oneBedroom" | "twoBedroom" | "twoBedroomPlus";
 export type ApartmentGuests = 2 | 3 | 4 | 5;
@@ -280,7 +282,7 @@ function format(template: string, values: Record<string, string | number>) {
 }
 
 export default function ApartmentDetails({ apartment }: { apartment: ApartmentDetailsData }) {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const text = detailText[language];
   const facadePhoto = "/common/building.png";
   const galleryImages = apartment.images.slice(1);
@@ -290,49 +292,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
 
   return (
     <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
-      <header className="sticky top-0 z-40 bg-[#07111f] text-white shadow-2xl">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-10">
-          <a href="/" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-xl font-black text-[#d4146f] shadow-lg shadow-black/25">R</div>
-            <div className="min-w-0">
-              <p className="text-xl font-black leading-none text-white sm:text-3xl">Rent<span className="text-[#d4146f]">Place</span><span className="text-[#ffb800]">MD</span></p>
-              <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.24em] text-white/60 sm:text-xs">{text.brandSubtitle}</p>
-            </div>
-          </a>
-
-          <div className="hidden items-center gap-3 lg:flex">
-            <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] p-1 shadow-inner">
-              {languages.map((item) => (
-                <button key={item.code} type="button" onClick={() => setLanguage(item.code)} className={(language === item.code ? "bg-[#ffd21f] text-[#07111f]" : "text-white/65 hover:bg-white/10 hover:text-white") + " rounded-full px-3 py-2 text-xs font-black transition"} aria-label={item.label}>{item.short}</button>
-              ))}
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3 text-right font-black text-white">
-              <a href="tel:+37369990190" className="block text-sm">+373 69 990 190</a>
-              <a href="tel:+37379990190" className="mt-1 block text-sm">+373 79 990 190</a>
-            </div>
-            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110">WhatsApp</a>
-            <a href="viber://chat?number=%2B37369990190" className="rounded-2xl bg-[#7c00d9] px-5 py-4 text-sm font-black text-white shadow-lg shadow-violet-500/20 transition hover:-translate-y-0.5 hover:brightness-110">Viber</a>
-          </div>
-
-          <a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] px-4 py-3 text-sm font-black text-white shadow-lg shadow-pink-600/20 lg:hidden">{text.call}</a>
-        </div>
-
-        <div className="border-t border-white/10 bg-[#050b14] px-4 py-2 lg:hidden">
-          <div className="mx-auto flex max-w-7xl justify-center gap-1 rounded-2xl bg-white/[0.06] p-1">
-            {languages.map((item) => (
-              <button
-                key={item.code}
-                type="button"
-                onClick={() => setLanguage(item.code)}
-                className={(language === item.code ? "bg-[#ffd21f] text-[#07111f]" : "text-white/65") + " flex-1 rounded-xl px-2 py-2 text-xs font-black transition"}
-                aria-label={item.label}
-              >
-                {item.short}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-5 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
         <a href="/" className="mb-6 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-5 py-2.5 text-sm font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl">← {text.back}</a>
@@ -390,7 +350,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
         </section>
       </section>
 
-      <footer className="mt-14 bg-[#07111f] px-4 py-10 text-white sm:px-6 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-3xl font-black">Rent<span className="text-[#d4146f]">Place</span><span className="text-[#ffb800]">MD</span></p><p className="mt-2 text-white/60">{text.footerText}</p></div><div className="text-lg font-black"><a href="tel:+37369990190" className="block">+373 69 990 190</a><a href="tel:+37379990190" className="mt-1 block">+373 79 990 190</a></div></div></footer>
+      <Footer />
       <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 rounded-[22px] border border-white/20 bg-[#07111f]/85 p-2 shadow-2xl shadow-black/30 backdrop-blur lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] py-4 text-center text-base font-black text-white shadow-2xl shadow-emerald-500/25">WhatsApp</a><a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] py-4 text-center text-base font-black text-white shadow-2xl shadow-pink-600/25">{text.call}</a></div>
     </main>
   );
