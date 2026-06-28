@@ -136,7 +136,8 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-10/1.png",
+    image: "/apartments/izmail88-10/watermarked/1.svg",
+    imagePosition: "42% center",
     link: "/apartment/izmail88-10",
   },
   {
@@ -145,7 +146,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-11/1.png",
+    image: "/apartments/izmail88-11/watermarked/1.svg",
     link: "/apartment/izmail88-11",
   },
   {
@@ -154,7 +155,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests3",
     price: 800,
-    image: "/apartments/izmail88-12/1.png",
+    image: "/apartments/izmail88-12/watermarked/1.svg",
     link: "/apartment/izmail88-12",
   },
   {
@@ -163,7 +164,7 @@ const apartments = [
     rooms: "2+1",
     guestsKey: "bedrooms2",
     price: 900,
-    image: "/apartments/izmail88-13/4.png",
+    image: "/apartments/izmail88-13/watermarked/4.svg",
     link: "/apartment/izmail88-13",
   },
   {
@@ -172,7 +173,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-20/2.png",
+    image: "/apartments/izmail88-20/watermarked/2.svg",
     link: "/apartment/izmail88-20",
   },
   {
@@ -181,7 +182,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests3",
     price: 800,
-    image: "/apartments/izmail88-21/2.png",
+    image: "/apartments/izmail88-21/watermarked/2.svg",
     link: "/apartment/izmail88-21",
   },
   {
@@ -190,7 +191,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-22/1.png",
+    image: "/apartments/izmail88-22/watermarked/1.svg",
     link: "/apartment/izmail88-22",
   },
   {
@@ -199,7 +200,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-23/1.png",
+    image: "/apartments/izmail88-23/watermarked/1.svg",
     link: "/apartment/izmail88-23",
   },
   {
@@ -208,7 +209,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-37/2.png",
+    image: "/apartments/izmail88-37/watermarked/2.svg",
     link: "/apartment/izmail88-37",
   },
   {
@@ -217,7 +218,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-38/2.png",
+    image: "/apartments/izmail88-38/watermarked/2.svg",
     link: "/apartment/izmail88-38",
   },
   {
@@ -226,7 +227,7 @@ const apartments = [
     rooms: "2+1",
     guestsKey: "guests5",
     price: 1000,
-    image: "/apartments/izmail88-42/2.png",
+    image: "/apartments/izmail88-42/watermarked/2.svg",
     link: "/apartment/izmail88-42",
   },
   {
@@ -235,7 +236,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-371/1.png",
+    image: "/apartments/izmail88-371/watermarked/1.svg",
     link: "/apartment/izmail88-371",
   },
 ] as const;
@@ -285,7 +286,7 @@ export default function TodayFree() {
   return (
     <section
       id="today-free"
-      className="scroll-mt-32 bg-[#fffaf0] px-6 py-16 lg:scroll-mt-[260px]"
+      className="scroll-mt-32 bg-[#fffaf0] px-4 py-12 sm:px-6 sm:py-16 lg:scroll-mt-[260px]"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
@@ -298,13 +299,13 @@ export default function TodayFree() {
 
           <a
             href="tel:+37369990190"
-            className="rounded-3xl bg-[#d4146f] px-10 py-6 text-center text-xl font-black text-white shadow-lg"
+            className="rounded-2xl bg-[#d4146f] px-7 py-4 text-center text-base font-black text-white shadow-lg sm:rounded-3xl sm:px-10 sm:py-6 sm:text-xl"
           >
             {text.callButton}
           </a>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
           {apartments.map((apartment) => {
             const roomText =
               apartment.rooms === "studio" ? info.studio : apartment.rooms;
@@ -315,36 +316,37 @@ export default function TodayFree() {
               <a
                 key={apartment.id}
                 href={apartment.link}
-                className="overflow-hidden rounded-[2rem] bg-white shadow-xl transition hover:-translate-y-1 hover:shadow-2xl"
+                className="group overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
               >
-                <div className="relative h-[240px]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#f4f1ee]">
                   <img
                     src={apartment.image}
                     alt={`${text.altPrefix} ${apartment.id}`}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                    style={{ objectPosition: "imagePosition" in apartment ? apartment.imagePosition : "center" }}
                   />
 
-                  <div className="absolute left-5 top-5 rounded-full bg-[#ffd21f] px-6 py-3 text-lg font-black text-gray-900 shadow">
+                  <div className="absolute left-4 top-4 rounded-full bg-[#ffd21f] px-4 py-2 text-sm font-black text-gray-900 shadow sm:left-5 sm:top-5 sm:px-5 sm:py-2.5 sm:text-base">
                     ID {apartment.id}
                   </div>
                 </div>
 
                 <div className="p-5">
                   <div className="rounded-3xl bg-white p-5 shadow-lg">
-                    <h3 className="text-2xl font-black text-gray-900">
+                    <h3 className="text-xl font-black text-gray-900 sm:text-2xl">
                       {info.addressTitle}
                     </h3>
-                    <p className="mt-3 text-base font-bold text-gray-600">
+                    <p className="mt-2 text-sm font-bold leading-6 text-gray-600 sm:text-base">
                       {cardInfo}
                     </p>
                   </div>
 
-                  <div className="mt-7 flex flex-col gap-4">
-                    <p className="text-4xl font-black leading-none text-[#d4146f]">
+                  <div className="mt-5 flex items-end justify-between gap-3">
+                    <p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">
                       {apartment.price} {info.lei}
                     </p>
 
-                    <span className="rounded-2xl bg-[#061024] px-6 py-4 text-center text-base font-black text-white">
+                    <span className="shrink-0 rounded-2xl bg-[#061024] px-5 py-3 text-center text-sm font-black text-white sm:px-6 sm:py-4 sm:text-base">
                       {text.details}
                     </span>
                   </div>
