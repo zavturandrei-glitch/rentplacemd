@@ -61,24 +61,55 @@ function getImageSize(buffer, extension) {
   return null;
 }
 
-function createWatermarkedSvg({ sourceName, width, height }) {
-  const fontSize = Math.max(18, Math.round(Math.min(width, height) * 0.045));
-  const paddingX = Math.round(fontSize * 0.82);
-  const paddingY = Math.round(fontSize * 0.45);
-  const estimatedTextWidth = Math.round(fontSize * 0.68 * watermarkText.length);
-  const pillWidth = estimatedTextWidth + paddingX * 2;
-  const pillHeight = fontSize + paddingY * 2;
-  const margin = Math.max(18, Math.round(Math.min(width, height) * 0.035));
+function createWatermarkedSvg({ imageDataUrl, width, height }) {
+  const shortSide = Math.min(width, height);
+  const fontSize = Math.max(24, Math.min(48, Math.round(shortSide * 0.046)));
+  const mark = watermarkText;
+  const estimatedTextWidth = Math.round(fontSize * 0.64 * mark.length);
+  const iconSize = Math.round(fontSize * 1.12);
+  const gap = Math.round(fontSize * 0.36);
+  const paddingX = Math.round(fontSize * 0.72);
+  const pillWidth = estimatedTextWidth + iconSize + gap + paddingX * 2;
+  const pillHeight = Math.round(fontSize * 1.82);
+  const margin = Math.max(20, Math.round(shortSide * 0.038));
   const pillX = width - pillWidth - margin;
   const pillY = height - pillHeight - margin;
-  const textX = pillX + paddingX;
-  const textY = pillY + paddingY + Math.round(fontSize * 0.78);
-  const radius = Math.round(pillHeight * 0.42);
+  const radius = Math.round(pillHeight * 0.5);
+  const iconX = pillX + paddingX;
+  const iconY = pillY + Math.round((pillHeight - iconSize) / 2);
+  const textX = iconX + iconSize + gap;
+  const textY = pillY + Math.round(pillHeight * 0.64);
+  const accentWidth = Math.max(4, Math.round(fontSize * 0.13));
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img">
-  <image href="../${escapeXml(sourceName)}" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid slice"/>
-  <rect x="${pillX}" y="${pillY}" width="${pillWidth}" height="${pillHeight}" rx="${radius}" fill="#07111f" opacity="0.46"/>
-  <text x="${textX}" y="${textY}" fill="#ffffff" opacity="0.82" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" font-weight="700" letter-spacing="0.2">${escapeXml(watermarkText)}</text>
+  <defs>
+    <linearGradient id="rpm-glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.44" stop-color="#07111f" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#07111f" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="rpm-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rpm-accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd21f" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#d4146f" stop-opacity="0.78"/>
+    </linearGradient>
+    <filter id="rpm-shadow" x="-20%" y="-45%" width="140%" height="190%">
+      <feDropShadow dx="0" dy="${Math.max(2, Math.round(fontSize * 0.14))}" stdDeviation="${Math.max(3, Math.round(fontSize * 0.22))}" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <image href="${imageDataUrl}" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid slice"/>
+  <g filter="url(#rpm-shadow)" opacity="0.78">
+    <rect x="${pillX}" y="${pillY}" width="${pillWidth}" height="${pillHeight}" rx="${radius}" fill="url(#rpm-glass)"/>
+    <rect x="${pillX + 1}" y="${pillY + 1}" width="${pillWidth - 2}" height="${Math.round(pillHeight * 0.46)}" rx="${Math.round(radius * 0.82)}" fill="url(#rpm-shine)"/>
+    <rect x="${pillX + 0.5}" y="${pillY + 0.5}" width="${pillWidth - 1}" height="${pillHeight - 1}" rx="${radius}" fill="none" stroke="#ffffff" stroke-opacity="0.34"/>
+    <rect x="${pillX}" y="${pillY + Math.round(pillHeight * 0.2)}" width="${accentWidth}" height="${Math.round(pillHeight * 0.6)}" rx="${Math.round(accentWidth / 2)}" fill="url(#rpm-accent)" opacity="0.86"/>
+    <circle cx="${iconX + Math.round(iconSize / 2)}" cy="${iconY + Math.round(iconSize / 2)}" r="${Math.round(iconSize / 2)}" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.22"/>
+    <text x="${iconX + Math.round(iconSize / 2)}" y="${iconY + Math.round(iconSize * 0.68)}" text-anchor="middle" fill="#ffffff" fill-opacity="0.72" font-family="Arial, Helvetica, sans-serif" font-size="${Math.round(fontSize * 0.68)}" font-weight="800">R</text>
+    <text x="${textX}" y="${textY}" fill="#ffffff" fill-opacity="0.74" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" font-weight="700" letter-spacing="0.15">${escapeXml(mark)}</text>
+  </g>
 </svg>
 `;
 }
@@ -107,8 +138,10 @@ async function watermarkFolder(folderPath) {
 
     const outputName = `${path.basename(entry.name, extension)}.svg`;
     const outputPath = path.join(outputDir, outputName);
+    const mimeType = extension === ".png" ? "image/png" : "image/jpeg";
+    const imageDataUrl = `data:${mimeType};base64,${buffer.toString("base64")}`;
     const svg = createWatermarkedSvg({
-      sourceName: entry.name,
+      imageDataUrl,
       width: size.width,
       height: size.height,
     });
