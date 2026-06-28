@@ -136,7 +136,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-10/watermarked/1.svg",
+    image: "/apartments/izmail88-10/1.png",
     imagePosition: "42% center",
     link: "/apartment/izmail88-10",
   },
@@ -146,7 +146,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-11/watermarked/1.svg",
+    image: "/apartments/izmail88-11/1.png",
     link: "/apartment/izmail88-11",
   },
   {
@@ -155,7 +155,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests3",
     price: 800,
-    image: "/apartments/izmail88-12/watermarked/1.svg",
+    image: "/apartments/izmail88-12/1.png",
     link: "/apartment/izmail88-12",
   },
   {
@@ -164,7 +164,7 @@ const apartments = [
     rooms: "2+1",
     guestsKey: "bedrooms2",
     price: 900,
-    image: "/apartments/izmail88-13/watermarked/4.svg",
+    image: "/apartments/izmail88-13/4.png",
     link: "/apartment/izmail88-13",
   },
   {
@@ -173,7 +173,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-20/watermarked/2.svg",
+    image: "/apartments/izmail88-20/2.png",
     link: "/apartment/izmail88-20",
   },
   {
@@ -182,7 +182,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests3",
     price: 800,
-    image: "/apartments/izmail88-21/watermarked/2.svg",
+    image: "/apartments/izmail88-21/2.png",
     link: "/apartment/izmail88-21",
   },
   {
@@ -191,7 +191,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-22/watermarked/1.svg",
+    image: "/apartments/izmail88-22/1.png",
     link: "/apartment/izmail88-22",
   },
   {
@@ -200,7 +200,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-23/watermarked/1.svg",
+    image: "/apartments/izmail88-23/1.png",
     link: "/apartment/izmail88-23",
   },
   {
@@ -209,7 +209,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-37/watermarked/2.svg",
+    image: "/apartments/izmail88-37/2.png",
     link: "/apartment/izmail88-37",
   },
   {
@@ -218,7 +218,7 @@ const apartments = [
     rooms: "1+1",
     guestsKey: "guests4",
     price: 800,
-    image: "/apartments/izmail88-38/watermarked/2.svg",
+    image: "/apartments/izmail88-38/2.png",
     link: "/apartment/izmail88-38",
   },
   {
@@ -227,7 +227,7 @@ const apartments = [
     rooms: "2+1",
     guestsKey: "guests5",
     price: 1000,
-    image: "/apartments/izmail88-42/watermarked/2.svg",
+    image: "/apartments/izmail88-42/2.png",
     link: "/apartment/izmail88-42",
   },
   {
@@ -236,7 +236,7 @@ const apartments = [
     rooms: "studio",
     guestsKey: "guests2",
     price: 800,
-    image: "/apartments/izmail88-371/watermarked/1.svg",
+    image: "/apartments/izmail88-371/1.png",
     link: "/apartment/izmail88-371",
   },
 ] as const;
@@ -318,7 +318,7 @@ export default function TodayFree() {
                 href={apartment.link}
                 className="group overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#f4f1ee]">
+                <div className="rpm-watermark-frame rpm-watermark-frame--compact relative aspect-[4/3] overflow-hidden bg-[#f4f1ee]">
                   <img
                     src={apartment.image}
                     alt={`${text.altPrefix} ${apartment.id}`}

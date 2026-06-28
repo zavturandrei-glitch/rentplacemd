@@ -24,3 +24,88 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.rpm-watermark-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+.rpm-watermark-frame::after {
+  content: "RentPlaceMD™";
+  position: absolute;
+  right: clamp(14px, 3.2%, 28px);
+  bottom: clamp(14px, 3.2%, 28px);
+  z-index: 4;
+  max-width: min(62%, 360px);
+  padding: clamp(8px, 1.1vw, 14px) clamp(14px, 1.8vw, 24px) clamp(8px, 1.1vw, 14px) clamp(38px, 3.8vw, 56px);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 28px 50%, rgba(255, 255, 255, 0.2) 0 13px, transparent 14px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(7, 17, 31, 0.2) 44%, rgba(7, 17, 31, 0.12));
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  color: rgba(255, 255, 255, 0.78);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(14px, 1.65vw, 30px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.1px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.32);
+  white-space: nowrap;
+  pointer-events: none;
+  backdrop-filter: blur(5px) saturate(1.08);
+}
+
+.rpm-watermark-frame::before {
+  content: "R";
+  position: absolute;
+  right: calc(clamp(14px, 3.2%, 28px) + clamp(14px, 1.8vw, 24px) + clamp(160px, 17.6vw, 302px));
+  bottom: calc(clamp(14px, 3.2%, 28px) + clamp(7px, 0.95vw, 12px));
+  z-index: 5;
+  display: grid;
+  width: clamp(22px, 2.4vw, 40px);
+  height: clamp(22px, 2.4vw, 40px);
+  place-items: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 210, 31, 0.68), rgba(212, 20, 111, 0.48));
+  color: rgba(255, 255, 255, 0.76);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(12px, 1.25vw, 21px);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.rpm-watermark-frame--compact::after {
+  right: 12px;
+  bottom: 12px;
+  padding: 7px 12px 7px 34px;
+  font-size: clamp(12px, 0.95vw, 16px);
+  max-width: calc(100% - 24px);
+}
+
+.rpm-watermark-frame--compact::before {
+  right: calc(12px + 128px);
+  bottom: 18px;
+  width: 19px;
+  height: 19px;
+  font-size: 11px;
+}
+
+@media (max-width: 640px) {
+  .rpm-watermark-frame::after {
+    right: 10px;
+    bottom: 10px;
+    padding: 7px 12px 7px 34px;
+    font-size: 12px;
+    max-width: calc(100% - 20px);
+  }
+
+  .rpm-watermark-frame::before {
+    right: calc(10px + 126px);
+    bottom: 16px;
+    width: 19px;
+    height: 19px;
+    font-size: 11px;
+  }
+}
