@@ -37,7 +37,8 @@ export const translations = {
       textareaPlaceholder: "Например: с 20 по 23 июня, 2 взрослых...",
       sendWhatsApp: "Отправить в WhatsApp",
       back: "Назад",
-      whatsappDefault: "Здравствуйте! Хочу квартиру посуточно. Дата заезда: ___ . Дата выезда: ___ . Количество персон: ___.",
+      whatsappDefault:
+        "Здравствуйте! Хочу квартиру посуточно. Дата заезда: ___ . Дата выезда: ___ . Количество персон: ___.",
       catalogLabel: "Каталог",
       catalogTitle: "Смотреть квартиры",
       catalogText: "Фото, цены, описание и ID каждого варианта.",
@@ -46,12 +47,15 @@ export const translations = {
       idTitle: "Поиск по ID",
       idText: "Введите номер квартиры, который вам сказали по телефону.",
       find: "Найти",
-      availableIds: "Доступные ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
-      notFound: "Квартира с таким ID пока не найдена. Позвоните нам, и мы подскажем.",
+      availableIds:
+        "Доступные ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
+      notFound:
+        "Квартира с таким ID пока не найдена. Позвоните нам, и мы подскажем.",
     },
     apartments: {
       title: "Все квартиры",
-      subtitle: "Квартиры посуточно в центре Кишинёва. Выберите подходящий вариант и уточните доступность на нужные даты.",
+      subtitle:
+        "Квартиры посуточно в центре Кишинёва. Выберите подходящий вариант и уточните доступность на нужные даты.",
       center: "Центр",
       studio: "Студия",
       guests2: "до 2 гостей",
@@ -60,7 +64,59 @@ export const translations = {
       guests5: "до 5 гостей",
       bedrooms2: "2 спальни",
     },
+    benefits: {
+      label: "Почему выбирают нас",
+      title: "RentPlaceMD — удобно, быстро и без лишних вопросов",
+      description:
+        "Квартиры в центре Кишинёва, быстрый ответ, реальные фото и заселение 24/7.",
+      items: [
+        {
+          icon: "🏙️",
+          title: "Центр Кишинёва",
+          text: "Квартиры находятся в удобной локации рядом с центром города.",
+        },
+        {
+          icon: "📸",
+          title: "Реальные фото",
+          text: "На сайте показаны реальные фотографии квартир.",
+        },
+        {
+          icon: "🔑",
+          title: "Заселение 24/7",
+          text: "Можно заселиться в удобное время по предварительной договорённости.",
+        },
+        {
+          icon: "💬",
+          title: "Быстрая связь",
+          text: "WhatsApp, Viber, Telegram и телефон всегда под рукой.",
+        },
+        {
+          icon: "🏠",
+          title: "Более 12 квартир",
+          text: "Можно подобрать вариант под 1, 2, 3, 4 или 5 гостей.",
+        },
+        {
+          icon: "🛡️",
+          title: "Без посредников",
+          text: "Вы связываетесь напрямую с администратором RentPlaceMD.",
+        },
+      ],
+    },
+    footer: {
+      contacts: "Наши контакты",
+      whatsappViber: "WhatsApp / Viber",
+      callTelegram: "Позвонить / Telegram",
+      availableToday: "Свободные квартиры сегодня",
+      viewApartments: "Смотреть квартиры",
+      copyright: "© 2026 RentPlaceMD™. Все права защищены.",
+      bottomText: "Квартиры посуточно в Кишинёве • Центр • Новостройки",
+      centerChisinau: "Центр Кишинёва",
+      moreThan12Apartments: "Более 12 квартир",
+      checkin247: "Заселение 24/7",
+      noMiddlemen: "Без посредников",
+    },
   },
+
   ro: {
     common: {
       brandSubtitle: "Apartamente în chirie pe zi în Chișinău",
@@ -78,7 +134,8 @@ export const translations = {
     },
     hero: {
       title: "Apartamente în chirie pe zi în Chișinău",
-      subtitle: "12 apartamente într-un complex • Ismail 88 • Centrul orașului • 24/7",
+      subtitle:
+        "12 apartamente într-un complex • Ismail 88 • Centrul orașului • 24/7",
       quickPickLabel: "Alegere rapidă",
       quickPickTitle: "Găsește apartamentul dintr-un click",
       quickPickText: "Scrie data sosirii, data plecării și numărul de persoane.",
@@ -89,7 +146,8 @@ export const translations = {
       textareaPlaceholder: "Exemplu: din 20 până pe 23 iunie, 2 adulți...",
       sendWhatsApp: "Trimite pe WhatsApp",
       back: "Înapoi",
-      whatsappDefault: "Bună ziua! Caut un apartament în chirie pe zi. Data sosirii: ___ . Data plecării: ___ . Număr persoane: ___.",
+      whatsappDefault:
+        "Bună ziua! Caut un apartament în chirie pe zi. Data sosirii: ___ . Data plecării: ___ . Număr persoane: ___.",
       catalogLabel: "Catalog",
       catalogTitle: "Vezi apartamentele",
       catalogText: "Poze, prețuri, descriere și ID pentru fiecare variantă.",
@@ -98,12 +156,15 @@ export const translations = {
       idTitle: "Căutare după ID",
       idText: "Introdu numărul apartamentului primit la telefon.",
       find: "Caută",
-      availableIds: "ID-uri disponibile: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
-      notFound: "Apartamentul cu acest ID nu a fost găsit. Sunați-ne și vă ajutăm.",
+      availableIds:
+        "ID-uri disponibile: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
+      notFound:
+        "Apartamentul cu acest ID nu a fost găsit. Sunați-ne și vă ajutăm.",
     },
     apartments: {
       title: "Toate apartamentele",
-      subtitle: "Apartamente în chirie pe zi în centrul Chișinăului. Alege varianta potrivită și verifică disponibilitatea pentru datele dorite.",
+      subtitle:
+        "Apartamente în chirie pe zi în centrul Chișinăului. Alege varianta potrivită și verifică disponibilitatea pentru datele dorite.",
       center: "Centru",
       studio: "Studio",
       guests2: "până la 2 oaspeți",
@@ -112,7 +173,59 @@ export const translations = {
       guests5: "până la 5 oaspeți",
       bedrooms2: "2 dormitoare",
     },
+    benefits: {
+      label: "De ce ne aleg clienții",
+      title: "RentPlaceMD — comod, rapid și fără complicații",
+      description:
+        "Apartamente în centrul Chișinăului, răspuns rapid, fotografii reale și cazare 24/7.",
+      items: [
+        {
+          icon: "🏙️",
+          title: "Centrul Chișinăului",
+          text: "Apartamentele sunt amplasate într-o zonă comodă, aproape de centru.",
+        },
+        {
+          icon: "📸",
+          title: "Fotografii reale",
+          text: "Pe site sunt prezentate fotografii reale ale apartamentelor.",
+        },
+        {
+          icon: "🔑",
+          title: "Cazare 24/7",
+          text: "Vă puteți caza la o oră comodă, cu acord prealabil.",
+        },
+        {
+          icon: "💬",
+          title: "Contact rapid",
+          text: "WhatsApp, Viber, Telegram și telefonul sunt mereu disponibile.",
+        },
+        {
+          icon: "🏠",
+          title: "Peste 12 apartamente",
+          text: "Putem găsi o variantă pentru 1, 2, 3, 4 sau 5 oaspeți.",
+        },
+        {
+          icon: "🛡️",
+          title: "Fără intermediari",
+          text: "Discutați direct cu administratorul RentPlaceMD.",
+        },
+      ],
+    },
+    footer: {
+      contacts: "Contacte",
+      whatsappViber: "WhatsApp / Viber",
+      callTelegram: "Telefon / Telegram",
+      availableToday: "Apartamente libere astăzi",
+      viewApartments: "Vezi apartamentele",
+      copyright: "© 2026 RentPlaceMD™. Toate drepturile rezervate.",
+      bottomText: "Apartamente în chirie pe zi în Chișinău • Centru • Blocuri noi",
+      centerChisinau: "Centrul Chișinăului",
+      moreThan12Apartments: "Peste 12 apartamente",
+      checkin247: "Cazare 24/7",
+      noMiddlemen: "Fără intermediari",
+    },
   },
+
   en: {
     common: {
       brandSubtitle: "Daily apartments in Chisinau",
@@ -141,7 +254,8 @@ export const translations = {
       textareaPlaceholder: "Example: June 20 to 23, 2 adults...",
       sendWhatsApp: "Send to WhatsApp",
       back: "Back",
-      whatsappDefault: "Hello! I want a daily apartment. Check-in date: ___ . Check-out date: ___ . Number of guests: ___.",
+      whatsappDefault:
+        "Hello! I want a daily apartment. Check-in date: ___ . Check-out date: ___ . Number of guests: ___.",
       catalogLabel: "Catalog",
       catalogTitle: "View apartments",
       catalogText: "Photos, prices, description and ID for each option.",
@@ -150,12 +264,14 @@ export const translations = {
       idTitle: "Search by ID",
       idText: "Enter the apartment number you were given by phone.",
       find: "Find",
-      availableIds: "Available IDs: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
+      availableIds:
+        "Available IDs: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
       notFound: "Apartment with this ID was not found. Call us and we will help.",
     },
     apartments: {
       title: "All apartments",
-      subtitle: "Daily apartments in central Chisinau. Choose the right option and check availability for your dates.",
+      subtitle:
+        "Daily apartments in central Chisinau. Choose the right option and check availability for your dates.",
       center: "Center",
       studio: "Studio",
       guests2: "up to 2 guests",
@@ -164,7 +280,59 @@ export const translations = {
       guests5: "up to 5 guests",
       bedrooms2: "2 bedrooms",
     },
+    benefits: {
+      label: "Why choose us",
+      title: "RentPlaceMD — simple, fast and comfortable",
+      description:
+        "Apartments in central Chisinau, quick replies, real photos and 24/7 check-in.",
+      items: [
+        {
+          icon: "🏙️",
+          title: "Central Chisinau",
+          text: "The apartments are located in a convenient area close to the city center.",
+        },
+        {
+          icon: "📸",
+          title: "Real photos",
+          text: "The website shows real photos of the apartments.",
+        },
+        {
+          icon: "🔑",
+          title: "24/7 check-in",
+          text: "You can check in at a convenient time by prior arrangement.",
+        },
+        {
+          icon: "💬",
+          title: "Fast contact",
+          text: "WhatsApp, Viber, Telegram and phone are always available.",
+        },
+        {
+          icon: "🏠",
+          title: "More than 12 apartments",
+          text: "We can match an option for 1, 2, 3, 4 or 5 guests.",
+        },
+        {
+          icon: "🛡️",
+          title: "No middlemen",
+          text: "You contact the RentPlaceMD administrator directly.",
+        },
+      ],
+    },
+    footer: {
+      contacts: "Contacts",
+      whatsappViber: "WhatsApp / Viber",
+      callTelegram: "Call / Telegram",
+      availableToday: "Available apartments today",
+      viewApartments: "View apartments",
+      copyright: "© 2026 RentPlaceMD™. All rights reserved.",
+      bottomText: "Daily apartments in Chisinau • Center • New buildings",
+      centerChisinau: "Central Chisinau",
+      moreThan12Apartments: "More than 12 apartments",
+      checkin247: "Check-in 24/7",
+      noMiddlemen: "No middlemen",
+    },
   },
+
   uk: {
     common: {
       brandSubtitle: "Квартири подобово в Кишиневі",
@@ -193,7 +361,8 @@ export const translations = {
       textareaPlaceholder: "Наприклад: з 20 по 23 червня, 2 дорослих...",
       sendWhatsApp: "Надіслати в WhatsApp",
       back: "Назад",
-      whatsappDefault: "Добрий день! Хочу квартиру подобово. Дата заїзду: ___ . Дата виїзду: ___ . Кількість людей: ___.",
+      whatsappDefault:
+        "Добрий день! Хочу квартиру подобово. Дата заїзду: ___ . Дата виїзду: ___ . Кількість людей: ___.",
       catalogLabel: "Каталог",
       catalogTitle: "Дивитися квартири",
       catalogText: "Фото, ціни, опис та ID кожного варіанта.",
@@ -202,12 +371,15 @@ export const translations = {
       idTitle: "Пошук за ID",
       idText: "Введіть номер квартири, який вам сказали телефоном.",
       find: "Знайти",
-      availableIds: "Доступні ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
-      notFound: "Квартиру з таким ID поки не знайдено. Зателефонуйте нам, і ми підкажемо.",
+      availableIds:
+        "Доступні ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
+      notFound:
+        "Квартиру з таким ID поки не знайдено. Зателефонуйте нам, і ми підкажемо.",
     },
     apartments: {
       title: "Усі квартири",
-      subtitle: "Квартири подобово в центрі Кишинева. Оберіть відповідний варіант і уточніть доступність на потрібні дати.",
+      subtitle:
+        "Квартири подобово в центрі Кишинева. Оберіть відповідний варіант і уточніть доступність на потрібні дати.",
       center: "Центр",
       studio: "Студія",
       guests2: "до 2 гостей",
@@ -216,7 +388,59 @@ export const translations = {
       guests5: "до 5 гостей",
       bedrooms2: "2 спальні",
     },
+    benefits: {
+      label: "Чому обирають нас",
+      title: "RentPlaceMD — зручно, швидко і без зайвих питань",
+      description:
+        "Квартири в центрі Кишинева, швидка відповідь, реальні фото та заселення 24/7.",
+      items: [
+        {
+          icon: "🏙️",
+          title: "Центр Кишинева",
+          text: "Квартири розташовані у зручній локації поруч із центром міста.",
+        },
+        {
+          icon: "📸",
+          title: "Реальні фото",
+          text: "На сайті показані реальні фотографії квартир.",
+        },
+        {
+          icon: "🔑",
+          title: "Заселення 24/7",
+          text: "Можна заселитися у зручний час за попередньою домовленістю.",
+        },
+        {
+          icon: "💬",
+          title: "Швидкий зв’язок",
+          text: "WhatsApp, Viber, Telegram і телефон завжди під рукою.",
+        },
+        {
+          icon: "🏠",
+          title: "Понад 12 квартир",
+          text: "Можна підібрати варіант для 1, 2, 3, 4 або 5 гостей.",
+        },
+        {
+          icon: "🛡️",
+          title: "Без посередників",
+          text: "Ви зв’язуєтесь напряму з адміністратором RentPlaceMD.",
+        },
+      ],
+    },
+    footer: {
+      contacts: "Наші контакти",
+      whatsappViber: "WhatsApp / Viber",
+      callTelegram: "Подзвонити / Telegram",
+      availableToday: "Вільні квартири сьогодні",
+      viewApartments: "Дивитися квартири",
+      copyright: "© 2026 RentPlaceMD™. Усі права захищені.",
+      bottomText: "Квартири подобово в Кишиневі • Центр • Новобудови",
+      centerChisinau: "Центр Кишинева",
+      moreThan12Apartments: "Понад 12 квартир",
+      checkin247: "Заселення 24/7",
+      noMiddlemen: "Без посередників",
+    },
   },
+
   cs: {
     common: {
       brandSubtitle: "Apartmány na den v Kišiněvě",
@@ -245,7 +469,8 @@ export const translations = {
       textareaPlaceholder: "Například: od 20. do 23. června, 2 dospělí...",
       sendWhatsApp: "Odeslat na WhatsApp",
       back: "Zpět",
-      whatsappDefault: "Dobrý den! Hledám apartmán na den. Datum příjezdu: ___ . Datum odjezdu: ___ . Počet osob: ___.",
+      whatsappDefault:
+        "Dobrý den! Hledám apartmán na den. Datum příjezdu: ___ . Datum odjezdu: ___ . Počet osob: ___.",
       catalogLabel: "Katalog",
       catalogTitle: "Zobrazit apartmány",
       catalogText: "Fotky, ceny, popis a ID každé varianty.",
@@ -254,12 +479,15 @@ export const translations = {
       idTitle: "Vyhledávání podle ID",
       idText: "Zadejte číslo apartmánu, které jste dostali po telefonu.",
       find: "Najít",
-      availableIds: "Dostupná ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
-      notFound: "Apartmán s tímto ID zatím nebyl nalezen. Zavolejte nám a poradíme.",
+      availableIds:
+        "Dostupná ID: 10, 11, 12, 13, 20, 21, 22, 23, 37, 38, 42, 371.",
+      notFound:
+        "Apartmán s tímto ID zatím nebyl nalezen. Zavolejte nám a poradíme.",
     },
     apartments: {
       title: "Všechny apartmány",
-      subtitle: "Apartmány na den v centru Kišiněva. Vyberte vhodnou variantu a ověřte dostupnost na požadované termíny.",
+      subtitle:
+        "Apartmány na den v centru Kišiněva. Vyberte vhodnou variantu a ověřte dostupnost na požadované termíny.",
       center: "Centrum",
       studio: "Studio",
       guests2: "až 2 hosté",
@@ -267,6 +495,57 @@ export const translations = {
       guests4: "až 4 hosté",
       guests5: "až 5 hostů",
       bedrooms2: "2 ložnice",
+    },
+    benefits: {
+      label: "Proč si vybrat nás",
+      title: "RentPlaceMD — pohodlně, rychle a bez zbytečných otázek",
+      description:
+        "Apartmány v centru Kišiněva, rychlá odpověď, reálné fotografie a ubytování 24/7.",
+      items: [
+        {
+          icon: "🏙️",
+          title: "Centrum Kišiněva",
+          text: "Apartmány se nacházejí v pohodlné lokalitě blízko centra.",
+        },
+        {
+          icon: "📸",
+          title: "Reálné fotografie",
+          text: "Na webu jsou zobrazeny skutečné fotografie apartmánů.",
+        },
+        {
+          icon: "🔑",
+          title: "Ubytování 24/7",
+          text: "Ubytovat se můžete v pohodlný čas po předchozí domluvě.",
+        },
+        {
+          icon: "💬",
+          title: "Rychlý kontakt",
+          text: "WhatsApp, Viber, Telegram a telefon jsou vždy k dispozici.",
+        },
+        {
+          icon: "🏠",
+          title: "Více než 12 apartmánů",
+          text: "Vybereme variantu pro 1, 2, 3, 4 nebo 5 hostů.",
+        },
+        {
+          icon: "🛡️",
+          title: "Bez prostředníků",
+          text: "Kontaktujete přímo administrátora RentPlaceMD.",
+        },
+      ],
+    },
+    footer: {
+      contacts: "Kontakty",
+      whatsappViber: "WhatsApp / Viber",
+      callTelegram: "Telefon / Telegram",
+      availableToday: "Volné apartmány dnes",
+      viewApartments: "Zobrazit apartmány",
+      copyright: "© 2026 RentPlaceMD™. Všechna práva vyhrazena.",
+      bottomText: "Apartmány na den v Kišiněvě • Centrum • Novostavby",
+      centerChisinau: "Centrum Kišiněva",
+      moreThan12Apartments: "Více než 12 apartmánů",
+      checkin247: "Ubytování 24/7",
+      noMiddlemen: "Bez prostředníků",
     },
   },
 } as const;
