@@ -104,9 +104,11 @@ function useRentPlaceLanguage() {
     setLanguage(getSavedLanguage());
 
     const handleLanguageChange = (event: Event) => {
-      const customEvent = event as CustomEvent<Lang>;
-      if (customEvent.detail && customEvent.detail in headerText) {
-        setLanguage(customEvent.detail);
+      const customEvent = event as CustomEvent<string>;
+      const nextLanguage = customEvent.detail?.toUpperCase() as Lang | undefined;
+
+      if (nextLanguage && nextLanguage in headerText) {
+        setLanguage(nextLanguage);
       }
     };
 

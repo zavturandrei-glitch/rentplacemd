@@ -69,6 +69,7 @@ const apartmentInfo: Record<
     guests5: string;
     bedrooms2: string;
     lei: string;
+    addressTitle: string;
   }
 > = {
   RU: {
@@ -80,6 +81,7 @@ const apartmentInfo: Record<
     guests5: "до 5 гостей",
     bedrooms2: "2 спальни",
     lei: "лей",
+    addressTitle: "Измаил 88",
   },
   RO: {
     studio: "Studio",
@@ -90,6 +92,7 @@ const apartmentInfo: Record<
     guests5: "până la 5 oaspeți",
     bedrooms2: "2 dormitoare",
     lei: "lei",
+    addressTitle: "Ismail 88",
   },
   EN: {
     studio: "Studio",
@@ -100,6 +103,7 @@ const apartmentInfo: Record<
     guests5: "up to 5 guests",
     bedrooms2: "2 bedrooms",
     lei: "MDL",
+    addressTitle: "Ismail 88",
   },
   CS: {
     studio: "Studio",
@@ -110,6 +114,7 @@ const apartmentInfo: Record<
     guests5: "až 5 hostů",
     bedrooms2: "2 ložnice",
     lei: "lei",
+    addressTitle: "Ismail 88",
   },
   UK: {
     studio: "Студія",
@@ -120,6 +125,7 @@ const apartmentInfo: Record<
     guests5: "до 5 гостей",
     bedrooms2: "2 спальні",
     lei: "лей",
+    addressTitle: "Ізмаїл 88",
   },
 };
 
@@ -249,9 +255,11 @@ function useRentPlaceLanguage() {
     setLanguage(getSavedLanguage());
 
     const handleLanguageChange = (event: Event) => {
-      const customEvent = event as CustomEvent<Lang>;
-      if (customEvent.detail && customEvent.detail in sectionText) {
-        setLanguage(customEvent.detail);
+      const customEvent = event as CustomEvent<string>;
+      const nextLanguage = customEvent.detail?.toUpperCase() as Lang | undefined;
+
+      if (nextLanguage && nextLanguage in sectionText) {
+        setLanguage(nextLanguage);
       }
     };
 
@@ -275,7 +283,10 @@ export default function TodayFree() {
   const info = apartmentInfo[language];
 
   return (
-    <section id="today-free" className="bg-[#fffaf0] px-6 py-16">
+    <section
+      id="today-free"
+      className="scroll-mt-32 bg-[#fffaf0] px-6 py-16 lg:scroll-mt-[260px]"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
@@ -321,7 +332,7 @@ export default function TodayFree() {
                 <div className="p-5">
                   <div className="rounded-3xl bg-white p-5 shadow-lg">
                     <h3 className="text-2xl font-black text-gray-900">
-                      {apartment.title}
+                      {info.addressTitle}
                     </h3>
                     <p className="mt-3 text-base font-bold text-gray-600">
                       {cardInfo}
