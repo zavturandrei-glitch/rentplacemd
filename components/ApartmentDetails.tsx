@@ -3,8 +3,10 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
+import { getApartmentBookedDates } from "@/lib/availability";
 
 export type ApartmentKind = "studio" | "oneBedroom" | "twoBedroom" | "twoBedroomPlus";
 export type ApartmentGuests = 2 | 3 | 4 | 5;
@@ -290,6 +292,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const whatsappText = format(text.whatsappMessage, { id: apartment.id });
   const whatsappLink = "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
   const heroPosition = apartment.heroPosition ?? "center 45%";
+  const bookedDates = getApartmentBookedDates(apartment.id);
 
   return (
     <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
@@ -348,6 +351,11 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <p className="mt-4 text-base leading-7 text-gray-700 sm:mt-6 sm:text-lg sm:leading-8">{text.aboutFirst[apartment.kind]}</p>
             <p className="mt-4 text-base leading-7 text-gray-700 sm:mt-5 sm:text-lg sm:leading-8">{text.aboutSecond[apartment.kind]}</p>
             <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...text.features[apartment.kind]].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">✓ {item}</div>))}</div>
+
+            <AvailabilityCalendar
+              apartmentId={apartment.id}
+              bookedDates={bookedDates}
+            />
           </div>
           <aside className="rounded-[22px] bg-[#d4146f] p-5 text-white shadow-2xl shadow-pink-700/20 sm:rounded-[26px] sm:p-8 lg:sticky lg:top-28 lg:h-fit">
             <p className="text-sm font-black uppercase tracking-[0.25em] text-white/70">{text.bookingLabel}</p>
