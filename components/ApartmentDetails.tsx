@@ -289,42 +289,42 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const heroPosition = apartment.heroPosition ?? "center 45%";
 
   return (
-    <main className="min-h-screen bg-[#f4f1ee] text-[#111827]">
-      <header className="sticky top-0 z-40 border-b border-black/5 bg-white/95 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
+      <header className="sticky top-0 z-40 bg-[#07111f] text-white shadow-2xl">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-10">
           <a href="/" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#d4146f] text-xl font-black text-white shadow-lg">R</div>
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-xl font-black text-[#d4146f] shadow-lg shadow-black/25">R</div>
             <div className="min-w-0">
-              <p className="text-xl font-black leading-none sm:text-3xl">Rent<span className="text-[#d4146f]">Place</span><span className="text-[#ffb800]">MD</span></p>
-              <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.24em] text-gray-500 sm:text-xs">{text.brandSubtitle}</p>
+              <p className="text-xl font-black leading-none text-white sm:text-3xl">Rent<span className="text-[#d4146f]">Place</span><span className="text-[#ffb800]">MD</span></p>
+              <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.24em] text-white/60 sm:text-xs">{text.brandSubtitle}</p>
             </div>
           </a>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <div className="flex items-center gap-1 rounded-2xl bg-[#f4f1ee] p-1">
+            <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] p-1 shadow-inner">
               {languages.map((item) => (
-                <button key={item.code} type="button" onClick={() => setLanguage(item.code)} className={(language === item.code ? "bg-[#d4146f] text-white" : "text-gray-500 hover:bg-white") + " rounded-xl px-3 py-2 text-xs font-black transition"} aria-label={item.label}>{item.short}</button>
+                <button key={item.code} type="button" onClick={() => setLanguage(item.code)} className={(language === item.code ? "bg-[#ffd21f] text-[#07111f]" : "text-white/65 hover:bg-white/10 hover:text-white") + " rounded-full px-3 py-2 text-xs font-black transition"} aria-label={item.label}>{item.short}</button>
               ))}
             </div>
-            <div className="rounded-2xl bg-[#f4f1ee] px-5 py-3 text-right font-black text-[#d4146f]">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3 text-right font-black text-white">
               <a href="tel:+37369990190" className="block text-sm">+373 69 990 190</a>
               <a href="tel:+37379990190" className="mt-1 block text-sm">+373 79 990 190</a>
             </div>
-            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black text-white">WhatsApp</a>
-            <a href="viber://chat?number=%2B37369990190" className="rounded-2xl bg-purple-700 px-5 py-4 text-sm font-black text-white">Viber</a>
+            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110">WhatsApp</a>
+            <a href="viber://chat?number=%2B37369990190" className="rounded-2xl bg-[#7c00d9] px-5 py-4 text-sm font-black text-white shadow-lg shadow-violet-500/20 transition hover:-translate-y-0.5 hover:brightness-110">Viber</a>
           </div>
 
-          <a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] px-4 py-3 text-sm font-black text-white lg:hidden">{text.call}</a>
+          <a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] px-4 py-3 text-sm font-black text-white shadow-lg shadow-pink-600/20 lg:hidden">{text.call}</a>
         </div>
 
-        <div className="border-t border-black/5 px-4 py-2 lg:hidden">
-          <div className="mx-auto flex max-w-7xl justify-center gap-1 rounded-2xl bg-[#f4f1ee] p-1">
+        <div className="border-t border-white/10 bg-[#050b14] px-4 py-2 lg:hidden">
+          <div className="mx-auto flex max-w-7xl justify-center gap-1 rounded-2xl bg-white/[0.06] p-1">
             {languages.map((item) => (
               <button
                 key={item.code}
                 type="button"
                 onClick={() => setLanguage(item.code)}
-                className={(language === item.code ? "bg-[#d4146f] text-white" : "text-gray-500") + " flex-1 rounded-xl px-2 py-2 text-xs font-black transition"}
+                className={(language === item.code ? "bg-[#ffd21f] text-[#07111f]" : "text-white/65") + " flex-1 rounded-xl px-2 py-2 text-xs font-black transition"}
                 aria-label={item.label}
               >
                 {item.short}
@@ -334,64 +334,64 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
         </div>
       </header>
 
-      <section className="mx-auto max-w-7xl px-4 pb-28 pt-5 sm:px-6 lg:px-8 lg:pb-14 lg:pt-8">
-        <a href="/" className="mb-5 inline-flex rounded-full bg-white px-4 py-2 text-sm font-black text-[#d4146f] shadow-sm">← {text.back}</a>
+      <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-5 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
+        <a href="/" className="mb-6 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-5 py-2.5 text-sm font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl">← {text.back}</a>
 
-        <div className="overflow-hidden rounded-[34px] bg-[#111827] shadow-2xl">
-          <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="flex flex-col justify-center p-6 text-white sm:p-9 lg:p-10">
-              <div className="mb-5 flex flex-wrap gap-3">
-                <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">ID {apartment.id}</span>
-                <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">{text.kinds[apartment.kind]}</span>
-                <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-black">{text.guests[apartment.guests]}</span>
+        <div className="overflow-hidden rounded-[26px] bg-[#07111f] shadow-2xl shadow-black/25 ring-1 ring-black/5">
+          <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
+            <div className="flex min-h-[460px] flex-col justify-center bg-gradient-to-br from-[#07111f] via-[#0b1628] to-[#121b2b] p-6 text-white sm:p-9 lg:min-h-[560px] lg:p-12">
+              <div className="mb-6 flex flex-wrap gap-2.5">
+                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-black text-white shadow-inner">ID {apartment.id}</span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-black text-white shadow-inner">{text.kinds[apartment.kind]}</span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-black text-white shadow-inner">{text.guests[apartment.guests]}</span>
               </div>
-              <h1 className="text-5xl font-black leading-tight sm:text-7xl">{text.addressTitle}</h1>
-              <p className="mt-5 max-w-xl text-lg leading-8 text-white/75">{text.intro[apartment.kind]}</p>
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-3xl bg-white p-5 text-[#111827]"><p className="text-4xl font-black text-[#d4146f]">{apartment.price}</p><p className="font-bold text-gray-500">{text.priceSuffix}</p></div>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center rounded-3xl bg-[#25D366] p-5 text-center text-lg font-black text-white">{text.checkAvailability}</a>
-                <a href="tel:+37369990190" className="flex items-center justify-center rounded-3xl bg-[#ffb800] p-5 text-center text-lg font-black text-[#111827]">{text.call}</a>
+              <h1 className="text-5xl font-black leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">{text.addressTitle}</h1>
+              <p className="mt-6 max-w-xl text-lg font-medium leading-8 text-white/75">{text.intro[apartment.kind]}</p>
+              <div className="mt-9 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl bg-white p-5 text-[#07111f] shadow-xl shadow-black/10"><p className="text-4xl font-black leading-none text-[#d4146f]">{apartment.price}</p><p className="mt-2 text-sm font-black text-gray-500">{text.priceSuffix}</p></div>
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex min-h-[92px] items-center justify-center rounded-2xl bg-[#25D366] p-5 text-center text-base font-black text-white shadow-xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110">{text.checkAvailability}</a>
+                <a href="tel:+37369990190" className="flex min-h-[92px] items-center justify-center rounded-2xl bg-[#ffb800] p-5 text-center text-base font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105">{text.call}</a>
               </div>
             </div>
-            <div className="relative h-[360px] overflow-hidden sm:h-[520px] lg:h-[590px]">
+            <div className="relative h-[340px] overflow-hidden sm:h-[500px] lg:h-[560px]">
               <img src={apartment.images[0]} alt={text.addressTitle + " ID " + apartment.id} className="h-full w-full object-cover" style={{ objectPosition: heroPosition }} />
-              <div className="absolute bottom-5 left-5 rounded-3xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur"><p className="text-sm font-bold text-gray-500">{text.kinds[apartment.kind]}</p><p className="text-xl font-black text-[#111827]">{text.overlay[apartment.kind]}</p></div>
+              <div className="absolute bottom-5 left-5 rounded-2xl bg-white/92 px-5 py-4 shadow-2xl shadow-black/20 backdrop-blur"><p className="text-sm font-black text-gray-500">{text.kinds[apartment.kind]}</p><p className="text-xl font-black text-[#07111f]">{text.overlay[apartment.kind]}</p></div>
             </div>
           </div>
         </div>
 
-        <section className="mt-8">
+        <section className="mt-12">
           <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.photo}</p>
-          <h2 className="mt-2 text-3xl font-black sm:text-4xl">{text.galleryTitle}</h2>
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg"><img src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[340px] w-full rounded-[26px] object-cover sm:h-[560px] lg:h-[760px]" style={{ objectPosition: heroPosition }} /></div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {galleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg"><img src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} loading="lazy" className="h-[240px] w-full rounded-[26px] object-cover object-center sm:h-[260px] lg:h-[250px]" /></div>))}
-              <div className="overflow-hidden rounded-[32px] bg-white p-2 shadow-lg sm:col-span-2"><img src={facadePhoto} alt={text.facadeAlt} loading="lazy" className="h-[260px] w-full rounded-[26px] object-cover object-center lg:h-[224px]" /></div>
+          <h2 className="mt-2 text-4xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><img src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[320px] w-full rounded-[20px] object-cover sm:h-[500px] lg:h-[560px]" style={{ objectPosition: heroPosition }} /></div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {galleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><img src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} loading="lazy" className="h-[210px] w-full rounded-[18px] object-cover object-center sm:h-[230px] lg:h-[178px]" /></div>))}
+              <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><img src={facadePhoto} alt={text.facadeAlt} loading="lazy" className="h-[220px] w-full rounded-[18px] object-cover object-center lg:h-[178px]" /></div>
             </div>
           </div>
         </section>
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-3">
-          <div className="rounded-[36px] bg-white p-6 shadow-lg sm:p-9 lg:col-span-2">
+        <section className="mt-10 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_420px] xl:grid-cols-[minmax(0,1fr)_460px]">
+          <div className="rounded-[26px] bg-white p-6 shadow-2xl shadow-black/10 sm:p-9">
             <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.aboutLabel}</p>
-            <h2 className="mt-3 text-3xl font-black sm:text-4xl">{text.aboutTitle[apartment.kind]}</h2>
-            <p className="mt-5 text-lg leading-8 text-gray-700">{text.aboutFirst[apartment.kind]}</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.aboutTitle[apartment.kind]}</h2>
+            <p className="mt-6 text-lg leading-8 text-gray-700">{text.aboutFirst[apartment.kind]}</p>
             <p className="mt-5 text-lg leading-8 text-gray-700">{text.aboutSecond[apartment.kind]}</p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">{[text.guests[apartment.guests], ...text.features[apartment.kind]].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-5 py-4 font-black text-gray-800">✓ {item}</div>))}</div>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">{[text.guests[apartment.guests], ...text.features[apartment.kind]].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-5 py-4 font-black text-[#07111f] shadow-inner">✓ {item}</div>))}</div>
           </div>
-          <aside className="rounded-[36px] bg-[#d4146f] p-6 text-white shadow-xl sm:p-8 lg:sticky lg:top-28 lg:h-fit">
+          <aside className="rounded-[26px] bg-[#d4146f] p-6 text-white shadow-2xl shadow-pink-700/20 sm:p-8 lg:sticky lg:top-28 lg:h-fit">
             <p className="text-sm font-black uppercase tracking-[0.25em] text-white/70">{text.bookingLabel}</p>
-            <p className="mt-4 text-6xl font-black">{apartment.price}</p>
-            <p className="text-lg font-bold text-white/80">{text.priceSuffix}</p>
-            <div className="mt-6 space-y-3"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block rounded-2xl bg-white py-4 text-center text-lg font-black text-[#d4146f]">WhatsApp</a><a href="tel:+37369990190" className="block rounded-2xl bg-[#ffb800] py-4 text-center text-lg font-black text-[#111827]">{text.call}</a><a href="viber://chat?number=%2B37369990190" className="block rounded-2xl bg-purple-700 py-4 text-center text-lg font-black text-white">Viber</a></div>
-            <p className="mt-6 rounded-2xl bg-white/10 p-4 text-center font-bold text-white/85">{text.bookingNote}</p>
+            <p className="mt-4 text-7xl font-black leading-none">{apartment.price}</p>
+            <p className="mt-2 text-lg font-black text-white/80">{text.priceSuffix}</p>
+            <div className="mt-8 space-y-3"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block rounded-2xl bg-white py-5 text-center text-lg font-black text-[#d4146f] shadow-lg transition hover:-translate-y-0.5">WhatsApp</a><a href="tel:+37369990190" className="block rounded-2xl bg-[#ffb800] py-5 text-center text-lg font-black text-[#07111f] shadow-lg transition hover:-translate-y-0.5">{text.call}</a><a href="viber://chat?number=%2B37369990190" className="block rounded-2xl bg-[#7c00d9] py-5 text-center text-lg font-black text-white shadow-lg transition hover:-translate-y-0.5">Viber</a></div>
+            <p className="mt-7 rounded-2xl bg-white/12 p-5 text-center text-base font-black leading-7 text-white/90">{text.bookingNote}</p>
           </aside>
         </section>
       </section>
 
-      <footer className="bg-[#111827] px-4 py-10 text-white sm:px-6 lg:px-8"><div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-3xl font-black">Rent<span className="text-[#d4146f]">Place</span><span className="text-[#ffb800]">MD</span></p><p className="mt-2 text-white/60">{text.footerText}</p></div><div className="text-lg font-black"><a href="tel:+37369990190" className="block">+373 69 990 190</a><a href="tel:+37379990190" className="mt-1 block">+373 79 990 190</a></div></div></footer>
-      <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] py-4 text-center text-base font-black text-white shadow-2xl">WhatsApp</a><a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] py-4 text-center text-base font-black text-white shadow-2xl">{text.call}</a></div>
+      <footer className="mt-14 bg-[#07111f] px-4 py-10 text-white sm:px-6 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-3xl font-black">Rent<span className="text-[#d4146f]">Place</span><span className="text-[#ffb800]">MD</span></p><p className="mt-2 text-white/60">{text.footerText}</p></div><div className="text-lg font-black"><a href="tel:+37369990190" className="block">+373 69 990 190</a><a href="tel:+37379990190" className="mt-1 block">+373 79 990 190</a></div></div></footer>
+      <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 rounded-[22px] border border-white/20 bg-[#07111f]/85 p-2 shadow-2xl shadow-black/30 backdrop-blur lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] py-4 text-center text-base font-black text-white shadow-2xl shadow-emerald-500/25">WhatsApp</a><a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] py-4 text-center text-base font-black text-white shadow-2xl shadow-pink-600/25">{text.call}</a></div>
     </main>
   );
 }
