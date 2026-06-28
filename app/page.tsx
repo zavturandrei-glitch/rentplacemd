@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TodayFree from "@/components/TodayFree";
 import Benefits from "@/components/Benefits";
+import TrustSections from "@/components/TrustSections";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <Header />
       <Hero />
       <TodayFree />
+      <TrustSections />
       <Benefits />
       <Footer />
     </main>

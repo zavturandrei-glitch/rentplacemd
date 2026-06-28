@@ -296,7 +296,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
       <Header />
 
       <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-4 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
-        <a href="/" className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {text.back}</a>
+        <a href="/" aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {text.back}</a>
 
         <div className="overflow-hidden rounded-[22px] bg-[#07111f] shadow-2xl shadow-black/25 ring-1 ring-black/5 sm:rounded-[26px]">
           <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
@@ -310,8 +310,8 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
               <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/78 sm:mt-6 sm:text-lg sm:leading-8">{text.intro[apartment.kind]}</p>
               <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-9 sm:grid-cols-3">
                 <div className="col-span-2 rounded-2xl bg-white p-4 text-[#07111f] shadow-xl shadow-black/10 sm:col-span-1 sm:p-5"><p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">{apartment.price}</p><p className="mt-1 text-xs font-black text-gray-500 sm:mt-2 sm:text-sm">{text.priceSuffix}</p></div>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#25D366] p-3 text-center text-sm font-black text-white shadow-xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110 sm:min-h-[92px] sm:p-5 sm:text-base">{text.checkAvailability}</a>
-                <a href="tel:+37369990190" className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#ffb800] p-3 text-center text-sm font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105 sm:min-h-[92px] sm:p-5 sm:text-base">{text.call}</a>
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label={text.checkAvailability} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#25D366] p-3 text-center text-sm font-black text-white shadow-xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110 sm:min-h-[92px] sm:p-5 sm:text-base">{text.checkAvailability}</a>
+                <a href="tel:+37369990190" aria-label={text.call} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#ffb800] p-3 text-center text-sm font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105 sm:min-h-[92px] sm:p-5 sm:text-base">{text.call}</a>
               </div>
             </div>
             <ResponsiveImage
@@ -353,14 +353,14 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <p className="text-sm font-black uppercase tracking-[0.25em] text-white/70">{text.bookingLabel}</p>
             <p className="mt-3 text-5xl font-black leading-none sm:mt-4 sm:text-7xl">{apartment.price}</p>
             <p className="mt-2 text-lg font-black text-white/80">{text.priceSuffix}</p>
-            <div className="mt-6 grid gap-3 sm:mt-8"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block rounded-2xl bg-white py-4 text-center text-base font-black text-[#d4146f] shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">WhatsApp</a><a href="viber://chat?number=%2B37369990190" className="block rounded-2xl bg-[#7c00d9] py-4 text-center text-base font-black text-white shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">Viber</a><a href="tel:+37369990190" className="block rounded-2xl bg-[#ffb800] py-4 text-center text-base font-black text-[#07111f] shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">{text.call}</a></div>
+            <div className="mt-6 grid gap-3 sm:mt-8"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="block rounded-2xl bg-white py-4 text-center text-base font-black text-[#d4146f] shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">WhatsApp</a><a href="viber://chat?number=%2B37369990190" aria-label="Viber" className="block rounded-2xl bg-[#7c00d9] py-4 text-center text-base font-black text-white shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">Viber</a><a href="tel:+37369990190" aria-label={text.call} className="block rounded-2xl bg-[#ffb800] py-4 text-center text-base font-black text-[#07111f] shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">{text.call}</a></div>
             <p className="mt-5 rounded-2xl bg-white/12 p-4 text-center text-sm font-black leading-6 text-white/90 sm:mt-7 sm:p-5 sm:text-base sm:leading-7">{text.bookingNote}</p>
           </aside>
         </section>
       </section>
 
       <Footer />
-      <div className="fixed bottom-3 left-3 right-3 z-50 grid grid-cols-3 gap-2 rounded-[20px] border border-white/20 bg-[#07111f]/88 p-2 shadow-2xl shadow-black/30 backdrop-blur lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-[#25D366] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-emerald-500/25">WhatsApp</a><a href="viber://chat?number=%2B37369990190" className="rounded-2xl bg-[#7c00d9] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-purple-600/25">Viber</a><a href="tel:+37369990190" className="rounded-2xl bg-[#d4146f] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-pink-600/25">{text.call}</a></div>
+      <div className="fixed bottom-3 left-3 right-3 z-50 grid grid-cols-3 gap-2 rounded-[20px] border border-white/20 bg-[#07111f]/88 p-2 shadow-2xl shadow-black/30 backdrop-blur lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-2xl bg-[#25D366] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-emerald-500/25">WhatsApp</a><a href="viber://chat?number=%2B37369990190" aria-label="Viber" className="rounded-2xl bg-[#7c00d9] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-purple-600/25">Viber</a><a href="tel:+37369990190" aria-label={text.call} className="rounded-2xl bg-[#d4146f] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-pink-600/25">{text.call}</a></div>
     </main>
   );
 }
