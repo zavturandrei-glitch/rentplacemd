@@ -1,7 +1,7 @@
 import type { ApartmentDetailsData } from "@/components/ApartmentDetails";
 
 export const apartmentDetailsById = {
-  10: { id: 10, price: 800, kind: "oneBedroom", guests: 4, images: ["/apartments/izmail88-10/1.png", "/apartments/izmail88-10/2.png", "/apartments/izmail88-10/3.png", "/apartments/izmail88-10/4.png", "/apartments/izmail88-10/5.png"] },
+  10: { id: 10, price: 800, kind: "oneBedroom", guests: 4, heroPosition: "42% center", images: ["/apartments/izmail88-10/1.png", "/apartments/izmail88-10/2.png", "/apartments/izmail88-10/3.png", "/apartments/izmail88-10/4.png", "/apartments/izmail88-10/5.png"] },
   11: { id: 11, price: 800, kind: "studio", guests: 2, images: ["/apartments/izmail88-11/1.png", "/apartments/izmail88-11/2.png", "/apartments/izmail88-11/3.png", "/apartments/izmail88-11/4.png"] },
   12: { id: 12, price: 800, kind: "oneBedroom", guests: 3, images: ["/apartments/izmail88-12/1.png", "/apartments/izmail88-12/2.png", "/apartments/izmail88-12/3.png", "/apartments/izmail88-12/4.png"] },
   13: { id: 13, price: 900, kind: "twoBedroom", guests: 4, images: ["/apartments/izmail88-13/1.png", "/apartments/izmail88-13/2.png", "/apartments/izmail88-13/3.png", "/apartments/izmail88-13/4.png", "/apartments/izmail88-13/5.png"] },

@@ -339,7 +339,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
 
         <div className="overflow-hidden rounded-[26px] bg-[#07111f] shadow-2xl shadow-black/25 ring-1 ring-black/5">
           <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
-            <div className="flex min-h-[460px] flex-col justify-center bg-gradient-to-br from-[#07111f] via-[#0b1628] to-[#121b2b] p-6 text-white sm:p-9 lg:min-h-[560px] lg:p-12">
+            <div className="flex min-h-[440px] flex-col justify-center bg-gradient-to-br from-[#07111f] via-[#0b1628] to-[#121b2b] p-6 text-white sm:p-9 lg:min-h-[500px] lg:p-12">
               <div className="mb-6 flex flex-wrap gap-2.5">
                 <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-black text-white shadow-inner">ID {apartment.id}</span>
                 <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-black text-white shadow-inner">{text.kinds[apartment.kind]}</span>
@@ -353,7 +353,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 <a href="tel:+37369990190" className="flex min-h-[92px] items-center justify-center rounded-2xl bg-[#ffb800] p-5 text-center text-base font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105">{text.call}</a>
               </div>
             </div>
-            <div className="relative h-[340px] overflow-hidden sm:h-[500px] lg:h-[560px]">
+            <div className="relative h-[320px] overflow-hidden sm:h-[460px] lg:h-[500px]">
               <img src={apartment.images[0]} alt={text.addressTitle + " ID " + apartment.id} className="h-full w-full object-cover" style={{ objectPosition: heroPosition }} />
               <div className="absolute bottom-5 left-5 rounded-2xl bg-white/92 px-5 py-4 shadow-2xl shadow-black/20 backdrop-blur"><p className="text-sm font-black text-gray-500">{text.kinds[apartment.kind]}</p><p className="text-xl font-black text-[#07111f]">{text.overlay[apartment.kind]}</p></div>
             </div>
@@ -364,7 +364,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.photo}</p>
           <h2 className="mt-2 text-4xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
           <div className="mt-6 grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><img src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[320px] w-full rounded-[20px] object-cover sm:h-[500px] lg:h-[560px]" style={{ objectPosition: heroPosition }} /></div>
+            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><img src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[300px] w-full rounded-[20px] object-cover sm:h-[460px] lg:h-[500px]" style={{ objectPosition: heroPosition }} /></div>
             <div className="grid gap-5 sm:grid-cols-2">
               {galleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><img src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} loading="lazy" className="h-[210px] w-full rounded-[18px] object-cover object-center sm:h-[230px] lg:h-[178px]" /></div>))}
               <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><img src={facadePhoto} alt={text.facadeAlt} loading="lazy" className="h-[220px] w-full rounded-[18px] object-cover object-center lg:h-[178px]" /></div>
