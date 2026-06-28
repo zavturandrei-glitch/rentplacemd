@@ -91,8 +91,10 @@ const headerText: Record<
 
 function getSavedLanguage(): Lang {
   if (typeof window === "undefined") return "RU";
-  const saved = window.localStorage.getItem(LANG_STORAGE_KEY) as Lang | null;
-  return saved && saved in headerText ? saved : "RU";
+  const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
+  const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
+
+  return normalizedSaved && normalizedSaved in headerText ? normalizedSaved : "RU";
 }
 
 function useRentPlaceLanguage() {

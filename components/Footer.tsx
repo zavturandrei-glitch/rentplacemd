@@ -1,13 +1,21 @@
+"use client";
+
+import { useLanguage } from "@/context/LanguageContext";
+
+type FooterTranslation = ReturnType<typeof useLanguage>["t"];
+
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-gradient-to-b from-[#0b1628] to-[#07111f] text-white">
-      <MobileFooter />
-      <DesktopFooter />
+      <MobileFooter t={t} />
+      <DesktopFooter t={t} />
     </footer>
   );
 }
 
-function MobileFooter() {
+function MobileFooter({ t }: { t: FooterTranslation }) {
   return (
     <div className="lg:hidden px-4 pt-8 pb-28">
       <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/25">
@@ -23,21 +31,21 @@ function MobileFooter() {
             </div>
 
             <p className="mt-1.5 text-[13px] font-semibold leading-tight text-white/65">
-              Квартиры посуточно в Кишинёве
+              {t.common.brandSubtitle}
             </p>
           </div>
         </a>
 
         <div className="mt-6 grid grid-cols-2 gap-2.5">
-          <BenefitItem icon={<LocationIcon />} text="Центр Кишинёва" />
-          <BenefitItem icon={<HomeIcon />} text="Более 12 квартир" />
-          <BenefitItem icon={<ClockIcon />} text="Заселение 24/7" />
-          <BenefitItem icon={<ShieldIcon />} text="Без посредников" />
+          <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />
+          <BenefitItem icon={<HomeIcon />} text={t.footer.moreThan12Apartments} />
+          <BenefitItem icon={<ClockIcon />} text={t.footer.checkin247} />
+          <BenefitItem icon={<ShieldIcon />} text={t.footer.noMiddlemen} />
         </div>
 
         <div className="mt-6 rounded-3xl border border-white/10 bg-[#050b14]/55 p-4">
           <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[#ffd21f]">
-            Наши контакты
+            {t.footer.contacts}
           </p>
 
           <div className="mt-4 space-y-2.5">
@@ -89,23 +97,23 @@ function MobileFooter() {
           </div>
 
           <p className="mt-4 text-center text-[12px] font-black uppercase tracking-[0.22em] text-[#ffd21f]">
-            Свободные квартиры сегодня
+            {t.footer.availableToday}
           </p>
 
           <a
             href="#today-free"
             className="mt-3 flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition active:scale-[0.98]"
           >
-            Смотреть квартиры
+            {t.footer.viewApartments}
           </a>
         </div>
 
         <div className="mt-5 border-t border-white/10 pt-5 text-center">
           <p className="text-[13px] font-bold leading-relaxed text-white/70">
-            © 2026 RentPlaceMD™. Все права защищены.
+            {t.footer.copyright}
           </p>
           <p className="mt-2 text-[12px] font-semibold leading-relaxed text-white/45">
-            Квартиры посуточно в Кишинёве • Центр • Новостройки
+            {t.footer.bottomText}
           </p>
         </div>
       </div>
@@ -113,7 +121,7 @@ function MobileFooter() {
   );
 }
 
-function DesktopFooter() {
+function DesktopFooter({ t }: { t: FooterTranslation }) {
   return (
     <div className="hidden lg:block">
       <div className="mx-auto max-w-[1600px] px-10 py-10">
@@ -134,22 +142,22 @@ function DesktopFooter() {
                 </div>
 
                 <p className="mt-2 text-[15px] font-semibold text-white/70">
-                  Квартиры посуточно в Кишинёве
+                  {t.common.brandSubtitle}
                 </p>
               </div>
             </a>
 
             <div className="mt-6 grid max-w-xl grid-cols-2 gap-3">
-              <BenefitItem icon={<LocationIcon />} text="Центр Кишинёва" />
-              <BenefitItem icon={<HomeIcon />} text="Более 12 квартир" />
-              <BenefitItem icon={<ClockIcon />} text="Заселение 24/7" />
-              <BenefitItem icon={<ShieldIcon />} text="Без посредников" />
+              <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />
+              <BenefitItem icon={<HomeIcon />} text={t.footer.moreThan12Apartments} />
+              <BenefitItem icon={<ClockIcon />} text={t.footer.checkin247} />
+              <BenefitItem icon={<ShieldIcon />} text={t.footer.noMiddlemen} />
             </div>
           </div>
 
           <div className="justify-self-center">
             <p className="mb-4 text-[12px] font-black uppercase tracking-[0.28em] text-[#ffd21f]">
-              Наши контакты
+              {t.footer.contacts}
             </p>
 
             <div className="space-y-3">
@@ -171,7 +179,7 @@ function DesktopFooter() {
                 className="group block rounded-2xl px-1 py-1 transition hover:text-[#ff4fa3]"
               >
                 <span className="mb-1 block text-[11px] font-black uppercase tracking-[0.22em] text-white/35 group-hover:text-[#ffd21f]">
-                  Позвонить / Telegram
+                  {t.footer.callTelegram}
                 </span>
                 <span className="flex items-center gap-3 text-[23px] font-black text-white transition group-hover:text-[#ff4fa3]">
                   <PhoneIcon />
@@ -213,25 +221,25 @@ function DesktopFooter() {
             </div>
 
             <p className="mt-5 text-center text-[12px] font-black uppercase tracking-[0.24em] text-[#ffd21f]">
-              Свободные квартиры сегодня
+              {t.footer.availableToday}
             </p>
 
             <a
               href="#today-free"
               className="mt-3 flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
             >
-              Смотреть квартиры
+              {t.footer.viewApartments}
             </a>
           </div>
         </div>
 
         <div className="mt-6 border-t border-white/10 pt-6 text-center">
           <p className="text-[14px] font-bold text-white/55">
-            © 2026 RentPlaceMD™. Все права защищены.
+            {t.footer.copyright}
           </p>
 
           <p className="mt-2 text-[13px] font-semibold text-white/40">
-            Квартиры посуточно в Кишинёве • Центр • Новостройки
+            {t.footer.bottomText}
           </p>
         </div>
       </div>

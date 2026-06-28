@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { Language, translations } from "@/lib/translations";
+import { Language, translations } from "@/locales/translations";
 
 type LanguageContextValue = {
   language: Language;
@@ -16,20 +16,51 @@ function isLanguage(value: string | null): value is Language {
   return value === "ru" || value === "ro" || value === "en" || value === "uk" || value === "cs";
 }
 
+function normalizeLanguage(value: string | null): Language | null {
+  if (!value) return null;
+
+  const normalizedValue = value.toLowerCase();
+
+  return isLanguage(normalizedValue) ? normalizedValue : null;
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("ru");
 
   useEffect(() => {
-    const savedLanguage = window.localStorage.getItem("rentplacemd-language");
+    const savedLanguage = normalizeLanguage(
+      window.localStorage.getItem("rentplacemd-language")
+    );
 
-    if (isLanguage(savedLanguage)) {
+    if (savedLanguage) {
       setLanguageState(savedLanguage);
+      window.localStorage.setItem("rentplacemd-language", savedLanguage);
     }
+
+    function handleLanguageChange(event: Event) {
+      const nextLanguage = normalizeLanguage(
+        (event as CustomEvent<string>).detail ?? null
+      );
+
+      if (nextLanguage) {
+        setLanguageState(nextLanguage);
+        window.localStorage.setItem("rentplacemd-language", nextLanguage);
+      }
+    }
+
+    window.addEventListener("rentplacemd-language-change", handleLanguageChange);
+
+    return () => {
+      window.removeEventListener("rentplacemd-language-change", handleLanguageChange);
+    };
   }, []);
 
   function setLanguage(nextLanguage: Language) {
     setLanguageState(nextLanguage);
     window.localStorage.setItem("rentplacemd-language", nextLanguage);
+    window.dispatchEvent(
+      new CustomEvent("rentplacemd-language-change", { detail: nextLanguage })
+    );
   }
 
   const value = useMemo(
