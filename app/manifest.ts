@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
+import { siteDescription, siteName } from "@/lib/seo";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "RentPlaceMD - квартиры посуточно в Кишинёве",
-    short_name: "RentPlaceMD",
-    description: "Квартиры посуточно в центре Кишинёва, комплекс Измаил 88. Заселение 24/7, прямой контакт без посредников.",
+    name: siteName + " - квартиры посуточно в Кишинёве",
+    short_name: siteName,
+    description: siteDescription,
     start_url: "/",
     scope: "/",
     display: "standalone",
@@ -15,14 +16,33 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         src: "/favicon.ico",
-        sizes: "any",
+        sizes: "16x16 32x32 48x48",
         type: "image/x-icon",
+        purpose: "any",
       },
       {
-        src: "/og-image.jpg",
-        sizes: "1200x630",
-        type: "image/jpeg",
+        src: "/favicon-48x48.png",
+        sizes: "48x48",
+        type: "image/png",
         purpose: "any",
+      },
+      {
+        src: "/apple-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "maskable",
+      },
+      {
+        src: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
       },
     ],
   };

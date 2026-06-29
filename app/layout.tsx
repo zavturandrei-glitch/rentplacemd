@@ -1,31 +1,39 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { LanguageProvider } from "@/context/LanguageContext";
+import {
+  baseUrl,
+  buildSiteJsonLd,
+  defaultLocale,
+  iconMetadata,
+  routeAlternates,
+  seoKeywords,
+  siteDescription,
+  siteName,
+  siteTitle,
+} from "@/lib/seo";
 import "./globals.css";
-
-const baseUrl = "https://rentplace.md";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  applicationName: siteName,
   title: {
-    default: "RentPlaceMD - квартиры посуточно в центре Кишинёва",
+    default: siteTitle,
     template: "%s | RentPlaceMD",
   },
-  description:
-    "Премиальные квартиры посуточно в центре Кишинёва, комплекс Измаил 88. Заселение 24/7, WhatsApp/Viber, без посредников.",
-  keywords: [
-    "квартиры посуточно Кишинев",
-    "апартаменты Кишинев центр",
-    "аренда квартиры посуточно",
-    "RentPlaceMD",
-    "Измаил 88",
-    "daily apartments Chisinau",
-  ],
-  alternates: {
-    canonical: "/",
-  },
-  icons: {
-    icon: "/favicon.ico",
+  description: siteDescription,
+  keywords: seoKeywords,
+  alternates: routeAlternates(),
+  icons: iconMetadata,
+  manifest: "/manifest.webmanifest",
+  category: "travel",
+  authors: [{ name: siteName, url: baseUrl }],
+  creator: siteName,
+  publisher: siteName,
+  formatDetection: {
+    telephone: true,
+    address: true,
+    email: false,
   },
   robots: {
     index: true,
@@ -39,60 +47,40 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "RentPlaceMD - квартиры посуточно в центре Кишинёва",
-    description:
-      "Чистые квартиры посуточно в комплексе Измаил 88. Центр города, заселение 24/7, без посредников.",
+    title: siteTitle,
+    description: siteDescription,
     url: baseUrl,
-    siteName: "RentPlaceMD",
+    siteName,
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "RentPlaceMD apartments in Chisinau",
+        alt: "RentPlaceMD apartments in Chisinau, Ismail 88",
       },
     ],
-    locale: "ru_RU",
+    locale: defaultLocale,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "RentPlaceMD - квартиры посуточно в центре Кишинёва",
-    description:
-      "Премиальные квартиры посуточно в Кишинёве. Центр, Измаил 88, заселение 24/7.",
+    title: siteTitle,
+    description: siteDescription,
     images: ["/og-image.jpg"],
+  },
+  appleWebApp: {
+    capable: true,
+    title: siteName,
+    statusBarStyle: "black-translucent",
   },
 };
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "RentPlaceMD",
-  url: baseUrl,
-  image: baseUrl + "/og-image.jpg",
-  telephone: ["+37369990190", "+37379990190"],
-  priceRange: "800-1000 MDL",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Ismail 88",
-    addressLocality: "Chisinau",
-    addressCountry: "MD",
-  },
-  areaServed: {
-    "@type": "City",
-    name: "Chisinau",
-  },
-  openingHours: "Mo-Su 00:00-23:59",
-  sameAs: ["https://t.me/rentplacemd", "https://wa.me/37369990190"],
-  makesOffer: {
-    "@type": "Offer",
-    itemOffered: {
-      "@type": "Apartment",
-      name: "Daily apartments at Ismail 88",
-      address: "Ismail 88, Chisinau",
-    },
-  },
-};
+const structuredData = buildSiteJsonLd();
+const googleAnalyticsScript =
+  "window.dataLayer = window.dataLayer || [];" +
+  "function gtag(){dataLayer.push(arguments);}" +
+  "gtag('js', new Date());" +
+  "gtag('config', 'G-404L3B7Q2R');";
 
 export default function RootLayout({
   children,
@@ -100,10 +88,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ru"
-      className="h-full antialiased"
-    >
+    <html lang="ru" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <LanguageProvider>{children}</LanguageProvider>
 
@@ -120,12 +105,7 @@ export default function RootLayout({
         />
 
         <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-404L3B7Q2R');
-          `}
+          {googleAnalyticsScript}
         </Script>
       </body>
     </html>
