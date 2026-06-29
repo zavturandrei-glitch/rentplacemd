@@ -23,6 +23,7 @@ export default function AdminAvailabilityPage() {
     label: kindLabel[apartment.kind],
     price: apartment.price,
     guests: apartment.guests,
+    image: apartment.images[0],
   }));
 
   return <AdminAvailabilityManager apartments={apartments} />;

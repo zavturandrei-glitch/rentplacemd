@@ -326,7 +326,6 @@ export default function TodayFree() {
                   objectPosition={"imagePosition" in apartment ? apartment.imagePosition : "center"}
                   priority={apartment.id <= 13}
                   withWatermark
-                  compactWatermark
                 >
                   <div className="absolute left-4 top-4 z-10 rounded-full bg-[#ffd21f] px-4 py-2 text-sm font-black text-gray-900 shadow sm:left-5 sm:top-5 sm:px-5 sm:py-2.5 sm:text-base">
                     ID {apartment.id}

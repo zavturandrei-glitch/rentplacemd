@@ -13,7 +13,6 @@ type ResponsiveImageProps = {
   loading?: "eager" | "lazy";
   objectPosition?: string;
   withWatermark?: boolean;
-  compactWatermark?: boolean;
   children?: ReactNode;
 };
 
@@ -30,14 +29,12 @@ export default function ResponsiveImage({
   loading,
   objectPosition = "center",
   withWatermark = false,
-  compactWatermark = false,
   children,
 }: ResponsiveImageProps) {
   const [failed, setFailed] = useState(false);
   const frameClassName = [
     "relative overflow-hidden bg-[#f4f1ee]",
     withWatermark ? "rpm-watermark-frame" : "",
-    compactWatermark ? "rpm-watermark-frame--compact" : "",
     className,
   ]
     .filter(Boolean)
