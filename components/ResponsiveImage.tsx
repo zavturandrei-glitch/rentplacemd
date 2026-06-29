@@ -62,7 +62,34 @@ export default function ResponsiveImage({
           RentPlaceMD
         </div>
       )}
+      {withWatermark ? <RentPlaceWatermark /> : null}
       {children}
+    </div>
+  );
+}
+
+function RentPlaceWatermark() {
+  return (
+    <div className="rpm-watermark" aria-hidden="true">
+      <svg className="rpm-watermark-icon" viewBox="0 0 54 54" focusable="false">
+        <path d="M6 48H48" />
+        <path d="M12 48V25L22 19V48" />
+        <path d="M22 48V12L32 6V48" />
+        <path d="M32 48V20L42 26V48" />
+        <path d="M17 30H19M17 36H19M17 42H19" />
+        <path d="M27 17H29M27 23H29M27 29H29M27 35H29M27 41H29" />
+        <path d="M37 31H39M37 37H39M37 43H39" />
+        <path d="M22 19L32 13" />
+        <path d="M12 25L22 31L32 25L42 31" />
+      </svg>
+      <span className="rpm-watermark-copy">
+        <span className="rpm-watermark-brand">
+          <span>RentPlace</span>
+          <span className="rpm-watermark-md">MD</span>
+          <span className="rpm-watermark-tm">™</span>
+        </span>
+        <span className="rpm-watermark-subtitle">APARTMENTS IN CHIȘINĂU</span>
+      </span>
     </div>
   );
 }

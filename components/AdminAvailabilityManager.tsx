@@ -75,6 +75,14 @@ function splitChangeKey(key: string) {
   return { apartmentId, date };
 }
 
+function getRoomLabel(label?: string) {
+  if (!label) {
+    return "Квартира";
+  }
+
+  return label.replace(" квартира", "").replace(" спальни", " сп.");
+}
+
 export default function AdminAvailabilityManager({ apartments }: { apartments: ApartmentOption[] }) {
   const [sessionState, setSessionState] = useState<SessionState>("checking");
   const [password, setPassword] = useState("");
@@ -88,6 +96,21 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const bookedCountByApartment = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const record of records) {
+      counts.set(record.apartmentId, record.bookedDates.length);
+    }
+    return counts;
+  }, [records]);
+  const pendingCountByApartment = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const key of Object.keys(pendingChanges)) {
+      const { apartmentId } = splitChangeKey(key);
+      counts.set(apartmentId, (counts.get(apartmentId) ?? 0) + 1);
+    }
+    return counts;
+  }, [pendingChanges]);
   const selectedApartment = apartments.find((apartment) => String(apartment.id) === selectedApartmentId);
   const selectedRecord = records.find((record) => record.apartmentId === selectedApartmentId) ?? {
     apartmentId: selectedApartmentId,
@@ -115,8 +138,12 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
   const calendarDays = useMemo(() => getCalendarDays(visibleMonth), [visibleMonth]);
   const monthLabel = monthNames[visibleMonth.getMonth()] + " " + visibleMonth.getFullYear();
   const pendingCount = Object.keys(pendingChanges).length;
-  const selectedApartmentPendingCount = Object.keys(pendingChanges).filter((key) => key.startsWith(selectedApartmentId + "|")).length;
+  const selectedApartmentPendingCount = pendingCountByApartment.get(selectedApartmentId) ?? 0;
   const visibleBookedCount = calendarDays.filter((day) => day.getMonth() === visibleMonth.getMonth() && effectiveBookedDateSet.has(formatDate(day))).length;
+  const selectedDateBooked = effectiveBookedDateSet.has(selectedDate);
+  const selectedDatePending = Boolean(pendingChanges[changeKey(selectedApartmentId, selectedDate)]);
+  const selectedStatusLabel = selectedDateBooked ? "Занято" : "Свободно";
+  const selectedStatusTone = selectedDateBooked ? "bg-[#fff1f5] text-[#d4144f] ring-[#d4144f]/15" : "bg-emerald-50 text-emerald-700 ring-emerald-500/15";
 
   useEffect(() => {
     async function checkSession() {
@@ -201,7 +228,11 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
       }
       return next;
     });
-    setMessage("Есть несохраненные изменения. Нажмите Сохранить.");
+    setMessage(nextStatus === "booked" ? "Занято" : "Свободно");
+  }
+
+  function selectApartment(apartmentId: number) {
+    setSelectedApartmentId(String(apartmentId));
   }
 
   function updateRecord(updatedRecord: AvailabilityRecord) {
@@ -222,7 +253,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
     }
 
     setIsSaving(true);
-    setMessage("Сохраняю изменения...");
+    setMessage("Сохраняю...");
 
     try {
       for (const [key, status] of changes) {
@@ -254,7 +285,9 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
   if (sessionState === "checking") {
     return (
       <AdminShell>
-        <p className="rounded-2xl bg-white p-5 text-sm font-black text-[#07111f] shadow-xl">Проверяю доступ...</p>
+        <div className="mx-auto mt-20 max-w-sm rounded-[28px] bg-white p-5 text-center shadow-2xl shadow-black/10 ring-1 ring-black/5">
+          <p className="text-sm font-black text-[#07111f]">Проверяю доступ...</p>
+        </div>
       </AdminShell>
     );
   }
@@ -262,17 +295,17 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
   if (sessionState === "locked") {
     return (
       <AdminShell>
-        <form onSubmit={login} className="mx-auto max-w-md rounded-[24px] bg-white p-5 shadow-2xl shadow-black/10 sm:p-8">
-          <p className="text-sm font-black uppercase text-[#d4146f]">Закрытый доступ</p>
-          <h1 className="mt-3 text-3xl font-black tracking-tight text-[#07111f]">Календарь занятости RentPlaceMD</h1>
-          <p className="mt-3 text-sm font-semibold leading-6 text-slate-600">Войдите с админ-паролем, чтобы вручную отмечать даты как занятые или свободные.</p>
-          <label className="mt-6 block text-sm font-black text-[#07111f]" htmlFor="admin-password">Пароль администратора</label>
+        <form onSubmit={login} className="mx-auto mt-8 max-w-md rounded-[28px] bg-white p-5 shadow-2xl shadow-black/10 ring-1 ring-black/5 sm:mt-16 sm:p-8">
+          <p className="text-xs font-black uppercase text-[#d4146f]">RentPlaceMD Admin</p>
+          <h1 className="mt-2 text-2xl font-black tracking-tight text-[#07111f] sm:text-3xl">Календарь занятости</h1>
+          <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">Войдите, чтобы управлять свободными и занятыми датами.</p>
+          <label className="mt-5 block text-sm font-black text-[#07111f]" htmlFor="admin-password">Пароль</label>
           <input
             id="admin-password"
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-[#fffaf0] px-4 text-base font-bold text-[#07111f] outline-none transition focus:border-[#d4146f] focus:ring-4 focus:ring-[#d4146f]/10"
+            className="mt-2 h-14 w-full rounded-2xl border border-[#d4146f]/15 bg-[#fffaf0] px-4 text-base font-bold text-[#07111f] outline-none transition focus:border-[#d4146f] focus:ring-4 focus:ring-[#d4146f]/10"
             autoComplete="current-password"
           />
           {authError ? <p className="mt-4 rounded-2xl bg-red-50 p-3 text-sm font-black leading-5 text-red-700">{authError}</p> : null}
@@ -284,64 +317,56 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
 
   return (
     <AdminShell>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-sm font-black uppercase text-[#d4146f]">Админ-календарь</p>
-          <h1 className="mt-2 text-[28px] font-black leading-tight tracking-tight text-[#07111f] sm:text-5xl">Календарь занятости RentPlaceMD</h1>
-          <p className="mt-3 max-w-2xl rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-bold leading-6 text-slate-700 shadow-sm sm:text-base">Нажмите на дату, чтобы изменить статус. После изменений нажмите Сохранить.</p>
+      <header className="sticky top-0 z-20 -mx-3 border-b border-[#f0dce6] bg-[#fffaf0]/94 px-3 pb-3 pt-3 backdrop-blur-xl sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] font-black uppercase tracking-[0.08em] text-[#d4146f]">RentPlaceMD</p>
+            <h1 className="mt-0.5 text-[22px] font-black leading-tight tracking-tight text-[#07111f] sm:text-4xl">Календарь занятости</h1>
+            <p className="mt-1 max-w-xl text-xs font-bold leading-4 text-slate-600 sm:text-sm">Дата → статус → сохранить.</p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            <button type="button" onClick={loadAvailability} className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-black text-[#07111f] shadow-lg shadow-black/5 ring-1 ring-black/5 transition hover:-translate-y-0.5" aria-label="Обновить">↻</button>
+            <button type="button" onClick={logout} className="grid h-10 w-10 place-items-center rounded-2xl bg-[#07111f] text-sm font-black text-white shadow-lg shadow-black/10 transition hover:-translate-y-0.5" aria-label="Выйти">×</button>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={loadAvailability} className="min-h-12 rounded-2xl bg-white px-5 py-3 text-sm font-black text-[#07111f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5">Обновить</button>
-          <button type="button" onClick={logout} className="min-h-12 rounded-2xl bg-[#07111f] px-5 py-3 text-sm font-black text-white shadow-lg shadow-black/10 transition hover:-translate-y-0.5">Выйти</button>
-        </div>
-      </div>
+      </header>
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-[360px_minmax(0,1fr)]">
-        <aside className="rounded-[24px] bg-white p-4 shadow-2xl shadow-black/10 sm:p-5 lg:sticky lg:top-6 lg:h-fit">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs font-black uppercase text-slate-500">Выберите квартиру</p>
-            <Link href="/" className="rounded-xl border border-[#d4146f]/15 px-3 py-2 text-xs font-black text-[#d4146f] transition hover:bg-[#fffaf0]">На сайт</Link>
+      <div className="mt-3 grid gap-3 xl:grid-cols-[430px_minmax(0,1fr)] xl:gap-5">
+        <aside className="xl:sticky xl:top-6 xl:h-fit">
+          <div className="mb-2 flex items-center justify-between gap-3 px-0.5">
+            <p className="text-xs font-black uppercase text-[#07111f]">Квартиры</p>
+            <Link href="/" className="rounded-full bg-white px-3 py-1.5 text-[11px] font-black text-[#d4146f] shadow-sm ring-1 ring-[#d4146f]/10">Сайт</Link>
           </div>
 
-          <label className="mt-4 block text-xs font-black uppercase text-slate-500 sm:hidden" htmlFor="apartment-select">Квартира</label>
-          <select
-            id="apartment-select"
-            value={selectedApartmentId}
-            onChange={(event) => setSelectedApartmentId(event.target.value)}
-            className="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-[#fffaf0] px-4 text-base font-black text-[#07111f] outline-none focus:border-[#d4146f] focus:ring-4 focus:ring-[#d4146f]/10 sm:hidden"
-          >
-            {apartments.map((apartment) => (
-              <option key={apartment.id} value={apartment.id}>ID {apartment.id} - {apartment.label}, до {apartment.guests} гостей</option>
-            ))}
-          </select>
-
-          <div className="mt-4 flex snap-x gap-3 overflow-x-auto pb-2 sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible lg:grid-cols-1">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-2">
             {apartments.map((apartment) => {
               const active = String(apartment.id) === selectedApartmentId;
-              const bookedCount = records.find((record) => record.apartmentId === String(apartment.id))?.bookedDates.length ?? 0;
-              const apartmentPendingCount = Object.keys(pendingChanges).filter((key) => key.startsWith(String(apartment.id) + "|")).length;
+              const bookedCount = bookedCountByApartment.get(String(apartment.id)) ?? 0;
+              const apartmentPendingCount = pendingCountByApartment.get(String(apartment.id)) ?? 0;
 
               return (
                 <button
                   key={apartment.id}
                   type="button"
-                  onClick={() => setSelectedApartmentId(String(apartment.id))}
+                  onClick={() => selectApartment(apartment.id)}
                   className={[
-                    "min-w-[210px] snap-start overflow-hidden rounded-2xl border text-left transition sm:min-w-0",
-                    active ? "border-[#d4146f] bg-white shadow-lg shadow-pink-700/15 ring-2 ring-[#d4146f]" : "border-slate-200 bg-white shadow-sm hover:border-[#d4146f]/40",
+                    "group overflow-hidden rounded-[20px] bg-white text-left shadow-lg shadow-black/5 ring-1 ring-black/5 transition sm:rounded-[22px]",
+                    active ? "ring-2 ring-[#d4146f] shadow-pink-700/20" : "hover:-translate-y-0.5 hover:ring-[#d4146f]/30",
                   ].join(" ")}
                 >
-                  <span className="relative block h-24 overflow-hidden bg-slate-100">
-                    <ResponsiveImage src={apartment.image} alt={"Квартира ID " + apartment.id} className="h-full w-full" sizes="210px" loading="lazy" withWatermark />
-                    <span className="absolute left-2 top-2 rounded-full bg-[#ffd21f] px-3 py-1 text-xs font-black text-[#07111f]">ID {apartment.id}</span>
+                  <span className="relative block aspect-[1.18] overflow-hidden bg-[#f4f1ee]">
+                    <ResponsiveImage src={apartment.image} alt={"Квартира ID " + apartment.id} className="h-full w-full" sizes="(min-width: 1280px) 215px, (min-width: 640px) 33vw, 50vw" loading="lazy" withWatermark />
+                    <span className="absolute left-2 top-2 rounded-full bg-[#ffd21f] px-2.5 py-1 text-[12px] font-black leading-none text-[#07111f] shadow-lg sm:text-sm">ID {apartment.id}</span>
+                    {active ? <span className="absolute inset-0 rounded-[20px] ring-4 ring-inset ring-[#d4146f]" /> : null}
                   </span>
-                  <span className="block p-3">
-                    <span className="block text-base font-black text-[#07111f]">{apartment.label}</span>
-                    <span className="mt-1 block text-xs font-bold text-slate-500">до {apartment.guests} гостей • {apartment.price} лей</span>
-                    <span className="mt-2 flex flex-wrap gap-2 text-[11px] font-black">
-                      <span className="rounded-full bg-red-50 px-2 py-1 text-red-700">занято {bookedCount}</span>
-                      {apartmentPendingCount ? <span className="rounded-full bg-[#fff0f7] px-2 py-1 text-[#d4146f]">изменений {apartmentPendingCount}</span> : null}
+                  <span className="block p-2.5 sm:p-3">
+                    <span className="block truncate text-sm font-black leading-5 text-[#07111f] sm:text-base">Измаил 88</span>
+                    <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{getRoomLabel(apartment.label)} · до {apartment.guests}</span>
+                    <span className="mt-2 grid grid-cols-2 gap-1.5">
+                      <span className="rounded-xl bg-[#fff0f7] px-2 py-1.5 text-center text-[11px] font-black text-[#d4146f]">{apartment.price} лей</span>
+                      <span className="rounded-xl bg-red-50 px-2 py-1.5 text-center text-[11px] font-black text-red-700">{bookedCount} дн.</span>
                     </span>
+                    {apartmentPendingCount ? <span className="mt-1.5 block rounded-xl bg-[#07111f] px-2 py-1 text-center text-[10px] font-black text-white">+{apartmentPendingCount} изм.</span> : null}
                   </span>
                 </button>
               );
@@ -349,70 +374,92 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
           </div>
         </aside>
 
-        <section className="rounded-[24px] bg-white p-3 shadow-2xl shadow-black/10 sm:p-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="text-sm font-black uppercase text-[#d4146f]">ID {selectedApartment?.id}</p>
-              <h2 className="mt-1 text-2xl font-black tracking-tight text-[#07111f] sm:text-4xl">{selectedApartment?.label}</h2>
-              <p className="mt-2 text-sm font-bold text-slate-500">Занятых дат в месяце: {visibleBookedCount}</p>
-              {selectedApartmentPendingCount ? <p className="mt-1 text-sm font-black text-[#d4146f]">Несохраненных изменений: {selectedApartmentPendingCount}</p> : null}
-            </div>
-            <div className="flex shrink-0 items-center justify-between gap-2 rounded-2xl bg-[#fffaf0] p-1.5 shadow-inner ring-1 ring-black/5 sm:justify-start">
-              <button type="button" onClick={() => setVisibleMonth((month) => addMonths(month, -1))} className="flex h-12 w-12 items-center justify-center rounded-xl text-3xl font-black text-[#07111f] transition hover:bg-white" aria-label="Предыдущий месяц">‹</button>
-              <p className="min-w-[150px] text-center text-base font-black text-[#07111f] sm:min-w-[170px] sm:text-lg">{monthLabel}</p>
-              <button type="button" onClick={() => setVisibleMonth((month) => addMonths(month, 1))} className="flex h-12 w-12 items-center justify-center rounded-xl text-3xl font-black text-[#07111f] transition hover:bg-white" aria-label="Следующий месяц">›</button>
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-[22px] bg-[#fffaf0] p-2 shadow-inner ring-1 ring-black/5 sm:p-4">
-            <div className="grid grid-cols-7 gap-1.5 text-center text-xs font-black uppercase text-slate-500 sm:gap-2 sm:text-sm">
-              {weekdays.map((day) => <div key={day} className="py-1.5">{day}</div>)}
-            </div>
-            <div className="mt-2 grid grid-cols-7 gap-1.5 sm:gap-2">
-              {calendarDays.map((day) => {
-                const date = formatDate(day);
-                const currentMonth = day.getMonth() === visibleMonth.getMonth();
-                const booked = effectiveBookedDateSet.has(date);
-                const pending = Boolean(pendingChanges[changeKey(selectedApartmentId, date)]);
-                const selected = date === selectedDate;
-                const today = date === todayKey;
-
-                return (
-                  <button
-                    key={date}
-                    type="button"
-                    onClick={() => toggleDate(date)}
-                    disabled={isSaving}
-                    aria-pressed={booked}
-                    aria-label={date + (booked ? " занято" : " свободно")}
-                    className={[
-                      "relative flex aspect-square min-h-12 items-center justify-center rounded-xl text-base font-black transition sm:min-h-14 sm:text-lg",
-                      currentMonth ? "opacity-100" : "opacity-45",
-                      booked ? "bg-[#d4144f] text-white shadow-lg shadow-red-500/20" : "bg-emerald-500 text-white shadow-lg shadow-emerald-500/15",
-                      selected ? "ring-4 ring-[#07111f] ring-offset-2 ring-offset-white" : "",
-                      today && !selected ? "ring-2 ring-[#ffd21f] ring-offset-2 ring-offset-white" : "",
-                      pending ? "after:absolute after:right-1 after:top-1 after:h-2.5 after:w-2.5 after:rounded-full after:bg-[#ffd21f]" : "",
-                      isSaving ? "opacity-70" : "hover:-translate-y-0.5 hover:brightness-110",
-                    ].join(" ")}
-                  >
-                    {day.getDate()}
-                  </button>
-                );
-              })}
+        <section className="overflow-hidden rounded-[26px] bg-white shadow-2xl shadow-black/8 ring-1 ring-black/5">
+          <div className="bg-[#07111f] px-3 py-3 text-white sm:px-5 sm:py-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[11px] font-black uppercase text-white/55">ID {selectedApartment?.id} · {getRoomLabel(selectedApartment?.label)}</p>
+                <h2 className="mt-0.5 truncate text-xl font-black sm:text-3xl">Измаил 88</h2>
+              </div>
+              <div className="rounded-2xl bg-white/10 px-3 py-2 text-right shadow-inner ring-1 ring-white/10">
+                <p className="text-[10px] font-black uppercase text-white/50">Занято</p>
+                <p className="text-lg font-black leading-none text-white">{visibleBookedCount}</p>
+              </div>
             </div>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-xs font-black text-slate-600 sm:text-sm">
-            <Legend color="bg-emerald-500" label="Свободно" />
-            <Legend color="bg-[#d4144f]" label="Занято" />
-            <Legend color="bg-white ring-4 ring-[#07111f]" label="Выбранная дата" />
-            <Legend color="bg-[#ffd21f]" label="Несохранено" />
+          <div className="p-3 sm:p-5">
+            <div className="flex items-center justify-between gap-2 rounded-[22px] bg-[#fffaf0] p-1.5 shadow-inner ring-1 ring-black/5">
+              <button type="button" onClick={() => setVisibleMonth((month) => addMonths(month, -1))} className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-2xl font-black text-[#07111f] shadow-sm transition hover:-translate-y-0.5" aria-label="Предыдущий месяц">‹</button>
+              <p className="text-center text-base font-black text-[#07111f] sm:text-xl">{monthLabel}</p>
+              <button type="button" onClick={() => setVisibleMonth((month) => addMonths(month, 1))} className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-2xl font-black text-[#07111f] shadow-sm transition hover:-translate-y-0.5" aria-label="Следующий месяц">›</button>
+            </div>
+
+            <div className="mt-3 rounded-[22px] bg-[#fffaf0] p-2 shadow-inner ring-1 ring-black/5 sm:p-3">
+              <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black uppercase text-slate-500 sm:gap-1.5 sm:text-xs">
+                {weekdays.map((day) => <div key={day} className="py-1">{day}</div>)}
+              </div>
+              <div className="mt-1.5 grid grid-cols-7 gap-1 sm:gap-1.5">
+                {calendarDays.map((day) => {
+                  const date = formatDate(day);
+                  const currentMonth = day.getMonth() === visibleMonth.getMonth();
+                  const booked = effectiveBookedDateSet.has(date);
+                  const pending = Boolean(pendingChanges[changeKey(selectedApartmentId, date)]);
+                  const selected = date === selectedDate;
+                  const today = date === todayKey;
+
+                  return (
+                    <button
+                      key={date}
+                      type="button"
+                      onClick={() => toggleDate(date)}
+                      disabled={isSaving}
+                      aria-pressed={booked}
+                      aria-label={date + (booked ? " занято" : " свободно")}
+                      className={[
+                        "relative grid aspect-square min-h-0 place-items-center rounded-[10px] text-[13px] font-black transition sm:rounded-xl sm:text-base",
+                        currentMonth ? "opacity-100" : "opacity-30",
+                        booked ? "bg-[#d4144f] text-white shadow-sm shadow-red-500/20" : "bg-emerald-500 text-white shadow-sm shadow-emerald-500/15",
+                        selected ? "ring-[3px] ring-[#ffd21f] ring-offset-2 ring-offset-[#fffaf0]" : "",
+                        today ? "after:absolute after:bottom-1 after:h-1 after:w-4 after:rounded-full after:bg-[#07111f]" : "",
+                        pending ? "before:absolute before:right-1 before:top-1 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#ffd21f] before:shadow" : "",
+                        isSaving ? "opacity-70" : "active:scale-95 hover:brightness-110",
+                      ].join(" ")}
+                    >
+                      {day.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mt-3 grid grid-cols-[1fr_auto] items-stretch gap-2">
+              <div className={["rounded-[22px] px-4 py-3 shadow-inner ring-1", selectedStatusTone].join(" ")} aria-live="polite">
+                <p className="text-[11px] font-black uppercase opacity-65">{selectedDate}</p>
+                <p className="text-2xl font-black leading-tight sm:text-3xl">{message === "Сохранено" ? "Сохранено" : message === "Сохраняю..." ? "Сохраняю..." : selectedStatusLabel}</p>
+                {selectedDatePending ? <p className="mt-1 text-xs font-black opacity-75">Есть изменение</p> : null}
+              </div>
+              <div className="grid min-w-[88px] place-items-center rounded-[22px] bg-[#07111f] px-3 text-center text-white shadow-lg shadow-black/10">
+                <p className="text-[10px] font-black uppercase text-white/55">Изм.</p>
+                <p className="text-2xl font-black leading-none">{pendingCount}</p>
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#07111f] sm:text-xs">
+              <Legend color="bg-emerald-500" label="Свободно" />
+              <Legend color="bg-[#d4144f]" label="Занято" />
+              <Legend color="bg-[#ffd21f]" label="Выбрано" />
+              <Legend color="bg-[#07111f]" label="Сегодня" />
+            </div>
+
+            {isLoading || (message && !["Свободно", "Занято", "Сохранено", "Сохраняю..."].includes(message)) ? (
+              <p className="mt-3 rounded-2xl bg-[#fffaf0] px-4 py-3 text-xs font-black leading-5 text-[#07111f] shadow-inner ring-1 ring-black/5" aria-live="polite">
+                {isLoading ? "Загружаю календарь..." : message}
+              </p>
+            ) : null}
+
+            <SaveButton pendingCount={pendingCount} isSaving={isSaving} onClick={saveChanges} mobile={false} />
           </div>
-
-          <p className="mt-4 rounded-2xl bg-[#fffaf0] px-4 py-3 text-sm font-black leading-6 text-[#07111f] shadow-inner ring-1 ring-black/5" aria-live="polite">{isLoading ? "Загружаю календарь..." : message || "Нажмите на дату, затем сохраните изменения."}</p>
-          <p className="mt-3 text-xs font-bold leading-5 text-slate-500">Календарь сохраняет изменения через текущий API. База данных и формат данных не менялись.</p>
-
-          <SaveButton pendingCount={pendingCount} isSaving={isSaving} onClick={saveChanges} mobile={false} />
         </section>
       </div>
 
@@ -422,23 +469,24 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
 }
 
 function AdminShell({ children }: { children: React.ReactNode }) {
-  return <main className="min-h-screen bg-[#fffaf0] px-3 pb-28 pt-5 text-[#07111f] sm:px-6 sm:pb-6 lg:px-10"><div className="mx-auto max-w-[1400px]">{children}</div></main>;
+  return <main className="min-h-screen bg-[#fffaf0] px-3 pb-24 pt-0 text-[#07111f] sm:px-6 sm:pb-8 sm:pt-6 lg:px-10"><div className="mx-auto max-w-[1400px]">{children}</div></main>;
 }
 
 function SaveButton({ pendingCount, isSaving, onClick, mobile }: { pendingCount: number; isSaving: boolean; onClick: () => void; mobile: boolean }) {
   const disabled = pendingCount === 0 || isSaving;
 
   return (
-    <div className={mobile ? "fixed inset-x-0 bottom-0 z-30 border-t border-black/10 bg-white/95 p-3 shadow-2xl shadow-black/20 backdrop-blur sm:hidden" : "mt-5 hidden sm:block"}>
+    <div className={mobile ? "fixed inset-x-0 bottom-0 z-30 border-t border-[#f0dce6] bg-white/95 p-3 shadow-2xl shadow-black/20 backdrop-blur sm:hidden" : "mt-5 hidden sm:block"}>
       <button
         type="button"
         onClick={onClick}
         disabled={disabled}
         className={[
-          "h-16 w-full rounded-2xl px-5 text-lg font-black text-white shadow-lg transition",
-          disabled ? "bg-slate-300 text-slate-600 shadow-none" : "bg-[#d4146f] shadow-pink-700/25 hover:-translate-y-0.5 hover:brightness-110",
+          "relative h-[60px] min-h-[60px] w-full overflow-hidden rounded-[22px] px-5 text-base font-black text-white shadow-xl transition",
+          disabled ? "bg-[#d4146f]/35 text-white/75 shadow-none" : "bg-[#d4146f] shadow-pink-700/25 hover:-translate-y-0.5 hover:brightness-110",
         ].join(" ")}
       >
+        <span className="absolute inset-x-0 top-0 h-px bg-white/35" />
         {isSaving ? "Сохраняю..." : pendingCount ? "Сохранить" : "Сохранить"}
       </button>
     </div>
@@ -446,5 +494,5 @@ function SaveButton({ pendingCount, isSaving, onClick, mobile }: { pendingCount:
 }
 
 function Legend({ color, label }: { color: string; label: string }) {
-  return <span className="inline-flex items-center gap-2"><span className={["h-3.5 w-3.5 rounded-md", color].join(" ")} />{label}</span>;
+  return <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1.5 shadow-sm ring-1 ring-black/5"><span className={["h-2.5 w-2.5 rounded-full", color].join(" ")} />{label}</span>;
 }
