@@ -8,12 +8,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.rentplace.md" }],
-        destination: "https://rentplace.md/:path*",
-        permanent: true,
-      },
-      {
         source: "/apartment/:slug/",
         destination: "/apartment/:slug",
         permanent: true,
