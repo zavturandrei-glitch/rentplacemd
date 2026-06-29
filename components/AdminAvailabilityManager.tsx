@@ -303,7 +303,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
           </div>
 
           <p className="mt-4 rounded-2xl bg-[#fffaf0] px-4 py-3 text-sm font-black leading-6 text-[#07111f] shadow-inner ring-1 ring-black/5">{isLoading ? "Загружаю календарь..." : message || "Клик по дате сразу меняет статус."}</p>
-          <p className="mt-3 text-xs font-bold leading-5 text-slate-500">Для Vercel-хранения добавьте переменные UPSTASH_REDIS_REST_URL и UPSTASH_REDIS_REST_TOKEN. Без них изменения сохраняются в локальный JSON только при разработке.</p>
+          <p className="mt-3 text-xs font-bold leading-5 text-slate-500">Чтобы календарь работал на сайте, добавьте в Vercel DATABASE_URL от Neon PostgreSQL. Альтернатива: SUPABASE_URL и SUPABASE_SERVICE_ROLE_KEY. Локально календарь сохраняет изменения в JSON-файл.</p>
         </section>
       </div>
     </AdminShell>

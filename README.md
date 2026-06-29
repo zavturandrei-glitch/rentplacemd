@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RentPlaceMD
 
-## Getting Started
+Next.js сайт RentPlaceMD для квартир посуточно в Кишинёве.
 
-First, run the development server:
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Admin Calendar Storage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Админка календаря находится на `/admin/availability`.
 
-## Learn More
+Для доступа администратора в Vercel добавьте:
 
-To learn more about Next.js, take a look at the following resources:
+- `ADMIN_PASSWORD` - пароль входа в админку.
+- `ADMIN_SESSION_SECRET` - длинная случайная строка для cookie-сессии.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Вариант 1: Neon PostgreSQL (рекомендуется)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Создайте бесплатный проект на Neon.
+2. Скопируйте connection string вида `postgresql://...`.
+3. В Vercel добавьте переменную:
+   - `DATABASE_URL` = Neon connection string.
+4. Сделайте redeploy.
 
-## Deploy on Vercel
+Таблица создаётся автоматически при первом обращении к календарю:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```sql
+CREATE TABLE IF NOT EXISTS availability_booked_dates (
+  apartment_id text NOT NULL,
+  booked_date date NOT NULL,
+  source text NOT NULL DEFAULT 'manual',
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (apartment_id, booked_date)
+);
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Вариант 2: Supabase
+
+1. Создайте бесплатный проект Supabase.
+2. В SQL Editor выполните:
+
+```sql
+CREATE TABLE IF NOT EXISTS availability_booked_dates (
+  apartment_id text NOT NULL,
+  booked_date date NOT NULL,
+  source text NOT NULL DEFAULT 'manual',
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (apartment_id, booked_date)
+);
+```
+
+3. В Vercel добавьте:
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+4. Сделайте redeploy.
+
+Если одновременно задан `DATABASE_URL` и Supabase-переменные, сайт использует Neon/PostgreSQL.
+
+Локально, если база не настроена, календарь сохраняет даты в `data/availability.json`.
+
+## Deploy
+
+После изменения переменных окружения в Vercel обязательно сделайте redeploy.
