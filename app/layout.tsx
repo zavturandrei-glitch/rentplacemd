@@ -1,20 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const baseUrl = "https://rentplace.md";
 
@@ -115,7 +102,7 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={geistSans.variable + " " + geistMono.variable + " h-full antialiased"}
+      className="h-full antialiased"
     >
       <body className="flex min-h-full flex-col">
         <LanguageProvider>{children}</LanguageProvider>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
 type FooterTranslation = ReturnType<typeof useLanguage>["t"];
@@ -19,7 +20,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
   return (
     <div className="lg:hidden px-4 pt-8 pb-28">
       <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/25">
-        <a href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <LogoIcon size="mobile" />
 
           <div className="min-w-0">
@@ -34,7 +35,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
               {t.common.brandSubtitle}
             </p>
           </div>
-        </a>
+        </Link>
 
         <div className="mt-6 grid grid-cols-2 gap-2.5">
           <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />
@@ -127,7 +128,7 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
       <div className="mx-auto max-w-[1600px] px-10 py-10">
         <div className="grid grid-cols-[1.15fr_0.85fr_0.75fr] items-center gap-10 rounded-[34px] border border-white/10 bg-white/[0.04] px-8 py-8 shadow-2xl shadow-black/25">
           <div>
-            <a
+            <Link
               href="/"
               className="group flex items-center gap-5 transition duration-200 hover:scale-[1.01]"
             >
@@ -145,7 +146,7 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
                   {t.common.brandSubtitle}
                 </p>
               </div>
-            </a>
+            </Link>
 
             <div className="mt-6 grid max-w-xl grid-cols-2 gap-3">
               <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />

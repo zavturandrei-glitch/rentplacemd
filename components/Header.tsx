@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
@@ -98,10 +99,9 @@ function getSavedLanguage(): Lang {
 }
 
 function useRentPlaceLanguage() {
-  const [language, setLanguage] = useState<Lang>("RU");
+  const [language, setLanguage] = useState<Lang>(() => getSavedLanguage());
 
   useEffect(() => {
-    setLanguage(getSavedLanguage());
 
     const handleLanguageChange = (event: Event) => {
       const customEvent = event as CustomEvent<string>;
@@ -185,7 +185,7 @@ function MobileHeader() {
 
       <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-2.5">
         <div className="flex items-start justify-between gap-2">
-          <a href="/" className="flex min-w-0 items-center gap-2.5">
+          <Link href="/" className="flex min-w-0 items-center gap-2.5">
             <LogoIcon size="mobile" />
 
             <div className="min-w-0">
@@ -199,7 +199,7 @@ function MobileHeader() {
                 {text.tagline}
               </p>
             </div>
-          </a>
+          </Link>
 
           <div className="shrink-0 pt-0 text-right">
             <div className="space-y-0.5 text-[14px] font-black leading-[1.02] text-white">
@@ -261,7 +261,7 @@ function DesktopHeader() {
   return (
     <div className="hidden lg:block">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-7 px-10 py-3">
-        <a
+        <Link
           href="/"
           className="group flex shrink-0 items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
         >
@@ -278,7 +278,7 @@ function DesktopHeader() {
               {text.tagline}
             </p>
           </div>
-        </a>
+        </Link>
 
         <div className="flex flex-1 items-center justify-center">
           <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2 shadow-inner">
@@ -484,19 +484,6 @@ function TelegramIcon() {
   );
 }
 
-function PhoneIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-[52%] w-[52%]" fill="none">
-      <path
-        d="M7.2 4.5L9.1 8.8C9.4 9.4 9.2 10.1 8.7 10.5L7.4 11.5C8.5 13.8 10.3 15.6 12.6 16.7L13.6 15.4C14 14.9 14.7 14.7 15.3 15L19.6 16.9C20.3 17.2 20.7 17.9 20.5 18.6L20.1 20.2C19.9 21 19.2 21.5 18.4 21.5C9.6 21.5 2.5 14.4 2.5 5.6C2.5 4.8 3 4.1 3.8 3.9L5.4 3.5C6.1 3.3 6.9 3.8 7.2 4.5Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function MapIcon() {
   return (

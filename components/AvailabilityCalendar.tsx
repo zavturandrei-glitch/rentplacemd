@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type AvailabilityCalendarProps = {
   apartmentId: string | number;
@@ -98,7 +98,9 @@ export default function AvailabilityCalendar({
   const [visibleMonth, setVisibleMonth] = useState(() => getInitialMonth(bookedDates));
   const [selectedStart, setSelectedStart] = useState<string | null>(null);
   const [selectedEnd, setSelectedEnd] = useState<string | null>(null);
-  const bookedDateSet = useMemo(() => new Set(bookedDates), [bookedDates]);
+  const [currentBookedDates, setCurrentBookedDates] = useState(bookedDates);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const bookedDateSet = useMemo(() => new Set(currentBookedDates), [currentBookedDates]);
   const calendarDays = useMemo(
     () => getCalendarDays(visibleMonth),
     [visibleMonth],
@@ -117,6 +119,35 @@ export default function AvailabilityCalendar({
     const dateKey = formatDate(day);
     return day.getMonth() === visibleMonth.getMonth() && bookedDateSet.has(dateKey);
   }).length;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function refreshAvailability() {
+      setIsRefreshing(true);
+      try {
+        const response = await fetch(`/api/availability?apartmentId=${apartmentId}`, { cache: "no-store" });
+        if (!response.ok) {
+          return;
+        }
+
+        const data = (await response.json()) as { bookedDates?: string[] };
+        if (!cancelled && Array.isArray(data.bookedDates)) {
+          setCurrentBookedDates(data.bookedDates);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsRefreshing(false);
+        }
+      }
+    }
+
+    void refreshAvailability();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [apartmentId]);
 
   function handleDayClick(dateKey: string) {
     if (bookedDateSet.has(dateKey)) {
@@ -173,6 +204,7 @@ export default function AvailabilityCalendar({
           </h3>
           <p className="mt-2 max-w-xl text-sm font-semibold leading-6 text-slate-600 sm:text-base">
             Проверьте свободные даты и напишите нам для бронирования.
+            {isRefreshing ? " Обновляем календарь..." : ""}
           </p>
         </div>
 
@@ -229,8 +261,8 @@ export default function AvailabilityCalendar({
                   "flex aspect-square min-h-9 items-center justify-center rounded-xl text-sm font-black transition sm:min-h-10 sm:text-base",
                   isCurrentMonth ? "opacity-100" : "opacity-45",
                   isBooked
-                    ? "cursor-not-allowed bg-[#d4146f]/14 text-[#9b124c] line-through ring-1 ring-[#d4146f]/20"
-                    : "bg-[#f6f1e8] text-[#07111f] hover:-translate-y-0.5 hover:bg-[#fff2c9]",
+                    ? "cursor-not-allowed bg-red-500/16 text-red-700 line-through ring-1 ring-red-500/25"
+                    : "bg-emerald-500/14 text-emerald-800 ring-1 ring-emerald-500/18 hover:-translate-y-0.5 hover:bg-emerald-500/22",
                   isSelected
                     ? "bg-[#07111f] text-white shadow-lg shadow-black/15 hover:bg-[#07111f]"
                     : "",
@@ -247,8 +279,8 @@ export default function AvailabilityCalendar({
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-3 text-xs font-black text-slate-600 sm:text-sm">
-        <LegendItem color="bg-[#f6f1e8] ring-1 ring-black/5" label="Свободно" />
-        <LegendItem color="bg-[#d4146f]/14 ring-1 ring-[#d4146f]/20" label="Занято" />
+        <LegendItem color="bg-emerald-500/20 ring-1 ring-emerald-500/25" label="Свободно" />
+        <LegendItem color="bg-red-500/20 ring-1 ring-red-500/25" label="Занято" />
         <LegendItem color="bg-white ring-2 ring-[#ffd21f]" label="Сегодня" />
         <LegendItem color="bg-[#07111f]" label="Выбрано" />
       </div>

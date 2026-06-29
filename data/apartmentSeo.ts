@@ -3,7 +3,7 @@ import { apartmentDetailsById } from "@/data/apartments";
 
 const baseUrl = "https://rentplace.md";
 
-const kindTitle = {
+export const kindTitle = {
   studio: "студия",
   oneBedroom: "квартира 1+1",
   twoBedroom: "квартира с 2 спальнями",
@@ -21,7 +21,7 @@ export function getApartmentUrl(id: number) {
 export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Metadata {
   const apartment = apartmentDetailsById[id];
   const title = `ID ${id} - ${kindTitle[apartment.kind]}, Измаил 88 посуточно`;
-  const description = `Квартира ID ${id} в комплексе Измаил 88, центр Кишинёва. ${apartment.price} лей/сутки, до ${apartment.guests} гостей, заселение 24/7, WhatsApp/Viber.`;
+  const description = `Квартира ID ${id}: ${kindTitle[apartment.kind]} в комплексе Измаил 88, центр Кишинёва. ${apartment.price} лей/сутки, до ${apartment.guests} гостей, чистое бельё, полотенца, Wi-Fi, заселение 24/7, WhatsApp/Viber.`;
   const url = getApartmentUrl(id);
 
   return {
@@ -33,6 +33,8 @@ export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Met
       "RentPlaceMD",
       kindTitle[apartment.kind],
       "апартаменты Кишинев центр",
+      "квартира Измаил 88",
+      "посуточно без посредников",
     ],
     alternates: {
       canonical: url,
@@ -51,7 +53,7 @@ export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Met
         },
       ],
       locale: "ru_RU",
-      type: "website",
+      type: "article",
     },
     twitter: {
       card: "summary_large_image",
@@ -70,7 +72,7 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
   return [
     {
       "@context": "https://schema.org",
-      "@type": "Apartment",
+      "@type": ["Apartment", "LodgingBusiness"],
       name,
       url,
       image: apartment.images.map((image) => baseUrl + image),
@@ -80,6 +82,9 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
         addressLocality: "Chisinau",
         addressCountry: "MD",
       },
+      description: `Квартира ID ${id} в RentPlaceMD: ${kindTitle[apartment.kind]}, до ${apartment.guests} гостей, ${apartment.price} MDL за сутки, центр Кишинёва, Измаил 88.`,
+      telephone: "+37369990190",
+      priceRange: `${apartment.price} MDL`,
       numberOfRooms: apartment.kind === "studio" ? 1 : apartment.kind === "oneBedroom" ? 2 : 3,
       occupancy: {
         "@type": "QuantitativeValue",
@@ -91,6 +96,8 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
         "Kitchen",
         "Clean linen",
         "24/7 check-in",
+        "Towels",
+        "Payment at check-in",
       ].map((name) => ({
         "@type": "LocationFeatureSpecification",
         name,
@@ -104,7 +111,7 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
         url,
       },
       provider: {
-        "@type": "LocalBusiness",
+        "@type": ["LocalBusiness", "LodgingBusiness"],
         name: "RentPlaceMD",
         telephone: "+37369990190",
         url: baseUrl,

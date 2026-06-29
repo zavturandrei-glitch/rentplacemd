@@ -251,11 +251,9 @@ function getSavedLanguage(): Lang {
 }
 
 function useRentPlaceLanguage() {
-  const [language, setLanguage] = useState<Lang>("RU");
+  const [language, setLanguage] = useState<Lang>(() => getSavedLanguage());
 
   useEffect(() => {
-    setLanguage(getSavedLanguage());
-
     const handleLanguageChange = (event: Event) => {
       const customEvent = event as CustomEvent<string>;
       const nextLanguage = customEvent.detail?.toUpperCase() as Lang | undefined;

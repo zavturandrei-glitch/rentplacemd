@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ResponsiveImage from "@/components/ResponsiveImage";
@@ -37,6 +38,14 @@ type DetailText = {
   bookingLabel: string;
   bookingNote: string;
   footerText: string;
+  rulesLabel: string;
+  rulesTitle: string;
+  rulesCheckInLabel: string;
+  rulesCheckInTime: string;
+  rulesCheckOutLabel: string;
+  rulesCheckOutTime: string;
+  rulesIntro: string;
+  rulesItems: string[];
   kinds: Record<ApartmentKind, string>;
   guests: Record<ApartmentGuests, string>;
   overlay: Record<ApartmentKind, string>;
@@ -65,6 +74,14 @@ const detailText: Record<Language, DetailText> = {
     bookingLabel: "Бронирование",
     bookingNote: "Напишите даты и количество гостей - быстро проверим свободна ли квартира.",
     footerText: "Квартиры посуточно в Кишинёве • Центр • Заселение 24/7",
+    rulesLabel: "Правила проживания",
+    rulesTitle: "Правила проживания",
+    rulesCheckInLabel: "Заезд",
+    rulesCheckInTime: "с 14:00",
+    rulesCheckOutLabel: "Выезд",
+    rulesCheckOutTime: "до 12:00",
+    rulesIntro: "Если нужен ранний заезд или поздний выезд — сообщите заранее. Если квартира свободна, мы постараемся пойти навстречу.",
+    rulesItems: ["Заселение по документу", "Курение только на балконе или в разрешённых местах", "Чистое постельное бельё и полотенца", "Связь 24/7", "Оплата при заселении"],
     kinds: { studio: "Студия", oneBedroom: "1+1 квартира", twoBedroom: "2 спальни", twoBedroomPlus: "2+1 квартира" },
     guests: { 2: "До 2 гостей", 3: "До 3 гостей", 4: "До 4 гостей", 5: "До 5 гостей" },
     overlay: { studio: "Спальная зона", oneBedroom: "Спальня + гостиная", twoBedroom: "2 спальни", twoBedroomPlus: "2 спальни + гостиная" },
@@ -111,6 +128,14 @@ const detailText: Record<Language, DetailText> = {
     bookingLabel: "Rezervare",
     bookingNote: "Scrieți datele și numărul de oaspeți - verificăm rapid disponibilitatea.",
     footerText: "Apartamente în chirie pe zi în Chișinău • Centru • Cazare 24/7",
+    rulesLabel: "Reguli de ședere",
+    rulesTitle: "Reguli de ședere",
+    rulesCheckInLabel: "Check-in",
+    rulesCheckInTime: "de la 14:00",
+    rulesCheckOutLabel: "Check-out",
+    rulesCheckOutTime: "până la 12:00",
+    rulesIntro: "Dacă aveți nevoie de check-in mai devreme sau check-out mai târziu, anunțați-ne din timp. Dacă apartamentul este liber, încercăm să vă ajutăm.",
+    rulesItems: ["Cazare pe baza unui document", "Fumatul doar pe balcon sau în locuri permise", "Lenjerie de pat și prosoape curate", "Contact 24/7", "Plata la cazare"],
     kinds: { studio: "Studio", oneBedroom: "Apartament 1+1", twoBedroom: "2 dormitoare", twoBedroomPlus: "Apartament 2+1" },
     guests: { 2: "Până la 2 oaspeți", 3: "Până la 3 oaspeți", 4: "Până la 4 oaspeți", 5: "Până la 5 oaspeți" },
     overlay: { studio: "Zonă de dormit", oneBedroom: "Dormitor + living", twoBedroom: "2 dormitoare", twoBedroomPlus: "2 dormitoare + living" },
@@ -157,6 +182,14 @@ const detailText: Record<Language, DetailText> = {
     bookingLabel: "Booking",
     bookingNote: "Send your dates and number of guests - we will quickly check availability.",
     footerText: "Daily apartments in Chisinau • Center • 24/7 check-in",
+    rulesLabel: "House rules",
+    rulesTitle: "House rules",
+    rulesCheckInLabel: "Check-in",
+    rulesCheckInTime: "from 14:00",
+    rulesCheckOutLabel: "Check-out",
+    rulesCheckOutTime: "by 12:00",
+    rulesIntro: "If you need early check-in or late check-out, please tell us in advance. If the apartment is free, we will try to help.",
+    rulesItems: ["Check-in with an identity document", "Smoking only on the balcony or in permitted areas", "Clean bed linen and towels", "24/7 contact", "Payment at check-in"],
     kinds: { studio: "Studio", oneBedroom: "1+1 apartment", twoBedroom: "2 bedrooms", twoBedroomPlus: "2+1 apartment" },
     guests: { 2: "Up to 2 guests", 3: "Up to 3 guests", 4: "Up to 4 guests", 5: "Up to 5 guests" },
     overlay: { studio: "Sleeping area", oneBedroom: "Bedroom + living room", twoBedroom: "2 bedrooms", twoBedroomPlus: "2 bedrooms + living room" },
@@ -203,6 +236,14 @@ const detailText: Record<Language, DetailText> = {
     bookingLabel: "Бронювання",
     bookingNote: "Напишіть дати та кількість гостей - швидко перевіримо, чи квартира вільна.",
     footerText: "Квартири подобово в Кишиневі • Центр • Заселення 24/7",
+    rulesLabel: "Правила проживання",
+    rulesTitle: "Правила проживання",
+    rulesCheckInLabel: "Заїзд",
+    rulesCheckInTime: "з 14:00",
+    rulesCheckOutLabel: "Виїзд",
+    rulesCheckOutTime: "до 12:00",
+    rulesIntro: "Якщо потрібен ранній заїзд або пізній виїзд, повідомте заздалегідь. Якщо квартира вільна, ми постараємося піти назустріч.",
+    rulesItems: ["Заселення за документом", "Куріння тільки на балконі або в дозволених місцях", "Чиста постільна білизна та рушники", "Звʼязок 24/7", "Оплата при заселенні"],
     kinds: { studio: "Студія", oneBedroom: "1+1 квартира", twoBedroom: "2 спальні", twoBedroomPlus: "2+1 квартира" },
     guests: { 2: "До 2 гостей", 3: "До 3 гостей", 4: "До 4 гостей", 5: "До 5 гостей" },
     overlay: { studio: "Спальна зона", oneBedroom: "Спальня + вітальня", twoBedroom: "2 спальні", twoBedroomPlus: "2 спальні + вітальня" },
@@ -249,6 +290,14 @@ const detailText: Record<Language, DetailText> = {
     bookingLabel: "Rezervace",
     bookingNote: "Napište termíny a počet hostů - rychle ověříme dostupnost.",
     footerText: "Apartmány na den v Kišiněvě • Centrum • Ubytování 24/7",
+    rulesLabel: "Pravidla pobytu",
+    rulesTitle: "Pravidla pobytu",
+    rulesCheckInLabel: "Check-in",
+    rulesCheckInTime: "od 14:00",
+    rulesCheckOutLabel: "Check-out",
+    rulesCheckOutTime: "do 12:00",
+    rulesIntro: "Pokud potřebujete dřívější příjezd nebo pozdější odjezd, dejte nám vědět předem. Pokud je apartmán volný, pokusíme se vyjít vstříc.",
+    rulesItems: ["Ubytování po předložení dokladu", "Kouření pouze na balkoně nebo na povolených místech", "Čisté ložní prádlo a ručníky", "Kontakt 24/7", "Platba při příjezdu"],
     kinds: { studio: "Studio", oneBedroom: "Apartmán 1+1", twoBedroom: "2 ložnice", twoBedroomPlus: "Apartmán 2+1" },
     guests: { 2: "Až 2 hosté", 3: "Až 3 hosté", 4: "Až 4 hosté", 5: "Až 5 hostů" },
     overlay: { studio: "Spací zóna", oneBedroom: "Ložnice + obývací pokoj", twoBedroom: "2 ložnice", twoBedroomPlus: "2 ložnice + obývací pokoj" },
@@ -299,7 +348,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
       <Header />
 
       <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-4 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
-        <a href="/" aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {text.back}</a>
+        <Link href="/" aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {text.back}</Link>
 
         <div className="overflow-hidden rounded-[22px] bg-[#07111f] shadow-2xl shadow-black/25 ring-1 ring-black/5 sm:rounded-[26px]">
           <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
@@ -351,6 +400,23 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <p className="mt-4 text-base leading-7 text-gray-700 sm:mt-6 sm:text-lg sm:leading-8">{text.aboutFirst[apartment.kind]}</p>
             <p className="mt-4 text-base leading-7 text-gray-700 sm:mt-5 sm:text-lg sm:leading-8">{text.aboutSecond[apartment.kind]}</p>
             <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...text.features[apartment.kind]].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">✓ {item}</div>))}</div>
+
+            <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.rulesLabel}</p>
+              <h3 className="mt-2 text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.rulesTitle}</h3>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl bg-white p-4 shadow-sm shadow-black/5">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">{text.rulesCheckInLabel}</p>
+                  <p className="mt-1 text-2xl font-black text-[#07111f]">{text.rulesCheckInTime}</p>
+                </div>
+                <div className="rounded-2xl bg-white p-4 shadow-sm shadow-black/5">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">{text.rulesCheckOutLabel}</p>
+                  <p className="mt-1 text-2xl font-black text-[#07111f]">{text.rulesCheckOutTime}</p>
+                </div>
+              </div>
+              <p className="mt-4 text-sm leading-6 text-gray-700 sm:text-base sm:leading-7">{text.rulesIntro}</p>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">{text.rulesItems.map((item) => (<div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5">✓ {item}</div>))}</div>
+            </section>
 
             <AvailabilityCalendar
               apartmentId={apartment.id}
