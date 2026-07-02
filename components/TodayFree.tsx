@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
+type CategoryKey = "standard" | "economy";
 
 const LANG_STORAGE_KEY = "rentplacemd-language";
 
@@ -15,6 +16,14 @@ const sectionText: Record<
     callButton: string;
     details: string;
     altPrefix: string;
+    categories: Record<
+      CategoryKey,
+      {
+        title: string;
+        description: string;
+        badge: string;
+      }
+    >;
   }
 > = {
   RU: {
@@ -24,6 +33,20 @@ const sectionText: Record<
     callButton: "Уточнить свободные даты",
     details: "Подробнее",
     altPrefix: "Квартира ID",
+    categories: {
+      standard: {
+        title: "⭐ Стандарт",
+        description:
+          "Более комфортные квартиры с современным интерьером. Отличный выбор для отдыха, командировок и проживания в центре Кишинёва.",
+        badge: "⭐ Стандарт",
+      },
+      economy: {
+        title: "💰 Эконом",
+        description:
+          "Практичные квартиры по более доступной цене. Хороший вариант для гостей, которым важно удобное расположение и разумная стоимость проживания.",
+        badge: "💰 Эконом",
+      },
+    },
   },
   RO: {
     title: "Toate apartamentele",
@@ -32,6 +55,20 @@ const sectionText: Record<
     callButton: "Verifică datele libere",
     details: "Detalii",
     altPrefix: "Apartament ID",
+    categories: {
+      standard: {
+        title: "⭐ Standard",
+        description:
+          "Apartamente mai confortabile, cu interior modern. O alegere foarte bună pentru odihnă, călătorii de serviciu și cazare în centrul Chișinăului.",
+        badge: "⭐ Standard",
+      },
+      economy: {
+        title: "💰 Economy",
+        description:
+          "Apartamente practice, la un preț mai accesibil. O variantă bună pentru oaspeții care apreciază amplasarea comodă și costul rezonabil al șederii.",
+        badge: "💰 Economy",
+      },
+    },
   },
   EN: {
     title: "All apartments",
@@ -40,6 +77,20 @@ const sectionText: Record<
     callButton: "Check available dates",
     details: "Details",
     altPrefix: "Apartment ID",
+    categories: {
+      standard: {
+        title: "⭐ Standard",
+        description:
+          "More comfortable apartments with modern interiors. A great choice for leisure, business trips, and stays in central Chisinau.",
+        badge: "⭐ Standard",
+      },
+      economy: {
+        title: "💰 Economy",
+        description:
+          "Practical apartments at a more accessible price. A good option for guests who value a convenient location and a reasonable stay cost.",
+        badge: "💰 Economy",
+      },
+    },
   },
   CS: {
     title: "Všechny apartmány",
@@ -48,6 +99,20 @@ const sectionText: Record<
     callButton: "Ověřit volné termíny",
     details: "Detail",
     altPrefix: "Apartmán ID",
+    categories: {
+      standard: {
+        title: "⭐ Standard",
+        description:
+          "Komfortnější apartmány s moderním interiérem. Skvělá volba pro odpočinek, pracovní cesty i pobyt v centru Kišiněva.",
+        badge: "⭐ Standard",
+      },
+      economy: {
+        title: "💰 Economy",
+        description:
+          "Praktické apartmány za dostupnější cenu. Dobrá varianta pro hosty, kteří ocení pohodlnou polohu a rozumnou cenu pobytu.",
+        badge: "💰 Economy",
+      },
+    },
   },
   UK: {
     title: "Усі квартири",
@@ -56,6 +121,20 @@ const sectionText: Record<
     callButton: "Уточнити вільні дати",
     details: "Детальніше",
     altPrefix: "Квартира ID",
+    categories: {
+      standard: {
+        title: "⭐ Стандарт",
+        description:
+          "Більш комфортні квартири із сучасним інтер'єром. Чудовий вибір для відпочинку, відряджень і проживання в центрі Кишинева.",
+        badge: "⭐ Стандарт",
+      },
+      economy: {
+        title: "💰 Економ",
+        description:
+          "Практичні квартири за доступнішою ціною. Хороший варіант для гостей, яким важливі зручне розташування і розумна вартість проживання.",
+        badge: "💰 Економ",
+      },
+    },
   },
 };
 
@@ -131,116 +210,31 @@ const apartmentInfo: Record<
 };
 
 const apartments = [
-  {
-    id: 10,
-    title: "Измаил 88",
-    rooms: "1+1",
-    guestsKey: "guests4",
-    price: 800,
-    image: "/apartments/izmail88-10/1.png",
-    imagePosition: "42% center",
-    link: "/apartment/izmail88-10",
-  },
-  {
-    id: 11,
-    title: "Измаил 88",
-    rooms: "studio",
-    guestsKey: "guests2",
-    price: 800,
-    image: "/apartments/izmail88-11/1.png",
-    link: "/apartment/izmail88-11",
-  },
-  {
-    id: 12,
-    title: "Измаил 88",
-    rooms: "1+1",
-    guestsKey: "guests3",
-    price: 800,
-    image: "/apartments/izmail88-12/1.png",
-    link: "/apartment/izmail88-12",
-  },
-  {
-    id: 13,
-    title: "Измаил 88",
-    rooms: "2+1",
-    guestsKey: "bedrooms2",
-    price: 900,
-    image: "/apartments/izmail88-13/4.png",
-    link: "/apartment/izmail88-13",
-  },
-  {
-    id: 20,
-    title: "Измаил 88",
-    rooms: "1+1",
-    guestsKey: "guests4",
-    price: 800,
-    image: "/apartments/izmail88-20/2.png",
-    link: "/apartment/izmail88-20",
-  },
-  {
-    id: 21,
-    title: "Измаил 88",
-    rooms: "1+1",
-    guestsKey: "guests3",
-    price: 800,
-    image: "/apartments/izmail88-21/2.png",
-    link: "/apartment/izmail88-21",
-  },
-  {
-    id: 22,
-    title: "Измаил 88",
-    rooms: "studio",
-    guestsKey: "guests2",
-    price: 800,
-    image: "/apartments/izmail88-22/1.png",
-    link: "/apartment/izmail88-22",
-  },
-  {
-    id: 23,
-    title: "Измаил 88",
-    rooms: "studio",
-    guestsKey: "guests2",
-    price: 800,
-    image: "/apartments/izmail88-23/1.png",
-    link: "/apartment/izmail88-23",
-  },
-  {
-    id: 37,
-    title: "Измаил 88",
-    rooms: "1+1",
-    guestsKey: "guests4",
-    price: 800,
-    image: "/apartments/izmail88-37/2.png",
-    link: "/apartment/izmail88-37",
-  },
-  {
-    id: 38,
-    title: "Измаил 88",
-    rooms: "1+1",
-    guestsKey: "guests4",
-    price: 800,
-    image: "/apartments/izmail88-38/2.png",
-    link: "/apartment/izmail88-38",
-  },
-  {
-    id: 42,
-    title: "Измаил 88",
-    rooms: "2+1",
-    guestsKey: "guests5",
-    price: 1000,
-    image: "/apartments/izmail88-42/2.png",
-    link: "/apartment/izmail88-42",
-  },
-  {
-    id: 371,
-    title: "Измаил 88",
-    rooms: "studio",
-    guestsKey: "guests2",
-    price: 800,
-    image: "/apartments/izmail88-371/1.png",
-    link: "/apartment/izmail88-371",
-  },
-] as const;
+  { id: 10, category: "standard", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-10/1.png", imagePosition: "42% center", link: "/apartment/izmail88-10" },
+  { id: 11, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-11/1.png", link: "/apartment/izmail88-11" },
+  { id: 12, category: "standard", title: "Измаил 88", rooms: "1+1", guestsKey: "guests3", price: 800, image: "/apartments/izmail88-12/1.png", link: "/apartment/izmail88-12" },
+  { id: 13, category: "economy", title: "Измаил 88", rooms: "2+1", guestsKey: "bedrooms2", price: 900, image: "/apartments/izmail88-13/4.png", link: "/apartment/izmail88-13" },
+  { id: 20, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-20/2.png", link: "/apartment/izmail88-20" },
+  { id: 21, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests3", price: 800, image: "/apartments/izmail88-21/2.png", link: "/apartment/izmail88-21" },
+  { id: 22, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-22/1.png", link: "/apartment/izmail88-22" },
+  { id: 23, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-23/1.png", link: "/apartment/izmail88-23" },
+  { id: 37, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-37/2.png", link: "/apartment/izmail88-37" },
+  { id: 38, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-38/2.png", link: "/apartment/izmail88-38" },
+  { id: 42, category: "standard", title: "Измаил 88", rooms: "2+1", guestsKey: "guests5", price: 1000, image: "/apartments/izmail88-42/2.png", link: "/apartment/izmail88-42" },
+  { id: 371, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-371/1.png", link: "/apartment/izmail88-371" },
+] as const satisfies readonly {
+  id: number;
+  category: CategoryKey;
+  title: string;
+  rooms: "studio" | "1+1" | "2+1";
+  guestsKey: keyof (typeof apartmentInfo)[Lang];
+  price: number;
+  image: string;
+  imagePosition?: string;
+  link: string;
+}[];
+
+const categoryOrder = ["standard", "economy"] as const satisfies readonly CategoryKey[];
 
 function getSavedLanguage(): Lang {
   if (typeof window === "undefined") return "RU";
@@ -304,55 +298,85 @@ export default function TodayFree() {
           </a>
         </div>
 
-        <div className="grid gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {apartments.map((apartment) => {
-            const roomText =
-              apartment.rooms === "studio" ? info.studio : apartment.rooms;
-            const guestText = info[apartment.guestsKey];
-            const cardInfo = `${roomText} • ${guestText} • ${info.center}`;
+        <div className="space-y-12 sm:space-y-14">
+          {categoryOrder.map((category, categoryIndex) => {
+            const categoryText = text.categories[category];
+            const categoryApartments = apartments.filter(
+              (apartment) => apartment.category === category,
+            );
 
             return (
-              <a
-                key={apartment.id}
-                href={apartment.link}
-                className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
-              >
-                                <ResponsiveImage
-                  src={apartment.image}
-                  alt={`${text.altPrefix} ${apartment.id}`}
-                  className="aspect-[4/3]"
-                  imgClassName="transition duration-500 group-hover:scale-[1.03]"
-                  sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
-                  objectPosition={"imagePosition" in apartment ? apartment.imagePosition : "center"}
-                  priority={apartment.id <= 13}
-                  withWatermark
-                >
-                  <div className="absolute left-4 top-4 z-10 rounded-full bg-[#ffd21f] px-4 py-2 text-sm font-black text-gray-900 shadow sm:left-5 sm:top-5 sm:px-5 sm:py-2.5 sm:text-base">
-                    ID {apartment.id}
-                  </div>
-                </ResponsiveImage>
-
-                <div className="flex flex-1 flex-col p-4 sm:p-5">
-                  <div className="min-h-[116px] rounded-2xl bg-[#fffaf0] p-4 shadow-inner ring-1 ring-black/5 sm:min-h-[128px] sm:p-5">
-                    <h3 className="text-xl font-black text-gray-900 sm:text-2xl">
-                      {info.addressTitle}
+              <section key={category} aria-labelledby={category + "-apartments-title"}>
+                <div className="mb-5 flex flex-col gap-3 sm:mb-6 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <h3
+                      id={category + "-apartments-title"}
+                      className="text-3xl font-black leading-tight text-[#061024] sm:text-4xl"
+                    >
+                      {categoryText.title}
                     </h3>
-                    <p className="mt-2 text-sm font-bold leading-6 text-gray-600 sm:text-base">
-                      {cardInfo}
+                    <p className="mt-3 max-w-3xl text-base font-bold leading-7 text-gray-700 sm:text-lg">
+                      {categoryText.description}
                     </p>
-                  </div>
-
-                  <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-                    <p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">
-                      {apartment.price} {info.lei}
-                    </p>
-
-                    <span className="shrink-0 rounded-2xl bg-[#061024] px-5 py-3 text-center text-sm font-black text-white sm:px-6 sm:py-4 sm:text-base">
-                      {text.details}
-                    </span>
                   </div>
                 </div>
-              </a>
+
+                <div className="grid gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
+                  {categoryApartments.map((apartment, apartmentIndex) => {
+                    const roomText =
+                      apartment.rooms === "studio" ? info.studio : apartment.rooms;
+                    const guestText = info[apartment.guestsKey];
+                    const cardInfo = [roomText, guestText, info.center].join(" • ");
+
+                    return (
+                      <a
+                        key={apartment.id}
+                        href={apartment.link}
+                        className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
+                      >
+                        <ResponsiveImage
+                          src={apartment.image}
+                          alt={text.altPrefix + " " + apartment.id}
+                          className="aspect-[4/3]"
+                          imgClassName="transition duration-500 group-hover:scale-[1.03]"
+                          sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+                          objectPosition={"imagePosition" in apartment ? apartment.imagePosition : "center"}
+                          priority={categoryIndex === 0 && apartmentIndex < 4}
+                          withWatermark
+                        >
+                          <div className="absolute left-4 top-4 z-10 rounded-full bg-[#ffd21f] px-4 py-2 text-sm font-black text-gray-900 shadow sm:left-5 sm:top-5 sm:px-5 sm:py-2.5 sm:text-base">
+                            ID {apartment.id}
+                          </div>
+                          <div className="absolute right-4 top-4 z-10 rounded-full bg-white/92 px-3 py-2 text-xs font-black text-[#061024] shadow-lg ring-1 ring-black/10 backdrop-blur sm:right-5 sm:top-5 sm:px-4 sm:py-2.5 sm:text-sm">
+                            {categoryText.badge}
+                          </div>
+                        </ResponsiveImage>
+
+                        <div className="flex flex-1 flex-col p-4 sm:p-5">
+                          <div className="min-h-[116px] rounded-2xl bg-[#fffaf0] p-4 shadow-inner ring-1 ring-black/5 sm:min-h-[128px] sm:p-5">
+                            <h3 className="text-xl font-black text-gray-900 sm:text-2xl">
+                              {info.addressTitle}
+                            </h3>
+                            <p className="mt-2 text-sm font-bold leading-6 text-gray-600 sm:text-base">
+                              {cardInfo}
+                            </p>
+                          </div>
+
+                          <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+                            <p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">
+                              {apartment.price} {info.lei}
+                            </p>
+
+                            <span className="shrink-0 rounded-2xl bg-[#061024] px-5 py-3 text-center text-sm font-black text-white sm:px-6 sm:py-4 sm:text-base">
+                              {text.details}
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              </section>
             );
           })}
         </div>

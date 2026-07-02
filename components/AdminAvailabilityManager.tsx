@@ -138,7 +138,6 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
   const calendarDays = useMemo(() => getCalendarDays(visibleMonth), [visibleMonth]);
   const monthLabel = monthNames[visibleMonth.getMonth()] + " " + visibleMonth.getFullYear();
   const pendingCount = Object.keys(pendingChanges).length;
-  const selectedApartmentPendingCount = pendingCountByApartment.get(selectedApartmentId) ?? 0;
   const visibleBookedCount = calendarDays.filter((day) => day.getMonth() === visibleMonth.getMonth() && effectiveBookedDateSet.has(formatDate(day))).length;
   const selectedDateBooked = effectiveBookedDateSet.has(selectedDate);
   const selectedDatePending = Boolean(pendingChanges[changeKey(selectedApartmentId, selectedDate)]);

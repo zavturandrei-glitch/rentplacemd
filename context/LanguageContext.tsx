@@ -24,19 +24,16 @@ function normalizeLanguage(value: string | null): Language | null {
   return isLanguage(normalizedValue) ? normalizedValue : null;
 }
 
+function getInitialLanguage(): Language {
+  if (typeof window === "undefined") return "ru";
+
+  return normalizeLanguage(window.localStorage.getItem("rentplacemd-language")) ?? "ru";
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("ru");
+  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
 
   useEffect(() => {
-    const savedLanguage = normalizeLanguage(
-      window.localStorage.getItem("rentplacemd-language")
-    );
-
-    if (savedLanguage) {
-      setLanguageState(savedLanguage);
-      window.localStorage.setItem("rentplacemd-language", savedLanguage);
-    }
-
     function handleLanguageChange(event: Event) {
       const nextLanguage = normalizeLanguage(
         (event as CustomEvent<string>).detail ?? null
