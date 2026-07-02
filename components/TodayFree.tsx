@@ -22,6 +22,7 @@ const sectionText: Record<
         title: string;
         description: string;
         badge: string;
+        discount?: string;
       }
     >;
   }
@@ -44,7 +45,8 @@ const sectionText: Record<
         title: "💰 Эконом",
         description:
           "Практичные квартиры по более доступной цене. Хороший вариант для гостей, которым важно удобное расположение и разумная стоимость проживания.",
-        badge: "💰 Эконом",
+        badge: "💰 Эконом -10%",
+        discount: "Скидка 10%",
       },
     },
   },
@@ -66,7 +68,8 @@ const sectionText: Record<
         title: "💰 Economy",
         description:
           "Apartamente practice, la un preț mai accesibil. O variantă bună pentru oaspeții care apreciază amplasarea comodă și costul rezonabil al șederii.",
-        badge: "💰 Economy",
+        badge: "💰 Economy -10%",
+        discount: "10% discount",
       },
     },
   },
@@ -88,7 +91,8 @@ const sectionText: Record<
         title: "💰 Economy",
         description:
           "Practical apartments at a more accessible price. A good option for guests who value a convenient location and a reasonable stay cost.",
-        badge: "💰 Economy",
+        badge: "💰 Economy -10%",
+        discount: "10% discount",
       },
     },
   },
@@ -110,7 +114,8 @@ const sectionText: Record<
         title: "💰 Economy",
         description:
           "Praktické apartmány za dostupnější cenu. Dobrá varianta pro hosty, kteří ocení pohodlnou polohu a rozumnou cenu pobytu.",
-        badge: "💰 Economy",
+        badge: "💰 Economy -10%",
+        discount: "10% discount",
       },
     },
   },
@@ -132,7 +137,8 @@ const sectionText: Record<
         title: "💰 Економ",
         description:
           "Практичні квартири за доступнішою ціною. Хороший варіант для гостей, яким важливі зручне розташування і розумна вартість проживання.",
-        badge: "💰 Економ",
+        badge: "💰 Економ -10%",
+        discount: "Знижка 10%",
       },
     },
   },
@@ -235,6 +241,11 @@ const apartments = [
 }[];
 
 const categoryOrder = ["standard", "economy"] as const satisfies readonly CategoryKey[];
+const ECONOMY_DISCOUNT_PERCENT = 10;
+
+function getDiscountedPrice(price: number) {
+  return Math.round(price * (100 - ECONOMY_DISCOUNT_PERCENT) / 100);
+}
 
 function getSavedLanguage(): Lang {
   if (typeof window === "undefined") return "RU";
@@ -307,14 +318,21 @@ export default function TodayFree() {
 
             return (
               <section key={category} aria-labelledby={category + "-apartments-title"}>
-                <div className="mb-5 flex flex-col gap-3 sm:mb-6 md:flex-row md:items-end md:justify-between">
+                <div className="mb-5 flex flex-col gap-4 sm:mb-6 md:flex-row md:items-end md:justify-between">
                   <div>
-                    <h3
-                      id={category + "-apartments-title"}
-                      className="text-3xl font-black leading-tight text-[#061024] sm:text-4xl"
-                    >
-                      {categoryText.title}
-                    </h3>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                      <h3
+                        id={category + "-apartments-title"}
+                        className="text-3xl font-black leading-tight text-[#061024] sm:text-4xl"
+                      >
+                        {categoryText.title}
+                      </h3>
+                      {categoryText.discount ? (
+                        <span className="inline-flex w-fit items-center rounded-2xl bg-[#d4146f] px-5 py-2.5 text-xl font-black leading-none text-white shadow-lg shadow-pink-700/20 sm:text-2xl">
+                          {categoryText.discount}
+                        </span>
+                      ) : null}
+                    </div>
                     <p className="mt-3 max-w-3xl text-base font-bold leading-7 text-gray-700 sm:text-lg">
                       {categoryText.description}
                     </p>
@@ -327,6 +345,8 @@ export default function TodayFree() {
                       apartment.rooms === "studio" ? info.studio : apartment.rooms;
                     const guestText = info[apartment.guestsKey];
                     const cardInfo = [roomText, guestText, info.center].join(" • ");
+                    const isEconomy = apartment.category === "economy";
+                    const displayedPrice = isEconomy ? getDiscountedPrice(apartment.price) : apartment.price;
 
                     return (
                       <a
@@ -363,9 +383,16 @@ export default function TodayFree() {
                           </div>
 
                           <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-                            <p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">
-                              {apartment.price} {info.lei}
-                            </p>
+                            <div>
+                              {isEconomy ? (
+                                <p className="mb-1 text-sm font-black leading-none text-gray-500 line-through sm:text-base">
+                                  {apartment.price} {info.lei}
+                                </p>
+                              ) : null}
+                              <p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">
+                                {displayedPrice} {info.lei}
+                              </p>
+                            </div>
 
                             <span className="shrink-0 rounded-2xl bg-[#061024] px-5 py-3 text-center text-sm font-black text-white sm:px-6 sm:py-4 sm:text-base">
                               {text.details}
