@@ -20,6 +20,13 @@ export type ApartmentDetailsData = {
   guests: ApartmentGuests;
   heroPosition?: string;
   facadePhoto?: string;
+  displayKind?: string;
+  displayOverlay?: string;
+  intro?: string;
+  aboutTitle?: string;
+  descriptionParagraphs?: string[];
+  features?: string[];
+  galleryLayout?: "standard" | "extended";
 };
 
 type DetailText = {
@@ -343,6 +350,19 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const whatsappLink = "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
   const heroPosition = apartment.heroPosition ?? "center 45%";
   const bookedDates = getApartmentBookedDates(apartment.id);
+  const kindLabel = apartment.displayKind ?? text.kinds[apartment.kind];
+  const overlayLabel = apartment.displayOverlay ?? text.overlay[apartment.kind];
+  const intro = apartment.intro ?? text.intro[apartment.kind];
+  const aboutTitle = apartment.aboutTitle ?? text.aboutTitle[apartment.kind];
+  const descriptionParagraphs =
+    apartment.descriptionParagraphs ?? [
+      text.aboutFirst[apartment.kind],
+      text.aboutSecond[apartment.kind],
+    ];
+  const features = apartment.features ?? text.features[apartment.kind];
+  const isExtendedGallery = apartment.galleryLayout === "extended";
+  const topGalleryImages = isExtendedGallery ? galleryImages.slice(0, 4) : galleryImages;
+  const lowerGalleryImages = isExtendedGallery ? galleryImages.slice(4) : [];
 
   return (
     <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
@@ -356,11 +376,11 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <div className="flex min-h-[0] flex-col justify-center bg-gradient-to-br from-[#07111f] via-[#0b1628] to-[#121b2b] p-5 text-white sm:min-h-[440px] sm:p-9 lg:min-h-[500px] lg:p-12">
               <div className="mb-4 flex flex-wrap gap-2 sm:mb-6 sm:gap-2.5">
                 <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">ID {apartment.id}</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{text.kinds[apartment.kind]}</span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{kindLabel}</span>
                 <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{text.guests[apartment.guests]}</span>
               </div>
               <h1 className="text-4xl font-black leading-[0.98] tracking-tight text-white sm:text-7xl lg:text-8xl">{text.addressTitle}</h1>
-              <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/78 sm:mt-6 sm:text-lg sm:leading-8">{text.intro[apartment.kind]}</p>
+              <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/78 sm:mt-6 sm:text-lg sm:leading-8">{intro}</p>
               <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-9 sm:grid-cols-3">
                 <div className="col-span-2 rounded-2xl bg-white p-4 text-[#07111f] shadow-xl shadow-black/10 sm:col-span-1 sm:p-5"><p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">{apartment.price}</p><p className="mt-1 text-xs font-black text-gray-500 sm:mt-2 sm:text-sm">{text.priceSuffix}</p></div>
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label={text.checkAvailability} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#25D366] p-3 text-center text-sm font-black text-white shadow-xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110 sm:min-h-[92px] sm:p-5 sm:text-base">{text.checkAvailability}</a>
@@ -377,7 +397,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
               priority
               withWatermark
             >
-              <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{text.kinds[apartment.kind]}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{text.overlay[apartment.kind]}</p></div>
+              <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{kindLabel}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{overlayLabel}</p></div>
             </ResponsiveImage>
           </div>
         </div>
@@ -386,21 +406,34 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.photo}</p>
           <h2 className="mt-2 text-3xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName="object-contain lg:object-cover" sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} priority withWatermark /></div>
+            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} priority withWatermark /></div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              {galleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[178px]" imgClassName="object-contain object-center sm:object-cover" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></div>))}
-              <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></div>
+              {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></div>))}
+              {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></div> : null}
             </div>
           </div>
+          {isExtendedGallery ? (
+            <div className="mt-4 grid gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
+              {lowerGalleryImages.map((image, index) => (
+                <div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
+                  <ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 5 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[190px]" imgClassName="object-cover object-center" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                </div>
+              ))}
+              <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
+                <ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+              </div>
+            </div>
+          ) : null}
         </section>
 
         <section className="mt-8 grid items-start gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_420px] xl:grid-cols-[minmax(0,1fr)_460px]">
           <div className="rounded-[22px] bg-white p-5 shadow-2xl shadow-black/10 sm:rounded-[26px] sm:p-9">
             <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.aboutLabel}</p>
-            <h2 className="mt-3 text-2xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.aboutTitle[apartment.kind]}</h2>
-            <p className="mt-4 text-base leading-7 text-gray-700 sm:mt-6 sm:text-lg sm:leading-8">{text.aboutFirst[apartment.kind]}</p>
-            <p className="mt-4 text-base leading-7 text-gray-700 sm:mt-5 sm:text-lg sm:leading-8">{text.aboutSecond[apartment.kind]}</p>
-            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...text.features[apartment.kind]].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">✓ {item}</div>))}</div>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-[#07111f] sm:text-5xl">{aboutTitle}</h2>
+            {descriptionParagraphs.map((paragraph, index) => (
+              <p key={paragraph} className={(index === 0 ? "mt-4 sm:mt-6" : "mt-4 sm:mt-5") + " text-base leading-7 text-gray-700 sm:text-lg sm:leading-8"}>{paragraph}</p>
+            ))}
+            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">✓ {item}</div>))}</div>
 
             <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.rulesLabel}</p>
