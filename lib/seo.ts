@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { apartmentDetailsById } from "@/data/apartments";
+import {
+  apartmentDetailsById,
+  apartments,
+  getApartmentById,
+  getApartmentPath as getApartmentDataPath,
+} from "@/lib/apartments";
 
 export const baseUrl = "https://rentplace.md";
 export const siteName = "RentPlaceMD";
@@ -59,7 +64,7 @@ export const iconMetadata: Metadata["icons"] = {
 };
 
 export function getApartmentSlug(id: number) {
-  return "izmail88-" + id;
+  return getApartmentById(id)?.slug ?? "izmail88-" + id;
 }
 
 export function getApartmentUrl(id: number) {
@@ -67,7 +72,8 @@ export function getApartmentUrl(id: number) {
 }
 
 export function apartmentPath(id: number) {
-  return "/apartment/" + getApartmentSlug(id);
+  const apartment = getApartmentById(id);
+  return apartment ? getApartmentDataPath(apartment) : "/apartment/" + getApartmentSlug(id);
 }
 
 export function routeAlternates(path = "") {
@@ -178,7 +184,7 @@ export const homeFaq = [
 ];
 
 export function buildSiteJsonLd() {
-  const apartmentOffers = Object.values(apartmentDetailsById).map((apartment) => ({
+  const apartmentOffers = apartments.map((apartment) => ({
     "@type": "Offer",
     url: getApartmentUrl(apartment.id),
     price: apartment.price,
@@ -187,7 +193,7 @@ export function buildSiteJsonLd() {
     itemOffered: {
       "@type": "Apartment",
       name: "RentPlaceMD ID " + apartment.id + " - " + kindTitle[apartment.kind],
-      image: apartment.images.map((image) => baseUrl + image),
+      image: apartment.photos.map((image) => baseUrl + image),
       occupancy: {
         "@type": "QuantitativeValue",
         maxValue: apartment.guests,

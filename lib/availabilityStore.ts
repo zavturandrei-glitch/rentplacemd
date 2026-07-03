@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import seedAvailability from "@/data/availability.json";
-import { apartmentDetailsById } from "@/data/apartments";
+import { apartments } from "@/lib/apartments";
 
 export type AvailabilityStatus = "booked" | "free";
 export type AvailabilityRecord = {
@@ -15,7 +15,7 @@ type BookedDateRow = {
 };
 
 const filePath = path.join(process.cwd(), "data", "availability.json");
-const apartmentIds = Object.keys(apartmentDetailsById);
+const apartmentIds = apartments.map((apartment) => String(apartment.id));
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const tableName = "availability_booked_dates";
 

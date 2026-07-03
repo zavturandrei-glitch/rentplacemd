@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AdminAvailabilityManager from "@/components/AdminAvailabilityManager";
-import { apartmentDetailsById } from "@/data/apartments";
+import { apartments } from "@/lib/apartments";
 
 export const metadata: Metadata = {
   title: "Управление занятостью квартир",
@@ -18,13 +18,13 @@ const kindLabel = {
 } as const;
 
 export default function AdminAvailabilityPage() {
-  const apartments = Object.values(apartmentDetailsById).map((apartment) => ({
+  const availabilityApartments = apartments.map((apartment) => ({
     id: apartment.id,
     label: kindLabel[apartment.kind],
     price: apartment.price,
     guests: apartment.guests,
-    image: apartment.images[0],
+    image: apartment.photos[0],
   }));
 
-  return <AdminAvailabilityManager apartments={apartments} />;
+  return <AdminAvailabilityManager apartments={availabilityApartments} />;
 }

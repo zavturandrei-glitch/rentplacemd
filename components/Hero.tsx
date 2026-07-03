@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
+import { getApartmentPathById } from "@/lib/apartments";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -40,22 +41,7 @@ export default function Hero() {
   function openApartmentById() {
     const id = cleanApartmentId(apartmentId);
 
-    const apartments: Record<string, string> = {
-      "10": "/apartment/izmail88-10",
-      "11": "/apartment/izmail88-11",
-      "12": "/apartment/izmail88-12",
-      "13": "/apartment/izmail88-13",
-      "20": "/apartment/izmail88-20",
-      "21": "/apartment/izmail88-21",
-      "22": "/apartment/izmail88-22",
-      "23": "/apartment/izmail88-23",
-      "37": "/apartment/izmail88-37",
-      "38": "/apartment/izmail88-38",
-      "42": "/apartment/izmail88-42",
-      "371": "/apartment/izmail88-371",
-    };
-
-    const apartmentLink = apartments[id];
+    const apartmentLink = getApartmentPathById(id);
 
     if (apartmentLink) {
       window.location.href = apartmentLink;

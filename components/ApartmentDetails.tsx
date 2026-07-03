@@ -19,6 +19,7 @@ export type ApartmentDetailsData = {
   kind: ApartmentKind;
   guests: ApartmentGuests;
   heroPosition?: string;
+  facadePhoto?: string;
 };
 
 type DetailText = {
@@ -336,7 +337,7 @@ function format(template: string, values: Record<string, string | number>) {
 export default function ApartmentDetails({ apartment }: { apartment: ApartmentDetailsData }) {
   const { language } = useLanguage();
   const text = detailText[language];
-  const facadePhoto = "/common/building.png";
+  const facadePhoto = apartment.facadePhoto ?? "/common/building.png";
   const galleryImages = apartment.images.slice(1);
   const whatsappText = format(text.whatsappMessage, { id: apartment.id });
   const whatsappLink = "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);

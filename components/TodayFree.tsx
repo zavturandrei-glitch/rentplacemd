@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import {
+  activeApartments,
+  getApartmentPath,
+  type ApartmentClass,
+} from "@/lib/apartments";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
-type CategoryKey = "standard" | "economy";
+type CategoryKey = ApartmentClass;
 
 const LANG_STORAGE_KEY = "rentplacemd-language";
 
@@ -16,7 +21,7 @@ const sectionText: Record<
     callButton: string;
     details: string;
     altPrefix: string;
-    categories: Record<
+    categories: Partial<Record<
       CategoryKey,
       {
         title: string;
@@ -24,7 +29,7 @@ const sectionText: Record<
         badge: string;
         discount?: string;
       }
-    >;
+    >>;
   }
 > = {
   RU: {
@@ -215,32 +220,7 @@ const apartmentInfo: Record<
   },
 };
 
-const apartments = [
-  { id: 10, category: "standard", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-10/1.png", imagePosition: "42% center", link: "/apartment/izmail88-10" },
-  { id: 11, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-11/1.png", link: "/apartment/izmail88-11" },
-  { id: 12, category: "standard", title: "Измаил 88", rooms: "1+1", guestsKey: "guests3", price: 800, image: "/apartments/izmail88-12/1.png", link: "/apartment/izmail88-12" },
-  { id: 13, category: "economy", title: "Измаил 88", rooms: "2+1", guestsKey: "bedrooms2", price: 900, image: "/apartments/izmail88-13/4.png", link: "/apartment/izmail88-13" },
-  { id: 20, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-20/2.png", link: "/apartment/izmail88-20" },
-  { id: 21, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests3", price: 800, image: "/apartments/izmail88-21/2.png", link: "/apartment/izmail88-21" },
-  { id: 22, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-22/1.png", link: "/apartment/izmail88-22" },
-  { id: 23, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-23/1.png", link: "/apartment/izmail88-23" },
-  { id: 37, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-37/2.png", link: "/apartment/izmail88-37" },
-  { id: 38, category: "economy", title: "Измаил 88", rooms: "1+1", guestsKey: "guests4", price: 800, image: "/apartments/izmail88-38/2.png", link: "/apartment/izmail88-38" },
-  { id: 42, category: "standard", title: "Измаил 88", rooms: "2+1", guestsKey: "guests5", price: 1000, image: "/apartments/izmail88-42/2.png", link: "/apartment/izmail88-42" },
-  { id: 371, category: "standard", title: "Измаил 88", rooms: "studio", guestsKey: "guests2", price: 800, image: "/apartments/izmail88-371/1.png", link: "/apartment/izmail88-371" },
-] as const satisfies readonly {
-  id: number;
-  category: CategoryKey;
-  title: string;
-  rooms: "studio" | "1+1" | "2+1";
-  guestsKey: keyof (typeof apartmentInfo)[Lang];
-  price: number;
-  image: string;
-  imagePosition?: string;
-  link: string;
-}[];
-
-const categoryOrder = ["standard", "economy"] as const satisfies readonly CategoryKey[];
+const categoryOrder = ["standard", "premium", "economy"] as const satisfies readonly CategoryKey[];
 const ECONOMY_DISCOUNT_PERCENT = 10;
 
 function getDiscountedPrice(price: number) {
@@ -311,10 +291,24 @@ export default function TodayFree() {
 
         <div className="space-y-12 sm:space-y-14">
           {categoryOrder.map((category, categoryIndex) => {
-            const categoryText = text.categories[category];
-            const categoryApartments = apartments.filter(
-              (apartment) => apartment.category === category,
+            const fallbackCategoryText: {
+              title: string;
+              description: string;
+              badge: string;
+              discount?: string;
+            } = {
+              title: category === "premium" ? "Премиум" : category,
+              description: "",
+              badge: category === "premium" ? "Премиум" : category,
+            };
+            const categoryText = text.categories[category] ?? fallbackCategoryText;
+            const categoryApartments = activeApartments.filter(
+              (apartment) => apartment.class === category,
             );
+
+            if (categoryApartments.length === 0) {
+              return null;
+            }
 
             return (
               <section key={category} aria-labelledby={category + "-apartments-title"}>
@@ -343,24 +337,29 @@ export default function TodayFree() {
                   {categoryApartments.map((apartment, apartmentIndex) => {
                     const roomText =
                       apartment.rooms === "studio" ? info.studio : apartment.rooms;
-                    const guestText = info[apartment.guestsKey];
+                    const guestText =
+                      apartment.rooms === "2+1" && apartment.guests === 4
+                        ? info.bedrooms2
+                        : info[
+                            ("guests" + apartment.guests) as keyof (typeof apartmentInfo)[Lang]
+                          ];
                     const cardInfo = [roomText, guestText, info.center].join(" • ");
-                    const isEconomy = apartment.category === "economy";
+                    const isEconomy = apartment.class === "economy";
                     const displayedPrice = isEconomy ? getDiscountedPrice(apartment.price) : apartment.price;
 
                     return (
                       <a
                         key={apartment.id}
-                        href={apartment.link}
+                        href={getApartmentPath(apartment)}
                         className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
                       >
                         <ResponsiveImage
-                          src={apartment.image}
+                          src={apartment.cardPhoto ?? apartment.photos[0]}
                           alt={text.altPrefix + " " + apartment.id}
                           className="aspect-[4/3]"
                           imgClassName="transition duration-500 group-hover:scale-[1.03]"
                           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
-                          objectPosition={"imagePosition" in apartment ? apartment.imagePosition : "center"}
+                          objectPosition={apartment.cardImagePosition ?? "center"}
                           priority={categoryIndex === 0 && apartmentIndex < 4}
                           withWatermark
                         >
