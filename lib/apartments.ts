@@ -50,10 +50,11 @@ const commonAmenities = [
   "Заселение 24/7",
 ];
 
-function apartmentPhotos(slug: string, count: number) {
+function apartmentPhotos(slug: string, count: number, extension = "png") {
   return Array.from(
     { length: count },
-    (_, index) => "/apartments/" + slug + "/" + (index + 1) + ".png",
+    (_, index) =>
+      "/apartments/" + slug + "/" + (index + 1) + "." + extension,
   );
 }
 
@@ -117,7 +118,7 @@ export const apartments = [
       "Чистое постельное бельё",
       "Полотенца",
     ],
-    photos: apartmentPhotos("izmail88-1", 8),
+    photos: apartmentPhotos("izmail88-1", 8, "jpeg"),
   }),
   createApartment({
     id: 10,
