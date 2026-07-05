@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentPathById } from "@/lib/apartments";
 
@@ -53,17 +52,12 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-black">
-      <ResponsiveImage
-        src="/main.jpg"
-        alt="RentPlaceMD apartments in Chisinau"
-        className="absolute inset-0"
-        imgClassName="object-center"
-        sizes="100vw"
-        priority
-        withWatermark
-      >
-        <div className="absolute inset-0 bg-black/50 sm:bg-black/45" />
-      </ResponsiveImage>
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/main.jpg')" }}
+      />
+
+      <div className="absolute inset-0 bg-black/50 sm:bg-black/45" />
 
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-7 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8">
         <div className="mx-auto mb-5 max-w-5xl text-center sm:mb-8">
