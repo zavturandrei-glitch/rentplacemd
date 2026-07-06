@@ -122,15 +122,19 @@ export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Met
   const title =
     id === 3
       ? "Студия Standard Plus в центре Кишинёва — ID 3 | RentPlaceMD"
+      : id === 5
+        ? "Студия Standard+ — ID 5 | RentPlaceMD"
       : buildApartmentTitle(id);
   const description =
     id === 3
       ? "Современная студия категории Standard Plus. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 900 MDL."
+      : id === 5
+        ? "Современная студия категории Standard+ в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
       : buildApartmentDescription(id);
   const url = getApartmentUrl(id);
 
   return {
-    title: id === 3 ? { absolute: title } : title,
+    title: id === 3 || id === 5 ? { absolute: title } : title,
     description,
     keywords: buildApartmentKeywords(id),
     alternates: apartmentAlternates(id),

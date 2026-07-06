@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -608,16 +609,19 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             ›
           </button>
 
-          <div className="flex min-h-0 flex-1 touch-pan-y items-center justify-center px-4 pb-28 pt-20 sm:px-20 sm:pb-32" onClick={(event) => event.stopPropagation()} onPointerDown={handleLightboxPointerDown} onPointerUp={handleLightboxPointerUp} onPointerCancel={handleLightboxPointerCancel}>
-            <ResponsiveImage
-              key={activeLightboxPhoto.src}
-              src={activeLightboxPhoto.src}
-              alt={activeLightboxPhoto.alt}
-              className="h-[calc(100vh-210px)] w-full max-w-6xl rounded-2xl bg-transparent transition duration-300 ease-out sm:h-[calc(100vh-230px)]"
-              imgClassName="object-contain"
-              sizes="100vw"
-              priority
-            />
+          <div className="flex min-h-0 flex-1 touch-pan-y items-center justify-center px-3 pb-24 pt-16 sm:px-20 sm:pb-28 sm:pt-20" onClick={(event) => event.stopPropagation()} onPointerDown={handleLightboxPointerDown} onPointerUp={handleLightboxPointerUp} onPointerCancel={handleLightboxPointerCancel}>
+            <div className="relative h-full max-h-[calc(100dvh-10rem)] w-full max-w-[calc(100vw-1.5rem)] transition duration-300 ease-out sm:max-h-[calc(100dvh-12rem)] sm:max-w-6xl">
+              <Image
+                key={activeLightboxPhoto.src}
+                src={activeLightboxPhoto.src}
+                alt={activeLightboxPhoto.alt}
+                fill
+                sizes="100vw"
+                priority
+                className="object-contain"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-black/65 px-3 py-3 backdrop-blur sm:px-5 sm:py-4" onClick={(event) => event.stopPropagation()}>
