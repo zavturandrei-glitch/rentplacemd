@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -363,6 +364,115 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const isExtendedGallery = apartment.galleryLayout === "extended";
   const topGalleryImages = isExtendedGallery ? galleryImages.slice(0, 4) : galleryImages;
   const lowerGalleryImages = isExtendedGallery ? galleryImages.slice(4) : [];
+  const lightboxPhotos = useMemo(
+    () => [
+      ...apartment.images.map((image, index) => ({
+        src: image,
+        alt:
+          index === 0
+            ? format(text.mainPhotoAlt, { id: apartment.id })
+            : format(text.galleryPhotoAlt, { id: apartment.id, index }),
+      })),
+      { src: facadePhoto, alt: text.facadeAlt },
+    ],
+    [apartment.id, apartment.images, facadePhoto, text.facadeAlt, text.galleryPhotoAlt, text.mainPhotoAlt],
+  );
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [isLightboxVisible, setIsLightboxVisible] = useState(false);
+  const closeTimeoutRef = useRef<number | null>(null);
+  const pointerStartXRef = useRef<number | null>(null);
+  const activeLightboxIndex = lightboxIndex ?? 0;
+  const activeLightboxPhoto = lightboxPhotos[activeLightboxIndex] ?? lightboxPhotos[0];
+
+  const openLightbox = useCallback((index: number) => {
+    if (closeTimeoutRef.current) {
+      window.clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+
+    setLightboxIndex(index);
+    window.setTimeout(() => setIsLightboxVisible(true), 0);
+  }, [setIsLightboxVisible, setLightboxIndex]);
+
+  const closeLightbox = useCallback(() => {
+    setIsLightboxVisible(false);
+
+    if (closeTimeoutRef.current) {
+      window.clearTimeout(closeTimeoutRef.current);
+    }
+
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setLightboxIndex(null);
+      closeTimeoutRef.current = null;
+    }, 260);
+  }, [setIsLightboxVisible, setLightboxIndex]);
+
+  const showPreviousPhoto = useCallback(() => {
+    setLightboxIndex((current) => {
+      if (current === null || lightboxPhotos.length === 0) return current;
+      return (current - 1 + lightboxPhotos.length) % lightboxPhotos.length;
+    });
+  }, [lightboxPhotos.length, setLightboxIndex]);
+
+  const showNextPhoto = useCallback(() => {
+    setLightboxIndex((current) => {
+      if (current === null || lightboxPhotos.length === 0) return current;
+      return (current + 1) % lightboxPhotos.length;
+    });
+  }, [lightboxPhotos.length, setLightboxIndex]);
+
+  const handleLightboxPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    pointerStartXRef.current = event.clientX;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleLightboxPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    const startX = pointerStartXRef.current;
+    const endX = event.clientX;
+    pointerStartXRef.current = null;
+
+    if (startX === null) return;
+
+    const distance = endX - startX;
+    if (Math.abs(distance) < 48) return;
+
+    if (distance > 0) {
+      showPreviousPhoto();
+    } else {
+      showNextPhoto();
+    }
+  };
+
+  const handleLightboxPointerCancel = () => {
+    pointerStartXRef.current = null;
+  };
+
+  useEffect(() => {
+    if (lightboxIndex === null) return undefined;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showPreviousPhoto();
+      if (event.key === "ArrowRight") showNextPhoto();
+    };
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeLightbox, lightboxIndex, showNextPhoto, showPreviousPhoto]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        window.clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
@@ -387,18 +497,20 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 <a href="tel:+37369990190" aria-label={text.call} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#ffb800] p-3 text-center text-sm font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105 sm:min-h-[92px] sm:p-5 sm:text-base">{text.call}</a>
               </div>
             </div>
-            <ResponsiveImage
-              src={apartment.images[0]}
-              alt={text.addressTitle + " ID " + apartment.id}
-              className="h-[270px] bg-[#07111f] sm:h-[460px] lg:h-[500px]"
-              imgClassName="object-contain lg:object-cover"
-              sizes="(min-width: 1024px) 58vw, 100vw"
-              objectPosition={heroPosition}
-              priority
-              withWatermark
-            >
-              <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{kindLabel}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{overlayLabel}</p></div>
-            </ResponsiveImage>
+            <button type="button" onClick={() => openLightbox(0)} className="block h-full w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f]" aria-label={format(text.mainPhotoAlt, { id: apartment.id })}>
+              <ResponsiveImage
+                src={apartment.images[0]}
+                alt={text.addressTitle + " ID " + apartment.id}
+                className="h-[270px] bg-[#07111f] sm:h-[460px] lg:h-[500px]"
+                imgClassName="object-contain lg:object-cover"
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                objectPosition={heroPosition}
+                priority
+                withWatermark
+              >
+                <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{kindLabel}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{overlayLabel}</p></div>
+              </ResponsiveImage>
+            </button>
           </div>
         </div>
 
@@ -406,21 +518,29 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.photo}</p>
           <h2 className="mt-2 text-3xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} priority withWatermark /></div>
+            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10">
+              <button type="button" onClick={() => openLightbox(0)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[20px]" aria-label={format(text.mainPhotoAlt, { id: apartment.id })}>
+                <ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} priority withWatermark />
+              </button>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></div>))}
-              {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></div> : null}
+              {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><button type="button" onClick={() => openLightbox(index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })}><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></button></div>))}
+              {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={text.facadeAlt}><ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
             </div>
           </div>
           {isExtendedGallery ? (
             <div className="mt-4 grid gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
               {lowerGalleryImages.map((image, index) => (
                 <div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
-                  <ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 5 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[190px]" imgClassName="object-cover object-center" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                  <button type="button" onClick={() => openLightbox(topGalleryImages.length + index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 5 })}>
+                    <ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 5 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[190px]" imgClassName="object-cover object-center" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                  </button>
                 </div>
               ))}
               <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
-                <ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                <button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={text.facadeAlt}>
+                  <ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                </button>
               </div>
             </div>
           ) : null}
@@ -466,6 +586,57 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           </aside>
         </section>
       </section>
+
+      {lightboxIndex !== null && activeLightboxPhoto ? (
+        <div
+          className={(isLightboxVisible ? "opacity-100" : "opacity-0") + " fixed inset-0 z-[100] flex flex-col bg-black/95 text-white transition-opacity duration-300 ease-out"}
+          role="dialog"
+          aria-modal="true"
+          aria-label={text.galleryTitle}
+          onClick={closeLightbox}
+        >
+          <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-sm font-black shadow-2xl backdrop-blur sm:top-5 sm:text-base" aria-live="polite">
+            {activeLightboxIndex + 1} / {lightboxPhotos.length}
+          </div>
+          <button type="button" onClick={closeLightbox} className="absolute right-3 top-3 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/12 text-3xl font-light leading-none text-white shadow-2xl backdrop-blur transition duration-200 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:top-5" aria-label="Close">
+            ×
+          </button>
+          <button type="button" onClick={(event) => { event.stopPropagation(); showPreviousPhoto(); }} className="absolute left-3 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-4xl font-light leading-none text-white shadow-2xl backdrop-blur transition duration-200 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:left-5 sm:h-14 sm:w-14" aria-label="Previous photo">
+            ‹
+          </button>
+          <button type="button" onClick={(event) => { event.stopPropagation(); showNextPhoto(); }} className="absolute right-3 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-4xl font-light leading-none text-white shadow-2xl backdrop-blur transition duration-200 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:h-14 sm:w-14" aria-label="Next photo">
+            ›
+          </button>
+
+          <div className="flex min-h-0 flex-1 touch-pan-y items-center justify-center px-4 pb-28 pt-20 sm:px-20 sm:pb-32" onClick={(event) => event.stopPropagation()} onPointerDown={handleLightboxPointerDown} onPointerUp={handleLightboxPointerUp} onPointerCancel={handleLightboxPointerCancel}>
+            <ResponsiveImage
+              key={activeLightboxPhoto.src}
+              src={activeLightboxPhoto.src}
+              alt={activeLightboxPhoto.alt}
+              className="h-[calc(100vh-210px)] w-full max-w-6xl rounded-2xl bg-transparent transition duration-300 ease-out sm:h-[calc(100vh-230px)]"
+              imgClassName="object-contain"
+              sizes="100vw"
+              priority
+            />
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-black/65 px-3 py-3 backdrop-blur sm:px-5 sm:py-4" onClick={(event) => event.stopPropagation()}>
+            <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto pb-1 sm:gap-3">
+              {lightboxPhotos.map((photo, index) => (
+                <button
+                  key={photo.src + index}
+                  type="button"
+                  onClick={() => setLightboxIndex(index)}
+                  className={(index === activeLightboxIndex ? "ring-2 ring-[#ffd21f] ring-offset-2 ring-offset-black" : "opacity-70 hover:opacity-100") + " relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-white/10 transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:h-20 sm:w-28"}
+                  aria-label={photo.alt}
+                >
+                  <ResponsiveImage src={photo.src} alt={photo.alt} className="h-full w-full rounded-xl bg-transparent" imgClassName="object-cover" sizes="112px" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <Footer />
       <div className="fixed bottom-3 left-3 right-3 z-50 grid grid-cols-3 gap-2 rounded-[20px] border border-white/20 bg-[#07111f]/88 p-2 shadow-2xl shadow-black/30 backdrop-blur lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-2xl bg-[#25D366] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-emerald-500/25">WhatsApp</a><a href="viber://chat?number=%2B37369990190" aria-label="Viber" className="rounded-2xl bg-[#7c00d9] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-purple-600/25">Viber</a><a href="tel:+37369990190" aria-label={text.call} className="rounded-2xl bg-[#d4146f] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-pink-600/25">{text.call}</a></div>

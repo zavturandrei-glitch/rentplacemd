@@ -17,7 +17,7 @@ export const translations = {
       availableApartments: "Свободные квартиры",
       center: "Центр\nгорода",
       checkin247: "Заселение\n24/7",
-      moreThan12: "Более 12\nквартир",
+      moreThan12: "Более 36\nквартир",
       noMiddlemen: "Без\nпосредников",
       details: "Подробнее",
       clarifyDates: "Уточнить свободные даты",
@@ -26,7 +26,7 @@ export const translations = {
     },
     hero: {
       title: "Квартиры посуточно в Кишинёве",
-      subtitle: "12 квартир в одном комплексе • Измаил 88 • Центр города • 24/7",
+      subtitle: "36 квартир в одном комплексе • Измаил 88 • Центр города • 24/7",
       quickPickLabel: "Быстрый подбор",
       quickPickTitle: "Подобрать квартиру в один клик",
       quickPickText: "Напишите дату заезда, дату выезда и сколько будет персон.",
@@ -92,7 +92,7 @@ export const translations = {
         },
         {
           icon: "🏠",
-          title: "Более 12 квартир",
+          title: "Более 36 квартир",
           text: "Можно подобрать вариант под 1, 2, 3, 4 или 5 гостей.",
         },
         {
@@ -111,7 +111,7 @@ export const translations = {
       copyright: "© 2026 RentPlaceMD™. Все права защищены.",
       bottomText: "Квартиры посуточно в Кишинёве • Центр • Новостройки",
       centerChisinau: "Центр Кишинёва",
-      moreThan12Apartments: "Более 12 квартир",
+      moreThan12Apartments: "Более 36 квартир",
       checkin247: "Заселение 24/7",
       noMiddlemen: "Без посредников",
     },
@@ -125,7 +125,7 @@ export const translations = {
       availableApartments: "Apartamente libere",
       center: "Centrul\norașului",
       checkin247: "Cazare\n24/7",
-      moreThan12: "Peste 12\napartamente",
+      moreThan12: "Peste 36\napartamente",
       noMiddlemen: "Fără\nintermediari",
       details: "Detalii",
       clarifyDates: "Verifică datele libere",
@@ -135,7 +135,7 @@ export const translations = {
     hero: {
       title: "Apartamente în chirie pe zi în Chișinău",
       subtitle:
-        "12 apartamente într-un complex • Ismail 88 • Centrul orașului • 24/7",
+        "36 apartamente într-un complex • Ismail 88 • Centrul orașului • 24/7",
       quickPickLabel: "Alegere rapidă",
       quickPickTitle: "Găsește apartamentul dintr-un click",
       quickPickText: "Scrie data sosirii, data plecării și numărul de persoane.",
@@ -201,7 +201,7 @@ export const translations = {
         },
         {
           icon: "🏠",
-          title: "Peste 12 apartamente",
+          title: "Peste 36 apartamente",
           text: "Putem găsi o variantă pentru 1, 2, 3, 4 sau 5 oaspeți.",
         },
         {
@@ -220,7 +220,7 @@ export const translations = {
       copyright: "© 2026 RentPlaceMD™. Toate drepturile rezervate.",
       bottomText: "Apartamente în chirie pe zi în Chișinău • Centru • Blocuri noi",
       centerChisinau: "Centrul Chișinăului",
-      moreThan12Apartments: "Peste 12 apartamente",
+      moreThan12Apartments: "Peste 36 apartamente",
       checkin247: "Cazare 24/7",
       noMiddlemen: "Fără intermediari",
     },
@@ -234,7 +234,7 @@ export const translations = {
       availableApartments: "Available apartments",
       center: "City\ncenter",
       checkin247: "Check-in\n24/7",
-      moreThan12: "More than 12\napartments",
+      moreThan12: "More than 36\napartments",
       noMiddlemen: "No\nmiddlemen",
       details: "Details",
       clarifyDates: "Check available dates",
@@ -243,7 +243,7 @@ export const translations = {
     },
     hero: {
       title: "Daily apartments in Chisinau",
-      subtitle: "12 apartments in one complex • Ismail 88 • City center • 24/7",
+      subtitle: "36 apartments in one complex • Ismail 88 • City center • 24/7",
       quickPickLabel: "Quick match",
       quickPickTitle: "Find an apartment in one click",
       quickPickText: "Write your check-in date, check-out date and number of guests.",
@@ -308,7 +308,7 @@ export const translations = {
         },
         {
           icon: "🏠",
-          title: "More than 12 apartments",
+          title: "More than 36 apartments",
           text: "We can match an option for 1, 2, 3, 4 or 5 guests.",
         },
         {
@@ -327,7 +327,7 @@ export const translations = {
       copyright: "© 2026 RentPlaceMD™. All rights reserved.",
       bottomText: "Daily apartments in Chisinau • Center • New buildings",
       centerChisinau: "Central Chisinau",
-      moreThan12Apartments: "More than 12 apartments",
+      moreThan12Apartments: "More than 36 apartments",
       checkin247: "Check-in 24/7",
       noMiddlemen: "No middlemen",
     },
@@ -341,7 +341,7 @@ export const translations = {
       availableApartments: "Вільні квартири",
       center: "Центр\nміста",
       checkin247: "Заселення\n24/7",
-      moreThan12: "Понад 12\nквартир",
+      moreThan12: "Понад 36\nквартир",
       noMiddlemen: "Без\nпосередників",
       details: "Детальніше",
       clarifyDates: "Уточнити вільні дати",
@@ -350,7 +350,7 @@ export const translations = {
     },
     hero: {
       title: "Квартири подобово в Кишиневі",
-      subtitle: "12 квартир в одному комплексі • Ізмаїл 88 • Центр міста • 24/7",
+      subtitle: "36 квартир в одному комплексі • Ізмаїл 88 • Центр міста • 24/7",
       quickPickLabel: "Швидкий підбір",
       quickPickTitle: "Підібрати квартиру в один клік",
       quickPickText: "Напишіть дату заїзду, дату виїзду і скільки буде людей.",
@@ -416,7 +416,7 @@ export const translations = {
         },
         {
           icon: "🏠",
-          title: "Понад 12 квартир",
+          title: "Понад 36 квартир",
           text: "Можна підібрати варіант для 1, 2, 3, 4 або 5 гостей.",
         },
         {
@@ -435,7 +435,7 @@ export const translations = {
       copyright: "© 2026 RentPlaceMD™. Усі права захищені.",
       bottomText: "Квартири подобово в Кишиневі • Центр • Новобудови",
       centerChisinau: "Центр Кишинева",
-      moreThan12Apartments: "Понад 12 квартир",
+      moreThan12Apartments: "Понад 36 квартир",
       checkin247: "Заселення 24/7",
       noMiddlemen: "Без посередників",
     },
@@ -449,7 +449,7 @@ export const translations = {
       availableApartments: "Volné apartmány",
       center: "Centrum\nměsta",
       checkin247: "Ubytování\n24/7",
-      moreThan12: "Více než 12\napartmánů",
+      moreThan12: "Více než 36\napartmánů",
       noMiddlemen: "Bez\nprostředníků",
       details: "Detail",
       clarifyDates: "Ověřit volné termíny",
@@ -458,7 +458,7 @@ export const translations = {
     },
     hero: {
       title: "Apartmány na den v Kišiněvě",
-      subtitle: "12 apartmánů v jednom komplexu • Ismail 88 • Centrum města • 24/7",
+      subtitle: "36 apartmánů v jednom komplexu • Ismail 88 • Centrum města • 24/7",
       quickPickLabel: "Rychlý výběr",
       quickPickTitle: "Vybrat apartmán jedním kliknutím",
       quickPickText: "Napište datum příjezdu, datum odjezdu a počet osob.",
@@ -524,7 +524,7 @@ export const translations = {
         },
         {
           icon: "🏠",
-          title: "Více než 12 apartmánů",
+          title: "Více než 36 apartmánů",
           text: "Vybereme variantu pro 1, 2, 3, 4 nebo 5 hostů.",
         },
         {
@@ -543,7 +543,7 @@ export const translations = {
       copyright: "© 2026 RentPlaceMD™. Všechna práva vyhrazena.",
       bottomText: "Apartmány na den v Kišiněvě • Centrum • Novostavby",
       centerChisinau: "Centrum Kišiněva",
-      moreThan12Apartments: "Více než 12 apartmánů",
+      moreThan12Apartments: "Více než 36 apartmánů",
       checkin247: "Ubytování 24/7",
       noMiddlemen: "Bez prostředníků",
     },
