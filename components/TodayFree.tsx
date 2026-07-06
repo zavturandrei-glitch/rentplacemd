@@ -28,6 +28,7 @@ const sectionText: Record<
         description: string;
         badge: string;
         discount?: string;
+        highlightBadge?: string;
       }
     >>;
   }
@@ -47,10 +48,11 @@ const sectionText: Record<
         badge: "⭐ Стандарт",
       },
       standardPlus: {
-        title: "⭐ Standard+",
+        title: "Standard+",
         description:
-          "Самые привлекательные квартиры RentPlaceMD с современным интерьером, новым ремонтом и повышенным уровнем комфорта.",
-        badge: "⭐ Standard+",
+          "Новые квартиры RentPlaceMD с современным ремонтом, светлым интерьером и повышенным уровнем комфорта.",
+        badge: "Standard+",
+        highlightBadge: "Новые квартиры",
       },
       economy: {
         title: "💰 Эконом",
@@ -76,10 +78,11 @@ const sectionText: Record<
         badge: "⭐ Standard",
       },
       standardPlus: {
-        title: "⭐ Standard+",
+        title: "Standard+",
         description:
-          "Apartamentele cele mai atractive RentPlaceMD, cu interior modern, renovare nouă și confort sporit.",
-        badge: "⭐ Standard+",
+          "Apartamente noi RentPlaceMD, cu renovare modernă, interior luminos și un nivel mai ridicat de confort.",
+        badge: "Standard+",
+        highlightBadge: "Apartamente noi",
       },
       economy: {
         title: "💰 Economy",
@@ -105,10 +108,11 @@ const sectionText: Record<
         badge: "⭐ Standard",
       },
       standardPlus: {
-        title: "⭐ Standard+",
+        title: "Standard+",
         description:
-          "The most attractive RentPlaceMD apartments with modern interiors, fresh finishes, and an upgraded comfort level.",
-        badge: "⭐ Standard+",
+          "New RentPlaceMD apartments with modern finishes, bright interiors, and an upgraded level of comfort.",
+        badge: "Standard+",
+        highlightBadge: "New apartments",
       },
       economy: {
         title: "💰 Economy",
@@ -134,10 +138,11 @@ const sectionText: Record<
         badge: "⭐ Standard",
       },
       standardPlus: {
-        title: "⭐ Standard+",
+        title: "Standard+",
         description:
-          "Nejatraktivnější apartmány RentPlaceMD s moderním interiérem, novým vybavením a vyšší úrovní komfortu.",
-        badge: "⭐ Standard+",
+          "Nové apartmány RentPlaceMD s moderní rekonstrukcí, světlým interiérem a vyšší úrovní komfortu.",
+        badge: "Standard+",
+        highlightBadge: "Nové apartmány",
       },
       economy: {
         title: "💰 Economy",
@@ -163,10 +168,11 @@ const sectionText: Record<
         badge: "⭐ Стандарт",
       },
       standardPlus: {
-        title: "⭐ Standard+",
+        title: "Standard+",
         description:
-          "Найпривабливіші квартири RentPlaceMD із сучасним інтер'єром, новим ремонтом і підвищеним рівнем комфорту.",
-        badge: "⭐ Standard+",
+          "Нові квартири RentPlaceMD із сучасним ремонтом, світлим інтер'єром і підвищеним рівнем комфорту.",
+        badge: "Standard+",
+        highlightBadge: "Нові квартири",
       },
       economy: {
         title: "💰 Економ",
@@ -326,12 +332,14 @@ export default function TodayFree() {
               description: string;
               badge: string;
               discount?: string;
+              highlightBadge?: string;
             } = {
               title: category === "standardPlus" ? "Standard+" : category,
               description: "",
               badge: category === "standardPlus" ? "Standard+" : category,
             };
             const categoryText = text.categories[category] ?? fallbackCategoryText;
+            const isStandardPlus = category === "standardPlus";
             const categoryApartments = activeApartments.filter(
               (apartment) => apartment.class === category,
             );
@@ -341,23 +349,36 @@ export default function TodayFree() {
             }
 
             return (
-              <section key={category} aria-labelledby={category + "-apartments-title"}>
-                <div className="mb-5 flex flex-col gap-4 sm:mb-6 md:flex-row md:items-end md:justify-between">
+              <section
+                key={category}
+                aria-labelledby={category + "-apartments-title"}
+                className={
+                  isStandardPlus
+                    ? "rounded-[30px] border border-[#f2dfb8] bg-gradient-to-br from-[#fffefb] via-[#fff8e8] to-[#fff2cf] px-3 py-8 shadow-[0_24px_70px_rgba(120,83,18,0.12)] ring-1 ring-white/80 sm:px-5 sm:py-10 lg:px-7 lg:py-12"
+                    : undefined
+                }
+              >
+                <div className={isStandardPlus ? "mb-7 flex flex-col gap-4 sm:mb-8 md:flex-row md:items-end md:justify-between" : "mb-5 flex flex-col gap-4 sm:mb-6 md:flex-row md:items-end md:justify-between"}>
                   <div>
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                       <h3
                         id={category + "-apartments-title"}
-                        className="text-3xl font-black leading-tight text-[#061024] sm:text-4xl"
+                        className={isStandardPlus ? "text-4xl font-black leading-tight text-[#061024] sm:text-5xl" : "text-3xl font-black leading-tight text-[#061024] sm:text-4xl"}
                       >
                         {categoryText.title}
                       </h3>
+                      {isStandardPlus && categoryText.highlightBadge ? (
+                        <span className="inline-flex w-fit items-center rounded-full bg-[#061024] px-5 py-2.5 text-sm font-black leading-none text-[#ffd65a] shadow-lg shadow-black/10 ring-1 ring-white/15 sm:text-base">
+                          {categoryText.highlightBadge}
+                        </span>
+                      ) : null}
                       {categoryText.discount ? (
                         <span className="inline-flex w-fit items-center rounded-2xl bg-[#d4146f] px-5 py-2.5 text-xl font-black leading-none text-white shadow-lg shadow-pink-700/20 sm:text-2xl">
                           {categoryText.discount}
                         </span>
                       ) : null}
                     </div>
-                    <p className="mt-3 max-w-3xl text-base font-bold leading-7 text-gray-700 sm:text-lg">
+                    <p className={isStandardPlus ? "mt-4 max-w-4xl text-base font-bold leading-8 text-gray-700 sm:text-xl" : "mt-3 max-w-3xl text-base font-bold leading-7 text-gray-700 sm:text-lg"}>
                       {categoryText.description}
                     </p>
                   </div>
