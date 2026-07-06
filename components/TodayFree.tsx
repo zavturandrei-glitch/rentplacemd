@@ -46,6 +46,12 @@ const sectionText: Record<
           "Более комфортные квартиры с современным интерьером. Отличный выбор для отдыха, командировок и проживания в центре Кишинёва.",
         badge: "⭐ Стандарт",
       },
+      standardPlus: {
+        title: "⭐ Standard+",
+        description:
+          "Самые привлекательные квартиры RentPlaceMD с современным интерьером, новым ремонтом и повышенным уровнем комфорта.",
+        badge: "⭐ Standard+",
+      },
       economy: {
         title: "💰 Эконом",
         description:
@@ -68,6 +74,12 @@ const sectionText: Record<
         description:
           "Apartamente mai confortabile, cu interior modern. O alegere foarte bună pentru odihnă, călătorii de serviciu și cazare în centrul Chișinăului.",
         badge: "⭐ Standard",
+      },
+      standardPlus: {
+        title: "⭐ Standard+",
+        description:
+          "Apartamentele cele mai atractive RentPlaceMD, cu interior modern, renovare nouă și confort sporit.",
+        badge: "⭐ Standard+",
       },
       economy: {
         title: "💰 Economy",
@@ -92,6 +104,12 @@ const sectionText: Record<
           "More comfortable apartments with modern interiors. A great choice for leisure, business trips, and stays in central Chisinau.",
         badge: "⭐ Standard",
       },
+      standardPlus: {
+        title: "⭐ Standard+",
+        description:
+          "The most attractive RentPlaceMD apartments with modern interiors, fresh finishes, and an upgraded comfort level.",
+        badge: "⭐ Standard+",
+      },
       economy: {
         title: "💰 Economy",
         description:
@@ -115,6 +133,12 @@ const sectionText: Record<
           "Komfortnější apartmány s moderním interiérem. Skvělá volba pro odpočinek, pracovní cesty i pobyt v centru Kišiněva.",
         badge: "⭐ Standard",
       },
+      standardPlus: {
+        title: "⭐ Standard+",
+        description:
+          "Nejatraktivnější apartmány RentPlaceMD s moderním interiérem, novým vybavením a vyšší úrovní komfortu.",
+        badge: "⭐ Standard+",
+      },
       economy: {
         title: "💰 Economy",
         description:
@@ -137,6 +161,12 @@ const sectionText: Record<
         description:
           "Більш комфортні квартири із сучасним інтер'єром. Чудовий вибір для відпочинку, відряджень і проживання в центрі Кишинева.",
         badge: "⭐ Стандарт",
+      },
+      standardPlus: {
+        title: "⭐ Standard+",
+        description:
+          "Найпривабливіші квартири RentPlaceMD із сучасним інтер'єром, новим ремонтом і підвищеним рівнем комфорту.",
+        badge: "⭐ Standard+",
       },
       economy: {
         title: "💰 Економ",
@@ -220,7 +250,7 @@ const apartmentInfo: Record<
   },
 };
 
-const categoryOrder = ["standard", "premium", "economy"] as const satisfies readonly CategoryKey[];
+const categoryOrder = ["economy", "standard", "standardPlus"] as const satisfies readonly CategoryKey[];
 const ECONOMY_DISCOUNT_PERCENT = 10;
 
 function getDiscountedPrice(price: number) {
@@ -297,9 +327,9 @@ export default function TodayFree() {
               badge: string;
               discount?: string;
             } = {
-              title: category === "premium" ? "Премиум" : category,
+              title: category === "standardPlus" ? "Standard+" : category,
               description: "",
-              badge: category === "premium" ? "Премиум" : category,
+              badge: category === "standardPlus" ? "Standard+" : category,
             };
             const categoryText = text.categories[category] ?? fallbackCategoryText;
             const categoryApartments = activeApartments.filter(

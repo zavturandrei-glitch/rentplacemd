@@ -4,7 +4,7 @@ import type {
   ApartmentKind,
 } from "@/components/ApartmentDetails";
 
-export type ApartmentClass = "economy" | "standard" | "premium";
+export type ApartmentClass = "economy" | "standard" | "standardPlus";
 export type ApartmentStatus = "active" | "hidden";
 export type ApartmentRooms = "studio" | "1+1" | "2+1";
 
@@ -36,7 +36,7 @@ export type Apartment = {
 export const apartmentClassLabels: Record<ApartmentClass, string> = {
   economy: "Эконом",
   standard: "Стандарт",
-  premium: "Премиум",
+  standardPlus: "Standard+",
 };
 
 const commonAmenities = [
@@ -74,6 +74,10 @@ function createApartment(
 
   return {
     ...input,
+    class:
+      input.class === "standard" && input.price >= 900
+        ? "standardPlus"
+        : input.class,
     slug,
     title: input.title ?? "Измаил 88",
     address: input.address ?? "Измаил 88, Кишинев",
@@ -92,7 +96,7 @@ export const apartments = [
     floor: 3,
     entrance: "1",
     apartmentNumber: "1",
-    class: "standard",
+    class: "standardPlus",
     price: 1000,
     guests: 4,
     rooms: "1+1",
@@ -119,6 +123,69 @@ export const apartments = [
       "Полотенца",
     ],
     photos: apartmentPhotos("izmail88-1", 8, "jpeg"),
+  }),
+  createApartment({
+    id: 3,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "3",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription:
+      "Современная студия категории Standard Plus в новом доме в центре Кишинёва для двух гостей.",
+    fullDescription:
+      "Современная студия категории Standard Plus в новом доме в центре Кишинёва.\n\nПодходит для двух гостей.\n\nВ квартире имеются большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, полный набор кухонной посуды, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nКруглосуточное заселение по предварительной договорённости.",
+    amenities: [
+      "Большая двуспальная кровать",
+      "Кондиционер",
+      "Smart TV",
+      "Wi-Fi",
+      "Мини-кухня",
+      "Холодильник",
+      "Микроволновая печь",
+      "Электрочайник",
+      "Полный набор кухонной посуды",
+      "Современная душевая",
+      "Фен",
+      "Полотенца",
+      "Шампунь",
+      "Гель для душа",
+      "Заселение 24/7",
+    ],
+    photos: [
+      "/apartments/izmail88-3/D4S_2531.jpg",
+      "/apartments/izmail88-3/D4S_2532.jpg",
+      "/apartments/izmail88-3/D4S_2535.jpg",
+      "/apartments/izmail88-3/D4S_2533.jpg",
+      "/apartments/izmail88-3/D4S_2538.jpg",
+      "/apartments/izmail88-3/D4S_2536.jpg",
+      "/apartments/izmail88-3/D4S_2534.jpg",
+      "/apartments/izmail88-3/D4S_2539.jpg",
+      "/apartments/izmail88-3/D4S_2540.jpg",
+      "/apartments/izmail88-3/D4S_2543.jpg",
+      "/apartments/izmail88-3/D4S_2544.jpg",
+      "/apartments/izmail88-3/D4S_2545.jpg",
+      "/apartments/izmail88-3/D4S_2546.jpg",
+      "/apartments/izmail88-3/D4S_2547.jpg",
+      "/apartments/izmail88-3/D4S_2552.jpg",
+      "/apartments/izmail88-3/D4S_2553.jpg",
+      "/apartments/izmail88-3/D4S_2555.jpg",
+      "/apartments/izmail88-3/D4S_2554.jpg",
+      "/apartments/izmail88-3/D4S_2551.jpg",
+      "/apartments/izmail88-3/D4S_2549.jpg",
+      "/apartments/izmail88-3/D4S_2550.jpg",
+      "/apartments/izmail88-3/D4S_2548.jpg",
+      "/apartments/izmail88-3/D4S_2557.jpg",
+      "/apartments/izmail88-3/D4S_2556.jpg",
+      "/apartments/izmail88-3/D4S_2561.jpg",
+      "/apartments/izmail88-3/D4S_2559.jpg",
+      "/apartments/izmail88-3/D4S_2560.jpg",
+    ],
+    cardPhoto: "/apartments/izmail88-3/D4S_2531.jpg",
   }),
   createApartment({
     id: 10,
@@ -292,7 +359,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "42",
-    class: "standard",
+    class: "standardPlus",
     price: 1000,
     guests: 5,
     rooms: "2+1",
@@ -340,16 +407,27 @@ export const apartmentDetailsById = Object.fromEntries(
       facadePhoto: apartment.facadePhoto,
       ...(apartment.id === 1
         ? {
-            displayKind: "Standard",
+            displayKind: "Standard+",
             displayOverlay: "2 двуспальные кровати",
             intro: apartment.shortDescription,
             aboutTitle: "Новая просторная квартира для 4 гостей",
             descriptionParagraphs: apartment.fullDescription.split("\n\n"),
             features: [
-              "Standard",
+              "Standard+",
               "1 большая комната + кухня",
               ...apartment.amenities,
             ],
+            galleryLayout: "extended" as const,
+          }
+        : {}),
+      ...(apartment.id === 3
+        ? {
+            displayKind: "Standard+",
+            displayOverlay: "1 большая двуспальная кровать",
+            intro: apartment.shortDescription,
+            aboutTitle: "Современная студия Standard Plus для 2 гостей",
+            descriptionParagraphs: apartment.fullDescription.split("\n\n"),
+            features: apartment.amenities,
             galleryLayout: "extended" as const,
           }
         : {}),
