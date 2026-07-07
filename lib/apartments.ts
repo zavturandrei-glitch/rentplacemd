@@ -74,10 +74,7 @@ function createApartment(
 
   return {
     ...input,
-    class:
-      input.class === "standard" && input.price >= 900
-        ? "standardPlus"
-        : input.class,
+    class: input.class,
     slug,
     title: input.title ?? "Измаил 88",
     address: input.address ?? "Измаил 88, Кишинев",
@@ -478,8 +475,8 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "42",
-    class: "standardPlus",
-    price: 1000,
+    class: "standard",
+    price: 900,
     guests: 5,
     rooms: "2+1",
     beds: 3,

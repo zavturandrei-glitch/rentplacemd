@@ -17,14 +17,14 @@ export default function Hero() {
   )}`;
 
   function scrollToApartments() {
-    const section = document.getElementById("today-free");
+    const section = document.getElementById("apartments");
 
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
-    window.location.href = "/#today-free";
+    window.location.href = "/#apartments";
   }
 
   function cleanApartmentId(value: string) {

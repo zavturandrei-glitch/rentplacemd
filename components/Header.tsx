@@ -301,7 +301,7 @@ function DesktopHeader() {
 
         <div className="flex shrink-0 items-center justify-end gap-5">
           <a
-            href="#today-free"
+            href="#apartments"
             className="rounded-xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
           >
             {text.freeApartments}

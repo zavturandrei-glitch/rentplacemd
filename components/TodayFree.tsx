@@ -308,6 +308,7 @@ export default function TodayFree() {
       id="today-free"
       className="scroll-mt-32 bg-[#fffaf0] px-4 py-12 sm:px-6 sm:py-16 lg:scroll-mt-[260px]"
     >
+      <span id="apartments" className="block scroll-mt-32 lg:scroll-mt-[260px]" aria-hidden="true" />
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>

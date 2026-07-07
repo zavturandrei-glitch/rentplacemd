@@ -102,7 +102,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
           </p>
 
           <a
-            href="#today-free"
+            href="#apartments"
             className="mt-3 flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition active:scale-[0.98]"
           >
             {t.footer.viewApartments}
@@ -226,7 +226,7 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
             </p>
 
             <a
-              href="#today-free"
+              href="#apartments"
               className="mt-3 flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
             >
               {t.footer.viewApartments}
