@@ -217,6 +217,25 @@ export const homeFaq = [
   },
 ];
 
+export const apartmentFaq = [
+  {
+    question: "Во сколько заселение?",
+    answer: "Стандартное заселение с 14:00. Ранний заезд можно согласовать заранее, если квартира свободна.",
+  },
+  {
+    question: "Есть ли Wi-Fi и кухня?",
+    answer: "Да, в квартире есть Wi-Fi, TV, кондиционер и кухня или мини-кухня для повседневного проживания.",
+  },
+  {
+    question: "Можно ли поздний заезд?",
+    answer: "Да, поздний заезд возможен по предварительной договорённости. Связь с RentPlaceMD доступна 24/7.",
+  },
+  {
+    question: "Можно ли заказать трансфер?",
+    answer: "Да, можно заранее уточнить трансфер из аэропорта Кишинёва прямо к адресу проживания.",
+  },
+];
+
 export function buildSiteJsonLd() {
   const apartmentOffers = activeApartments.map((apartment) => ({
     ...offerForApartment(apartment),
@@ -407,6 +426,18 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
           item: url,
         },
       ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: apartmentFaq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
     },
   ];
 }

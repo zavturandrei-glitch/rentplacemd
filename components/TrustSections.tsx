@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import type { Language } from "@/locales/translations";
 
 type TrustText = {
   reviewsLabel: string;
@@ -20,7 +21,7 @@ type TrustText = {
   faq: Array<{ question: string; answer: string }>;
 };
 
-const trustText: Record<string, TrustText> = {
+const trustText: Record<Language, TrustText> = {
   ru: {
     reviewsLabel: "Отзывы",
     reviewsTitle: "Гости возвращаются и рекомендуют RentPlaceMD",
@@ -114,15 +115,73 @@ const trustText: Record<string, TrustText> = {
       { question: "Where are the apartments?", answer: "The main location is Ismail 88 in central Chisinau." },
     ],
   },
+  uk: {
+    reviewsLabel: "Відгуки",
+    reviewsTitle: "Гості повертаються і рекомендують RentPlaceMD",
+    reviewsSubtitle: "Квартири в центрі, швидкий зв'язок і акуратне заселення без зайвих кроків.",
+    whyLabel: "Чому обирають нас",
+    whyTitle: "Сервіс, який відчувається з першого повідомлення",
+    nearbyLabel: "Поруч",
+    nearbyTitle: "Все потрібне в центрі Кишинева",
+    faqLabel: "FAQ",
+    faqTitle: "Коротко про бронювання",
+    ratingText: "4.9 / 5 середня оцінка гостей",
+    verifiedText: "Перевірені квартири, реальні фото, зв'язок 24/7",
+    reviews: [
+      { name: "Анна", meta: "сімейна поїздка", text: "Чиста квартира, швидко відповіли в WhatsApp і заселили без очікування." },
+      { name: "Mihai", meta: "business trip", text: "Great central location, quiet apartment and very easy communication." },
+      { name: "Ірина", meta: "вихідні в Кишиневі", text: "Зручно, що можна одразу уточнити вільні дати. У квартирі було все необхідне." },
+    ],
+    why: [
+      { title: "Центр міста", text: "Комплекс Ізмаїл 88 - зручна точка для ділових поїздок, відпочинку і коротких зупинок." },
+      { title: "Заселення 24/7", text: "Можна узгодити приїзд пізно ввечері або рано вранці." },
+      { title: "Без посередників", text: "Прямий зв'язок телефоном, WhatsApp, Viber і Telegram." },
+      { title: "Єдиний стандарт", text: "Фото, картки й опис приведені до одного візуального рівня для спокійного вибору." },
+    ],
+    nearby: ["Центр міста", "Кафе і ресторани", "Магазини", "Громадський транспорт", "Ділові адреси", "Парковка поруч"],
+    faq: [
+      { question: "Як перевірити вільні дати?", answer: "Натисніть WhatsApp, Viber або Подзвонити і напишіть дати, ID квартири та кількість гостей." },
+      { question: "Фото реальні?", answer: "Так, на сайті використовуються фотографії конкретних квартир RentPlaceMD." },
+      { question: "Можна заселитися вночі?", answer: "Так, заселення узгоджується індивідуально, зв'язок доступний 24/7." },
+      { question: "Де знаходяться квартири?", answer: "Основна локація - комплекс Ізмаїл 88 у центральній частині Кишинева." },
+    ],
+  },
+  cs: {
+    reviewsLabel: "Recenze",
+    reviewsTitle: "Hoste se vraceji a doporucuji RentPlaceMD",
+    reviewsSubtitle: "Apartmany v centru, rychla komunikace a jednoduche ubytovani bez zbytecnych kroku.",
+    whyLabel: "Proc si vybrat nas",
+    whyTitle: "Sluzba, ktera je citit od prvni zpravy",
+    nearbyLabel: "V okoli",
+    nearbyTitle: "Vse potrebne v centru Chisinau",
+    faqLabel: "FAQ",
+    faqTitle: "Strucne o rezervaci",
+    ratingText: "4.9 / 5 prumerne hodnoceni hostu",
+    verifiedText: "Overene apartmany, realne fotografie, kontakt 24/7",
+    reviews: [
+      { name: "Anna", meta: "rodinna cesta", text: "Cisty apartman, rychla odpoved na WhatsAppu a ubytovani bez cekani." },
+      { name: "Mihai", meta: "business trip", text: "Great central location, quiet apartment and very easy communication." },
+      { name: "Iryna", meta: "vikendovy pobyt", text: "Bylo jednoduche overit volne terminy. Apartman mel vse potrebne." },
+    ],
+    why: [
+      { title: "Centrum mesta", text: "Komplex Ismail 88 je pohodlne misto pro pracovni cesty, odpocinek i kratke zastavky." },
+      { title: "Ubytovani 24/7", text: "Prijezd lze domluvit pozde vecer nebo brzy rano." },
+      { title: "Bez prostredniku", text: "Primy kontakt telefonem, pres WhatsApp, Viber a Telegram." },
+      { title: "Jednotny standard", text: "Fotografie, karty a popis jsou sjednocene pro klidny vyber." },
+    ],
+    nearby: ["Centrum mesta", "Kavarny a restaurace", "Obchody", "Verejna doprava", "Business adresy", "Parkovani pobliz"],
+    faq: [
+      { question: "Jak overit volne terminy?", answer: "Napiste data, ID apartmanu a pocet hostu pres WhatsApp, Viber nebo telefon." },
+      { question: "Jsou fotografie realne?", answer: "Ano, na webu jsou fotografie konkretnich apartmanu RentPlaceMD." },
+      { question: "Lze se ubytovat v noci?", answer: "Ano, ubytovani se domlouva individualne, kontakt je dostupny 24/7." },
+      { question: "Kde jsou apartmany?", answer: "Hlavni lokalitou je komplex Ismail 88 v centralni casti Chisinau." },
+    ],
+  },
 };
-
-function getText(language: string) {
-  return trustText[language] ?? trustText.ru;
-}
 
 export default function TrustSections() {
   const { language } = useLanguage();
-  const text = getText(language);
+  const text = trustText[language];
 
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-18" aria-labelledby="trust-title">

@@ -10,6 +10,7 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
 import { getApartmentBookedDates } from "@/lib/availability";
+import { activeApartments, getApartmentPath } from "@/lib/apartments";
 
 export type ApartmentKind = "studio" | "oneBedroom" | "twoBedroom" | "twoBedroomPlus";
 export type ApartmentGuests = 2 | 3 | 4 | 5;
@@ -56,6 +57,23 @@ type DetailText = {
   rulesCheckOutTime: string;
   rulesIntro: string;
   rulesItems: string[];
+  content: {
+    whyTitle: string;
+    fitTitle: string;
+    nearbyTitle: string;
+    trustTitle: string;
+    faqTitle: string;
+    relatedTitle: string;
+    relatedText: string;
+    relatedGuests: string;
+    relatedPrice: string;
+    nearbyFallback: string;
+    faq: Array<{ question: string; answer: string }>;
+    valuePhrases: Record<string, string>;
+    audiencePhrases: Record<string, string>;
+    nearbyPhrases: Record<string, string>;
+    trustPhrases: string[];
+  };
   kinds: Record<ApartmentKind, string>;
   guests: Record<ApartmentGuests, string>;
   overlay: Record<ApartmentKind, string>;
@@ -64,6 +82,269 @@ type DetailText = {
   aboutFirst: Record<ApartmentKind, string>;
   aboutSecond: Record<ApartmentKind, string>;
   features: Record<ApartmentKind, string[]>;
+};
+
+const apartmentPageContentText: Record<Language, DetailText["content"]> = {
+  ru: {
+    whyTitle: "Почему выбрать именно эту квартиру",
+    fitTitle: "Кому подойдёт эта квартира",
+    nearbyTitle: "Что находится рядом",
+    trustTitle: "Почему RentPlaceMD можно доверять",
+    faqTitle: "Вопросы гостей",
+    relatedTitle: "Похожие варианты",
+    relatedText: "Другие квартиры RentPlaceMD с похожей вместимостью, уровнем комфорта или ценой.",
+    relatedGuests: "гостей",
+    relatedPrice: "лей / сутки",
+    nearbyFallback: "Точная инфраструктура вокруг дома уточняется перед заселением, чтобы не обещать гостю неподтверждённые объекты.",
+    faq: [
+      { question: "Во сколько заселение?", answer: "Стандартное заселение с 14:00. Ранний заезд можно согласовать заранее, если квартира свободна." },
+      { question: "Есть ли Wi-Fi и кухня?", answer: "Да, в квартире есть Wi-Fi, TV, кондиционер и кухня или мини-кухня для повседневного проживания." },
+      { question: "Можно ли поздний заезд?", answer: "Да, поздний заезд возможен по предварительной договорённости. Связь с RentPlaceMD доступна 24/7." },
+      { question: "Можно ли заказать трансфер?", answer: "Да, можно заранее уточнить трансфер из аэропорта Кишинёва прямо к адресу проживания." },
+    ],
+    valuePhrases: {
+      studio: "Компактная студия удобна, когда нужны чистая спальная зона, кухня и быстрый доступ к центру.",
+      oneBedroom: "Отдельная спальня и зона отдыха помогают комфортно разделить сон, работу и короткий отдых.",
+      twoBedroom: "Две спальни дают больше приватности для семьи, друзей или гостей, которым важно спать отдельно.",
+      twoBedroomPlus: "Планировка 2+1 удобна для семьи или небольшой компании: есть отдельные спальни и общая зона.",
+      standardPlus: "Формат Standard+ лучше подходит гостям, которые хотят более свежий интерьер и аккуратный визуальный уровень.",
+      standard: "Практичный стандартный вариант для поездки на несколько дней без переплаты за лишние опции.",
+      economy: "Хороший выбор, когда важны расположение, базовый комфорт и разумная стоимость проживания.",
+      twoGuests: "Оптимально для одного гостя или пары: пространство не перегружено, всё нужное под рукой.",
+      family: "Подходит для семьи или гостей, которым нужны дополнительные спальные места.",
+      kitchen: "Кухня помогает не зависеть от кафе: можно приготовить завтрак, разогреть еду или поработать за столом.",
+      checkin: "Заселение 24/7 по договорённости удобно при позднем прилёте или плотном графике.",
+    },
+    audiencePhrases: {
+      couple: "парам, которым нужна аккуратная квартира в центре",
+      business: "командировочным гостям, которым важны Wi-Fi, быстрый ответ и понятное заселение",
+      solo: "одному гостю на несколько дней в Кишинёве",
+      family: "семье или небольшой компании, которым нужны дополнительные спальные места",
+      medical: "гостям, приезжающим в город по делам, на лечение или к родственникам",
+      transit: "тем, кто прилетает поздно и хочет заранее согласовать трансфер и заселение",
+    },
+    nearbyPhrases: {
+      center: "центральная часть Кишинёва и комплекс Измаил 88",
+      shops: "магазины и повседневные сервисы рядом с районом проживания",
+      transport: "городской транспорт и удобный выезд по центральным улицам",
+      parking: "парковка рядом с домом по ситуации на месте",
+      airport: "возможность заказать трансфер из аэропорта Кишинёва",
+    },
+    trustPhrases: [
+      "Реальные фотографии конкретной квартиры, а не случайная интерьерная подборка.",
+      "На странице заранее видны ID, цена, вместимость, правила проживания и способы связи.",
+      "Поддержка доступна в WhatsApp, Viber, Telegram и по телефону.",
+      "Детали проживания уточняются до приезда, без посредников и лишних шагов.",
+    ],
+  },
+  ro: {
+    whyTitle: "De ce sa alegeti acest apartament",
+    fitTitle: "Pentru cine este potrivit",
+    nearbyTitle: "Ce este in apropiere",
+    trustTitle: "De ce puteti avea incredere in RentPlaceMD",
+    faqTitle: "Intrebari frecvente",
+    relatedTitle: "Optiuni similare",
+    relatedText: "Alte apartamente RentPlaceMD cu capacitate, confort sau pret apropiat.",
+    relatedGuests: "oaspeti",
+    relatedPrice: "lei / zi",
+    nearbyFallback: "Infrastructura exacta din jur se confirma inainte de cazare, ca sa nu promitem obiecte neverificate.",
+    faq: [
+      { question: "La ce ora este check-in?", answer: "Check-in standard de la 14:00. Check-in mai devreme se poate coordona daca apartamentul este liber." },
+      { question: "Exista Wi-Fi si bucatarie?", answer: "Da, apartamentul are Wi-Fi, TV, aer conditionat si bucatarie sau mini-bucatarie." },
+      { question: "Este posibil check-in tarziu?", answer: "Da, check-in tarziu este posibil cu acord prealabil. Contactul RentPlaceMD este disponibil 24/7." },
+      { question: "Pot comanda transfer?", answer: "Da, puteti coordona din timp transferul de la aeroportul Chisinau la adresa." },
+    ],
+    valuePhrases: {
+      studio: "Studio compact, util cand aveti nevoie de zona de dormit curata, bucatarie si acces rapid spre centru.",
+      oneBedroom: "Dormitorul separat si zona de relaxare ajuta la impartirea confortabila a somnului, lucrului si odihnei.",
+      twoBedroom: "Doua dormitoare ofera mai multa intimitate pentru familie sau oaspeti care vor sa doarma separat.",
+      twoBedroomPlus: "Planul 2+1 este comod pentru familie sau grup mic: dormitoare separate si zona comuna.",
+      standardPlus: "Formatul Standard+ este potrivit pentru oaspeti care prefera interior mai nou si prezentare ingrijita.",
+      standard: "Optiune practica pentru cateva zile, fara costuri inutile.",
+      economy: "Alegere buna cand conteaza locatia, confortul de baza si pretul rezonabil.",
+      twoGuests: "Optim pentru un oaspete sau un cuplu: spatiu clar si tot ce trebuie la indemana.",
+      family: "Potrivit pentru familie sau oaspeti care au nevoie de locuri suplimentare de dormit.",
+      kitchen: "Bucataria ajuta la micul dejun, incalzirea mancarii sau lucru linistit la masa.",
+      checkin: "Cazarea 24/7 cu acord prealabil este comoda pentru sosiri tarzii.",
+    },
+    audiencePhrases: {
+      couple: "cupluri care cauta un apartament ingrijit in centru",
+      business: "oaspeti in deplasare care au nevoie de Wi-Fi si check-in clar",
+      solo: "un oaspete pentru cateva zile in Chisinau",
+      family: "familie sau grup mic care are nevoie de locuri suplimentare",
+      medical: "oaspeti veniti in oras pentru treburi, tratament sau rude",
+      transit: "oaspeti care ajung tarziu si vor transfer sau cazare coordonata",
+    },
+    nearbyPhrases: {
+      center: "zona centrala a Chisinaului si complexul Ismail 88",
+      shops: "magazine si servicii zilnice in zona",
+      transport: "transport urban si iesire comoda pe strazile centrale",
+      parking: "parcare in apropiere, in functie de disponibilitatea de la fata locului",
+      airport: "posibilitate de transfer de la aeroportul Chisinau",
+    },
+    trustPhrases: [
+      "Fotografii reale ale apartamentului concret.",
+      "ID-ul, pretul, capacitatea, regulile si contactele sunt vizibile inainte de rezervare.",
+      "Suport prin WhatsApp, Viber, Telegram si telefon.",
+      "Detaliile de cazare se clarifica inainte de sosire, fara intermediari.",
+    ],
+  },
+  en: {
+    whyTitle: "Why choose this apartment",
+    fitTitle: "Who this apartment suits",
+    nearbyTitle: "What is nearby",
+    trustTitle: "Why RentPlaceMD is trustworthy",
+    faqTitle: "Guest questions",
+    relatedTitle: "Similar options",
+    relatedText: "Other RentPlaceMD apartments with similar capacity, comfort level or price.",
+    relatedGuests: "guests",
+    relatedPrice: "MDL / day",
+    nearbyFallback: "Exact nearby infrastructure is confirmed before check-in, so guests are not promised unverified places.",
+    faq: [
+      { question: "What time is check-in?", answer: "Standard check-in starts at 14:00. Earlier check-in can be discussed if the apartment is free." },
+      { question: "Is there Wi-Fi and a kitchen?", answer: "Yes, the apartment has Wi-Fi, TV, air conditioning and a kitchen or kitchenette." },
+      { question: "Is late check-in possible?", answer: "Yes, late check-in is possible by prior arrangement. RentPlaceMD contact is available 24/7." },
+      { question: "Can I order a transfer?", answer: "Yes, airport transfer from Chisinau airport to the address can be arranged in advance." },
+    ],
+    valuePhrases: {
+      studio: "A compact studio works well when you need a clean sleeping area, kitchen and quick access to the center.",
+      oneBedroom: "A separate bedroom and sitting area make it easier to separate sleep, work and rest during the trip.",
+      twoBedroom: "Two bedrooms give more privacy for a family, friends or guests who prefer separate sleeping places.",
+      twoBedroomPlus: "The 2+1 layout is convenient for a family or small group, with bedrooms and a shared area.",
+      standardPlus: "Standard+ suits guests who prefer a fresher interior and a more polished visual standard.",
+      standard: "A practical standard option for a few days without paying for extras you may not need.",
+      economy: "A good choice when location, basic comfort and reasonable cost matter most.",
+      twoGuests: "Best for one guest or a couple: simple space with everything close at hand.",
+      family: "Suitable for a family or guests who need additional sleeping places.",
+      kitchen: "The kitchen helps with breakfast, reheating food or working quietly at the table.",
+      checkin: "24/7 check-in by arrangement is useful for late arrivals or a tight schedule.",
+    },
+    audiencePhrases: {
+      couple: "couples looking for a tidy central apartment",
+      business: "business travelers who need Wi-Fi, quick replies and clear check-in",
+      solo: "one guest staying in Chisinau for a few days",
+      family: "a family or small group needing extra sleeping places",
+      medical: "guests visiting the city for errands, treatment or relatives",
+      transit: "late-arriving guests who want transfer and check-in arranged in advance",
+    },
+    nearbyPhrases: {
+      center: "central Chisinau and the Ismail 88 complex",
+      shops: "shops and daily services in the area",
+      transport: "city transport and convenient access to central streets",
+      parking: "nearby parking depending on availability on site",
+      airport: "airport transfer from Chisinau airport can be arranged",
+    },
+    trustPhrases: [
+      "Real photos of the specific apartment, not generic interior sets.",
+      "Guests see the ID, price, capacity, rules and contact options in advance.",
+      "Support is available via WhatsApp, Viber, Telegram and phone.",
+      "Stay details are clarified before arrival, directly and without middlemen.",
+    ],
+  },
+  uk: {
+    whyTitle: "Чому варто вибрати саме цю квартиру",
+    fitTitle: "Кому підійде ця квартира",
+    nearbyTitle: "Що знаходиться поруч",
+    trustTitle: "Чому RentPlaceMD можна довіряти",
+    faqTitle: "Питання гостей",
+    relatedTitle: "Схожі варіанти",
+    relatedText: "Інші квартири RentPlaceMD зі схожою місткістю, рівнем комфорту або ціною.",
+    relatedGuests: "гостей",
+    relatedPrice: "лей / доба",
+    nearbyFallback: "Точна інфраструктура навколо будинку уточнюється перед заселенням, щоб не обіцяти неперевірені об'єкти.",
+    faq: [
+      { question: "О котрій заселення?", answer: "Стандартне заселення з 14:00. Ранній заїзд можна узгодити заздалегідь, якщо квартира вільна." },
+      { question: "Є Wi-Fi і кухня?", answer: "Так, у квартирі є Wi-Fi, TV, кондиціонер і кухня або міні-кухня." },
+      { question: "Можливий пізній заїзд?", answer: "Так, пізній заїзд можливий за попередньою домовленістю. Зв'язок з RentPlaceMD доступний 24/7." },
+      { question: "Можна замовити трансфер?", answer: "Так, можна заздалегідь уточнити трансфер з аеропорту Кишинева до адреси проживання." },
+    ],
+    valuePhrases: {
+      studio: "Компактна студія зручна, коли потрібні чиста спальна зона, кухня і швидкий доступ до центру.",
+      oneBedroom: "Окрема спальня і зона відпочинку допомагають розділити сон, роботу і короткий відпочинок.",
+      twoBedroom: "Дві спальні дають більше приватності для сім'ї або гостей, яким важливо спати окремо.",
+      twoBedroomPlus: "Планування 2+1 зручне для сім'ї або невеликої компанії: є спальні й спільна зона.",
+      standardPlus: "Формат Standard+ підходить гостям, які хочуть свіжіший інтер'єр і охайний візуальний рівень.",
+      standard: "Практичний стандартний варіант для кількох днів без переплати за зайві опції.",
+      economy: "Хороший вибір, коли важливі розташування, базовий комфорт і розумна ціна.",
+      twoGuests: "Оптимально для одного гостя або пари: простір не перевантажений, усе потрібне поруч.",
+      family: "Підійде для сім'ї або гостей, яким потрібні додаткові спальні місця.",
+      kitchen: "Кухня допомагає приготувати сніданок, розігріти їжу або спокійно попрацювати за столом.",
+      checkin: "Заселення 24/7 за домовленістю зручне при пізньому прильоті або щільному графіку.",
+    },
+    audiencePhrases: {
+      couple: "парам, яким потрібна охайна квартира в центрі",
+      business: "гостям у відрядженні, яким важливі Wi-Fi, швидка відповідь і зрозуміле заселення",
+      solo: "одному гостю на кілька днів у Кишиневі",
+      family: "сім'ї або невеликій компанії, яким потрібні додаткові спальні місця",
+      medical: "гостям, які приїжджають у місто у справах, на лікування або до родичів",
+      transit: "тим, хто прилітає пізно і хоче заздалегідь узгодити трансфер та заселення",
+    },
+    nearbyPhrases: {
+      center: "центральна частина Кишинева і комплекс Ізмаїл 88",
+      shops: "магазини та повсякденні сервіси в районі проживання",
+      transport: "міський транспорт і зручний виїзд центральними вулицями",
+      parking: "парковка поруч з будинком залежно від ситуації на місці",
+      airport: "можливість замовити трансфер з аеропорту Кишинева",
+    },
+    trustPhrases: [
+      "Реальні фотографії конкретної квартири, а не випадкова добірка інтер'єрів.",
+      "Гість заздалегідь бачить ID, ціну, місткість, правила і способи зв'язку.",
+      "Підтримка доступна в WhatsApp, Viber, Telegram і телефоном.",
+      "Деталі проживання уточнюються до приїзду, без посередників.",
+    ],
+  },
+  cs: {
+    whyTitle: "Proc si vybrat prave tento apartman",
+    fitTitle: "Pro koho se apartman hodi",
+    nearbyTitle: "Co je pobliz",
+    trustTitle: "Proc duverovat RentPlaceMD",
+    faqTitle: "Otazky hostu",
+    relatedTitle: "Podobne moznosti",
+    relatedText: "Dalsi apartmany RentPlaceMD s podobnou kapacitou, komfortem nebo cenou.",
+    relatedGuests: "hostu",
+    relatedPrice: "lei / den",
+    nearbyFallback: "Presna infrastruktura v okoli se potvrzuje pred ubytovanim, abychom neslibovali neoverena mista.",
+    faq: [
+      { question: "V kolik je check-in?", answer: "Standardni check-in je od 14:00. Drivejsi prijezd lze domluvit, pokud je apartman volny." },
+      { question: "Je k dispozici Wi-Fi a kuchyn?", answer: "Ano, apartman ma Wi-Fi, TV, klimatizaci a kuchyn nebo mini-kuchyn." },
+      { question: "Je mozny pozdni prijezd?", answer: "Ano, pozdni prijezd je mozny po predchozi domluve. Kontakt RentPlaceMD je dostupny 24/7." },
+      { question: "Lze objednat transfer?", answer: "Ano, transfer z letiste Chisinau na adresu lze domluvit predem." },
+    ],
+    valuePhrases: {
+      studio: "Kompaktni studio se hodi, kdyz potrebujete cistou spaci zonu, kuchyn a rychly pristup do centra.",
+      oneBedroom: "Samostatna loznice a odpocinkova zona pomahaji oddelit spanek, praci a kratky odpocinek.",
+      twoBedroom: "Dve loznice davaji vice soukromi pro rodinu nebo hosty, kteri chteji spat oddelene.",
+      twoBedroomPlus: "Dispozice 2+1 je prakticka pro rodinu nebo malou skupinu: loznice a spolecna zona.",
+      standardPlus: "Standard+ se hodi pro hosty, kteri preferuji novejsi interier a upraveny vizualni standard.",
+      standard: "Prakticka standardni moznost na nekolik dni bez placeni za zbytecne doplnky.",
+      economy: "Dobra volba, kdyz je dulezita poloha, zakladni komfort a rozumna cena.",
+      twoGuests: "Optimalni pro jednoho hosta nebo par: prostor neni preplneny a vse je po ruce.",
+      family: "Vhodne pro rodinu nebo hosty, kteri potrebuji dalsi mista na spani.",
+      kitchen: "Kuchyn pomuze se snidani, ohrevem jidla nebo klidnou praci u stolu.",
+      checkin: "Ubytovani 24/7 po domluve je prakticke pri pozdnim priletu nebo nabitem programu.",
+    },
+    audiencePhrases: {
+      couple: "parum, ktere hledaji upraveny apartman v centru",
+      business: "hostum na pracovni ceste, kteri potrebuji Wi-Fi a jasny check-in",
+      solo: "jednomu hostovi na nekolik dni v Chisinau",
+      family: "rodine nebo male skupine, ktera potrebuje dalsi mista na spani",
+      medical: "hostum, kteri prijizdeji kvuli zalezitostem, lecbe nebo rodine",
+      transit: "hostum s pozdnim priletem, kteri chteji transfer a check-in domluvit predem",
+    },
+    nearbyPhrases: {
+      center: "centralni cast Chisinau a komplex Ismail 88",
+      shops: "obchody a kazdodenni sluzby v oblasti",
+      transport: "mestska doprava a pohodlny vyjezd na centralni ulice",
+      parking: "parkovani pobliz podle situace na miste",
+      airport: "moznost objednat transfer z letiste Chisinau",
+    },
+    trustPhrases: [
+      "Realne fotografie konkretniho apartmanu, ne nahodne interierove sety.",
+      "Host predem vidi ID, cenu, kapacitu, pravidla a kontaktni moznosti.",
+      "Podpora je dostupna pres WhatsApp, Viber, Telegram a telefon.",
+      "Detaily pobytu se upresnuji pred prijezdem, primo a bez prostredniku.",
+    ],
+  },
 };
 
 const detailText: Record<Language, DetailText> = {
@@ -92,6 +373,7 @@ const detailText: Record<Language, DetailText> = {
     rulesCheckOutTime: "до 12:00",
     rulesIntro: "Если нужен ранний заезд или поздний выезд — сообщите заранее. Если квартира свободна, мы постараемся пойти навстречу.",
     rulesItems: ["Заселение по документу", "Курение только на балконе или в разрешённых местах", "Чистое постельное бельё и полотенца", "Связь 24/7", "Оплата при заселении"],
+    content: apartmentPageContentText.ru,
     kinds: { studio: "Студия", oneBedroom: "1+1 квартира", twoBedroom: "2 спальни", twoBedroomPlus: "2+1 квартира" },
     guests: { 2: "До 2 гостей", 3: "До 3 гостей", 4: "До 4 гостей", 5: "До 5 гостей" },
     overlay: { studio: "Спальная зона", oneBedroom: "Спальня + гостиная", twoBedroom: "2 спальни", twoBedroomPlus: "2 спальни + гостиная" },
@@ -146,6 +428,7 @@ const detailText: Record<Language, DetailText> = {
     rulesCheckOutTime: "până la 12:00",
     rulesIntro: "Dacă aveți nevoie de check-in mai devreme sau check-out mai târziu, anunțați-ne din timp. Dacă apartamentul este liber, încercăm să vă ajutăm.",
     rulesItems: ["Cazare pe baza unui document", "Fumatul doar pe balcon sau în locuri permise", "Lenjerie de pat și prosoape curate", "Contact 24/7", "Plata la cazare"],
+    content: apartmentPageContentText.ro,
     kinds: { studio: "Studio", oneBedroom: "Apartament 1+1", twoBedroom: "2 dormitoare", twoBedroomPlus: "Apartament 2+1" },
     guests: { 2: "Până la 2 oaspeți", 3: "Până la 3 oaspeți", 4: "Până la 4 oaspeți", 5: "Până la 5 oaspeți" },
     overlay: { studio: "Zonă de dormit", oneBedroom: "Dormitor + living", twoBedroom: "2 dormitoare", twoBedroomPlus: "2 dormitoare + living" },
@@ -200,6 +483,7 @@ const detailText: Record<Language, DetailText> = {
     rulesCheckOutTime: "by 12:00",
     rulesIntro: "If you need early check-in or late check-out, please tell us in advance. If the apartment is free, we will try to help.",
     rulesItems: ["Check-in with an identity document", "Smoking only on the balcony or in permitted areas", "Clean bed linen and towels", "24/7 contact", "Payment at check-in"],
+    content: apartmentPageContentText.en,
     kinds: { studio: "Studio", oneBedroom: "1+1 apartment", twoBedroom: "2 bedrooms", twoBedroomPlus: "2+1 apartment" },
     guests: { 2: "Up to 2 guests", 3: "Up to 3 guests", 4: "Up to 4 guests", 5: "Up to 5 guests" },
     overlay: { studio: "Sleeping area", oneBedroom: "Bedroom + living room", twoBedroom: "2 bedrooms", twoBedroomPlus: "2 bedrooms + living room" },
@@ -254,6 +538,7 @@ const detailText: Record<Language, DetailText> = {
     rulesCheckOutTime: "до 12:00",
     rulesIntro: "Якщо потрібен ранній заїзд або пізній виїзд, повідомте заздалегідь. Якщо квартира вільна, ми постараємося піти назустріч.",
     rulesItems: ["Заселення за документом", "Куріння тільки на балконі або в дозволених місцях", "Чиста постільна білизна та рушники", "Звʼязок 24/7", "Оплата при заселенні"],
+    content: apartmentPageContentText.uk,
     kinds: { studio: "Студія", oneBedroom: "1+1 квартира", twoBedroom: "2 спальні", twoBedroomPlus: "2+1 квартира" },
     guests: { 2: "До 2 гостей", 3: "До 3 гостей", 4: "До 4 гостей", 5: "До 5 гостей" },
     overlay: { studio: "Спальна зона", oneBedroom: "Спальня + вітальня", twoBedroom: "2 спальні", twoBedroomPlus: "2 спальні + вітальня" },
@@ -308,6 +593,7 @@ const detailText: Record<Language, DetailText> = {
     rulesCheckOutTime: "do 12:00",
     rulesIntro: "Pokud potřebujete dřívější příjezd nebo pozdější odjezd, dejte nám vědět předem. Pokud je apartmán volný, pokusíme se vyjít vstříc.",
     rulesItems: ["Ubytování po předložení dokladu", "Kouření pouze na balkoně nebo na povolených místech", "Čisté ložní prádlo a ručníky", "Kontakt 24/7", "Platba při příjezdu"],
+    content: apartmentPageContentText.cs,
     kinds: { studio: "Studio", oneBedroom: "Apartmán 1+1", twoBedroom: "2 ložnice", twoBedroomPlus: "Apartmán 2+1" },
     guests: { 2: "Až 2 hosté", 3: "Až 3 hosté", 4: "Až 4 hosté", 5: "Až 5 hostů" },
     overlay: { studio: "Spací zóna", oneBedroom: "Ložnice + obývací pokoj", twoBedroom: "2 ložnice", twoBedroomPlus: "2 ložnice + obývací pokoj" },
@@ -343,6 +629,58 @@ function format(template: string, values: Record<string, string | number>) {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => String(values[key] ?? ""));
 }
 
+type ApartmentContentProfile = {
+  valueKeys: string[];
+  audienceKeys: string[];
+  nearbyKeys: string[];
+};
+
+const apartmentContentProfiles: Record<number, ApartmentContentProfile> = {
+  1: { valueKeys: ["twoBedroomPlus", "standardPlus", "family", "kitchen", "checkin"], audienceKeys: ["family", "business", "medical", "transit"], nearbyKeys: ["center", "shops", "transport", "parking", "airport"] },
+  3: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "business", "solo", "transit"], nearbyKeys: ["center", "shops", "transport", "airport"] },
+  5: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "solo", "business", "medical"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+  7: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "business", "transit", "solo"], nearbyKeys: ["center", "transport", "shops", "airport"] },
+  8: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "solo", "business", "transit"], nearbyKeys: ["center", "shops", "transport", "airport"] },
+  9: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["business", "couple", "solo", "medical"], nearbyKeys: ["center", "transport", "shops", "parking"] },
+  10: { valueKeys: ["oneBedroom", "standard", "family", "kitchen", "checkin"], audienceKeys: ["family", "business", "medical", "transit"], nearbyKeys: ["center", "shops", "transport", "airport"] },
+  11: { valueKeys: ["studio", "standard", "twoGuests", "kitchen", "checkin"], audienceKeys: ["solo", "couple", "business", "medical"], nearbyKeys: ["center", "shops", "transport"] },
+  12: { valueKeys: ["oneBedroom", "standard", "family", "kitchen", "checkin"], audienceKeys: ["couple", "family", "business", "medical"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+  13: { valueKeys: ["twoBedroom", "economy", "family", "kitchen", "checkin"], audienceKeys: ["family", "business", "medical", "transit"], nearbyKeys: ["center", "shops", "transport", "airport"] },
+  14: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "solo", "business", "transit"], nearbyKeys: ["center", "transport", "shops", "airport"] },
+  20: { valueKeys: ["oneBedroom", "economy", "family", "kitchen", "checkin"], audienceKeys: ["family", "medical", "business", "transit"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+  21: { valueKeys: ["oneBedroom", "economy", "family", "kitchen", "checkin"], audienceKeys: ["couple", "family", "medical", "business"], nearbyKeys: ["center", "shops", "transport"] },
+  22: { valueKeys: ["studio", "standard", "twoGuests", "kitchen", "checkin"], audienceKeys: ["solo", "couple", "business", "transit"], nearbyKeys: ["center", "transport", "airport"] },
+  23: { valueKeys: ["studio", "standard", "twoGuests", "kitchen", "checkin"], audienceKeys: ["business", "solo", "couple", "medical"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+  37: { valueKeys: ["oneBedroom", "economy", "family", "kitchen", "checkin"], audienceKeys: ["family", "business", "medical", "transit"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+  38: { valueKeys: ["oneBedroom", "economy", "family", "kitchen", "checkin"], audienceKeys: ["couple", "family", "business", "medical"], nearbyKeys: ["center", "shops", "transport"] },
+  42: { valueKeys: ["twoBedroomPlus", "standard", "family", "kitchen", "checkin"], audienceKeys: ["family", "business", "medical", "transit"], nearbyKeys: ["center", "shops", "transport", "parking", "airport"] },
+  110: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["business", "couple", "solo", "transit"], nearbyKeys: ["center", "transport", "shops", "airport"] },
+  111: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "solo", "business", "medical"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+  112: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["solo", "couple", "business", "transit"], nearbyKeys: ["center", "shops", "transport", "airport"] },
+  371: { valueKeys: ["studio", "standard", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "solo", "medical", "business"], nearbyKeys: ["center", "shops", "transport", "parking"] },
+};
+
+function resolvePhrases(keys: string[], dictionary: Record<string, string>) {
+  return keys.map((key) => dictionary[key]).filter(Boolean);
+}
+
+function getRelatedApartments(apartment: ApartmentDetailsData) {
+  return activeApartments
+    .filter((candidate) => candidate.id !== apartment.id)
+    .map((candidate) => {
+      const score =
+        (candidate.guests === apartment.guests ? 6 : 0) +
+        (candidate.kind === apartment.kind ? 5 : 0) +
+        (Math.abs(candidate.price - apartment.price) <= 100 ? 4 : 0) +
+        (Math.abs(candidate.price - apartment.price) <= 200 ? 1 : 0);
+
+      return { apartment: candidate, score };
+    })
+    .sort((left, right) => right.score - left.score || Math.abs(left.apartment.price - apartment.price) - Math.abs(right.apartment.price - apartment.price))
+    .slice(0, 3)
+    .map(({ apartment: candidate }) => candidate);
+}
+
 export default function ApartmentDetails({ apartment }: { apartment: ApartmentDetailsData }) {
   const { language } = useLanguage();
   const text = detailText[language];
@@ -362,6 +700,15 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
       text.aboutSecond[apartment.kind],
     ];
   const features = apartment.features ?? text.features[apartment.kind];
+  const contentProfile = apartmentContentProfiles[apartment.id] ?? {
+    valueKeys: [apartment.kind, apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
+    audienceKeys: apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
+    nearbyKeys: ["center", "shops", "transport"],
+  };
+  const whyItems = resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases);
+  const audienceItems = resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
+  const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases);
+  const relatedApartments = useMemo(() => getRelatedApartments(apartment), [apartment]);
   const isExtendedGallery = apartment.galleryLayout === "extended";
   const topGalleryImages = isExtendedGallery ? galleryImages.slice(0, 4) : galleryImages;
   const lowerGalleryImages = isExtendedGallery ? galleryImages.slice(4) : [];
@@ -555,6 +902,92 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
               <p key={paragraph} className={(index === 0 ? "mt-4 sm:mt-6" : "mt-4 sm:mt-5") + " text-base leading-7 text-gray-700 sm:text-lg sm:leading-8"}>{paragraph}</p>
             ))}
             <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">✓ {item}</div>))}</div>
+
+            <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-2">
+              <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
+                <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.whyTitle}</h3>
+                <div className="mt-4 grid gap-3">
+                  {whyItems.map((item) => (
+                    <p key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-bold leading-6 text-gray-700 shadow-inner">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              </section>
+
+              <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
+                <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.fitTitle}</h3>
+                <div className="mt-4 grid gap-2.5">
+                  {audienceItems.map((item) => (
+                    <p key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5 ring-1 ring-black/5">
+                      ✓ {item}
+                    </p>
+                  ))}
+                </div>
+              </section>
+            </div>
+
+            <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-white p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
+              <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.nearbyTitle}</h3>
+              {nearbyItems.length > 0 ? (
+                <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                  {nearbyItems.map((item) => (
+                    <p key={item} className="rounded-2xl bg-[#fffaf0] px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-inner">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-4 text-sm font-semibold leading-6 text-gray-600">{text.content.nearbyFallback}</p>
+              )}
+            </section>
+
+            <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#07111f] p-5 text-white shadow-xl shadow-black/10 sm:mt-8 sm:p-6">
+              <h3 className="text-xl font-black tracking-tight sm:text-2xl">{text.content.trustTitle}</h3>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {text.content.trustPhrases.map((item) => (
+                  <p key={item} className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-white/82">
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </section>
+
+            <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
+              <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.faqTitle}</h3>
+              <div className="mt-4 grid gap-3">
+                {text.content.faq.map((item) => (
+                  <details key={item.question} className="group rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/5">
+                    <summary className="cursor-pointer list-none text-base font-black text-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-[#d4146f]">
+                      {item.question}
+                    </summary>
+                    <p className="mt-3 text-sm font-semibold leading-6 text-gray-600">{item.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+
+            {relatedApartments.length > 0 ? (
+              <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
+                <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.relatedTitle}</h3>
+                <p className="mt-2 text-sm font-semibold leading-6 text-gray-600">{text.content.relatedText}</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  {relatedApartments.map((relatedApartment) => (
+                    <Link
+                      key={relatedApartment.id}
+                      href={getApartmentPath(relatedApartment)}
+                      className="rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
+                    >
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">ID {relatedApartment.id}</p>
+                      <p className="mt-2 text-sm font-black leading-5 text-[#07111f]">{text.kinds[relatedApartment.kind]}</p>
+                      <p className="mt-2 text-xs font-bold leading-5 text-gray-500">
+                        {relatedApartment.guests} {text.content.relatedGuests} · {relatedApartment.price} {text.content.relatedPrice}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.rulesLabel}</p>

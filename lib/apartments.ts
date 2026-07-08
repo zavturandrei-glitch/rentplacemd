@@ -70,12 +70,41 @@ function apartmentPhotoRange(slug: string, start: number, end: number) {
   );
 }
 
+function promotePhoto(photos: string[], mainPhoto: string) {
+  return [mainPhoto, ...photos.filter((photo) => photo !== mainPhoto)];
+}
+
+function apartmentPhotosWithMain(
+  slug: string,
+  count: number,
+  mainFileName: string,
+  extension = "png",
+) {
+  return promotePhoto(apartmentPhotos(slug, count, extension), namedApartmentPhoto(slug, mainFileName));
+}
+
 function ismail88Et3Photos(slug: string, start: number, end: number) {
   const photos = apartmentPhotoRange(slug, start, end);
 
   return {
     photos: photos.slice(0, -1),
     facadePhoto: photos[photos.length - 1],
+  };
+}
+
+function ismail88Et3PhotosWithMain(
+  slug: string,
+  start: number,
+  end: number,
+  mainPhotoNumber: number,
+) {
+  const gallery = ismail88Et3Photos(slug, start, end);
+  const mainPhoto = namedApartmentPhoto(slug, "Ismail 88 et 3-" + mainPhotoNumber + ".jpg");
+
+  return {
+    ...gallery,
+    photos: promotePhoto(gallery.photos, mainPhoto),
+    cardPhoto: mainPhoto,
   };
 }
 
@@ -88,6 +117,21 @@ function ismail88Et3BasePhotos(slug: string, end: number) {
   return {
     photos: photos.slice(0, -1),
     facadePhoto: photos[photos.length - 1],
+  };
+}
+
+function ismail88Et3BasePhotosWithMain(
+  slug: string,
+  end: number,
+  mainPhotoNumber: number,
+) {
+  const gallery = ismail88Et3BasePhotos(slug, end);
+  const mainPhoto = namedApartmentPhoto(slug, "Ismail 88 et 3-" + mainPhotoNumber + ".jpg");
+
+  return {
+    ...gallery,
+    photos: promotePhoto(gallery.photos, mainPhoto),
+    cardPhoto: mainPhoto,
   };
 }
 
@@ -351,7 +395,7 @@ export const apartments = [
     fullDescription:
       "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
     galleryLayout: "extended",
-    ...ismail88Et3Photos("izmail88-8", 23, 46),
+    ...ismail88Et3PhotosWithMain("izmail88-8", 23, 46, 27),
   }),
   createApartment({
     id: 9,
@@ -368,7 +412,7 @@ export const apartments = [
     fullDescription:
       "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
     galleryLayout: "extended",
-    ...ismail88Et3BasePhotos("izmail88-9", 22),
+    ...ismail88Et3BasePhotosWithMain("izmail88-9", 22, 8),
   }),
   createApartment({
     id: 10,
@@ -452,7 +496,7 @@ export const apartments = [
     fullDescription:
       "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
     galleryLayout: "extended",
-    ...ismail88Et3Photos("izmail88-14", 125, 147),
+    ...ismail88Et3PhotosWithMain("izmail88-14", 125, 147, 129),
   }),
   createApartment({
     id: 20,
@@ -468,8 +512,8 @@ export const apartments = [
     shortDescription: "Квартира 1+1 в комплексе Измаил 88, до 4 гостей.",
     fullDescription:
       "Практичная квартира 1+1 в центре Кишинева с отдельной спальней, гостиной зоной и кухней.",
-    photos: apartmentPhotos("izmail88-20", 5),
-    cardPhoto: "/apartments/izmail88-20/2.png",
+    photos: apartmentPhotosWithMain("izmail88-20", 5, "4.png"),
+    cardPhoto: "/apartments/izmail88-20/4.png",
   }),
   createApartment({
     id: 21,
@@ -587,7 +631,7 @@ export const apartments = [
     fullDescription:
       "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
     galleryLayout: "extended",
-    ...ismail88Et3Photos("izmail88-110", 47, 68),
+    ...ismail88Et3PhotosWithMain("izmail88-110", 47, 68, 53),
   }),
   createApartment({
     id: 111,
@@ -604,7 +648,7 @@ export const apartments = [
     fullDescription:
       "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
     galleryLayout: "extended",
-    ...ismail88Et3Photos("izmail88-111", 69, 101),
+    ...ismail88Et3PhotosWithMain("izmail88-111", 69, 101, 88),
   }),
   createApartment({
     id: 112,
@@ -621,7 +665,7 @@ export const apartments = [
     fullDescription:
       "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
     galleryLayout: "extended",
-    ...ismail88Et3Photos("izmail88-112", 102, 124),
+    ...ismail88Et3PhotosWithMain("izmail88-112", 102, 124, 105),
   }),
   createApartment({
     id: 371,
