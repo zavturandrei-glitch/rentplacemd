@@ -21,14 +21,6 @@ export const contentLastModified = new Date("2026-07-08");
 
 export const phoneNumbers = ["+37369990190", "+37379990190"];
 export const sameAs = ["https://t.me/rentplacemd", "https://wa.me/37369990190"];
-export const languageAlternates = {
-  "ru-MD": baseUrl,
-  "ro-MD": baseUrl,
-  en: baseUrl,
-  uk: baseUrl,
-  cs: baseUrl,
-  "x-default": baseUrl,
-};
 
 export const siteTitle = "RentPlaceMD - квартиры посуточно в центре Кишинёва";
 export const siteDescription =
@@ -82,7 +74,6 @@ export function routeAlternates(path = "") {
   const url = baseUrl + path;
   return {
     canonical: url,
-    languages: Object.fromEntries(Object.keys(languageAlternates).map((language) => [language, url])),
   };
 }
 
@@ -122,6 +113,32 @@ export function buildApartmentKeywords(id: keyof typeof apartmentDetailsById) {
 function apartmentSeoImages(id: keyof typeof apartmentDetailsById) {
   const apartment = apartmentDetailsById[id];
   return [...apartment.images, apartment.facadePhoto ?? "/common/building.png"];
+}
+
+function imageObjects(images: string[], getAlt: (index: number) => string) {
+  return images.map((image, index) => ({
+    "@type": "ImageObject",
+    url: baseUrl + image,
+    contentUrl: baseUrl + image,
+    caption: getAlt(index + 1),
+    representativeOfPage: index === 0,
+  }));
+}
+
+function offerForApartment(apartment: { id: number; price: number }) {
+  return {
+    "@type": "Offer",
+    url: getApartmentUrl(apartment.id),
+    price: apartment.price,
+    priceCurrency: "MDL",
+    availability: "https://schema.org/InStock",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      price: apartment.price,
+      priceCurrency: "MDL",
+      unitText: "DAY",
+    },
+  };
 }
 
 export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Metadata {
@@ -202,15 +219,13 @@ export const homeFaq = [
 
 export function buildSiteJsonLd() {
   const apartmentOffers = activeApartments.map((apartment) => ({
-    "@type": "Offer",
-    url: getApartmentUrl(apartment.id),
-    price: apartment.price,
-    priceCurrency: "MDL",
-    availability: "https://schema.org/InStock",
+    ...offerForApartment(apartment),
     itemOffered: {
       "@type": "Apartment",
       name: "RentPlaceMD ID " + apartment.id + " - " + kindTitle[apartment.kind],
-      image: [...apartment.photos, apartment.facadePhoto].map((image) => baseUrl + image),
+      image: imageObjects([...apartment.photos, apartment.facadePhoto], (index) =>
+        "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + apartment.id + ", Ismail 88, photo " + index,
+      ),
       occupancy: {
         "@type": "QuantitativeValue",
         maxValue: apartment.guests,
@@ -230,7 +245,7 @@ export function buildSiteJsonLd() {
       name: siteName,
       url: baseUrl,
       logo: baseUrl + "/icon.png",
-      image: baseUrl + "/og-image.jpg",
+      image: imageObjects(["/og-image.jpg"], () => "RentPlaceMD apartments in Chisinau"),
       sameAs,
       contactPoint: [
         {
@@ -254,7 +269,7 @@ export function buildSiteJsonLd() {
       },
       potentialAction: {
         "@type": "SearchAction",
-        target: baseUrl + "/?id={search_term_string}",
+        target: baseUrl + "/apartment/izmail88-{search_term_string}",
         "query-input": "required name=search_term_string",
       },
     },
@@ -264,7 +279,9 @@ export function buildSiteJsonLd() {
       "@id": baseUrl + "/#localbusiness",
       name: siteName,
       url: baseUrl,
-      image: [baseUrl + "/og-image.jpg", baseUrl + "/main.jpg"],
+      image: imageObjects(["/og-image.jpg", "/main.jpg"], (index) =>
+        index === 1 ? "RentPlaceMD apartments in Chisinau" : "Ismail 88 apartment building in Chisinau",
+      ),
       logo: baseUrl + "/icon.png",
       telephone: phoneNumbers,
       priceRange: "800-1000 MDL",
@@ -338,7 +355,7 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
       "@id": url + "#apartment",
       name,
       url,
-      image: apartmentSeoImages(id).map((image) => baseUrl + image),
+      image: imageObjects(apartmentSeoImages(id), (index) => apartmentImageAlt(id, index)),
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -364,13 +381,7 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
         name: amenityName,
         value: true,
       })),
-      offers: {
-        "@type": "Offer",
-        price: apartment.price,
-        priceCurrency: "MDL",
-        availability: "https://schema.org/InStock",
-        url,
-      },
+      offers: offerForApartment({ id, price: apartment.price }),
       provider: {
         "@id": baseUrl + "/#localbusiness",
         "@type": ["LocalBusiness", "LodgingBusiness"],

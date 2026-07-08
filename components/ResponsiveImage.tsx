@@ -48,7 +48,8 @@ export default function ResponsiveImage({
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
+          preload={priority}
+          fetchPriority={priority ? "high" : undefined}
           loading={priority ? "eager" : loading}
           placeholder="blur"
           blurDataURL={blurDataURL}

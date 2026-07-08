@@ -521,7 +521,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-[1.08fr_0.92fr]">
             <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10">
               <button type="button" onClick={() => openLightbox(0)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[20px]" aria-label={format(text.mainPhotoAlt, { id: apartment.id })}>
-                <ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} priority withWatermark />
+                <ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} withWatermark />
               </button>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
@@ -617,7 +617,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 alt={activeLightboxPhoto.alt}
                 fill
                 sizes="100vw"
-                priority
+                loading="eager"
                 className="object-contain"
                 style={{ objectFit: "contain" }}
               />
