@@ -4,8 +4,8 @@ import Script from "next/script";
 import ApartmentDetails from "@/components/ApartmentDetails";
 import {
   apartmentDetailsById,
-  apartments,
-  getApartmentBySlug,
+  activeApartments,
+  getActiveApartmentBySlug,
 } from "@/lib/apartments";
 import { getApartmentJsonLd, getApartmentMetadata } from "@/lib/seo";
 
@@ -14,7 +14,7 @@ type ApartmentPageProps = {
 };
 
 export function generateStaticParams() {
-  return apartments.map((apartment) => ({
+  return activeApartments.map((apartment) => ({
     slug: apartment.slug,
   }));
 }
@@ -23,7 +23,7 @@ export async function generateMetadata({
   params,
 }: ApartmentPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const apartment = getApartmentBySlug(slug);
+  const apartment = getActiveApartmentBySlug(slug);
 
   if (!apartment) {
     return {};
@@ -34,7 +34,7 @@ export async function generateMetadata({
 
 export default async function ApartmentPage({ params }: ApartmentPageProps) {
   const { slug } = await params;
-  const apartment = getApartmentBySlug(slug);
+  const apartment = getActiveApartmentBySlug(slug);
 
   if (!apartment) {
     notFound();

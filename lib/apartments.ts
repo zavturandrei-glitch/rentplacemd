@@ -31,6 +31,7 @@ export type Apartment = {
   cardPhoto?: string;
   heroPosition?: string;
   cardImagePosition?: string;
+  galleryLayout?: ApartmentDetailsData["galleryLayout"];
 };
 
 export const apartmentClassLabels: Record<ApartmentClass, string> = {
@@ -56,6 +57,38 @@ function apartmentPhotos(slug: string, count: number, extension = "png") {
     (_, index) =>
       "/apartments/" + slug + "/" + (index + 1) + "." + extension,
   );
+}
+
+function namedApartmentPhoto(slug: string, fileName: string) {
+  return "/apartments/" + slug + "/" + fileName;
+}
+
+function apartmentPhotoRange(slug: string, start: number, end: number) {
+  return Array.from(
+    { length: end - start + 1 },
+    (_, index) => namedApartmentPhoto(slug, "Ismail 88 et 3-" + (start + index) + ".jpg"),
+  );
+}
+
+function ismail88Et3Photos(slug: string, start: number, end: number) {
+  const photos = apartmentPhotoRange(slug, start, end);
+
+  return {
+    photos: photos.slice(0, -1),
+    facadePhoto: photos[photos.length - 1],
+  };
+}
+
+function ismail88Et3BasePhotos(slug: string, end: number) {
+  const photos = [
+    namedApartmentPhoto(slug, "Ismail 88 et 3.jpg"),
+    ...apartmentPhotoRange(slug, 2, end),
+  ];
+
+  return {
+    photos: photos.slice(0, -1),
+    facadePhoto: photos[photos.length - 1],
+  };
 }
 
 function createApartment(
@@ -304,6 +337,40 @@ export const apartments = [
     cardPhoto: "/apartments/izmail88-7/D4S_2562.jpg",
   }),
   createApartment({
+    id: 8,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "8",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
+    fullDescription:
+      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    galleryLayout: "extended",
+    ...ismail88Et3Photos("izmail88-8", 23, 46),
+  }),
+  createApartment({
+    id: 9,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "9",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
+    fullDescription:
+      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    galleryLayout: "extended",
+    ...ismail88Et3BasePhotos("izmail88-9", 22),
+  }),
+  createApartment({
     id: 10,
     floor: null,
     entrance: null,
@@ -369,6 +436,23 @@ export const apartments = [
       "Практичная квартира с двумя спальнями в центре Кишинева. Хороший вариант для семьи, пары или гостей в командировке.",
     photos: apartmentPhotos("izmail88-13", 5),
     cardPhoto: "/apartments/izmail88-13/4.png",
+  }),
+  createApartment({
+    id: 14,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "14",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
+    fullDescription:
+      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    galleryLayout: "extended",
+    ...ismail88Et3Photos("izmail88-14", 125, 147),
   }),
   createApartment({
     id: 20,
@@ -489,6 +573,57 @@ export const apartments = [
     cardPhoto: "/apartments/izmail88-42/2.png",
   }),
   createApartment({
+    id: 110,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "110",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
+    fullDescription:
+      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    galleryLayout: "extended",
+    ...ismail88Et3Photos("izmail88-110", 47, 68),
+  }),
+  createApartment({
+    id: 111,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "111",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
+    fullDescription:
+      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    galleryLayout: "extended",
+    ...ismail88Et3Photos("izmail88-111", 69, 101),
+  }),
+  createApartment({
+    id: 112,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "112",
+    class: "standardPlus",
+    price: 900,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
+    fullDescription:
+      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    galleryLayout: "extended",
+    ...ismail88Et3Photos("izmail88-112", 102, 124),
+  }),
+  createApartment({
     id: 371,
     floor: null,
     entrance: null,
@@ -521,6 +656,7 @@ export const apartmentDetailsById = Object.fromEntries(
       guests: apartment.guests,
       heroPosition: apartment.heroPosition,
       facadePhoto: apartment.facadePhoto,
+      galleryLayout: apartment.galleryLayout,
       ...(apartment.id === 1
         ? {
             displayKind: "Standard+",
@@ -558,8 +694,16 @@ export function getApartmentBySlug(slug: string) {
   return apartments.find((apartment) => apartment.slug === slug);
 }
 
+export function getActiveApartmentBySlug(slug: string) {
+  return activeApartments.find((apartment) => apartment.slug === slug);
+}
+
 export function getApartmentById(id: string | number) {
   return apartments.find((apartment) => String(apartment.id) === String(id));
+}
+
+export function getActiveApartmentById(id: string | number) {
+  return activeApartments.find((apartment) => String(apartment.id) === String(id));
 }
 
 export function getApartmentPath(apartment: Pick<Apartment, "slug">) {
@@ -567,6 +711,6 @@ export function getApartmentPath(apartment: Pick<Apartment, "slug">) {
 }
 
 export function getApartmentPathById(id: string | number) {
-  const apartment = getApartmentById(id);
+  const apartment = getActiveApartmentById(id);
   return apartment ? getApartmentPath(apartment) : null;
 }

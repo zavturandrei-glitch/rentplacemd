@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {
   apartmentDetailsById,
-  apartments,
+  activeApartments,
   getApartmentById,
   getApartmentPath as getApartmentDataPath,
 } from "@/lib/apartments";
@@ -16,6 +16,8 @@ export const address = {
   postalCode: "MD-2001",
   addressCountry: "MD",
 };
+
+export const contentLastModified = new Date("2026-07-08");
 
 export const phoneNumbers = ["+37369990190", "+37379990190"];
 export const sameAs = ["https://t.me/rentplacemd", "https://wa.me/37369990190"];
@@ -117,6 +119,11 @@ export function buildApartmentKeywords(id: keyof typeof apartmentDetailsById) {
   ];
 }
 
+function apartmentSeoImages(id: keyof typeof apartmentDetailsById) {
+  const apartment = apartmentDetailsById[id];
+  return [...apartment.images, apartment.facadePhoto ?? "/common/building.png"];
+}
+
 export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Metadata {
   const apartment = apartmentDetailsById[id];
   const title =
@@ -154,7 +161,7 @@ export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Met
       description,
       url,
       siteName,
-      images: apartment.images.map((image, index) => ({
+      images: apartmentSeoImages(id).map((image, index) => ({
         url: image,
         width: 1200,
         height: 800,
@@ -194,7 +201,7 @@ export const homeFaq = [
 ];
 
 export function buildSiteJsonLd() {
-  const apartmentOffers = apartments.map((apartment) => ({
+  const apartmentOffers = activeApartments.map((apartment) => ({
     "@type": "Offer",
     url: getApartmentUrl(apartment.id),
     price: apartment.price,
@@ -203,7 +210,7 @@ export function buildSiteJsonLd() {
     itemOffered: {
       "@type": "Apartment",
       name: "RentPlaceMD ID " + apartment.id + " - " + kindTitle[apartment.kind],
-      image: apartment.photos.map((image) => baseUrl + image),
+      image: [...apartment.photos, apartment.facadePhoto].map((image) => baseUrl + image),
       occupancy: {
         "@type": "QuantitativeValue",
         maxValue: apartment.guests,
@@ -331,7 +338,7 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
       "@id": url + "#apartment",
       name,
       url,
-      image: apartment.images.map((image) => baseUrl + image),
+      image: apartmentSeoImages(id).map((image) => baseUrl + image),
       address: {
         "@type": "PostalAddress",
         ...address,

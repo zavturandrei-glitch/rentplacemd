@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
-import { apartments } from "@/lib/apartments";
-import { baseUrl, getApartmentUrl, languageAlternates } from "@/lib/seo";
-
-const lastModified = new Date("2026-06-29");
+import { activeApartments } from "@/lib/apartments";
+import { baseUrl, contentLastModified, getApartmentUrl, languageAlternates } from "@/lib/seo";
 
 function alternatesFor(url: string) {
   return {
@@ -11,23 +9,23 @@ function alternatesFor(url: string) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const apartmentRoutes = apartments.map((apartment) => {
+  const apartmentRoutes = activeApartments.map((apartment) => {
     const url = getApartmentUrl(apartment.id);
 
     return {
       url,
-      lastModified,
+      lastModified: contentLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.86,
       alternates: alternatesFor(url),
-      images: apartment.photos.map((image) => baseUrl + image),
+      images: [...apartment.photos, apartment.facadePhoto].map((image) => baseUrl + image),
     };
   });
 
   return [
     {
       url: baseUrl,
-      lastModified,
+      lastModified: contentLastModified,
       changeFrequency: "daily",
       priority: 1,
       alternates: alternatesFor(baseUrl),
