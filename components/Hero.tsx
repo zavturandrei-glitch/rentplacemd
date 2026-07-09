@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { getApartmentPathById } from "@/lib/apartments";
+import ApartmentIdSearch from "@/components/ApartmentIdSearch";
 
 export default function Hero() {
   const { t } = useLanguage();
   const [showRequest, setShowRequest] = useState(false);
   const [message, setMessage] = useState("");
-  const [apartmentId, setApartmentId] = useState("");
 
   const whatsappText = message.trim() || t.hero.whatsappDefault;
 
@@ -25,29 +24,6 @@ export default function Hero() {
     }
 
     window.location.href = "/#apartments";
-  }
-
-  function cleanApartmentId(value: string) {
-    return value
-      .toLowerCase()
-      .replace("id", "")
-      .replace("№", "")
-      .replace("#", "")
-      .replaceAll(" ", "")
-      .trim();
-  }
-
-  function openApartmentById() {
-    const id = cleanApartmentId(apartmentId);
-
-    const apartmentLink = getApartmentPathById(id);
-
-    if (apartmentLink) {
-      window.location.href = apartmentLink;
-      return;
-    }
-
-    alert(t.hero.notFound);
   }
 
   return (
@@ -190,27 +166,7 @@ export default function Hero() {
               {t.hero.idText}
             </p>
 
-            <div className="mt-4 flex gap-3 sm:mt-5">
-              <input
-                value={apartmentId}
-                onChange={(e) => setApartmentId(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    openApartmentById();
-                  }
-                }}
-                placeholder="22"
-                className="w-full rounded-2xl border border-white/30 bg-white/25 px-5 py-4 text-lg font-black text-white outline-none placeholder:text-white/70 focus:bg-white/30"
-              />
-
-              <button
-                type="button"
-                onClick={openApartmentById}
-                className="rounded-2xl bg-[#d4146f] px-6 py-4 text-lg font-black text-white shadow-lg transition hover:scale-105"
-              >
-                {t.hero.find}
-              </button>
-            </div>
+            <ApartmentIdSearch variant="hero" />
 
             <p className="mt-4 text-sm font-bold text-white/75">
               {t.hero.availableIds}

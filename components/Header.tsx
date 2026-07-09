@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import ApartmentIdSearch from "@/components/ApartmentIdSearch";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
 
@@ -242,6 +243,10 @@ function MobileHeader() {
             </div>
           </div>
         </div>
+
+        <div className="mt-2">
+          <ApartmentIdSearch variant="header" />
+        </div>
       </div>
     </div>
   );
@@ -260,38 +265,38 @@ function DesktopHeader() {
 
   return (
     <div className="hidden lg:block">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-7 px-10 py-3">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3 xl:gap-7 xl:px-10">
         <Link
           href="/"
-          className="group flex shrink-0 items-center gap-3.5 transition duration-200 hover:scale-[1.015]"
+          className="group flex shrink-0 items-center gap-2.5 transition duration-200 hover:scale-[1.015] xl:gap-3.5"
         >
           <LogoIcon size="desktop" />
 
           <div>
-            <div className="text-[31px] font-black leading-none tracking-tight">
+            <div className="text-[26px] font-black leading-none tracking-tight xl:text-[31px]">
               RentPlace<span className="text-[#d4146f]">MD</span>
               <sup className="ml-0.5 align-super text-[9px] font-bold text-white/80">
                 ™
               </sup>
             </div>
-            <p className="mt-1.5 text-[12px] font-semibold text-white/65">
+            <p className="mt-1.5 text-[11px] font-semibold text-white/65 xl:text-[12px]">
               {text.tagline}
             </p>
           </div>
         </Link>
 
         <div className="flex flex-1 items-center justify-center">
-          <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2 shadow-inner">
+          <div className="flex items-center justify-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-2 py-2 shadow-inner xl:gap-3 xl:px-5">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 type="button"
                 title={lang.display}
                 onClick={() => changeLanguage(lang.code as Lang)}
-                className={`flex h-7 w-10 items-center justify-center rounded-full transition hover:scale-110 ${language === lang.code ? "bg-[#ffd21f] shadow-lg shadow-yellow-400/20" : "hover:bg-white/10"}`}
+                className={`flex h-7 w-8 items-center justify-center rounded-full transition hover:scale-110 xl:w-10 ${language === lang.code ? "bg-[#ffd21f] shadow-lg shadow-yellow-400/20" : "hover:bg-white/10"}`}
                 aria-label={lang.display}
               >
-                <span className="h-4 w-6 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10">
+                <span className="h-4 w-5 overflow-hidden rounded-[4px] shadow-sm ring-1 ring-white/10 xl:w-6">
                   {lang.flag}
                 </span>
               </button>
@@ -299,21 +304,16 @@ function DesktopHeader() {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center justify-end gap-5">
-          <a
-            href="#apartments"
-            className="rounded-xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-[#ffd21f]"
-          >
-            {text.freeApartments}
-          </a>
+        <div className="flex shrink-0 items-center justify-end gap-3 xl:gap-5">
+          <ApartmentIdSearch variant="header" />
 
-          <div className="flex min-w-[250px] flex-col items-end text-right">
+          <div className="flex min-w-[190px] flex-col items-end text-right xl:min-w-[250px]">
             <div className="mb-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]" />
               {text.online247}
             </div>
 
-            <div className="space-y-0.5 text-[22px] font-black leading-[1.03]">
+            <div className="space-y-0.5 text-[17px] font-black leading-[1.03] xl:text-[22px]">
               <a
                 href="tel:+37379990190"
                 className="block transition hover:text-[#ff4fa3]"
@@ -328,12 +328,12 @@ function DesktopHeader() {
               </a>
             </div>
 
-            <div className="mt-2 flex items-center justify-end gap-2">
+            <div className="mt-2 flex items-center justify-end gap-1.5 xl:gap-2">
               <a
                 href="https://wa.me/37369990190"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110 xl:h-9 xl:w-9"
                 aria-label="WhatsApp"
               >
                 <WhatsAppIcon />
@@ -341,7 +341,7 @@ function DesktopHeader() {
 
               <a
                 href="viber://chat?number=%2B37369990190"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110 xl:h-9 xl:w-9"
                 aria-label="Viber"
               >
                 <ViberIcon />
@@ -351,7 +351,7 @@ function DesktopHeader() {
                 href="https://t.me/rentplacemd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"
+                className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110 xl:h-9 xl:w-9"
                 aria-label="Telegram"
               >
                 <TelegramIcon />
@@ -362,7 +362,7 @@ function DesktopHeader() {
       </div>
 
       <div className="w-full bg-[#9b124c] shadow-xl">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-10 py-2 text-white">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-4 py-2 text-white xl:px-10">
           <div className="flex items-center justify-center gap-2.5">
             <MapIcon />
             <p className="text-[14px] font-black leading-tight">
