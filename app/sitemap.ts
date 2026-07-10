@@ -23,6 +23,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       images: [baseUrl + "/og-image.jpg", baseUrl + "/main.jpg", baseUrl + "/icon.png"],
     },
+    ...["/about", "/apartments", "/check-in-rules", "/transfer", "/chisinau-guide"].map((path) => ({
+      url: baseUrl + path,
+      lastModified: contentLastModified,
+      changeFrequency: "monthly" as const,
+      priority: path === "/apartments" ? 0.9 : 0.72,
+      images: [baseUrl + "/og-image.jpg"],
+    })),
     ...apartmentRoutes,
   ];
 }

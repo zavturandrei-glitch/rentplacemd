@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import TodayFree from "@/components/TodayFree";
-import HomeAfterCatalog from "@/components/HomeAfterCatalog";
+import HomeNavigation from "@/components/HomeNavigation";
+import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import PreloadResources from "@/app/preload-resources";
 
@@ -11,8 +11,8 @@ export default function Home() {
       <PreloadResources />
       <Header />
       <Hero />
-      <TodayFree />
-      <HomeAfterCatalog />
+      <HomeNavigation />
+      <LocationMap />
       <Footer />
     </main>
   );

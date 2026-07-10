@@ -42,10 +42,10 @@ const sectionText: Record<
     altPrefix: "Квартира ID",
     categories: {
       standard: {
-        title: "⭐ Стандарт",
+        title: "Стандарт",
         description:
           "Более комфортные квартиры с современным интерьером. Отличный выбор для отдыха, командировок и проживания в центре Кишинёва.",
-        badge: "⭐ Стандарт",
+        badge: "Стандарт",
       },
       standardPlus: {
         title: "Standard+",
@@ -55,10 +55,10 @@ const sectionText: Record<
         highlightBadge: "Новые квартиры",
       },
       economy: {
-        title: "💰 Эконом",
+        title: "Эконом",
         description:
           "Практичные квартиры по более доступной цене. Хороший вариант для гостей, которым важно удобное расположение и разумная стоимость проживания.",
-        badge: "💰 Эконом -10%",
+        badge: "Эконом -10%",
         discount: "Скидка 10%",
       },
     },
@@ -72,10 +72,10 @@ const sectionText: Record<
     altPrefix: "Apartament ID",
     categories: {
       standard: {
-        title: "⭐ Standard",
+        title: "Standard",
         description:
           "Apartamente mai confortabile, cu interior modern. O alegere foarte bună pentru odihnă, călătorii de serviciu și cazare în centrul Chișinăului.",
-        badge: "⭐ Standard",
+        badge: "Standard",
       },
       standardPlus: {
         title: "Standard+",
@@ -85,10 +85,10 @@ const sectionText: Record<
         highlightBadge: "Apartamente noi",
       },
       economy: {
-        title: "💰 Economy",
+        title: "Economy",
         description:
           "Apartamente practice, la un preț mai accesibil. O variantă bună pentru oaspeții care apreciază amplasarea comodă și costul rezonabil al șederii.",
-        badge: "💰 Economy -10%",
+        badge: "Economy -10%",
         discount: "10% discount",
       },
     },
@@ -102,10 +102,10 @@ const sectionText: Record<
     altPrefix: "Apartment ID",
     categories: {
       standard: {
-        title: "⭐ Standard",
+        title: "Standard",
         description:
           "More comfortable apartments with modern interiors. A great choice for leisure, business trips, and stays in central Chisinau.",
-        badge: "⭐ Standard",
+        badge: "Standard",
       },
       standardPlus: {
         title: "Standard+",
@@ -115,10 +115,10 @@ const sectionText: Record<
         highlightBadge: "New apartments",
       },
       economy: {
-        title: "💰 Economy",
+        title: "Economy",
         description:
           "Practical apartments at a more accessible price. A good option for guests who value a convenient location and a reasonable stay cost.",
-        badge: "💰 Economy -10%",
+        badge: "Economy -10%",
         discount: "10% discount",
       },
     },
@@ -132,10 +132,10 @@ const sectionText: Record<
     altPrefix: "Apartmán ID",
     categories: {
       standard: {
-        title: "⭐ Standard",
+        title: "Standard",
         description:
           "Komfortnější apartmány s moderním interiérem. Skvělá volba pro odpočinek, pracovní cesty i pobyt v centru Kišiněva.",
-        badge: "⭐ Standard",
+        badge: "Standard",
       },
       standardPlus: {
         title: "Standard+",
@@ -145,10 +145,10 @@ const sectionText: Record<
         highlightBadge: "Nové apartmány",
       },
       economy: {
-        title: "💰 Economy",
+        title: "Economy",
         description:
           "Praktické apartmány za dostupnější cenu. Dobrá varianta pro hosty, kteří ocení pohodlnou polohu a rozumnou cenu pobytu.",
-        badge: "💰 Economy -10%",
+        badge: "Economy -10%",
         discount: "10% discount",
       },
     },
@@ -162,10 +162,10 @@ const sectionText: Record<
     altPrefix: "Квартира ID",
     categories: {
       standard: {
-        title: "⭐ Стандарт",
+        title: "Стандарт",
         description:
           "Більш комфортні квартири із сучасним інтер'єром. Чудовий вибір для відпочинку, відряджень і проживання в центрі Кишинева.",
-        badge: "⭐ Стандарт",
+        badge: "Стандарт",
       },
       standardPlus: {
         title: "Standard+",
@@ -175,10 +175,10 @@ const sectionText: Record<
         highlightBadge: "Нові квартири",
       },
       economy: {
-        title: "💰 Економ",
+        title: "Економ",
         description:
           "Практичні квартири за доступнішою ціною. Хороший варіант для гостей, яким важливі зручне розташування і розумна вартість проживання.",
-        badge: "💰 Економ -10%",
+        badge: "Економ -10%",
         discount: "Знижка 10%",
       },
     },
@@ -264,17 +264,22 @@ function getDiscountedPrice(price: number) {
 }
 
 function getSavedLanguage(): Lang {
-  if (typeof window === "undefined") return "RU";
-  const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
-  const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
-
-  return normalizedSaved && normalizedSaved in sectionText ? normalizedSaved : "RU";
+  return "RU";
 }
 
 function useRentPlaceLanguage() {
   const [language, setLanguage] = useState<Lang>(() => getSavedLanguage());
 
   useEffect(() => {
+    const restoreSavedLanguage = window.setTimeout(() => {
+      const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
+      const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
+
+      if (normalizedSaved && normalizedSaved in sectionText) {
+        setLanguage(normalizedSaved);
+      }
+    }, 0);
+
     const handleLanguageChange = (event: Event) => {
       const customEvent = event as CustomEvent<string>;
       const nextLanguage = customEvent.detail?.toUpperCase() as Lang | undefined;
@@ -288,11 +293,13 @@ function useRentPlaceLanguage() {
       "rentplacemd-language-change",
       handleLanguageChange,
     );
-    return () =>
+    return () => {
+      window.clearTimeout(restoreSavedLanguage);
       window.removeEventListener(
         "rentplacemd-language-change",
         handleLanguageChange,
       );
+    };
   }, []);
 
   return language;

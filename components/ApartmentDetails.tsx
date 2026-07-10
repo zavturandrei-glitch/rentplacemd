@@ -901,7 +901,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             {descriptionParagraphs.map((paragraph, index) => (
               <p key={paragraph} className={(index === 0 ? "mt-4 sm:mt-6" : "mt-4 sm:mt-5") + " text-base leading-7 text-gray-700 sm:text-lg sm:leading-8"}>{paragraph}</p>
             ))}
-            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">✓ {item}</div>))}</div>
+            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">{item}</div>))}</div>
 
             <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-2">
               <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
@@ -920,7 +920,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 <div className="mt-4 grid gap-2.5">
                   {audienceItems.map((item) => (
                     <p key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5 ring-1 ring-black/5">
-                      ✓ {item}
+                      {item}
                     </p>
                   ))}
                 </div>
@@ -1003,7 +1003,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 </div>
               </div>
               <p className="mt-4 text-sm leading-6 text-gray-700 sm:text-base sm:leading-7">{text.rulesIntro}</p>
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">{text.rulesItems.map((item) => (<div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5">✓ {item}</div>))}</div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">{text.rulesItems.map((item) => (<div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5">{item}</div>))}</div>
             </section>
 
             <AvailabilityCalendar

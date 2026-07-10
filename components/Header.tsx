@@ -92,17 +92,21 @@ const headerText: Record<
 };
 
 function getSavedLanguage(): Lang {
-  if (typeof window === "undefined") return "RU";
-  const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
-  const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
-
-  return normalizedSaved && normalizedSaved in headerText ? normalizedSaved : "RU";
+  return "RU";
 }
 
 function useRentPlaceLanguage() {
   const [language, setLanguage] = useState<Lang>(() => getSavedLanguage());
 
   useEffect(() => {
+    const restoreSavedLanguage = window.setTimeout(() => {
+      const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
+      const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
+
+      if (normalizedSaved && normalizedSaved in headerText) {
+        setLanguage(normalizedSaved);
+      }
+    }, 0);
 
     const handleLanguageChange = (event: Event) => {
       const customEvent = event as CustomEvent<string>;
@@ -117,11 +121,13 @@ function useRentPlaceLanguage() {
       "rentplacemd-language-change",
       handleLanguageChange,
     );
-    return () =>
+    return () => {
+      window.clearTimeout(restoreSavedLanguage);
       window.removeEventListener(
         "rentplacemd-language-change",
         handleLanguageChange,
       );
+    };
   }, []);
 
   const changeLanguage = (nextLanguage: Lang) => {

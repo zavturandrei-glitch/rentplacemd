@@ -25,15 +25,23 @@ function normalizeLanguage(value: string | null): Language | null {
 }
 
 function getInitialLanguage(): Language {
-  if (typeof window === "undefined") return "ru";
-
-  return normalizeLanguage(window.localStorage.getItem("rentplacemd-language")) ?? "ru";
+  return "ru";
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(getInitialLanguage);
 
   useEffect(() => {
+    const restoreSavedLanguage = window.setTimeout(() => {
+      const savedLanguage = normalizeLanguage(
+        window.localStorage.getItem("rentplacemd-language")
+      );
+
+      if (savedLanguage) {
+        setLanguageState(savedLanguage);
+      }
+    }, 0);
+
     function handleLanguageChange(event: Event) {
       const nextLanguage = normalizeLanguage(
         (event as CustomEvent<string>).detail ?? null
@@ -48,6 +56,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     window.addEventListener("rentplacemd-language-change", handleLanguageChange);
 
     return () => {
+      window.clearTimeout(restoreSavedLanguage);
       window.removeEventListener("rentplacemd-language-change", handleLanguageChange);
     };
   }, []);
