@@ -10,7 +10,12 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
 import { getApartmentBookedDates } from "@/lib/availability";
-import { activeApartments, getApartmentPath } from "@/lib/apartments";
+import {
+  activeApartments,
+  getApartmentCategoryPath,
+  getApartmentPath,
+  type ApartmentClass,
+} from "@/lib/apartments";
 
 export type ApartmentKind = "studio" | "oneBedroom" | "twoBedroom" | "twoBedroomPlus";
 export type ApartmentGuests = 2 | 3 | 4 | 5;
@@ -20,6 +25,7 @@ export type ApartmentDetailsData = {
   price: number;
   images: string[];
   kind: ApartmentKind;
+  class: ApartmentClass;
   guests: ApartmentGuests;
   heroPosition?: string;
   facadePhoto?: string;
@@ -709,6 +715,8 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const audienceItems = resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
   const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases);
   const relatedApartments = useMemo(() => getRelatedApartments(apartment), [apartment]);
+  const categoryPath = getApartmentCategoryPath(apartment.class);
+  const categoryLabel = apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
   const isExtendedGallery = apartment.galleryLayout === "extended";
   const topGalleryImages = isExtendedGallery ? galleryImages.slice(0, 4) : galleryImages;
   const lowerGalleryImages = isExtendedGallery ? galleryImages.slice(4) : [];
@@ -827,7 +835,23 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
       <Header />
 
       <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-4 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
-        <Link href="/" aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {text.back}</Link>
+        <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-xs font-black text-[#07111f]/55 sm:mb-5 sm:text-sm">
+          <Link href="/" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
+            RentPlaceMD
+          </Link>
+          <span aria-hidden="true">/</span>
+          <Link href="/apartments" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
+            {text.back}
+          </Link>
+          <span aria-hidden="true">/</span>
+          <Link href={categoryPath} className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
+            {categoryLabel}
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="rounded-full bg-[#07111f] px-3 py-2 text-white shadow-sm">ID {apartment.id}</span>
+        </nav>
+
+        <Link href={categoryPath} aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {categoryLabel}</Link>
 
         <div className="overflow-hidden rounded-[22px] bg-[#07111f] shadow-2xl shadow-black/25 ring-1 ring-black/5 sm:rounded-[26px]">
           <div className="grid lg:grid-cols-[0.82fr_1.18fr]">

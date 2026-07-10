@@ -73,7 +73,7 @@ export default function Hero() {
             </p>
 
             <Link
-              href="/apartments#apartments"
+              href="/apartments"
               className="mt-auto w-full rounded-2xl bg-[#07111f] px-3 py-3 text-center text-[14px] font-black leading-none text-white shadow-xl transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#07111f] sm:px-6 sm:py-4 sm:text-lg"
             >
               {t.hero.openCatalog}

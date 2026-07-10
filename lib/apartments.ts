@@ -5,6 +5,7 @@ import type {
 } from "@/components/ApartmentDetails";
 
 export type ApartmentClass = "economy" | "standard" | "standardPlus";
+export type ApartmentCategorySlug = "economy" | "standard" | "standard-plus";
 export type ApartmentStatus = "active" | "hidden";
 export type ApartmentRooms = "studio" | "1+1" | "2+1";
 
@@ -39,6 +40,32 @@ export const apartmentClassLabels: Record<ApartmentClass, string> = {
   standard: "Стандарт",
   standardPlus: "Standard+",
 };
+
+export const apartmentCategoryOrder = [
+  "economy",
+  "standard",
+  "standardPlus",
+] as const satisfies readonly ApartmentClass[];
+
+export const apartmentClassToSlug: Record<ApartmentClass, ApartmentCategorySlug> = {
+  economy: "economy",
+  standard: "standard",
+  standardPlus: "standard-plus",
+};
+
+export const apartmentSlugToClass: Record<ApartmentCategorySlug, ApartmentClass> = {
+  economy: "economy",
+  standard: "standard",
+  "standard-plus": "standardPlus",
+};
+
+export function getApartmentCategoryPath(category: ApartmentClass) {
+  return "/apartments/" + apartmentClassToSlug[category];
+}
+
+export function getApartmentClassBySlug(slug: string) {
+  return (apartmentSlugToClass as Record<string, ApartmentClass | undefined>)[slug];
+}
 
 const commonAmenities = [
   "Wi-Fi",
@@ -735,6 +762,7 @@ export const apartmentDetailsById = Object.fromEntries(
       price: apartment.price,
       images: apartment.photos,
       kind: apartment.kind,
+      class: apartment.class,
       guests: apartment.guests,
       heroPosition: apartment.heroPosition,
       facadePhoto: apartment.facadePhoto,

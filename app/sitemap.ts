@@ -1,8 +1,20 @@
 import type { MetadataRoute } from "next";
-import { activeApartments } from "@/lib/apartments";
+import {
+  activeApartments,
+  apartmentCategoryOrder,
+  getApartmentCategoryPath,
+} from "@/lib/apartments";
 import { baseUrl, contentLastModified, getApartmentUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const categoryRoutes = apartmentCategoryOrder.map((category) => ({
+    url: baseUrl + getApartmentCategoryPath(category),
+    lastModified: contentLastModified,
+    changeFrequency: "weekly" as const,
+    priority: 0.88,
+    images: [baseUrl + "/og-image.jpg"],
+  }));
+
   const apartmentRoutes = activeApartments.map((apartment) => {
     const url = getApartmentUrl(apartment.id);
 
@@ -30,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: path === "/apartments" ? 0.9 : 0.72,
       images: [baseUrl + "/og-image.jpg"],
     })),
+    ...categoryRoutes,
     ...apartmentRoutes,
   ];
 }

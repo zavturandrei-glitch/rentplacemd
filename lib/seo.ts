@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import {
+  apartmentCategoryOrder,
   apartmentDetailsById,
   activeApartments,
   getApartmentById,
+  getApartmentCategoryPath,
+  type ApartmentClass,
   getApartmentPath as getApartmentDataPath,
 } from "@/lib/apartments";
 
@@ -87,6 +90,147 @@ export function routeAlternates(path = "") {
 
 export function apartmentAlternates(id: keyof typeof apartmentDetailsById) {
   return routeAlternates(apartmentPath(id));
+}
+
+export const apartmentCategorySeo: Record<
+  ApartmentClass,
+  { title: string; description: string; intro: string }
+> = {
+  economy: {
+    title: "Economy квартиры RentPlaceMD в Кишинёве",
+    description:
+      "Практичные квартиры Economy RentPlaceMD в центре Кишинёва. Реальные фото, ID, цены и быстрый контакт для проверки свободных дат.",
+    intro:
+      "Практичные квартиры по доступной цене для гостей, которым важны центр города, понятная стоимость и быстрый контакт.",
+  },
+  standard: {
+    title: "Standard квартиры RentPlaceMD в Кишинёве",
+    description:
+      "Квартиры Standard RentPlaceMD в Кишинёве для посуточного проживания, отдыха и командировок. Фото, цены и прямой контакт.",
+    intro:
+      "Комфортные квартиры для повседневного проживания, короткого отдыха и рабочих поездок в центральной части Кишинёва.",
+  },
+  standardPlus: {
+    title: "Standard+ квартиры RentPlaceMD в Кишинёве",
+    description:
+      "Квартиры Standard+ RentPlaceMD в Кишинёве: более свежие и улучшенные варианты повышенного комфорта с реальными фото.",
+    intro:
+      "Более свежие или улучшенные варианты для гостей, которые хотят повышенный комфорт и аккуратный визуальный уровень.",
+  },
+};
+
+export function getApartmentCategoryMetadata(category: ApartmentClass): Metadata {
+  const seo = apartmentCategorySeo[category];
+  const path = getApartmentCategoryPath(category);
+  const url = baseUrl + path;
+
+  return {
+    title: seo.title,
+    description: seo.description,
+    alternates: routeAlternates(path),
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url,
+      siteName,
+      images: [
+        {
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: seo.title,
+        },
+      ],
+      locale: defaultLocale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: ["/og-image.jpg"],
+    },
+  };
+}
+
+export function getApartmentCategoryMenuJsonLd() {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: siteName,
+          item: baseUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Все квартиры",
+          item: baseUrl + "/apartments",
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Категории квартир RentPlaceMD",
+      itemListElement: apartmentCategoryOrder.map((category, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: apartmentCategorySeo[category].title,
+        url: baseUrl + getApartmentCategoryPath(category),
+      })),
+    },
+  ];
+}
+
+export function getApartmentCategoryJsonLd(category: ApartmentClass) {
+  const seo = apartmentCategorySeo[category];
+  const path = getApartmentCategoryPath(category);
+  const categoryApartments = activeApartments.filter((apartment) => apartment.class === category);
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: siteName,
+          item: baseUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Все квартиры",
+          item: baseUrl + "/apartments",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: seo.title,
+          item: baseUrl + path,
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: seo.title,
+      description: seo.description,
+      url: baseUrl + path,
+      itemListElement: categoryApartments.map((apartment, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: getApartmentUrl(apartment.id),
+        name: "RentPlaceMD ID " + apartment.id,
+      })),
+    },
+  ];
 }
 
 export function buildApartmentTitle(id: keyof typeof apartmentDetailsById) {
@@ -362,6 +506,8 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
   const apartment = apartmentDetailsById[id];
   const url = getApartmentUrl(id);
   const name = "RentPlaceMD ID " + id + " - " + kindTitle[apartment.kind];
+  const categoryPath = getApartmentCategoryPath(apartment.class);
+  const categoryName = apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
 
   return [
     {
@@ -418,6 +564,18 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
         {
           "@type": "ListItem",
           position: 2,
+          name: "Все квартиры",
+          item: baseUrl + "/apartments",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: categoryName,
+          item: baseUrl + categoryPath,
+        },
+        {
+          "@type": "ListItem",
+          position: 4,
           name,
           item: url,
         },

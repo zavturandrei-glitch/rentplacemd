@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import {
   activeApartments,
+  apartmentCategoryOrder,
   getApartmentPath,
   type ApartmentClass,
 } from "@/lib/apartments";
@@ -21,6 +22,7 @@ const sectionText: Record<
     callButton: string;
     details: string;
     altPrefix: string;
+    countLabel: string;
     categories: Partial<Record<
       CategoryKey,
       {
@@ -40,6 +42,7 @@ const sectionText: Record<
     callButton: "Уточнить свободные даты",
     details: "Подробнее",
     altPrefix: "Квартира ID",
+    countLabel: "вариантов",
     categories: {
       standard: {
         title: "Стандарт",
@@ -70,6 +73,7 @@ const sectionText: Record<
     callButton: "Verifică datele libere",
     details: "Detalii",
     altPrefix: "Apartament ID",
+    countLabel: "opțiuni",
     categories: {
       standard: {
         title: "Standard",
@@ -100,6 +104,7 @@ const sectionText: Record<
     callButton: "Check available dates",
     details: "Details",
     altPrefix: "Apartment ID",
+    countLabel: "options",
     categories: {
       standard: {
         title: "Standard",
@@ -130,6 +135,7 @@ const sectionText: Record<
     callButton: "Ověřit volné termíny",
     details: "Detail",
     altPrefix: "Apartmán ID",
+    countLabel: "možností",
     categories: {
       standard: {
         title: "Standard",
@@ -160,6 +166,7 @@ const sectionText: Record<
     callButton: "Уточнити вільні дати",
     details: "Детальніше",
     altPrefix: "Квартира ID",
+    countLabel: "варіантів",
     categories: {
       standard: {
         title: "Стандарт",
@@ -256,7 +263,6 @@ const apartmentInfo: Record<
   },
 };
 
-const categoryOrder = ["economy", "standard", "standardPlus"] as const satisfies readonly CategoryKey[];
 const ECONOMY_DISCOUNT_PERCENT = 10;
 
 function getDiscountedPrice(price: number) {
@@ -305,10 +311,15 @@ function useRentPlaceLanguage() {
   return language;
 }
 
-export default function TodayFree() {
+export default function TodayFree({ selectedClass }: { selectedClass?: ApartmentClass }) {
   const language = useRentPlaceLanguage();
   const text = sectionText[language];
   const info = apartmentInfo[language];
+  const visibleCategories = selectedClass ? [selectedClass] : apartmentCategoryOrder;
+  const selectedCategoryText = selectedClass ? text.categories[selectedClass] : null;
+  const selectedCount = selectedClass
+    ? activeApartments.filter((apartment) => apartment.class === selectedClass).length
+    : activeApartments.length;
 
   return (
     <section
@@ -319,10 +330,23 @@ export default function TodayFree() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <h2 className="text-4xl font-black leading-tight text-[#d4146f] sm:text-5xl">{text.title}</h2>
+            {selectedClass ? (
+              <h1 className="text-4xl font-black leading-tight text-[#d4146f] sm:text-5xl">
+                {selectedCategoryText?.title ?? text.title}
+              </h1>
+            ) : (
+              <h2 className="text-4xl font-black leading-tight text-[#d4146f] sm:text-5xl">
+                {text.title}
+              </h2>
+            )}
             <p className="mt-4 max-w-3xl text-lg font-bold leading-7 text-gray-800 sm:text-xl">
-              {text.description}
+              {selectedCategoryText?.description ?? text.description}
             </p>
+            {selectedClass ? (
+              <p className="mt-3 w-fit rounded-full bg-white px-4 py-2 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5">
+                {selectedCount} {text.countLabel}
+              </p>
+            ) : null}
           </div>
 
           <a
@@ -334,7 +358,7 @@ export default function TodayFree() {
         </div>
 
         <div className="space-y-12 sm:space-y-14">
-          {categoryOrder.map((category, categoryIndex) => {
+          {visibleCategories.map((category, categoryIndex) => {
             const fallbackCategoryText: {
               title: string;
               description: string;

@@ -64,7 +64,7 @@ const sharedCards = {
     position: "50% 48%",
   },
   apartments: {
-    href: "#apartments",
+    href: "/apartments",
     image: "/apartments/izmail88-3/D4S_2531.jpg",
     position: "50% 52%",
   },
