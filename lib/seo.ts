@@ -74,6 +74,14 @@ export function routeAlternates(path = "") {
   const url = baseUrl + path;
   return {
     canonical: url,
+    languages: {
+      "ru-MD": url,
+      "ro-MD": url,
+      en: url,
+      uk: url,
+      cs: url,
+      "x-default": url,
+    },
   };
 }
 
@@ -346,18 +354,6 @@ export function buildSiteJsonLd() {
           item: baseUrl,
         },
       ],
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: homeFaq.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
     },
   ];
 }

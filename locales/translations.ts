@@ -40,7 +40,7 @@ export const translations = {
       whatsappDefault:
         "Здравствуйте! Хочу квартиру посуточно. Дата заезда: ___ . Дата выезда: ___ . Количество персон: ___.",
       catalogLabel: "Каталог",
-      catalogTitle: "Смотреть квартиры",
+      catalogTitle: "Все квартиры",
       catalogText: "Фото, цены, описание и ID каждого варианта.",
       openCatalog: "Открыть каталог",
       idLabel: "Быстрый переход",
@@ -149,7 +149,7 @@ export const translations = {
       whatsappDefault:
         "Bună ziua! Caut un apartament în chirie pe zi. Data sosirii: ___ . Data plecării: ___ . Număr persoane: ___.",
       catalogLabel: "Catalog",
-      catalogTitle: "Vezi apartamentele",
+      catalogTitle: "Toate apartamentele",
       catalogText: "Poze, prețuri, descriere și ID pentru fiecare variantă.",
       openCatalog: "Deschide catalogul",
       idLabel: "Trecere rapidă",
@@ -257,7 +257,7 @@ export const translations = {
       whatsappDefault:
         "Hello! I want a daily apartment. Check-in date: ___ . Check-out date: ___ . Number of guests: ___.",
       catalogLabel: "Catalog",
-      catalogTitle: "View apartments",
+      catalogTitle: "All apartments",
       catalogText: "Photos, prices, description and ID for each option.",
       openCatalog: "Open catalog",
       idLabel: "Quick access",
@@ -364,7 +364,7 @@ export const translations = {
       whatsappDefault:
         "Добрий день! Хочу квартиру подобово. Дата заїзду: ___ . Дата виїзду: ___ . Кількість людей: ___.",
       catalogLabel: "Каталог",
-      catalogTitle: "Дивитися квартири",
+      catalogTitle: "Усі квартири",
       catalogText: "Фото, ціни, опис та ID кожного варіанта.",
       openCatalog: "Відкрити каталог",
       idLabel: "Швидкий перехід",
@@ -472,7 +472,7 @@ export const translations = {
       whatsappDefault:
         "Dobrý den! Hledám apartmán na den. Datum příjezdu: ___ . Datum odjezdu: ___ . Počet osob: ___.",
       catalogLabel: "Katalog",
-      catalogTitle: "Zobrazit apartmány",
+      catalogTitle: "Všechny apartmány",
       catalogText: "Fotky, ceny, popis a ID každé varianty.",
       openCatalog: "Otevřít katalog",
       idLabel: "Rychlý přechod",
