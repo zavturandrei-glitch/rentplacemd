@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
 import { baseUrl, routeAlternates, siteName } from "@/lib/seo";
@@ -20,6 +21,7 @@ export default function ChisinauGuidePage() {
     <main className="min-h-screen bg-[#fffaf0]">
       <Script id="guide-structured-data" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify([{ "@context": "https://schema.org", "@type": "Article", headline: "Гид по Кишинёву", url: baseUrl + "/chisinau-guide", inLanguage: ["ru", "ro", "en", "uk", "cs"], publisher: { "@type": "Organization", name: siteName, url: baseUrl } }, { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: siteName, item: baseUrl }, { "@type": "ListItem", position: 2, name: "Гид по Кишинёву", item: baseUrl + "/chisinau-guide" }] }]) }} />
       <Header />
+      <BackButton />
       <InfoPage kind="guide" />
       <Footer />
     </main>

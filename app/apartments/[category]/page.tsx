@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
 import TodayFree from "@/components/TodayFree";
 import Footer from "@/components/Footer";
@@ -59,6 +60,7 @@ export default async function ApartmentCategoryPage({ params }: CategoryPageProp
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header />
+      <BackButton />
       <ApartmentCategoryNav currentClass={apartmentClass} />
       <TodayFree selectedClass={apartmentClass} />
       <Footer />

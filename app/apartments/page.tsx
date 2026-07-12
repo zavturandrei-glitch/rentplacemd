@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import ApartmentCategoryMenu from "@/components/ApartmentCategoryMenu";
 import Footer from "@/components/Footer";
 import {
@@ -42,6 +43,7 @@ export default function ApartmentsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header />
+      <BackButton />
       <ApartmentCategoryMenu />
       <Footer />
     </main>

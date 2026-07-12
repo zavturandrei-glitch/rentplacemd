@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
 import { routeAlternates } from "@/lib/seo";
@@ -15,6 +16,7 @@ export default function TransferPage() {
   return (
     <main className="min-h-screen bg-[#fffaf0]">
       <Header />
+      <BackButton />
       <InfoPage kind="transfer" />
       <Footer />
     </main>

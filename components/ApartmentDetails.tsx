@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } 
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
@@ -833,6 +834,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   return (
     <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
       <Header />
+      <BackButton />
 
       <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-4 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
         <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-xs font-black text-[#07111f]/55 sm:mb-5 sm:text-sm">
