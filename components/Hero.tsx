@@ -37,7 +37,15 @@ export default function Hero() {
           id="quick-pick"
           className="relative z-10 mx-auto grid max-w-3xl grid-cols-2 gap-3 sm:gap-4"
         >
-          <article className="flex h-[188px] min-w-0 flex-col rounded-[1.35rem] border border-white/25 bg-[#d4146f]/82 p-3.5 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_22px_64px_rgba(212,20,111,0.32)] sm:h-[220px] sm:rounded-[1.75rem] sm:p-6">
+          <article
+            role="button"
+            tabIndex={0}
+            onClick={() => setShowRequest(true)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") setShowRequest(true);
+            }}
+            className="flex h-[188px] min-w-0 cursor-pointer flex-col rounded-[1.35rem] border border-white/25 bg-[#d4146f]/82 p-3.5 text-white shadow-2xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_22px_64px_rgba(212,20,111,0.32)] sm:h-[220px] sm:rounded-[1.75rem] sm:p-6"
+          >
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/80 sm:text-xs sm:tracking-[0.25em]">
               {t.hero.quickPickLabel}
             </p>
@@ -50,16 +58,14 @@ export default function Hero() {
               {t.hero.quickPickText}
             </p>
 
-            <button
-              type="button"
-              onClick={() => setShowRequest(true)}
+            <span
               className="mt-auto w-full rounded-2xl bg-white px-3 py-3 text-[14px] font-black leading-none text-[#d4146f] shadow-xl transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-6 sm:py-4 sm:text-lg"
             >
               {t.hero.quickPickButton}
-            </button>
+            </span>
           </article>
 
-          <article className="flex h-[188px] min-w-0 flex-col rounded-[1.35rem] border border-white/40 bg-[#ffd21f]/92 p-3.5 text-[#07111f] shadow-2xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_22px_64px_rgba(255,210,31,0.28)] sm:h-[220px] sm:rounded-[1.75rem] sm:p-6">
+          <Link href="/apartments" className="flex h-[188px] min-w-0 cursor-pointer flex-col rounded-[1.35rem] border border-white/40 bg-[#ffd21f]/92 p-3.5 text-[#07111f] shadow-2xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_22px_64px_rgba(255,210,31,0.28)] sm:h-[220px] sm:rounded-[1.75rem] sm:p-6">
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#07111f]/70 sm:text-xs sm:tracking-[0.25em]">
               {t.hero.catalogLabel}
             </p>
@@ -72,13 +78,12 @@ export default function Hero() {
               {t.hero.catalogText}
             </p>
 
-            <Link
-              href="/apartments"
+            <span
               className="mt-auto w-full rounded-2xl bg-[#07111f] px-3 py-3 text-center text-[14px] font-black leading-none text-white shadow-xl transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#07111f] sm:px-6 sm:py-4 sm:text-lg"
             >
               {t.hero.openCatalog}
-            </Link>
-          </article>
+            </span>
+          </Link>
 
           {showRequest && (
             <div className="col-span-2 rounded-[1.35rem] border border-white/25 bg-[#d4146f]/82 p-4 text-white shadow-2xl backdrop-blur-xl sm:rounded-[1.75rem] sm:p-6">

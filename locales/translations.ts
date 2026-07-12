@@ -48,7 +48,7 @@ export const translations = {
       idText: "Введите номер квартиры, который вам сказали по телефону.",
       find: "Найти",
       availableIds:
-        "Доступные ID: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 110, 111, 112, 371.",
+        "Доступные ID: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 67, 110, 111, 112, 371.",
       notFound:
         "Квартира с таким ID пока не найдена. Позвоните нам, и мы подскажем.",
     },
@@ -157,7 +157,7 @@ export const translations = {
       idText: "Introdu numărul apartamentului primit la telefon.",
       find: "Caută",
       availableIds:
-        "ID-uri disponibile: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 110, 111, 112, 371.",
+        "ID-uri disponibile: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 67, 110, 111, 112, 371.",
       notFound:
         "Apartamentul cu acest ID nu a fost găsit. Sunați-ne și vă ajutăm.",
     },
@@ -265,7 +265,7 @@ export const translations = {
       idText: "Enter the apartment number you were given by phone.",
       find: "Find",
       availableIds:
-        "Available IDs: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 110, 111, 112, 371.",
+        "Available IDs: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 67, 110, 111, 112, 371.",
       notFound: "Apartment with this ID was not found. Call us and we will help.",
     },
     apartments: {
@@ -372,7 +372,7 @@ export const translations = {
       idText: "Введіть номер квартири, який вам сказали телефоном.",
       find: "Знайти",
       availableIds:
-        "Доступні ID: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 110, 111, 112, 371.",
+        "Доступні ID: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 67, 110, 111, 112, 371.",
       notFound:
         "Квартиру з таким ID поки не знайдено. Зателефонуйте нам, і ми підкажемо.",
     },
@@ -480,7 +480,7 @@ export const translations = {
       idText: "Zadejte číslo apartmánu, které jste dostali po telefonu.",
       find: "Najít",
       availableIds:
-        "Dostupná ID: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 110, 111, 112, 371.",
+        "Dostupná ID: 2, 4, 5, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23, 37, 38, 42, 67, 110, 111, 112, 371.",
       notFound:
         "Apartmán s tímto ID zatím nebyl nalezen. Zavolejte nám a poradíme.",
     },
