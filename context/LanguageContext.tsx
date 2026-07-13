@@ -78,6 +78,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     [language]
   );
 
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 

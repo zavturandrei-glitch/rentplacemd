@@ -20,6 +20,7 @@ const kindLabel = {
 export default function AdminAvailabilityPage() {
   const availabilityApartments = apartments.map((apartment) => ({
     id: apartment.id,
+    title: apartment.title,
     label: kindLabel[apartment.kind],
     price: apartment.price,
     guests: apartment.guests,

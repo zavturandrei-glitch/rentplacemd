@@ -24,6 +24,14 @@
     "bookedDates": []
   },
   {
+    "apartmentId": "8",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "9",
+    "bookedDates": []
+  },
+  {
     "apartmentId": "10",
     "bookedDates": []
   },
@@ -43,6 +51,10 @@
       "2026-07-03",
       "2026-07-12"
     ]
+  },
+  {
+    "apartmentId": "14",
+    "bookedDates": []
   },
   {
     "apartmentId": "20",
@@ -106,6 +118,22 @@
       "2026-07-16",
       "2026-07-17"
     ]
+  },
+  {
+    "apartmentId": "67",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "110",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "111",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "112",
+    "bookedDates": []
   },
   {
     "apartmentId": "371",

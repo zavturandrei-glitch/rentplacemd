@@ -698,9 +698,9 @@ export const apartments = [
     shortDescription: "Современная квартира Standard+ с отдельной спальней и гостиной для размещения до 4 гостей.",
     fullDescription: "Современная квартира после евроремонта по адресу Grigore Ureche 67 в Кишинёве.\n\nПланировка включает отдельную спальню, просторную гостиную и оборудованную кухню.\n\nКвартира рассчитана на комфортное проживание до 4 гостей.",
     amenities: ["Wi-Fi", "Отдельная спальня", "Отдельная гостиная", "Современный евроремонт", "Оборудованная кухня", "Кондиционер", "Smart TV", "Чистое постельное бельё", "Полотенца", "Заселение 24/7"],
-    photos: apartmentPhotos("GrigoreUreche67", 9),
-    facadePhoto: "/apartments/GrigoreUreche67/9.png",
-    cardPhoto: "/apartments/GrigoreUreche67/1.png",
+    photos: apartmentPhotos("GrigoreUreche67", 7, "jpeg"),
+    facadePhoto: "/common/building.png",
+    cardPhoto: "/apartments/GrigoreUreche67/4.jpeg",
     galleryLayout: "extended",
   }),
   createApartment({
@@ -781,6 +781,8 @@ export const apartmentDetailsById = Object.fromEntries(
     apartment.id,
     {
       id: apartment.id,
+      title: apartment.title,
+      address: apartment.address,
       price: apartment.price,
       images: apartment.photos,
       kind: apartment.kind,

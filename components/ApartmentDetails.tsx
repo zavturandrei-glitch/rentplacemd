@@ -23,6 +23,8 @@ export type ApartmentGuests = 2 | 3 | 4 | 5;
 
 export type ApartmentDetailsData = {
   id: number;
+  title: string;
+  address: string;
   price: number;
   images: string[];
   kind: ApartmentKind;
@@ -361,13 +363,13 @@ const detailText: Record<Language, DetailText> = {
     back: "Назад ко всем квартирам",
     call: "Позвонить",
     checkAvailability: "Проверить свободна",
-    whatsappMessage: "Здравствуйте! Интересует квартира Измаил 88, ID {id}",
+    whatsappMessage: "Здравствуйте! Интересует квартира по адресу {address}, ID {id}",
     priceSuffix: "лей / сутки",
     photo: "Фото",
     galleryTitle: "Галерея квартиры",
     mainPhotoAlt: "Главное фото ID {id}",
     galleryPhotoAlt: "Фото квартиры ID {id} {index}",
-    facadeAlt: "Фасад дома Измаил 88",
+    facadeAlt: "Фасад дома по адресу {address}",
     aboutLabel: "О квартире",
     bookingLabel: "Бронирование",
     bookingNote: "Напишите даты и количество гостей - быстро проверим свободна ли квартира.",
@@ -416,13 +418,13 @@ const detailText: Record<Language, DetailText> = {
     back: "Înapoi la toate apartamentele",
     call: "Sună",
     checkAvailability: "Verifică disponibilitatea",
-    whatsappMessage: "Bună ziua! Mă interesează apartamentul Ismail 88, ID {id}",
+    whatsappMessage: "Bună ziua! Mă interesează apartamentul de pe {address}, ID {id}",
     priceSuffix: "lei / zi",
     photo: "Foto",
     galleryTitle: "Galeria apartamentului",
     mainPhotoAlt: "Foto principală ID {id}",
     galleryPhotoAlt: "Foto apartament ID {id} {index}",
-    facadeAlt: "Fațada blocului Ismail 88",
+    facadeAlt: "Fațada blocului de pe {address}",
     aboutLabel: "Despre apartament",
     bookingLabel: "Rezervare",
     bookingNote: "Scrieți datele și numărul de oaspeți - verificăm rapid disponibilitatea.",
@@ -471,13 +473,13 @@ const detailText: Record<Language, DetailText> = {
     back: "Back to all apartments",
     call: "Call",
     checkAvailability: "Check availability",
-    whatsappMessage: "Hello! I am interested in apartment Ismail 88, ID {id}",
+    whatsappMessage: "Hello! I am interested in the apartment at {address}, ID {id}",
     priceSuffix: "MDL / night",
     photo: "Photos",
     galleryTitle: "Apartment gallery",
     mainPhotoAlt: "Main photo ID {id}",
     galleryPhotoAlt: "Apartment photo ID {id} {index}",
-    facadeAlt: "Ismail 88 building facade",
+    facadeAlt: "Building facade at {address}",
     aboutLabel: "About the apartment",
     bookingLabel: "Booking",
     bookingNote: "Send your dates and number of guests - we will quickly check availability.",
@@ -526,13 +528,13 @@ const detailText: Record<Language, DetailText> = {
     back: "Назад до всіх квартир",
     call: "Подзвонити",
     checkAvailability: "Перевірити вільна",
-    whatsappMessage: "Добрий день! Цікавить квартира Ізмаїл 88, ID {id}",
+    whatsappMessage: "Добрий день! Цікавить квартира за адресою {address}, ID {id}",
     priceSuffix: "лей / доба",
     photo: "Фото",
     galleryTitle: "Галерея квартири",
     mainPhotoAlt: "Головне фото ID {id}",
     galleryPhotoAlt: "Фото квартири ID {id} {index}",
-    facadeAlt: "Фасад будинку Ізмаїл 88",
+    facadeAlt: "Фасад будинку за адресою {address}",
     aboutLabel: "Про квартиру",
     bookingLabel: "Бронювання",
     bookingNote: "Напишіть дати та кількість гостей - швидко перевіримо, чи квартира вільна.",
@@ -581,13 +583,13 @@ const detailText: Record<Language, DetailText> = {
     back: "Zpět na všechny apartmány",
     call: "Zavolat",
     checkAvailability: "Ověřit dostupnost",
-    whatsappMessage: "Dobrý den! Mám zájem o apartmán Ismail 88, ID {id}",
+    whatsappMessage: "Dobrý den! Mám zájem o apartmán na adrese {address}, ID {id}",
     priceSuffix: "lei / noc",
     photo: "Foto",
     galleryTitle: "Galerie apartmánu",
     mainPhotoAlt: "Hlavní foto ID {id}",
     galleryPhotoAlt: "Foto apartmánu ID {id} {index}",
-    facadeAlt: "Fasáda domu Ismail 88",
+    facadeAlt: "Fasáda domu na adrese {address}",
     aboutLabel: "O apartmánu",
     bookingLabel: "Rezervace",
     bookingNote: "Napište termíny a počet hostů - rychle ověříme dostupnost.",
@@ -671,6 +673,14 @@ function resolvePhrases(keys: string[], dictionary: Record<string, string>) {
   return keys.map((key) => dictionary[key]).filter(Boolean);
 }
 
+function replaceApartmentLocation(value: string, apartment: ApartmentDetailsData) {
+  if (apartment.id !== 67) {
+    return value;
+  }
+
+  return value.replace(/Измаил 88|Ізмаїл 88|Ismail 88/g, apartment.title);
+}
+
 function getRelatedApartments(apartment: ApartmentDetailsData) {
   return activeApartments
     .filter((candidate) => candidate.id !== apartment.id)
@@ -692,29 +702,41 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const { language } = useLanguage();
   const text = detailText[language];
   const facadePhoto = apartment.facadePhoto ?? "/common/building.png";
+  const locationTitle = apartment.title;
+  const facadeAlt = format(text.facadeAlt, { address: locationTitle });
   const galleryImages = apartment.images.slice(1);
-  const whatsappText = format(text.whatsappMessage, { id: apartment.id });
+  const whatsappText = format(text.whatsappMessage, {
+    id: apartment.id,
+    address: locationTitle,
+  });
   const whatsappLink = "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
   const heroPosition = apartment.heroPosition ?? "center 45%";
   const bookedDates = getApartmentBookedDates(apartment.id);
   const kindLabel = apartment.displayKind ?? text.kinds[apartment.kind];
   const overlayLabel = apartment.displayOverlay ?? text.overlay[apartment.kind];
-  const intro = apartment.intro ?? text.intro[apartment.kind];
-  const aboutTitle = apartment.aboutTitle ?? text.aboutTitle[apartment.kind];
-  const descriptionParagraphs =
+  const intro = replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment);
+  const aboutTitle = replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment);
+  const descriptionParagraphs = (
     apartment.descriptionParagraphs ?? [
       text.aboutFirst[apartment.kind],
       text.aboutSecond[apartment.kind],
-    ];
+    ]
+  ).map((paragraph) => replaceApartmentLocation(paragraph, apartment));
   const features = apartment.features ?? text.features[apartment.kind];
   const contentProfile = apartmentContentProfiles[apartment.id] ?? {
     valueKeys: [apartment.kind, apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
     audienceKeys: apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
     nearbyKeys: ["center", "shops", "transport"],
   };
-  const whyItems = resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases);
+  const whyItems = resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment));
   const audienceItems = resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
-  const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases);
+  const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment));
+  const trustPhrases = text.content.trustPhrases.map((item) => replaceApartmentLocation(item, apartment));
+  const faq = text.content.faq.map((item) => ({
+    ...item,
+    question: replaceApartmentLocation(item.question, apartment),
+    answer: replaceApartmentLocation(item.answer, apartment),
+  }));
   const relatedApartments = useMemo(() => getRelatedApartments(apartment), [apartment]);
   const categoryPath = getApartmentCategoryPath(apartment.class);
   const categoryLabel = apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
@@ -730,9 +752,9 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             ? format(text.mainPhotoAlt, { id: apartment.id })
             : format(text.galleryPhotoAlt, { id: apartment.id, index }),
       })),
-      { src: facadePhoto, alt: text.facadeAlt },
+      { src: facadePhoto, alt: facadeAlt },
     ],
-    [apartment.id, apartment.images, facadePhoto, text.facadeAlt, text.galleryPhotoAlt, text.mainPhotoAlt],
+    [apartment.id, apartment.images, facadeAlt, facadePhoto, text.galleryPhotoAlt, text.mainPhotoAlt],
   );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isLightboxVisible, setIsLightboxVisible] = useState(false);
@@ -863,7 +885,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{kindLabel}</span>
                 <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{text.guests[apartment.guests]}</span>
               </div>
-              <h1 className="text-4xl font-black leading-[0.98] tracking-tight text-white sm:text-7xl lg:text-8xl">{text.addressTitle}</h1>
+              <h1 className="text-4xl font-black leading-[0.98] tracking-tight text-white sm:text-7xl lg:text-8xl">{locationTitle}</h1>
               <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/78 sm:mt-6 sm:text-lg sm:leading-8">{intro}</p>
               <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-9 sm:grid-cols-3">
                 <div className="col-span-2 rounded-2xl bg-white p-4 text-[#07111f] shadow-xl shadow-black/10 sm:col-span-1 sm:p-5"><p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">{apartment.price}</p><p className="mt-1 text-xs font-black text-gray-500 sm:mt-2 sm:text-sm">{text.priceSuffix}</p></div>
@@ -874,7 +896,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <button type="button" onClick={() => openLightbox(0)} className="block h-full w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f]" aria-label={format(text.mainPhotoAlt, { id: apartment.id })}>
               <ResponsiveImage
                 src={apartment.images[0]}
-                alt={text.addressTitle + " ID " + apartment.id}
+                alt={locationTitle + " ID " + apartment.id}
                 className="h-[270px] bg-[#07111f] sm:h-[460px] lg:h-[500px]"
                 imgClassName="object-contain lg:object-cover"
                 sizes="(min-width: 1024px) 58vw, 100vw"
@@ -899,7 +921,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             </div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
               {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><button type="button" onClick={() => openLightbox(index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })}><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></button></div>))}
-              {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={text.facadeAlt}><ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
+              {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}><ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
             </div>
           </div>
           {isExtendedGallery ? (
@@ -912,8 +934,8 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 </div>
               ))}
               <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
-                <button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={text.facadeAlt}>
-                  <ResponsiveImage src={facadePhoto} alt={text.facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                <button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}>
+                  <ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
                 </button>
               </div>
             </div>
@@ -971,7 +993,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#07111f] p-5 text-white shadow-xl shadow-black/10 sm:mt-8 sm:p-6">
               <h3 className="text-xl font-black tracking-tight sm:text-2xl">{text.content.trustTitle}</h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {text.content.trustPhrases.map((item) => (
+                {trustPhrases.map((item) => (
                   <p key={item} className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-white/82">
                     {item}
                   </p>
@@ -982,7 +1004,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
               <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.faqTitle}</h3>
               <div className="mt-4 grid gap-3">
-                {text.content.faq.map((item) => (
+                {faq.map((item) => (
                   <details key={item.question} className="group rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/5">
                     <summary className="cursor-pointer list-none text-base font-black text-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-[#d4146f]">
                       {item.question}

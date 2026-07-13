@@ -77,14 +77,6 @@ export function routeAlternates(path = "") {
   const url = baseUrl + path;
   return {
     canonical: url,
-    languages: {
-      "ru-MD": url,
-      "ro-MD": url,
-      en: url,
-      uk: url,
-      cs: url,
-      "x-default": url,
-    },
   };
 }
 
@@ -235,17 +227,17 @@ export function getApartmentCategoryJsonLd(category: ApartmentClass) {
 
 export function buildApartmentTitle(id: keyof typeof apartmentDetailsById) {
   const apartment = apartmentDetailsById[id];
-  return "ID " + id + " - " + kindTitle[apartment.kind] + ", Измаил 88 посуточно";
+  return "ID " + id + " - " + kindTitle[apartment.kind] + ", " + apartment.title + " посуточно";
 }
 
 export function buildApartmentDescription(id: keyof typeof apartmentDetailsById) {
   const apartment = apartmentDetailsById[id];
-  return "Квартира ID " + id + ": " + kindTitle[apartment.kind] + " в комплексе Измаил 88, центр Кишинёва. " + apartment.price + " лей/сутки, до " + apartment.guests + " гостей, реальные фото, Wi-Fi, чистое бельё, заселение 24/7.";
+  return "Квартира ID " + id + ": " + kindTitle[apartment.kind] + " по адресу " + apartment.address + ". " + apartment.price + " лей/сутки, до " + apartment.guests + " гостей, реальные фото, Wi-Fi, чистое бельё, заселение 24/7.";
 }
 
 export function apartmentImageAlt(id: keyof typeof apartmentDetailsById, index = 1) {
   const apartment = apartmentDetailsById[id];
-  return "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + id + ", Измаил 88, фото " + index;
+  return "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + id + ", " + apartment.title + ", фото " + index;
 }
 
 export function buildApartmentKeywords(id: keyof typeof apartmentDetailsById) {
@@ -253,11 +245,11 @@ export function buildApartmentKeywords(id: keyof typeof apartmentDetailsById) {
   return [
     "квартира " + id + " посуточно Кишинев",
     "квартира " + id + " посуточно Кишинёв",
-    "Измаил 88",
+    apartment.title,
     "RentPlaceMD",
     kindTitle[apartment.kind],
     "апартаменты Кишинев центр",
-    "квартира Измаил 88",
+    "квартира " + apartment.title,
     "посуточно без посредников",
   ];
 }
@@ -395,7 +387,7 @@ export function buildSiteJsonLd() {
       "@type": "Apartment",
       name: "RentPlaceMD ID " + apartment.id + " - " + kindTitle[apartment.kind],
       image: imageObjects([...apartment.photos, apartment.facadePhoto], (index) =>
-        "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + apartment.id + ", Ismail 88, photo " + index,
+        "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + apartment.id + ", " + apartment.title + ", photo " + index,
       ),
       occupancy: {
         "@type": "QuantitativeValue",
@@ -404,6 +396,7 @@ export function buildSiteJsonLd() {
       address: {
         "@type": "PostalAddress",
         ...address,
+        streetAddress: apartment.address.split(",")[0],
       },
     },
   }));
@@ -520,6 +513,7 @@ export function getApartmentJsonLd(id: keyof typeof apartmentDetailsById) {
       address: {
         "@type": "PostalAddress",
         ...address,
+        streetAddress: apartment.address.split(",")[0],
       },
       description: buildApartmentDescription(id),
       telephone: phoneNumbers[0],

@@ -3,9 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { getChisinauDateKey, isPastChisinauDate } from "@/lib/chisinauDate";
 
 type ApartmentOption = {
   id: number;
+  title: string;
   label: string;
   price: number;
   guests: number;
@@ -35,7 +37,7 @@ const monthNames = [
   "Декабрь",
 ];
 const weekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-const todayKey = formatDate(new Date());
+const todayKey = getChisinauDateKey();
 
 function startOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -208,7 +210,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
   }
 
   function toggleDate(date: string) {
-    if (isSaving) {
+    if (isSaving || isPastChisinauDate(date)) {
       return;
     }
 
@@ -378,7 +380,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[11px] font-black uppercase text-white/55">ID {selectedApartment?.id} · {getRoomLabel(selectedApartment?.label)}</p>
-                <h2 className="mt-0.5 truncate text-xl font-black sm:text-3xl">Измаил 88</h2>
+                <h2 className="mt-0.5 truncate text-xl font-black sm:text-3xl">{selectedApartment?.title ?? "Квартира"}</h2>
               </div>
               <div className="rounded-2xl bg-white/10 px-3 py-2 text-right shadow-inner ring-1 ring-white/10">
                 <p className="text-[10px] font-black uppercase text-white/50">Занято</p>
@@ -403,6 +405,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
                   const date = formatDate(day);
                   const currentMonth = day.getMonth() === visibleMonth.getMonth();
                   const booked = effectiveBookedDateSet.has(date);
+                  const past = isPastChisinauDate(date);
                   const pending = Boolean(pendingChanges[changeKey(selectedApartmentId, date)]);
                   const selected = date === selectedDate;
                   const today = date === todayKey;
@@ -412,17 +415,21 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
                       key={date}
                       type="button"
                       onClick={() => toggleDate(date)}
-                      disabled={isSaving}
+                      disabled={isSaving || past}
                       aria-pressed={booked}
-                      aria-label={date + (booked ? " занято" : " свободно")}
+                      aria-label={date + (past ? " прошедшая дата" : booked ? " занято" : " свободно")}
                       className={[
                         "relative grid aspect-square min-h-0 place-items-center rounded-[10px] text-[13px] font-black transition sm:rounded-xl sm:text-base",
                         currentMonth ? "opacity-100" : "opacity-30",
-                        booked ? "bg-[#d4144f] text-white shadow-sm shadow-red-500/20" : "bg-emerald-500 text-white shadow-sm shadow-emerald-500/15",
+                        past
+                          ? "cursor-not-allowed bg-slate-300 text-slate-500 opacity-55 shadow-none"
+                          : booked
+                            ? "bg-[#d4144f] text-white shadow-sm shadow-red-500/20"
+                            : "bg-emerald-500 text-white shadow-sm shadow-emerald-500/15",
                         selected ? "ring-[3px] ring-[#ffd21f] ring-offset-2 ring-offset-[#fffaf0]" : "",
                         today ? "after:absolute after:bottom-1 after:h-1 after:w-4 after:rounded-full after:bg-[#07111f]" : "",
                         pending ? "before:absolute before:right-1 before:top-1 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#ffd21f] before:shadow" : "",
-                        isSaving ? "opacity-70" : "active:scale-95 hover:brightness-110",
+                        isSaving ? "opacity-70" : past ? "" : "active:scale-95 hover:brightness-110",
                       ].join(" ")}
                     >
                       {day.getDate()}

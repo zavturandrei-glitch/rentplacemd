@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import seedAvailability from "@/data/availability.json";
 import { apartments } from "@/lib/apartments";
+import { isPastChisinauDate } from "@/lib/chisinauDate";
 
 export type AvailabilityStatus = "booked" | "free";
 export type AvailabilityRecord = {
@@ -260,6 +261,10 @@ export async function setDateAvailability(apartmentId: string | number, date: st
 
   if (!datePattern.test(date)) {
     throw new Error("Invalid date format");
+  }
+
+  if (isPastChisinauDate(date)) {
+    throw new Error("Past dates cannot be changed");
   }
 
   const neonRecord = await setDateInNeon(normalizedApartmentId, date, status);
