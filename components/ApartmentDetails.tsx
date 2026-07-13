@@ -11,6 +11,7 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
 import { getApartmentBookedDates } from "@/lib/availability";
+import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 import {
   activeApartments,
   getApartmentCategoryPath,
@@ -92,6 +93,11 @@ type DetailText = {
   aboutSecond: Record<ApartmentKind, string>;
   features: Record<ApartmentKind, string[]>;
 };
+
+export type ApartmentLocalizedSeoPayload = Record<
+  Language,
+  { title: string; description: string; jsonLd: unknown }
+>;
 
 const apartmentPageContentText: Record<Language, DetailText["content"]> = {
   ru: {
@@ -673,12 +679,16 @@ function resolvePhrases(keys: string[], dictionary: Record<string, string>) {
   return keys.map((key) => dictionary[key]).filter(Boolean);
 }
 
-function replaceApartmentLocation(value: string, apartment: ApartmentDetailsData) {
+function replaceApartmentLocation(
+  value: string,
+  apartment: ApartmentDetailsData,
+  displayAddress: string,
+) {
   if (apartment.id !== 67) {
     return value;
   }
 
-  return value.replace(/Измаил 88|Ізмаїл 88|Ismail 88/g, apartment.title);
+  return value.replace(/Измаил 88|Ізмаїл 88|Ismail 88|Grigore Ureche 67|Григоре Уреке, 67|Грігоре Уреке, 67/g, displayAddress);
 }
 
 function getRelatedApartments(apartment: ApartmentDetailsData) {
@@ -698,12 +708,24 @@ function getRelatedApartments(apartment: ApartmentDetailsData) {
     .map(({ apartment: candidate }) => candidate);
 }
 
-export default function ApartmentDetails({ apartment }: { apartment: ApartmentDetailsData }) {
+export default function ApartmentDetails({
+  apartment,
+  localizedSeo,
+}: {
+  apartment: ApartmentDetailsData;
+  localizedSeo?: ApartmentLocalizedSeoPayload;
+}) {
   const { language } = useLanguage();
   const text = detailText[language];
   const facadePhoto = apartment.facadePhoto ?? "/common/building.png";
-  const locationTitle = apartment.title;
+  const locationTitle = getApartmentDisplayAddress(apartment.id, apartment.title, language);
   const facadeAlt = format(text.facadeAlt, { address: locationTitle });
+  const mainPhotoAlt = format(text.mainPhotoAlt, { id: apartment.id }) + " · " + locationTitle;
+  const galleryPhotoAlt = useCallback(
+    (index: number) =>
+      format(text.galleryPhotoAlt, { id: apartment.id, index }) + " · " + locationTitle,
+    [apartment.id, locationTitle, text.galleryPhotoAlt],
+  );
   const galleryImages = apartment.images.slice(1);
   const whatsappText = format(text.whatsappMessage, {
     id: apartment.id,
@@ -714,28 +736,28 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const bookedDates = getApartmentBookedDates(apartment.id);
   const kindLabel = apartment.displayKind ?? text.kinds[apartment.kind];
   const overlayLabel = apartment.displayOverlay ?? text.overlay[apartment.kind];
-  const intro = replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment);
-  const aboutTitle = replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment);
+  const intro = replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment, locationTitle);
+  const aboutTitle = replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment, locationTitle);
   const descriptionParagraphs = (
     apartment.descriptionParagraphs ?? [
       text.aboutFirst[apartment.kind],
       text.aboutSecond[apartment.kind],
     ]
-  ).map((paragraph) => replaceApartmentLocation(paragraph, apartment));
+  ).map((paragraph) => replaceApartmentLocation(paragraph, apartment, locationTitle));
   const features = apartment.features ?? text.features[apartment.kind];
   const contentProfile = apartmentContentProfiles[apartment.id] ?? {
     valueKeys: [apartment.kind, apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
     audienceKeys: apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
     nearbyKeys: ["center", "shops", "transport"],
   };
-  const whyItems = resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment));
+  const whyItems = resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
   const audienceItems = resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
-  const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment));
-  const trustPhrases = text.content.trustPhrases.map((item) => replaceApartmentLocation(item, apartment));
+  const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
+  const trustPhrases = text.content.trustPhrases.map((item) => replaceApartmentLocation(item, apartment, locationTitle));
   const faq = text.content.faq.map((item) => ({
     ...item,
-    question: replaceApartmentLocation(item.question, apartment),
-    answer: replaceApartmentLocation(item.answer, apartment),
+    question: replaceApartmentLocation(item.question, apartment, locationTitle),
+    answer: replaceApartmentLocation(item.answer, apartment, locationTitle),
   }));
   const relatedApartments = useMemo(() => getRelatedApartments(apartment), [apartment]);
   const categoryPath = getApartmentCategoryPath(apartment.class);
@@ -747,14 +769,11 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
     () => [
       ...apartment.images.map((image, index) => ({
         src: image,
-        alt:
-          index === 0
-            ? format(text.mainPhotoAlt, { id: apartment.id })
-            : format(text.galleryPhotoAlt, { id: apartment.id, index }),
+        alt: index === 0 ? mainPhotoAlt : galleryPhotoAlt(index),
       })),
       { src: facadePhoto, alt: facadeAlt },
     ],
-    [apartment.id, apartment.images, facadeAlt, facadePhoto, text.galleryPhotoAlt, text.mainPhotoAlt],
+    [apartment.images, facadeAlt, facadePhoto, galleryPhotoAlt, mainPhotoAlt],
   );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isLightboxVisible, setIsLightboxVisible] = useState(false);
@@ -762,6 +781,35 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
   const pointerStartXRef = useRef<number | null>(null);
   const activeLightboxIndex = lightboxIndex ?? 0;
   const activeLightboxPhoto = lightboxPhotos[activeLightboxIndex] ?? lightboxPhotos[0];
+
+  useEffect(() => {
+    const seo = localizedSeo?.[language];
+    if (!seo) return;
+
+    const localizedTitle = seo.title + " | RentPlaceMD";
+    document.title = localizedTitle;
+    const titleObserver = new MutationObserver(() => {
+      if (document.title !== localizedTitle) document.title = localizedTitle;
+    });
+    titleObserver.observe(document.head, { childList: true, characterData: true, subtree: true });
+
+    const updateMeta = (selector: string, content: string) => {
+      document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", content);
+    };
+
+    updateMeta('meta[name="description"]', seo.description);
+    updateMeta('meta[property="og:title"]', seo.title);
+    updateMeta('meta[property="og:description"]', seo.description);
+    updateMeta('meta[name="twitter:title"]', seo.title);
+    updateMeta('meta[name="twitter:description"]', seo.description);
+
+    const jsonLdScript = document.getElementById("apartment-" + apartment.id + "-structured-data");
+    if (jsonLdScript) {
+      jsonLdScript.textContent = JSON.stringify(seo.jsonLd);
+    }
+
+    return () => titleObserver.disconnect();
+  }, [apartment.id, language, localizedSeo]);
 
   const openLightbox = useCallback((index: number) => {
     if (closeTimeoutRef.current) {
@@ -872,7 +920,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             {categoryLabel}
           </Link>
           <span aria-hidden="true">/</span>
-          <span className="rounded-full bg-[#07111f] px-3 py-2 text-white shadow-sm">ID {apartment.id}</span>
+          <span className="rounded-full bg-[#07111f] px-3 py-2 text-white shadow-sm">{locationTitle} · ID {apartment.id}</span>
         </nav>
 
         <Link href={categoryPath} aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {categoryLabel}</Link>
@@ -893,7 +941,7 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
                 <a href="tel:+37369990190" aria-label={text.call} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#ffb800] p-3 text-center text-sm font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105 sm:min-h-[92px] sm:p-5 sm:text-base">{text.call}</a>
               </div>
             </div>
-            <button type="button" onClick={() => openLightbox(0)} className="block h-full w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f]" aria-label={format(text.mainPhotoAlt, { id: apartment.id })}>
+            <button type="button" onClick={() => openLightbox(0)} className="block h-full w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f]" aria-label={mainPhotoAlt}>
               <ResponsiveImage
                 src={apartment.images[0]}
                 alt={locationTitle + " ID " + apartment.id}
@@ -915,12 +963,12 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
           <h2 className="mt-2 text-3xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-[1.08fr_0.92fr]">
             <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10">
-              <button type="button" onClick={() => openLightbox(0)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[20px]" aria-label={format(text.mainPhotoAlt, { id: apartment.id })}>
-                <ResponsiveImage src={apartment.images[0]} alt={format(text.mainPhotoAlt, { id: apartment.id })} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} withWatermark />
+              <button type="button" onClick={() => openLightbox(0)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[20px]" aria-label={mainPhotoAlt}>
+                <ResponsiveImage src={apartment.images[0]} alt={mainPhotoAlt} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} withWatermark />
               </button>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><button type="button" onClick={() => openLightbox(index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })}><ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 1 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></button></div>))}
+              {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><button type="button" onClick={() => openLightbox(index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={galleryPhotoAlt(index + 1)}><ResponsiveImage src={image} alt={galleryPhotoAlt(index + 1)} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></button></div>))}
               {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}><ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
             </div>
           </div>
@@ -928,8 +976,8 @@ export default function ApartmentDetails({ apartment }: { apartment: ApartmentDe
             <div className="mt-4 grid gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
               {lowerGalleryImages.map((image, index) => (
                 <div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
-                  <button type="button" onClick={() => openLightbox(topGalleryImages.length + index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 5 })}>
-                    <ResponsiveImage src={image} alt={format(text.galleryPhotoAlt, { id: apartment.id, index: index + 5 })} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[190px]" imgClassName="object-cover object-center" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+                  <button type="button" onClick={() => openLightbox(topGalleryImages.length + index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={galleryPhotoAlt(index + 5)}>
+                    <ResponsiveImage src={image} alt={galleryPhotoAlt(index + 5)} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[190px]" imgClassName="object-cover object-center" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
                   </button>
                 </div>
               ))}

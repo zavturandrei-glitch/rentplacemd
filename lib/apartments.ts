@@ -699,7 +699,7 @@ export const apartments = [
     fullDescription: "Современная квартира после евроремонта по адресу Grigore Ureche 67 в Кишинёве.\n\nПланировка включает отдельную спальню, просторную гостиную и оборудованную кухню.\n\nКвартира рассчитана на комфортное проживание до 4 гостей.",
     amenities: ["Wi-Fi", "Отдельная спальня", "Отдельная гостиная", "Современный евроремонт", "Оборудованная кухня", "Кондиционер", "Smart TV", "Чистое постельное бельё", "Полотенца", "Заселение 24/7"],
     photos: apartmentPhotos("GrigoreUreche67", 7, "jpeg"),
-    facadePhoto: "/common/building.png",
+    facadePhoto: "/apartments/GrigoreUreche67/8.jpeg",
     cardPhoto: "/apartments/GrigoreUreche67/4.jpeg",
     galleryLayout: "extended",
   }),

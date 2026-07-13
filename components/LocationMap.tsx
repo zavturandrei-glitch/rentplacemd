@@ -2,14 +2,23 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
+import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 
 const locations = [
-  { name: "RentPlaceMD · Ismail 88", address: "Ismail 88, Chișinău, Moldova" },
-  { name: "RentPlaceMD · Grigore Ureche 67", address: "Grigore Ureche 67, Chișinău, Moldova" },
+  { id: 0, name: "Ismail 88", address: "Ismail 88, Chișinău, Moldova" },
+  { id: 67, name: "Grigore Ureche 67", address: "Grigore Ureche 67, Chișinău, Moldova" },
 ] as const;
 
 const mapUrl = `https://www.google.com/maps?output=embed&saddr=${encodeURIComponent(locations[0].address)}&daddr=${encodeURIComponent(locations[1].address)}`;
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(locations[0].address)}&destination=${encodeURIComponent(locations[1].address)}`;
+
+const cityByLanguage: Record<Language, string> = {
+  ru: "Кишинёв, Молдова",
+  ro: "Chișinău, Moldova",
+  en: "Chisinau, Moldova",
+  uk: "Кишинів, Молдова",
+  cs: "Kišiněv, Moldavsko",
+};
 
 const textByLanguage: Record<Language, {
   eyebrow: string;
@@ -64,6 +73,14 @@ const textByLanguage: Record<Language, {
 export default function LocationMap() {
   const { language } = useLanguage();
   const text = textByLanguage[language];
+  const visibleLocations = locations.map((location) => {
+    const displayName = getApartmentDisplayAddress(location.id, location.name, language);
+    return {
+      ...location,
+      displayName,
+      displayAddress: displayName + ", " + cityByLanguage[language],
+    };
+  });
 
   return (
     <section className="bg-[#fffaf0] px-4 pb-12 pt-2 sm:px-6 sm:pb-16 lg:px-8">
@@ -74,7 +91,7 @@ export default function LocationMap() {
             <h2 className="mt-3 text-2xl font-black leading-tight text-[#07111f] sm:text-4xl">{text.title}</h2>
             <p className="mt-4 text-base font-semibold leading-7 text-slate-600">{text.text}</p>
             <div className="mt-5 grid gap-3">
-              {locations.map((location, index) => (
+              {visibleLocations.map((location, index) => (
                 <a
                   key={location.address}
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`}
@@ -85,8 +102,8 @@ export default function LocationMap() {
                   <span className="flex items-start gap-3">
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#d4146f] text-xs font-black text-white">{index + 1}</span>
                     <span>
-                      <strong className="block text-sm font-black text-[#07111f]">{location.name}</strong>
-                      <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{location.address}</span>
+                      <strong className="block text-sm font-black text-[#07111f]">RentPlaceMD · {location.displayName}</strong>
+                      <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{location.displayAddress}</span>
                       <span className="mt-2 block text-xs font-black text-[#d4146f] group-hover:underline">{text.open} ↗</span>
                     </span>
                   </span>
