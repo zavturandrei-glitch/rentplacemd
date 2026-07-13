@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 import { getChisinauDateKey, isPastChisinauDate } from "@/lib/chisinauDate";
 
 type ApartmentOption = {
@@ -361,7 +362,9 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
                     {active ? <span className="absolute inset-0 rounded-[20px] ring-4 ring-inset ring-[#d4146f]" /> : null}
                   </span>
                   <span className="block p-2.5 sm:p-3">
-                    <span className="block truncate text-sm font-black leading-5 text-[#07111f] sm:text-base">Измаил 88</span>
+                    <span className="block truncate text-sm font-black leading-5 text-[#07111f] sm:text-base">
+                      {getApartmentDisplayAddress(apartment.id, apartment.title, "ru")}
+                    </span>
                     <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{getRoomLabel(apartment.label)} · до {apartment.guests}</span>
                     <span className="mt-2 grid grid-cols-2 gap-1.5">
                       <span className="rounded-xl bg-[#fff0f7] px-2 py-1.5 text-center text-[11px] font-black text-[#d4146f]">{apartment.price} лей</span>

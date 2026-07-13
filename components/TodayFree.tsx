@@ -2,14 +2,24 @@
 
 import { useEffect, useState } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 import {
   activeApartments,
   apartmentCategoryOrder,
   getApartmentPath,
   type ApartmentClass,
 } from "@/lib/apartments";
+import type { Language } from "@/locales/translations";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
+
+const languageCode: Record<Lang, Language> = {
+  RU: "ru",
+  RO: "ro",
+  EN: "en",
+  CS: "cs",
+  UK: "uk",
+};
 type CategoryKey = ApartmentClass;
 
 const LANG_STORAGE_KEY = "rentplacemd-language";
@@ -427,6 +437,11 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                             ("guests" + apartment.guests) as keyof (typeof apartmentInfo)[Lang]
                           ];
                     const cardInfo = [roomText, guestText, info.center].join(" • ");
+                    const cardAddress = getApartmentDisplayAddress(
+                      apartment.id,
+                      info.addressTitle,
+                      languageCode[language],
+                    );
                     const isEconomy = apartment.class === "economy";
                     const displayedPrice = isEconomy ? getDiscountedPrice(apartment.price) : apartment.price;
 
@@ -438,7 +453,7 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                       >
                         <ResponsiveImage
                           src={apartment.cardPhoto ?? apartment.photos[0]}
-                          alt={text.altPrefix + " " + apartment.id}
+                          alt={text.altPrefix + " " + apartment.id + " · " + cardAddress}
                           className="aspect-[4/3]"
                           imgClassName="transition duration-500 group-hover:scale-[1.03]"
                           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
@@ -457,7 +472,7 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                         <div className="flex flex-1 flex-col p-4 sm:p-5">
                           <div className="min-h-[116px] rounded-2xl bg-[#fffaf0] p-4 shadow-inner ring-1 ring-black/5 sm:min-h-[128px] sm:p-5">
                             <h3 className="text-xl font-black text-gray-900 sm:text-2xl">
-                              {info.addressTitle}
+                              {cardAddress}
                             </h3>
                             <p className="mt-2 text-sm font-bold leading-6 text-gray-600 sm:text-base">
                               {cardInfo}
