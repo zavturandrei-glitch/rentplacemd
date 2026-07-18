@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 import {
   activeApartments,
@@ -21,8 +21,6 @@ const languageCode: Record<Lang, Language> = {
   UK: "uk",
 };
 type CategoryKey = ApartmentClass;
-
-const LANG_STORAGE_KEY = "rentplacemd-language";
 
 const sectionText: Record<
   Lang,
@@ -54,6 +52,11 @@ const sectionText: Record<
     altPrefix: "Квартира ID",
     countLabel: "вариантов",
     categories: {
+      premium: {
+        title: "Premium",
+        description: "Квартиры Premium с современным интерьером и реальными фотографиями.",
+        badge: "Premium",
+      },
       standard: {
         title: "Стандарт",
         description:
@@ -85,6 +88,11 @@ const sectionText: Record<
     altPrefix: "Apartament ID",
     countLabel: "opțiuni",
     categories: {
+      premium: {
+        title: "Premium",
+        description: "Apartamente Premium cu interior modern și fotografii reale.",
+        badge: "Premium",
+      },
       standard: {
         title: "Standard",
         description:
@@ -116,6 +124,11 @@ const sectionText: Record<
     altPrefix: "Apartment ID",
     countLabel: "options",
     categories: {
+      premium: {
+        title: "Premium",
+        description: "Premium apartments with modern interiors and real photographs.",
+        badge: "Premium",
+      },
       standard: {
         title: "Standard",
         description:
@@ -147,6 +160,11 @@ const sectionText: Record<
     altPrefix: "Apartmán ID",
     countLabel: "možností",
     categories: {
+      premium: {
+        title: "Premium",
+        description: "Apartmány Premium s moderním interiérem a skutečnými fotografiemi.",
+        badge: "Premium",
+      },
       standard: {
         title: "Standard",
         description:
@@ -178,6 +196,11 @@ const sectionText: Record<
     altPrefix: "Квартира ID",
     countLabel: "варіантів",
     categories: {
+      premium: {
+        title: "Premium",
+        description: "Квартири Premium із сучасним інтер’єром і реальними фотографіями.",
+        badge: "Premium",
+      },
       standard: {
         title: "Стандарт",
         description:
@@ -279,50 +302,9 @@ function getDiscountedPrice(price: number) {
   return Math.round(price * (100 - ECONOMY_DISCOUNT_PERCENT) / 100);
 }
 
-function getSavedLanguage(): Lang {
-  return "RU";
-}
-
-function useRentPlaceLanguage() {
-  const [language, setLanguage] = useState<Lang>(() => getSavedLanguage());
-
-  useEffect(() => {
-    const restoreSavedLanguage = window.setTimeout(() => {
-      const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
-      const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
-
-      if (normalizedSaved && normalizedSaved in sectionText) {
-        setLanguage(normalizedSaved);
-      }
-    }, 0);
-
-    const handleLanguageChange = (event: Event) => {
-      const customEvent = event as CustomEvent<string>;
-      const nextLanguage = customEvent.detail?.toUpperCase() as Lang | undefined;
-
-      if (nextLanguage && nextLanguage in sectionText) {
-        setLanguage(nextLanguage);
-      }
-    };
-
-    window.addEventListener(
-      "rentplacemd-language-change",
-      handleLanguageChange,
-    );
-    return () => {
-      window.clearTimeout(restoreSavedLanguage);
-      window.removeEventListener(
-        "rentplacemd-language-change",
-        handleLanguageChange,
-      );
-    };
-  }, []);
-
-  return language;
-}
-
 export default function TodayFree({ selectedClass }: { selectedClass?: ApartmentClass }) {
-  const language = useRentPlaceLanguage();
+  const { language: currentLanguage } = useLanguage();
+  const language = currentLanguage.toUpperCase() as Lang;
   const text = sectionText[language];
   const info = apartmentInfo[language];
   const visibleCategories = selectedClass ? [selectedClass] : apartmentCategoryOrder;
@@ -430,13 +412,14 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                   {categoryApartments.map((apartment, apartmentIndex) => {
                     const roomText =
                       apartment.rooms === "studio" ? info.studio : apartment.rooms;
-                    const guestText =
-                      apartment.rooms === "2+1" && apartment.guests === 4
+                    const guestText = apartment.guests === null
+                      ? null
+                      : apartment.rooms === "2+1" && apartment.guests === 4
                         ? info.bedrooms2
                         : info[
                             ("guests" + apartment.guests) as keyof (typeof apartmentInfo)[Lang]
                           ];
-                    const cardInfo = [roomText, guestText, info.center].join(" • ");
+                    const cardInfo = [roomText, guestText, info.center].filter(Boolean).join(" • ");
                     const cardAddress = getApartmentDisplayAddress(
                       apartment.id,
                       info.addressTitle,

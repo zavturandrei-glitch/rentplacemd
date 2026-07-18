@@ -33,12 +33,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const restoreSavedLanguage = window.setTimeout(() => {
-      const savedLanguage = normalizeLanguage(
+      const urlLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get("lang"));
+      const savedLanguage = urlLanguage ?? normalizeLanguage(
         window.localStorage.getItem("rentplacemd-language")
       );
 
       if (savedLanguage) {
         setLanguageState(savedLanguage);
+        window.localStorage.setItem("rentplacemd-language", savedLanguage);
       }
     }, 0);
 

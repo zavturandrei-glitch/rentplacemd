@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import Header from "@/components/Header";
 import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
+import JsonLdScript from "@/components/JsonLdScript";
 import { baseUrl, routeAlternates, siteName } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#fffaf0]">
-      <Script id="about-structured-data" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "AboutPage", name: "О RentPlaceMD", url: baseUrl + "/about", inLanguage: ["ru", "ro", "en", "uk", "cs"], about: { "@type": "Organization", name: siteName, url: baseUrl } }) }} />
+      <JsonLdScript id="about-jsonld" data={{ "@context": "https://schema.org", "@type": "AboutPage", name: "О RentPlaceMD", url: baseUrl + "/about", inLanguage: ["ru", "ro", "en", "uk", "cs"], about: { "@type": "Organization", name: siteName, url: baseUrl } }} />
       <Header />
       <BackButton />
       <InfoPage kind="about" />

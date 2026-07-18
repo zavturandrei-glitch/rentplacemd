@@ -3,14 +3,18 @@ import type {
   ApartmentGuests,
   ApartmentKind,
 } from "@/components/ApartmentDetails";
+import { normalizeApartmentId } from "@/lib/apartmentId";
 
-export type ApartmentClass = "economy" | "standard" | "standardPlus";
-export type ApartmentCategorySlug = "economy" | "standard" | "standard-plus";
+export { normalizeApartmentId } from "@/lib/apartmentId";
+
+export type ApartmentId = string | number;
+export type ApartmentClass = "economy" | "standard" | "standardPlus" | "premium";
+export type ApartmentCategorySlug = "economy" | "standard" | "standard-plus" | "premium";
 export type ApartmentStatus = "active" | "hidden";
 export type ApartmentRooms = "studio" | "1+1" | "2+1";
 
 export type Apartment = {
-  id: number;
+  id: ApartmentId;
   slug: string;
   title: string;
   address: string;
@@ -19,14 +23,14 @@ export type Apartment = {
   apartmentNumber: string | null;
   class: ApartmentClass;
   price: number;
-  guests: ApartmentGuests;
+  guests: ApartmentGuests | null;
   rooms: ApartmentRooms;
-  beds: number;
+  beds: number | null;
   shortDescription: string;
   fullDescription: string;
   amenities: string[];
   photos: string[];
-  facadePhoto: string;
+  facadePhoto: string | null;
   status: ApartmentStatus;
   kind: ApartmentKind;
   cardPhoto?: string;
@@ -39,24 +43,28 @@ export const apartmentClassLabels: Record<ApartmentClass, string> = {
   economy: "Эконом",
   standard: "Стандарт",
   standardPlus: "Standard+",
+  premium: "Premium",
 };
 
 export const apartmentCategoryOrder = [
   "economy",
   "standard",
   "standardPlus",
+  "premium",
 ] as const satisfies readonly ApartmentClass[];
 
 export const apartmentClassToSlug: Record<ApartmentClass, ApartmentCategorySlug> = {
   economy: "economy",
   standard: "standard",
   standardPlus: "standard-plus",
+  premium: "premium",
 };
 
 export const apartmentSlugToClass: Record<ApartmentCategorySlug, ApartmentClass> = {
   economy: "economy",
   standard: "standard",
   "standard-plus": "standardPlus",
+  premium: "premium",
 };
 
 export function getApartmentCategoryPath(category: ApartmentClass) {
@@ -84,6 +92,10 @@ function apartmentPhotos(slug: string, count: number, extension = "png") {
     (_, index) =>
       "/apartments/" + slug + "/" + (index + 1) + "." + extension,
   );
+}
+
+function numberedApartmentPhotos(slug: string, numbers: readonly number[]) {
+  return numbers.map((number) => "/apartments/" + slug + "/" + number + ".jpg");
 }
 
 function namedApartmentPhoto(slug: string, fileName: string) {
@@ -182,7 +194,8 @@ function createApartment(
     slug,
     title: input.title ?? "Измаил 88",
     address: input.address ?? "Измаил 88, Кишинев",
-    facadePhoto: input.facadePhoto ?? "/common/building.png",
+    facadePhoto:
+      input.facadePhoto === undefined ? "/common/building.png" : input.facadePhoto,
     amenities: input.amenities ?? commonAmenities,
     status: input.status ?? "active",
   };
@@ -770,6 +783,225 @@ export const apartments = [
       "Уютная студия в центре Кишинева для одного гостя или пары, с удобной локацией и всем необходимым.",
     photos: apartmentPhotos("izmail88-371", 4),
   }),
+  createApartment({
+    id: 25,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "25",
+    class: "standardPlus",
+    price: 1000,
+    guests: null,
+    rooms: "1+1",
+    beds: null,
+    kind: "oneBedroom",
+    shortDescription: "Двухкомнатная квартира с отдельной спальней и гостиной.",
+    fullDescription: "Квартира Standard+ с отдельной спальней и гостиной по адресу Измаил, 88.",
+    photos: promotePhoto(apartmentPhotos("izmail88-25", 6, "jpg"), "/apartments/izmail88-25/3.jpg"),
+    cardPhoto: "/apartments/izmail88-25/3.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 30,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "30",
+    class: "standardPlus",
+    price: 1000,
+    guests: null,
+    rooms: "1+1",
+    beds: null,
+    kind: "oneBedroom",
+    shortDescription: "Двухкомнатная квартира с отдельной спальней и гостиной.",
+    fullDescription: "Квартира Standard+ с отдельной спальней и гостиной по адресу Измаил, 88.",
+    photos: promotePhoto(apartmentPhotos("izmail88-30", 6, "jpg"), "/apartments/izmail88-30/2.jpg"),
+    cardPhoto: "/apartments/izmail88-30/2.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 301,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "301",
+    class: "standardPlus",
+    price: 1000,
+    guests: null,
+    rooms: "1+1",
+    beds: null,
+    kind: "oneBedroom",
+    shortDescription: "Двухкомнатная квартира с отдельной спальней и гостиной.",
+    fullDescription: "Квартира Standard+ с отдельной спальней и гостиной по адресу Измаил, 88.",
+    photos: promotePhoto(apartmentPhotos("izmail88-301", 7, "jpg"), "/apartments/izmail88-301/5.jpg"),
+    cardPhoto: "/apartments/izmail88-301/5.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 461,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "461",
+    class: "standardPlus",
+    price: 800,
+    guests: null,
+    rooms: "studio",
+    beds: null,
+    kind: "studio",
+    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
+    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    photos: numberedApartmentPhotos("izmail88-461", [1, 2, 3, 4, 5, 6, 8, 9]),
+    cardPhoto: "/apartments/izmail88-461/1.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 463,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "463",
+    class: "standardPlus",
+    price: 800,
+    guests: null,
+    rooms: "studio",
+    beds: null,
+    kind: "studio",
+    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
+    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    photos: promotePhoto(
+      numberedApartmentPhotos("izmail88-463", [1, 2, 3, 4, 5, 7, 9, 10]),
+      "/apartments/izmail88-463/3.jpg",
+    ),
+    cardPhoto: "/apartments/izmail88-463/3.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 464,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "464",
+    class: "standardPlus",
+    price: 800,
+    guests: null,
+    rooms: "studio",
+    beds: null,
+    kind: "studio",
+    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
+    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    photos: promotePhoto(
+      numberedApartmentPhotos("izmail88-464", [1, 2, 3, 4, 5, 6]),
+      "/apartments/izmail88-464/3.jpg",
+    ),
+    cardPhoto: "/apartments/izmail88-464/3.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 661,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "661",
+    class: "standardPlus",
+    price: 800,
+    guests: null,
+    rooms: "studio",
+    beds: null,
+    kind: "studio",
+    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
+    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    photos: promotePhoto(
+      numberedApartmentPhotos("izmail88-661", [1, 2, 3, 4, 5, 8, 9, 10]),
+      "/apartments/izmail88-661/5.jpg",
+    ),
+    cardPhoto: "/apartments/izmail88-661/5.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 692,
+    floor: null,
+    entrance: null,
+    apartmentNumber: "692",
+    class: "standardPlus",
+    price: 800,
+    guests: null,
+    rooms: "studio",
+    beds: null,
+    kind: "studio",
+    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
+    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    photos: promotePhoto(apartmentPhotos("izmail88-692", 6, "jpg"), "/apartments/izmail88-692/2.jpg"),
+    cardPhoto: "/apartments/izmail88-692/2.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 76,
+    slug: "mihai-eminescu-76-76",
+    title: "Михай Эминеску, 76",
+    address: "Михай Эминеску, 76, Кишинёв",
+    floor: null,
+    entrance: null,
+    apartmentNumber: "76",
+    class: "premium",
+    price: 1400,
+    guests: null,
+    rooms: "1+1",
+    beds: null,
+    kind: "oneBedroom",
+    shortDescription: "Квартира с отдельной спальней и гостиной.",
+    fullDescription: "Квартира Premium с отдельной спальней и гостиной по адресу Михай Эминеску, 76.",
+    photos: promotePhoto(
+      numberedApartmentPhotos("mihai-eminescu-76-me-76", [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12]),
+      "/apartments/mihai-eminescu-76-me-76/8.jpg",
+    ),
+    cardPhoto: "/apartments/mihai-eminescu-76-me-76/8.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 77,
+    slug: "lev-tolstoi-63-1-77",
+    title: "Лев Толстой, 63/1",
+    address: "Лев Толстой, 63/1, Кишинёв",
+    floor: null,
+    entrance: null,
+    apartmentNumber: "77",
+    class: "premium",
+    price: 1100,
+    guests: null,
+    rooms: "1+1",
+    beds: null,
+    kind: "oneBedroom",
+    shortDescription: "Квартира с отдельной спальней и гостиной.",
+    fullDescription: "Квартира Premium с отдельной спальней и гостиной по адресу Лев Толстой, 63/1.",
+    photos: promotePhoto(apartmentPhotos("lev-tolstoi-63-1-ltz-63", 9, "jpg"), "/apartments/lev-tolstoi-63-1-ltz-63/1.jpg"),
+    cardPhoto: "/apartments/lev-tolstoi-63-1-ltz-63/1.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
+  createApartment({
+    id: 78,
+    slug: "lev-tolstoi-63-1-78",
+    title: "Лев Толстой, 63/1",
+    address: "Лев Толстой, 63/1, Кишинёв",
+    floor: null,
+    entrance: null,
+    apartmentNumber: "78",
+    class: "premium",
+    price: 1100,
+    guests: null,
+    rooms: "1+1",
+    beds: null,
+    kind: "oneBedroom",
+    shortDescription: "Квартира с отдельной спальней и гостиной.",
+    fullDescription: "Квартира Premium с отдельной спальней и гостиной по адресу Лев Толстой, 63/1.",
+    photos: promotePhoto(apartmentPhotos("lev-tolstoi-63-1-ltg-63", 7, "jpg"), "/apartments/lev-tolstoi-63-1-ltg-63/3.jpg"),
+    cardPhoto: "/apartments/lev-tolstoi-63-1-ltg-63/3.jpg",
+    facadePhoto: null,
+    amenities: [],
+  }),
 ] as const satisfies readonly Apartment[];
 
 export const activeApartments = apartments.filter(
@@ -822,7 +1054,7 @@ export const apartmentDetailsById = Object.fromEntries(
         : {}),
     } satisfies ApartmentDetailsData,
   ]),
-) as Record<number, ApartmentDetailsData>;
+) as Record<string, ApartmentDetailsData>;
 
 export function getApartmentBySlug(slug: string) {
   return apartments.find((apartment) => apartment.slug === slug);
@@ -833,11 +1065,13 @@ export function getActiveApartmentBySlug(slug: string) {
 }
 
 export function getApartmentById(id: string | number) {
-  return apartments.find((apartment) => String(apartment.id) === String(id));
+  const normalizedId = normalizeApartmentId(id);
+  return apartments.find((apartment) => normalizeApartmentId(apartment.id) === normalizedId);
 }
 
 export function getActiveApartmentById(id: string | number) {
-  return activeApartments.find((apartment) => String(apartment.id) === String(id));
+  const normalizedId = normalizeApartmentId(id);
+  return activeApartments.find((apartment) => normalizeApartmentId(apartment.id) === normalizedId);
 }
 
 export function getApartmentPath(apartment: Pick<Apartment, "slug">) {

@@ -138,5 +138,49 @@
   {
     "apartmentId": "371",
     "bookedDates": []
+  },
+  {
+    "apartmentId": "25",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "30",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "301",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "461",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "463",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "464",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "661",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "692",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "76",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "77",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "78",
+    "bookedDates": []
   }
 ]

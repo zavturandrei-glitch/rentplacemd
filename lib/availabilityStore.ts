@@ -19,6 +19,16 @@ const filePath = path.join(process.cwd(), "data", "availability.json");
 const apartmentIds = apartments.map((apartment) => String(apartment.id));
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const tableName = "availability_booked_dates";
+const legacyApartmentIdMap: Record<string, string> = {
+  "ME-76": "76",
+  "LTZ-63": "77",
+  "LTG-63": "78",
+};
+
+function migrateAvailabilityApartmentId(apartmentId: string | number) {
+  const normalizedId = String(apartmentId);
+  return legacyApartmentIdMap[normalizedId] ?? normalizedId;
+}
 
 function normalizeDate(value: string | Date) {
   if (value instanceof Date) {
@@ -36,9 +46,9 @@ function normalizeRecords(records: AvailabilityRecord[]) {
   }
 
   for (const record of records) {
-    const apartmentId = String(record.apartmentId);
+    const apartmentId = migrateAvailabilityApartmentId(record.apartmentId);
     if (!byId.has(apartmentId)) {
-      continue;
+      byId.set(apartmentId, new Set());
     }
 
     for (const date of record.bookedDates ?? []) {
@@ -63,10 +73,14 @@ function recordsFromRows(rows: BookedDateRow[]) {
   }
 
   for (const row of rows) {
-    const apartmentId = String(row.apartment_id);
+    const apartmentId = migrateAvailabilityApartmentId(row.apartment_id);
     const date = normalizeDate(row.booked_date);
 
-    if (byId.has(apartmentId) && datePattern.test(date)) {
+    if (!byId.has(apartmentId)) {
+      byId.set(apartmentId, []);
+    }
+
+    if (datePattern.test(date)) {
       byId.get(apartmentId)?.push(date);
     }
   }
@@ -111,6 +125,15 @@ async function ensureNeonTable() {
     updated_at timestamptz NOT NULL DEFAULT now(),
     PRIMARY KEY (apartment_id, booked_date)
   )`;
+
+  for (const [legacyId, apartmentId] of Object.entries(legacyApartmentIdMap)) {
+    await sql`INSERT INTO availability_booked_dates (apartment_id, booked_date, source, created_at, updated_at)
+      SELECT ${apartmentId}, booked_date, source, created_at, updated_at
+      FROM availability_booked_dates
+      WHERE apartment_id = ${legacyId}
+      ON CONFLICT (apartment_id, booked_date) DO NOTHING`;
+    await sql`DELETE FROM availability_booked_dates WHERE apartment_id = ${legacyId}`;
+  }
 
   return sql;
 }
@@ -169,6 +192,36 @@ async function supabaseFetch(pathname: string, init?: RequestInit) {
 }
 
 async function readFromSupabase() {
+  for (const [legacyId, apartmentId] of Object.entries(legacyApartmentIdMap)) {
+    const legacyResponse = await supabaseFetch(
+      tableName + "?select=booked_date&apartment_id=eq." + encodeURIComponent(legacyId),
+    );
+
+    if (!legacyResponse) {
+      return null;
+    }
+
+    const legacyRows = (await legacyResponse.json()) as Pick<BookedDateRow, "booked_date">[];
+    if (legacyRows.length > 0) {
+      await supabaseFetch(tableName + "?on_conflict=apartment_id,booked_date", {
+        method: "POST",
+        headers: { Prefer: "resolution=merge-duplicates" },
+        body: JSON.stringify(
+          legacyRows.map((row) => ({
+            apartment_id: apartmentId,
+            booked_date: normalizeDate(row.booked_date),
+            source: "manual",
+          })),
+        ),
+      });
+    }
+
+    await supabaseFetch(
+      tableName + "?apartment_id=eq." + encodeURIComponent(legacyId),
+      { method: "DELETE" },
+    );
+  }
+
   const response = await supabaseFetch(tableName + "?select=apartment_id,booked_date&order=apartment_id.asc,booked_date.asc");
   if (!response) {
     return null;

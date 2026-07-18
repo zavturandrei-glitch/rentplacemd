@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AdminAvailabilityManager from "@/components/AdminAvailabilityManager";
-import { apartments } from "@/lib/apartments";
+import { apartmentClassLabels, apartments } from "@/lib/apartments";
+import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 
 export const metadata: Metadata = {
   title: "Управление занятостью квартир",
@@ -21,6 +22,11 @@ export default function AdminAvailabilityPage() {
   const availabilityApartments = apartments.map((apartment) => ({
     id: apartment.id,
     title: apartment.title,
+    address: getApartmentDisplayAddress(apartment.id, apartment.title, "ru").replace(
+      /^Измаил 88$/,
+      "Измаил, 88",
+    ),
+    category: apartmentClassLabels[apartment.class],
     label: kindLabel[apartment.kind],
     price: apartment.price,
     guests: apartment.guests,

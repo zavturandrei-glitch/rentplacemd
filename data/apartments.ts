@@ -7,8 +7,10 @@ export {
   getApartmentBySlug,
   getApartmentPath,
   getApartmentPathById,
+  normalizeApartmentId,
   type Apartment,
   type ApartmentClass,
+  type ApartmentId,
   type ApartmentRooms,
   type ApartmentStatus,
 } from "@/lib/apartments";

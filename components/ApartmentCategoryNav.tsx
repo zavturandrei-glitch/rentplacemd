@@ -22,31 +22,31 @@ const textByLanguage: Record<
     home: "Главная",
     allApartments: "Все квартиры",
     allCategories: "Все категории",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   ro: {
     home: "Acasă",
     allApartments: "Toate apartamentele",
     allCategories: "Toate categoriile",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   en: {
     home: "Home",
     allApartments: "All apartments",
     allCategories: "All categories",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   uk: {
     home: "Головна",
     allApartments: "Усі квартири",
     allCategories: "Усі категорії",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   cs: {
     home: "Domů",
     allApartments: "Všechny apartmány",
     allCategories: "Všechny kategorie",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
 };
 

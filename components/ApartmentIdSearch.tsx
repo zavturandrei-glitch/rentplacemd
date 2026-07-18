@@ -2,28 +2,18 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { getApartmentPathById } from "@/lib/apartments";
+import { getApartmentPathById, normalizeApartmentId } from "@/lib/apartments";
 
 type ApartmentIdSearchProps = {
   variant: "hero" | "header";
 };
-
-function cleanApartmentId(value: string) {
-  return value
-    .toLowerCase()
-    .replace("id", "")
-    .replace("â„–", "")
-    .replace("#", "")
-    .replaceAll(" ", "")
-    .trim();
-}
 
 export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
   const { t } = useLanguage();
   const [apartmentId, setApartmentId] = useState("");
 
   function openApartmentById() {
-    const id = cleanApartmentId(apartmentId);
+    const id = normalizeApartmentId(apartmentId);
 
     const apartmentLink = getApartmentPathById(id);
 
@@ -76,8 +66,7 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
               openApartmentById();
             }
           }}
-          inputMode="numeric"
-          placeholder="22"
+          placeholder="76"
           aria-label={t.hero.idTitle}
           className="h-9 min-w-0 flex-1 rounded-md border border-white/15 bg-white px-2 text-center text-[16px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] lg:h-8 lg:text-[14px]"
         />

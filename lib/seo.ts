@@ -7,10 +7,12 @@ import {
 } from "@/lib/apartmentLocalization";
 import {
   apartmentCategoryOrder,
+  apartmentClassLabels,
   apartmentDetailsById,
   activeApartments,
   getApartmentById,
   getApartmentCategoryPath,
+  type ApartmentId,
   type ApartmentClass,
   getApartmentPath as getApartmentDataPath,
 } from "@/lib/apartments";
@@ -18,6 +20,14 @@ import {
 export const baseUrl = "https://rentplace.md";
 export const siteName = "RentPlaceMD";
 export const defaultLocale = "ru_MD";
+export const supportedLanguages = ["ru", "ro", "en", "uk", "cs"] as const satisfies readonly Language[];
+const openGraphLocale: Record<Language, string> = {
+  ru: "ru_MD",
+  ro: "ro_MD",
+  en: "en_US",
+  uk: "uk_UA",
+  cs: "cs_CZ",
+};
 export const address = {
   streetAddress: "Ismail 88",
   addressLocality: "Chisinau",
@@ -66,28 +76,45 @@ export const iconMetadata: Metadata["icons"] = {
   apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
 };
 
-export function getApartmentSlug(id: number) {
+export function getApartmentSlug(id: ApartmentId) {
   return getApartmentById(id)?.slug ?? "izmail88-" + id;
 }
 
-export function getApartmentUrl(id: number) {
+export function getApartmentUrl(id: ApartmentId) {
   return baseUrl + "/apartment/" + getApartmentSlug(id);
 }
 
-export function apartmentPath(id: number) {
+export function apartmentPath(id: ApartmentId) {
   const apartment = getApartmentById(id);
   return apartment ? getApartmentDataPath(apartment) : "/apartment/" + getApartmentSlug(id);
 }
 
-export function routeAlternates(path = "") {
-  const url = baseUrl + path;
+export function normalizeSiteLanguage(language?: string): Language {
+  return supportedLanguages.includes(language as Language) ? language as Language : "ru";
+}
+
+function localizedUrl(path: string, language: Language) {
+  return baseUrl + path + (path.includes("?") ? "&" : "?") + "lang=" + language;
+}
+
+export function routeAlternates(path = "", language?: string) {
+  const normalizedLanguage = language ? normalizeSiteLanguage(language) : null;
+  const url = normalizedLanguage ? localizedUrl(path, normalizedLanguage) : baseUrl + path;
   return {
     canonical: url,
+    languages: {
+      ru: localizedUrl(path, "ru"),
+      ro: localizedUrl(path, "ro"),
+      en: localizedUrl(path, "en"),
+      uk: localizedUrl(path, "uk"),
+      cs: localizedUrl(path, "cs"),
+      "x-default": baseUrl + path,
+    },
   };
 }
 
-export function apartmentAlternates(id: keyof typeof apartmentDetailsById) {
-  return routeAlternates(apartmentPath(id));
+export function apartmentAlternates(id: ApartmentId, language?: string) {
+  return routeAlternates(apartmentPath(id), language);
 }
 
 export const apartmentCategorySeo: Record<
@@ -115,17 +142,84 @@ export const apartmentCategorySeo: Record<
     intro:
       "Более свежие или улучшенные варианты для гостей, которые хотят повышенный комфорт и аккуратный визуальный уровень.",
   },
+  premium: {
+    title: "Premium квартиры RentPlaceMD в Кишинёве",
+    description:
+      "Квартиры Premium RentPlaceMD в Кишинёве с отдельной спальней и гостиной, реальными фото и прямым бронированием.",
+    intro:
+      "Премиальные квартиры с отдельной спальней и гостиной для комфортного проживания в центре Кишинёва.",
+  },
 };
 
-export function getApartmentCategoryMetadata(category: ApartmentClass): Metadata {
-  const seo = apartmentCategorySeo[category];
-  const path = getApartmentCategoryPath(category);
-  const url = baseUrl + path;
+const categorySeoLanguage: Record<Language, {
+  allApartments: string;
+  categories: string;
+  title: (category: string) => string;
+  description: (category: string) => string;
+}> = {
+  ru: { allApartments: "Все квартиры", categories: "Категории квартир RentPlaceMD", title: (category) => category + " квартиры RentPlaceMD в Кишинёве", description: (category) => "Квартиры " + category + " RentPlaceMD в Кишинёве: реальные фотографии, актуальные цены и прямое бронирование." },
+  ro: { allApartments: "Toate apartamentele", categories: "Categoriile apartamentelor RentPlaceMD", title: (category) => "Apartamente " + category + " RentPlaceMD în Chișinău", description: (category) => "Apartamente " + category + " RentPlaceMD în Chișinău, cu fotografii reale, prețuri actuale și rezervare directă." },
+  en: { allApartments: "All apartments", categories: "RentPlaceMD apartment categories", title: (category) => category + " RentPlaceMD apartments in Chisinau", description: (category) => category + " RentPlaceMD apartments in Chisinau with real photos, current prices and direct booking." },
+  uk: { allApartments: "Усі квартири", categories: "Категорії квартир RentPlaceMD", title: (category) => "Квартири " + category + " RentPlaceMD у Кишиневі", description: (category) => "Квартири " + category + " RentPlaceMD у Кишиневі: реальні фотографії, актуальні ціни та пряме бронювання." },
+  cs: { allApartments: "Všechny apartmány", categories: "Kategorie apartmánů RentPlaceMD", title: (category) => "Apartmány " + category + " RentPlaceMD v Kišiněvě", description: (category) => "Apartmány " + category + " RentPlaceMD v Kišiněvě s reálnými fotografiemi, aktuálními cenami a přímou rezervací." },
+};
+
+const apartmentsPageSeo: Record<Language, { title: string; description: string }> = {
+  ru: { title: "Выбор класса квартиры RentPlaceMD", description: "Выберите квартиру RentPlaceMD в Кишинёве: Economy, Standard, Standard+ или Premium. Реальные фотографии, минимальные цены и доступные варианты." },
+  ro: { title: "Alege clasa apartamentului RentPlaceMD", description: "Alege un apartament RentPlaceMD în Chișinău: Economy, Standard, Standard+ sau Premium. Fotografii reale, prețuri minime și opțiuni disponibile." },
+  en: { title: "Choose a RentPlaceMD apartment class", description: "Choose a RentPlaceMD apartment in Chisinau: Economy, Standard, Standard+ or Premium. Real photos, minimum prices and available options." },
+  uk: { title: "Оберіть клас квартири RentPlaceMD", description: "Оберіть квартиру RentPlaceMD у Кишиневі: Economy, Standard, Standard+ або Premium. Реальні фотографії, мінімальні ціни та доступні варіанти." },
+  cs: { title: "Vyberte třídu apartmánu RentPlaceMD", description: "Vyberte si apartmán RentPlaceMD v Kišiněvě: Economy, Standard, Standard+ nebo Premium. Reálné fotografie, minimální ceny a dostupné možnosti." },
+};
+
+export function getApartmentsPageMetadata(languageInput?: string): Metadata {
+  const language = normalizeSiteLanguage(languageInput);
+  const seo = apartmentsPageSeo[language];
+  const path = "/apartments";
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
 
   return {
     title: seo.title,
     description: seo.description,
-    alternates: routeAlternates(path),
+    alternates: routeAlternates(path, languageInput),
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url,
+      siteName,
+      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: seo.title }],
+      locale: openGraphLocale[language],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: ["/og-image.jpg"],
+    },
+  };
+}
+
+function getLocalizedCategorySeo(category: ApartmentClass, language: Language) {
+  const label = apartmentClassLabels[category];
+  const text = categorySeoLanguage[language];
+  return {
+    title: text.title(label),
+    description: text.description(label),
+    intro: apartmentCategorySeo[category].intro,
+  };
+}
+
+export function getApartmentCategoryMetadata(category: ApartmentClass, languageInput?: string): Metadata {
+  const language = normalizeSiteLanguage(languageInput);
+  const seo = getLocalizedCategorySeo(category, language);
+  const path = getApartmentCategoryPath(category);
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
+
+  return {
+    title: seo.title,
+    description: seo.description,
+    alternates: routeAlternates(path, languageInput),
     openGraph: {
       title: seo.title,
       description: seo.description,
@@ -139,7 +233,7 @@ export function getApartmentCategoryMetadata(category: ApartmentClass): Metadata
           alt: seo.title,
         },
       ],
-      locale: defaultLocale,
+      locale: openGraphLocale[language],
       type: "website",
     },
     twitter: {
@@ -151,7 +245,10 @@ export function getApartmentCategoryMetadata(category: ApartmentClass): Metadata
   };
 }
 
-export function getApartmentCategoryMenuJsonLd() {
+export function getApartmentCategoryMenuJsonLd(languageInput?: string) {
+  const language = normalizeSiteLanguage(languageInput);
+  const text = categorySeoLanguage[language];
+  const apartmentsUrl = languageInput ? localizedUrl("/apartments", language) : baseUrl + "/apartments";
   return [
     {
       "@context": "https://schema.org",
@@ -166,28 +263,32 @@ export function getApartmentCategoryMenuJsonLd() {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Все квартиры",
-          item: baseUrl + "/apartments",
+          name: text.allApartments,
+          item: apartmentsUrl,
         },
       ],
     },
     {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: "Категории квартир RentPlaceMD",
+      name: text.categories,
       itemListElement: apartmentCategoryOrder.map((category, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        name: apartmentCategorySeo[category].title,
-        url: baseUrl + getApartmentCategoryPath(category),
+        name: getLocalizedCategorySeo(category, language).title,
+        url: languageInput ? localizedUrl(getApartmentCategoryPath(category), language) : baseUrl + getApartmentCategoryPath(category),
       })),
     },
   ];
 }
 
-export function getApartmentCategoryJsonLd(category: ApartmentClass) {
-  const seo = apartmentCategorySeo[category];
+export function getApartmentCategoryJsonLd(category: ApartmentClass, languageInput?: string) {
+  const language = normalizeSiteLanguage(languageInput);
+  const seo = getLocalizedCategorySeo(category, language);
+  const text = categorySeoLanguage[language];
   const path = getApartmentCategoryPath(category);
+  const categoryUrl = languageInput ? localizedUrl(path, language) : baseUrl + path;
+  const apartmentsUrl = languageInput ? localizedUrl("/apartments", language) : baseUrl + "/apartments";
   const categoryApartments = activeApartments.filter((apartment) => apartment.class === category);
 
   return [
@@ -204,14 +305,14 @@ export function getApartmentCategoryJsonLd(category: ApartmentClass) {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Все квартиры",
-          item: baseUrl + "/apartments",
+          name: text.allApartments,
+          item: apartmentsUrl,
         },
         {
           "@type": "ListItem",
           position: 3,
           name: seo.title,
-          item: baseUrl + path,
+          item: categoryUrl,
         },
       ],
     },
@@ -220,11 +321,11 @@ export function getApartmentCategoryJsonLd(category: ApartmentClass) {
       "@type": "ItemList",
       name: seo.title,
       description: seo.description,
-      url: baseUrl + path,
+      url: categoryUrl,
       itemListElement: categoryApartments.map((apartment, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: getApartmentUrl(apartment.id),
+        url: languageInput ? localizedUrl(apartmentPath(apartment.id), language) : getApartmentUrl(apartment.id),
         name: "RentPlaceMD ID " + apartment.id,
       })),
     },
@@ -232,38 +333,38 @@ export function getApartmentCategoryJsonLd(category: ApartmentClass) {
 }
 
 export function buildApartmentTitle(
-  id: keyof typeof apartmentDetailsById,
+  id: ApartmentId,
   language: Language = "ru",
 ) {
-  const apartment = apartmentDetailsById[id];
-  const localized = getApartmentSeoLocalization(Number(id), language);
+  const apartment = apartmentDetailsById[String(id)];
+  const localized = getApartmentSeoLocalization(id, language);
   if (localized) return localized.title;
   return "ID " + id + " - " + kindTitle[apartment.kind] + ", " + apartment.title + " посуточно";
 }
 
 export function buildApartmentDescription(
-  id: keyof typeof apartmentDetailsById,
+  id: ApartmentId,
   language: Language = "ru",
 ) {
-  const apartment = apartmentDetailsById[id];
-  const localized = getApartmentSeoLocalization(Number(id), language);
+  const apartment = apartmentDetailsById[String(id)];
+  const localized = getApartmentSeoLocalization(id, language);
   if (localized) return localized.description;
   return "Квартира ID " + id + ": " + kindTitle[apartment.kind] + " по адресу " + apartment.address + ". " + apartment.price + " лей/сутки, до " + apartment.guests + " гостей, реальные фото, Wi-Fi, чистое бельё, заселение 24/7.";
 }
 
 export function apartmentImageAlt(
-  id: keyof typeof apartmentDetailsById,
+  id: ApartmentId,
   index = 1,
   language: Language = "ru",
 ) {
-  const apartment = apartmentDetailsById[id];
-  const localized = getApartmentSeoLocalization(Number(id), language);
+  const apartment = apartmentDetailsById[String(id)];
+  const localized = getApartmentSeoLocalization(id, language);
   if (localized) return formatLocalizedImageAlt(localized.imageAlt, index);
   return "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + id + ", " + apartment.title + ", фото " + index;
 }
 
-export function buildApartmentKeywords(id: keyof typeof apartmentDetailsById) {
-  const apartment = apartmentDetailsById[id];
+export function buildApartmentKeywords(id: ApartmentId) {
+  const apartment = apartmentDetailsById[String(id)];
   return [
     "квартира " + id + " посуточно Кишинев",
     "квартира " + id + " посуточно Кишинёв",
@@ -276,8 +377,8 @@ export function buildApartmentKeywords(id: keyof typeof apartmentDetailsById) {
   ];
 }
 
-function apartmentSeoImages(id: keyof typeof apartmentDetailsById) {
-  const apartment = apartmentDetailsById[id];
+function apartmentSeoImages(id: ApartmentId) {
+  const apartment = apartmentDetailsById[String(id)];
   return [...apartment.images, apartment.facadePhoto ?? "/common/building.png"];
 }
 
@@ -291,7 +392,7 @@ function imageObjects(images: string[], getAlt: (index: number) => string) {
   }));
 }
 
-function offerForApartment(apartment: { id: number; price: number }) {
+function offerForApartment(apartment: { id: ApartmentId; price: number }) {
   return {
     "@type": "Offer",
     url: getApartmentUrl(apartment.id),
@@ -307,27 +408,29 @@ function offerForApartment(apartment: { id: number; price: number }) {
   };
 }
 
-export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Metadata {
-  const apartment = apartmentDetailsById[id];
+export function getApartmentMetadata(id: ApartmentId, languageInput?: string): Metadata {
+  const language = normalizeSiteLanguage(languageInput);
+  const apartment = apartmentDetailsById[String(id)];
   const title =
-    id === 3
+    language === "ru" && id === 3
       ? "Студия Standard Plus в центре Кишинёва — ID 3 | RentPlaceMD"
-      : id === 5
+      : language === "ru" && id === 5
         ? "Студия Standard+ — ID 5 | RentPlaceMD"
-      : buildApartmentTitle(id);
+      : buildApartmentTitle(id, language);
   const description =
-    id === 3
+    language === "ru" && id === 3
       ? "Современная студия категории Standard Plus. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 900 MDL."
-      : id === 5
+      : language === "ru" && id === 5
         ? "Современная студия категории Standard+ в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
-      : buildApartmentDescription(id);
-  const url = getApartmentUrl(id);
+      : buildApartmentDescription(id, language);
+  const path = apartmentPath(id);
+  const url = languageInput ? localizedUrl(path, language) : getApartmentUrl(id);
 
   return {
     title: id === 3 || id === 5 ? { absolute: title } : title,
     description,
     keywords: buildApartmentKeywords(id),
-    alternates: apartmentAlternates(id),
+    alternates: apartmentAlternates(id, languageInput),
     robots: {
       index: true,
       follow: true,
@@ -348,9 +451,9 @@ export function getApartmentMetadata(id: keyof typeof apartmentDetailsById): Met
         url: image,
         width: 1200,
         height: 800,
-        alt: apartmentImageAlt(id, index + 1),
+        alt: apartmentImageAlt(id, index + 1, language),
       })),
-      locale: defaultLocale,
+      locale: openGraphLocale[language],
       type: "website",
     },
     twitter: {
@@ -447,13 +550,15 @@ export function buildSiteJsonLd() {
     itemOffered: {
       "@type": "Apartment",
       name: "RentPlaceMD ID " + apartment.id + " - " + kindTitle[apartment.kind],
-      image: imageObjects([...apartment.photos, apartment.facadePhoto], (index) =>
+      image: imageObjects([...apartment.photos, ...(apartment.facadePhoto ? [apartment.facadePhoto] : [])], (index) =>
         "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + apartment.id + ", " + apartment.title + ", photo " + index,
       ),
-      occupancy: {
-        "@type": "QuantitativeValue",
-        maxValue: apartment.guests,
-      },
+      ...(apartment.guests !== null ? {
+        occupancy: {
+          "@type": "QuantitativeValue",
+          maxValue: apartment.guests,
+        },
+      } : {}),
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -557,16 +662,17 @@ export function buildSiteJsonLd() {
 }
 
 export function getApartmentJsonLd(
-  id: keyof typeof apartmentDetailsById,
+  id: ApartmentId,
   language: Language = "ru",
+  useLocalizedUrl = false,
 ) {
-  const apartment = apartmentDetailsById[id];
-  const url = getApartmentUrl(id);
-  const localized = getApartmentSeoLocalization(Number(id), language);
-  const displayAddress = getApartmentDisplayAddress(Number(id), apartment.title, language);
+  const apartment = apartmentDetailsById[String(id)];
+  const url = useLocalizedUrl ? localizedUrl(apartmentPath(id), language) : getApartmentUrl(id);
+  const localized = getApartmentSeoLocalization(id, language);
+  const displayAddress = getApartmentDisplayAddress(id, apartment.title, language);
   const name = localized?.schemaName ?? "RentPlaceMD ID " + id + " - " + kindTitle[apartment.kind];
   const categoryPath = getApartmentCategoryPath(apartment.class);
-  const categoryName = apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
+  const categoryName = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
 
   return [
     {
@@ -580,16 +686,18 @@ export function getApartmentJsonLd(
       address: {
         "@type": "PostalAddress",
         ...address,
-        streetAddress: apartment.address.split(",")[0],
+        streetAddress: displayAddress,
       },
       description: buildApartmentDescription(id, language),
       telephone: phoneNumbers[0],
       priceRange: apartment.price + " MDL",
       numberOfRooms: apartment.kind === "studio" ? 1 : apartment.kind === "oneBedroom" ? 2 : 3,
-      occupancy: {
-        "@type": "QuantitativeValue",
-        maxValue: apartment.guests,
-      },
+      ...(apartment.guests !== null ? {
+        occupancy: {
+          "@type": "QuantitativeValue",
+          maxValue: apartment.guests,
+        },
+      } : {}),
       amenityFeature: [
         "Wi-Fi",
         "Air conditioning",
@@ -626,13 +734,13 @@ export function getApartmentJsonLd(
           "@type": "ListItem",
           position: 2,
           name: allApartmentsLabel[language],
-          item: baseUrl + "/apartments",
+          item: useLocalizedUrl ? localizedUrl("/apartments", language) : baseUrl + "/apartments",
         },
         {
           "@type": "ListItem",
           position: 3,
           name: categoryName,
-          item: baseUrl + categoryPath,
+          item: useLocalizedUrl ? localizedUrl(categoryPath, language) : baseUrl + categoryPath,
         },
         {
           "@type": "ListItem",

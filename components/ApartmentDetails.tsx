@@ -11,7 +11,11 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
 import { getApartmentBookedDates } from "@/lib/availability";
-import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
+import {
+  formatLocalizedImageAlt,
+  getApartmentDisplayAddress,
+  getApartmentLocalization,
+} from "@/lib/apartmentLocalization";
 import {
   activeApartments,
   getApartmentCategoryPath,
@@ -23,16 +27,16 @@ export type ApartmentKind = "studio" | "oneBedroom" | "twoBedroom" | "twoBedroom
 export type ApartmentGuests = 2 | 3 | 4 | 5;
 
 export type ApartmentDetailsData = {
-  id: number;
+  id: string | number;
   title: string;
   address: string;
   price: number;
   images: string[];
   kind: ApartmentKind;
   class: ApartmentClass;
-  guests: ApartmentGuests;
+  guests: ApartmentGuests | null;
   heroPosition?: string;
-  facadePhoto?: string;
+  facadePhoto?: string | null;
   displayKind?: string;
   displayOverlay?: string;
   intro?: string;
@@ -650,7 +654,7 @@ type ApartmentContentProfile = {
   nearbyKeys: string[];
 };
 
-const apartmentContentProfiles: Record<number, ApartmentContentProfile> = {
+const apartmentContentProfiles: Record<string, ApartmentContentProfile> = {
   1: { valueKeys: ["twoBedroomPlus", "standardPlus", "family", "kitchen", "checkin"], audienceKeys: ["family", "business", "medical", "transit"], nearbyKeys: ["center", "shops", "transport", "parking", "airport"] },
   3: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "business", "solo", "transit"], nearbyKeys: ["center", "shops", "transport", "airport"] },
   5: { valueKeys: ["studio", "standardPlus", "twoGuests", "kitchen", "checkin"], audienceKeys: ["couple", "solo", "business", "medical"], nearbyKeys: ["center", "shops", "transport", "parking"] },
@@ -696,7 +700,7 @@ function getRelatedApartments(apartment: ApartmentDetailsData) {
     .filter((candidate) => candidate.id !== apartment.id)
     .map((candidate) => {
       const score =
-        (candidate.guests === apartment.guests ? 6 : 0) +
+        (apartment.guests !== null && candidate.guests === apartment.guests ? 6 : 0) +
         (candidate.kind === apartment.kind ? 5 : 0) +
         (Math.abs(candidate.price - apartment.price) <= 100 ? 4 : 0) +
         (Math.abs(candidate.price - apartment.price) <= 200 ? 1 : 0);
@@ -717,14 +721,19 @@ export default function ApartmentDetails({
 }) {
   const { language } = useLanguage();
   const text = detailText[language];
-  const facadePhoto = apartment.facadePhoto ?? "/common/building.png";
+  const localizedApartment = getApartmentLocalization(apartment.id, language);
+  const facadePhoto = apartment.facadePhoto;
   const locationTitle = getApartmentDisplayAddress(apartment.id, apartment.title, language);
   const facadeAlt = format(text.facadeAlt, { address: locationTitle });
-  const mainPhotoAlt = format(text.mainPhotoAlt, { id: apartment.id }) + " · " + locationTitle;
+  const mainPhotoAlt = localizedApartment
+    ? formatLocalizedImageAlt(localizedApartment.imageAlt, 1)
+    : format(text.mainPhotoAlt, { id: apartment.id }) + " · " + locationTitle;
   const galleryPhotoAlt = useCallback(
     (index: number) =>
-      format(text.galleryPhotoAlt, { id: apartment.id, index }) + " · " + locationTitle,
-    [apartment.id, locationTitle, text.galleryPhotoAlt],
+      localizedApartment
+        ? formatLocalizedImageAlt(localizedApartment.imageAlt, index + 1)
+        : format(text.galleryPhotoAlt, { id: apartment.id, index }) + " · " + locationTitle,
+    [apartment.id, localizedApartment, locationTitle, text.galleryPhotoAlt],
   );
   const galleryImages = apartment.images.slice(1);
   const whatsappText = format(text.whatsappMessage, {
@@ -734,34 +743,34 @@ export default function ApartmentDetails({
   const whatsappLink = "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
   const heroPosition = apartment.heroPosition ?? "center 45%";
   const bookedDates = getApartmentBookedDates(apartment.id);
-  const kindLabel = apartment.displayKind ?? text.kinds[apartment.kind];
-  const overlayLabel = apartment.displayOverlay ?? text.overlay[apartment.kind];
-  const intro = replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment, locationTitle);
-  const aboutTitle = replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment, locationTitle);
+  const kindLabel = localizedApartment?.typeLabel ?? apartment.displayKind ?? text.kinds[apartment.kind];
+  const overlayLabel = localizedApartment?.layoutDescription ?? apartment.displayOverlay ?? text.overlay[apartment.kind];
+  const intro = localizedApartment?.shortDescription ?? replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment, locationTitle);
+  const aboutTitle = localizedApartment?.aboutTitle ?? replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment, locationTitle);
   const descriptionParagraphs = (
-    apartment.descriptionParagraphs ?? [
+    localizedApartment ? [localizedApartment.shortDescription, localizedApartment.layoutDescription] : apartment.descriptionParagraphs ?? [
       text.aboutFirst[apartment.kind],
       text.aboutSecond[apartment.kind],
     ]
   ).map((paragraph) => replaceApartmentLocation(paragraph, apartment, locationTitle));
-  const features = apartment.features ?? text.features[apartment.kind];
-  const contentProfile = apartmentContentProfiles[apartment.id] ?? {
-    valueKeys: [apartment.kind, apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
-    audienceKeys: apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
+  const features = localizedApartment?.features ?? apartment.features ?? text.features[apartment.kind];
+  const contentProfile = apartmentContentProfiles[String(apartment.id)] ?? {
+    valueKeys: [apartment.kind, apartment.guests !== null && apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
+    audienceKeys: apartment.guests !== null && apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
     nearbyKeys: ["center", "shops", "transport"],
   };
-  const whyItems = resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
-  const audienceItems = resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
-  const nearbyItems = resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
-  const trustPhrases = text.content.trustPhrases.map((item) => replaceApartmentLocation(item, apartment, locationTitle));
-  const faq = text.content.faq.map((item) => ({
+  const whyItems = localizedApartment ? localizedApartment.features : resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
+  const audienceItems = localizedApartment ? [] : resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
+  const nearbyItems = localizedApartment ? [] : resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
+  const trustPhrases = text.content.trustPhrases.filter((_, index) => !localizedApartment || index !== 1).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
+  const faq = (localizedApartment ? [] : text.content.faq).map((item) => ({
     ...item,
     question: replaceApartmentLocation(item.question, apartment, locationTitle),
     answer: replaceApartmentLocation(item.answer, apartment, locationTitle),
   }));
   const relatedApartments = useMemo(() => getRelatedApartments(apartment), [apartment]);
   const categoryPath = getApartmentCategoryPath(apartment.class);
-  const categoryLabel = apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
+  const categoryLabel = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
   const isExtendedGallery = apartment.galleryLayout === "extended";
   const topGalleryImages = isExtendedGallery ? galleryImages.slice(0, 4) : galleryImages;
   const lowerGalleryImages = isExtendedGallery ? galleryImages.slice(4) : [];
@@ -771,7 +780,7 @@ export default function ApartmentDetails({
         src: image,
         alt: index === 0 ? mainPhotoAlt : galleryPhotoAlt(index),
       })),
-      { src: facadePhoto, alt: facadeAlt },
+      ...(facadePhoto ? [{ src: facadePhoto, alt: facadeAlt }] : []),
     ],
     [apartment.images, facadeAlt, facadePhoto, galleryPhotoAlt, mainPhotoAlt],
   );
@@ -803,7 +812,7 @@ export default function ApartmentDetails({
     updateMeta('meta[name="twitter:title"]', seo.title);
     updateMeta('meta[name="twitter:description"]', seo.description);
 
-    const jsonLdScript = document.getElementById("apartment-" + apartment.id + "-structured-data");
+    const jsonLdScript = document.getElementById("apartment-" + apartment.id + "-jsonld");
     if (jsonLdScript) {
       jsonLdScript.textContent = JSON.stringify(seo.jsonLd);
     }
@@ -931,7 +940,7 @@ export default function ApartmentDetails({
               <div className="mb-4 flex flex-wrap gap-2 sm:mb-6 sm:gap-2.5">
                 <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">ID {apartment.id}</span>
                 <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{kindLabel}</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{text.guests[apartment.guests]}</span>
+                {apartment.guests !== null ? <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{text.guests[apartment.guests]}</span> : null}
               </div>
               <h1 className="text-4xl font-black leading-[0.98] tracking-tight text-white sm:text-7xl lg:text-8xl">{locationTitle}</h1>
               <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/78 sm:mt-6 sm:text-lg sm:leading-8">{intro}</p>
@@ -969,7 +978,7 @@ export default function ApartmentDetails({
             </div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
               {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><button type="button" onClick={() => openLightbox(index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={galleryPhotoAlt(index + 1)}><ResponsiveImage src={image} alt={galleryPhotoAlt(index + 1)} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></button></div>))}
-              {!isExtendedGallery ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}><ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
+              {!isExtendedGallery && facadePhoto ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}><ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
             </div>
           </div>
           {isExtendedGallery ? (
@@ -981,11 +990,11 @@ export default function ApartmentDetails({
                   </button>
                 </div>
               ))}
-              <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
+              {facadePhoto ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
                 <button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}>
                   <ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
                 </button>
-              </div>
+              </div> : null}
             </div>
           ) : null}
         </section>
@@ -997,10 +1006,10 @@ export default function ApartmentDetails({
             {descriptionParagraphs.map((paragraph, index) => (
               <p key={paragraph} className={(index === 0 ? "mt-4 sm:mt-6" : "mt-4 sm:mt-5") + " text-base leading-7 text-gray-700 sm:text-lg sm:leading-8"}>{paragraph}</p>
             ))}
-            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[text.guests[apartment.guests], ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">{item}</div>))}</div>
+            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[...(apartment.guests !== null ? [text.guests[apartment.guests]] : []), ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">{item}</div>))}</div>
 
             <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-2">
-              <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
+              {whyItems.length > 0 ? <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
                 <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.whyTitle}</h3>
                 <div className="mt-4 grid gap-3">
                   {whyItems.map((item) => (
@@ -1009,9 +1018,9 @@ export default function ApartmentDetails({
                     </p>
                   ))}
                 </div>
-              </section>
+              </section> : null}
 
-              <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
+              {audienceItems.length > 0 ? <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
                 <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.fitTitle}</h3>
                 <div className="mt-4 grid gap-2.5">
                   {audienceItems.map((item) => (
@@ -1020,7 +1029,7 @@ export default function ApartmentDetails({
                     </p>
                   ))}
                 </div>
-              </section>
+              </section> : null}
             </div>
 
             <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-white p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
@@ -1049,7 +1058,7 @@ export default function ApartmentDetails({
               </div>
             </section>
 
-            <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
+            {faq.length > 0 ? <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
               <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.faqTitle}</h3>
               <div className="mt-4 grid gap-3">
                 {faq.map((item) => (
@@ -1061,7 +1070,7 @@ export default function ApartmentDetails({
                   </details>
                 ))}
               </div>
-            </section>
+            </section> : null}
 
             {relatedApartments.length > 0 ? (
               <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
@@ -1077,7 +1086,7 @@ export default function ApartmentDetails({
                       <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">ID {relatedApartment.id}</p>
                       <p className="mt-2 text-sm font-black leading-5 text-[#07111f]">{text.kinds[relatedApartment.kind]}</p>
                       <p className="mt-2 text-xs font-bold leading-5 text-gray-500">
-                        {relatedApartment.guests} {text.content.relatedGuests} · {relatedApartment.price} {text.content.relatedPrice}
+                        {relatedApartment.guests !== null ? relatedApartment.guests + " " + text.content.relatedGuests + " · " : ""}{relatedApartment.price} {text.content.relatedPrice}
                       </p>
                     </Link>
                   ))}

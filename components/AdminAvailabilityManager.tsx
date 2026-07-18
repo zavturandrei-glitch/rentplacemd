@@ -3,15 +3,16 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 import { getChisinauDateKey, isPastChisinauDate } from "@/lib/chisinauDate";
 
 type ApartmentOption = {
-  id: number;
+  id: string | number;
   title: string;
+  address: string;
+  category: string;
   label: string;
   price: number;
-  guests: number;
+  guests: number | null;
   image: string;
 };
 
@@ -39,6 +40,12 @@ const monthNames = [
 ];
 const weekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 const todayKey = getChisinauDateKey();
+const addressOrder = [
+  "Измаил, 88",
+  "Григоре Уреке, 67",
+  "Михай Эминеску, 76",
+  "Лев Толстой, 63/1",
+] as const;
 
 function startOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -106,6 +113,33 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
     }
     return counts;
   }, [records]);
+  const apartmentGroups = useMemo(() => {
+    const groups = new Map<string, ApartmentOption[]>();
+
+    for (const apartment of apartments) {
+      const group = groups.get(apartment.address) ?? [];
+      group.push(apartment);
+      groups.set(apartment.address, group);
+    }
+
+    return [...groups.entries()]
+      .sort(([leftAddress], [rightAddress]) => {
+        const leftIndex = addressOrder.indexOf(leftAddress as (typeof addressOrder)[number]);
+        const rightIndex = addressOrder.indexOf(rightAddress as (typeof addressOrder)[number]);
+        const normalizedLeft = leftIndex === -1 ? addressOrder.length : leftIndex;
+        const normalizedRight = rightIndex === -1 ? addressOrder.length : rightIndex;
+        return normalizedLeft - normalizedRight || leftAddress.localeCompare(rightAddress, "ru");
+      })
+      .map(([address, group]) => ({
+        address,
+        apartments: group.sort((left, right) =>
+          String(left.id).localeCompare(String(right.id), "ru", {
+            numeric: true,
+            sensitivity: "base",
+          }),
+        ),
+      }));
+  }, [apartments]);
   const pendingCountByApartment = useMemo(() => {
     const counts = new Map<string, number>();
     for (const key of Object.keys(pendingChanges)) {
@@ -233,7 +267,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
     setMessage(nextStatus === "booked" ? "Занято" : "Свободно");
   }
 
-  function selectApartment(apartmentId: number) {
+  function selectApartment(apartmentId: string | number) {
     setSelectedApartmentId(String(apartmentId));
   }
 
@@ -340,39 +374,55 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
             <Link href="/" className="rounded-full bg-white px-3 py-1.5 text-[11px] font-black text-[#d4146f] shadow-sm ring-1 ring-[#d4146f]/10">Сайт</Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-2">
-            {apartments.map((apartment) => {
-              const active = String(apartment.id) === selectedApartmentId;
-              const bookedCount = bookedCountByApartment.get(String(apartment.id)) ?? 0;
-              const apartmentPendingCount = pendingCountByApartment.get(String(apartment.id)) ?? 0;
+          <div className="space-y-4">
+            {apartmentGroups.map((group, groupIndex) => {
+              const headingId = "availability-address-" + groupIndex;
 
               return (
-                <button
-                  key={apartment.id}
-                  type="button"
-                  onClick={() => selectApartment(apartment.id)}
-                  className={[
-                    "group overflow-hidden rounded-[20px] bg-white text-left shadow-lg shadow-black/5 ring-1 ring-black/5 transition sm:rounded-[22px]",
-                    active ? "ring-2 ring-[#d4146f] shadow-pink-700/20" : "hover:-translate-y-0.5 hover:ring-[#d4146f]/30",
-                  ].join(" ")}
-                >
-                  <span className="relative block aspect-[1.18] overflow-hidden bg-[#f4f1ee]">
-                    <ResponsiveImage src={apartment.image} alt={"Квартира ID " + apartment.id} className="h-full w-full" sizes="(min-width: 1280px) 215px, (min-width: 640px) 33vw, 50vw" loading="lazy" withWatermark />
-                    <span className="absolute left-2 top-2 rounded-full bg-[#ffd21f] px-2.5 py-1 text-[12px] font-black leading-none text-[#07111f] shadow-lg sm:text-sm">ID {apartment.id}</span>
-                    {active ? <span className="absolute inset-0 rounded-[20px] ring-4 ring-inset ring-[#d4146f]" /> : null}
-                  </span>
-                  <span className="block p-2.5 sm:p-3">
-                    <span className="block truncate text-sm font-black leading-5 text-[#07111f] sm:text-base">
-                      {getApartmentDisplayAddress(apartment.id, apartment.title, "ru")}
-                    </span>
-                    <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{getRoomLabel(apartment.label)} · до {apartment.guests}</span>
-                    <span className="mt-2 grid grid-cols-2 gap-1.5">
-                      <span className="rounded-xl bg-[#fff0f7] px-2 py-1.5 text-center text-[11px] font-black text-[#d4146f]">{apartment.price} лей</span>
-                      <span className="rounded-xl bg-red-50 px-2 py-1.5 text-center text-[11px] font-black text-red-700">{bookedCount} дн.</span>
-                    </span>
-                    {apartmentPendingCount ? <span className="mt-1.5 block rounded-xl bg-[#07111f] px-2 py-1 text-center text-[10px] font-black text-white">+{apartmentPendingCount} изм.</span> : null}
-                  </span>
-                </button>
+                <section key={group.address} aria-labelledby={headingId}>
+                  <h2
+                    id={headingId}
+                    className="mb-2 rounded-xl bg-[#07111f] px-3 py-2 text-xs font-black text-white"
+                  >
+                    {group.address} · {group.apartments.length}
+                  </h2>
+                  <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-2">
+                    {group.apartments.map((apartment) => {
+                      const active = String(apartment.id) === selectedApartmentId;
+                      const bookedCount = bookedCountByApartment.get(String(apartment.id)) ?? 0;
+                      const apartmentPendingCount = pendingCountByApartment.get(String(apartment.id)) ?? 0;
+
+                      return (
+                        <button
+                          key={apartment.id}
+                          type="button"
+                          onClick={() => selectApartment(apartment.id)}
+                          className={[
+                            "group overflow-hidden rounded-[20px] bg-white text-left shadow-lg shadow-black/5 ring-1 ring-black/5 transition sm:rounded-[22px]",
+                            active ? "ring-2 ring-[#d4146f] shadow-pink-700/20" : "hover:-translate-y-0.5 hover:ring-[#d4146f]/30",
+                          ].join(" ")}
+                        >
+                          <span className="relative block aspect-[1.18] overflow-hidden bg-[#f4f1ee]">
+                            <ResponsiveImage src={apartment.image} alt={"Квартира ID " + apartment.id} className="h-full w-full" sizes="(min-width: 1280px) 215px, (min-width: 640px) 33vw, 50vw" loading="lazy" withWatermark />
+                            <span className="absolute left-2 top-2 rounded-full bg-[#ffd21f] px-2.5 py-1 text-[12px] font-black leading-none text-[#07111f] shadow-lg sm:text-sm">ID {apartment.id}</span>
+                            {active ? <span className="absolute inset-0 rounded-[20px] ring-4 ring-inset ring-[#d4146f]" /> : null}
+                          </span>
+                          <span className="block p-2.5 sm:p-3">
+                            <span className="block truncate text-sm font-black leading-5 text-[#07111f] sm:text-base">
+                              {apartment.address}
+                            </span>
+                            <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{apartment.category} · {getRoomLabel(apartment.label)}</span>
+                            <span className="mt-2 grid grid-cols-2 gap-1.5">
+                              <span className="rounded-xl bg-[#fff0f7] px-2 py-1.5 text-center text-[11px] font-black text-[#d4146f]">{apartment.price} лей</span>
+                              <span className="rounded-xl bg-red-50 px-2 py-1.5 text-center text-[11px] font-black text-red-700">{bookedCount} дн.</span>
+                            </span>
+                            {apartmentPendingCount ? <span className="mt-1.5 block rounded-xl bg-[#07111f] px-2 py-1 text-center text-[10px] font-black text-white">+{apartmentPendingCount} изм.</span> : null}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
               );
             })}
           </div>
@@ -382,8 +432,8 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
           <div className="bg-[#07111f] px-3 py-3 text-white sm:px-5 sm:py-4">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[11px] font-black uppercase text-white/55">ID {selectedApartment?.id} · {getRoomLabel(selectedApartment?.label)}</p>
-                <h2 className="mt-0.5 truncate text-xl font-black sm:text-3xl">{selectedApartment?.title ?? "Квартира"}</h2>
+                <p className="text-[11px] font-black uppercase text-white/55">ID {selectedApartment?.id} · {selectedApartment?.category} · {getRoomLabel(selectedApartment?.label)}</p>
+                <h2 className="mt-0.5 truncate text-xl font-black sm:text-3xl">{selectedApartment?.address ?? "Квартира"}</h2>
               </div>
               <div className="rounded-2xl bg-white/10 px-3 py-2 text-right shadow-inner ring-1 ring-white/10">
                 <p className="text-[10px] font-black uppercase text-white/50">Занято</p>
