@@ -4,7 +4,7 @@ import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
 import JsonLdScript from "@/components/JsonLdScript";
-import { baseUrl, routeAlternates, siteName } from "@/lib/seo";
+import { baseUrl, mainSocialImage, routeAlternates, siteName } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Гид по Кишинёву: где остановиться и как выбрать квартиру посуточно",
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     "Полезный гид RentPlaceMD для гостей Кишинёва: районы, центр города, квартира или гостиница, заселение, трансфер и выбор жилья посуточно.",
   alternates: routeAlternates("/chisinau-guide"),
   keywords: ["гид по Кишинёву", "что посмотреть в Кишинёве", "где поесть в Кишинёве", "трансфер из аэропорта Кишинёва"],
-  openGraph: { title: "Гид по Кишинёву | RentPlaceMD", description: "Достопримечательности, еда, транспорт, аптеки, маршруты и советы гостям Кишинёва.", url: baseUrl + "/chisinau-guide", siteName, images: ["/og-image.jpg"], type: "article" },
-  twitter: { card: "summary_large_image", title: "Гид по Кишинёву", description: "Практические советы и маршруты для гостей города.", images: ["/og-image.jpg"] },
+  openGraph: { title: "Гид по Кишинёву | RentPlaceMD", description: "Достопримечательности, еда, транспорт, аптеки, маршруты и советы гостям Кишинёва.", url: baseUrl + "/chisinau-guide", siteName, images: [mainSocialImage], type: "article" },
+  twitter: { card: "summary_large_image", title: "Гид по Кишинёву", description: "Практические советы и маршруты для гостей города.", images: [mainSocialImage] },
 };
 
 export default function ChisinauGuidePage() {

@@ -4,15 +4,15 @@ import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
 import JsonLdScript from "@/components/JsonLdScript";
-import { baseUrl, routeAlternates, siteName } from "@/lib/seo";
+import { baseUrl, mainSocialImage, routeAlternates, siteName } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "О RentPlaceMD",
   description:
     "RentPlaceMD помогает выбрать квартиру посуточно в Кишинёве: реальные фото, понятные цены, связь через WhatsApp, Viber, Telegram и телефон.",
   alternates: routeAlternates("/about"),
-  openGraph: { title: "О RentPlaceMD", description: "RentPlaceMD — проверенные квартиры посуточно в Кишинёве, поддержка гостей и трансфер.", url: baseUrl + "/about", siteName, images: ["/og-image.jpg"], type: "website" },
-  twitter: { card: "summary_large_image", title: "О RentPlaceMD", description: "Квартиры посуточно в Кишинёве и поддержка гостей.", images: ["/og-image.jpg"] },
+  openGraph: { title: "О RentPlaceMD", description: "RentPlaceMD — проверенные квартиры посуточно в Кишинёве, поддержка гостей и трансфер.", url: baseUrl + "/about", siteName, images: [mainSocialImage], type: "website" },
+  twitter: { card: "summary_large_image", title: "О RentPlaceMD", description: "Квартиры посуточно в Кишинёве и поддержка гостей.", images: [mainSocialImage] },
 };
 
 export default function AboutPage() {

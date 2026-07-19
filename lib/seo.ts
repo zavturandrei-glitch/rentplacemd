@@ -20,6 +20,18 @@ import {
 export const baseUrl = "https://rentplace.md";
 export const siteName = "RentPlaceMD";
 export const defaultLocale = "ru_MD";
+export const alternateOpenGraphLocales = ["ro_MD", "en_US", "uk_UA", "cs_CZ"];
+export const mainSocialImagePath = "/og/rentplace-main-1200x630-v2.jpg";
+export const mainSocialImageUrl = baseUrl + mainSocialImagePath;
+export const mainSocialImageAlt = "RentPlace.md — квартиры посуточно в Кишинёве";
+export const mainSocialImage = {
+  url: mainSocialImageUrl,
+  secureUrl: mainSocialImageUrl,
+  type: "image/jpeg",
+  width: 1200,
+  height: 630,
+  alt: mainSocialImageAlt,
+};
 export const supportedLanguages = ["ru", "ro", "en", "uk", "cs"] as const satisfies readonly Language[];
 const openGraphLocale: Record<Language, string> = {
   ru: "ru_MD",
@@ -39,9 +51,9 @@ export const address = {
 export const phoneNumbers = ["+37369990190", "+37379990190"];
 export const sameAs = ["https://t.me/rentplacemd", "https://wa.me/37369990190"];
 
-export const siteTitle = "RentPlaceMD - квартиры посуточно в центре Кишинёва";
+export const siteTitle = "RentPlace.md — квартиры посуточно в Кишинёве";
 export const siteDescription =
-  "Квартиры посуточно в центре Кишинёва, комплекс Измаил 88. Реальные фото, заселение 24/7, WhatsApp/Viber, прямой контакт без посредников.";
+  "Квартиры посуточно в Кишинёве без посредников. Актуальные варианты, удобное бронирование и поддержка RentPlace.";
 
 export const seoKeywords = [
   "квартиры посуточно Кишинев",
@@ -185,7 +197,7 @@ export function getApartmentsPageMetadata(languageInput?: string): Metadata {
       description: seo.description,
       url,
       siteName,
-      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: seo.title }],
+      images: [{ url: mainSocialImageUrl, secureUrl: mainSocialImageUrl, type: "image/jpeg", width: 1200, height: 630, alt: seo.title }],
       locale: openGraphLocale[language],
       type: "website",
     },
@@ -193,7 +205,7 @@ export function getApartmentsPageMetadata(languageInput?: string): Metadata {
       card: "summary_large_image",
       title: seo.title,
       description: seo.description,
-      images: ["/og-image.jpg"],
+      images: [{ url: mainSocialImageUrl, secureUrl: mainSocialImageUrl, type: "image/jpeg", width: 1200, height: 630, alt: seo.title }],
     },
   };
 }
@@ -225,7 +237,9 @@ export function getApartmentCategoryMetadata(category: ApartmentClass, languageI
       siteName,
       images: [
         {
-          url: "/og-image.jpg",
+          url: mainSocialImageUrl,
+          secureUrl: mainSocialImageUrl,
+          type: "image/jpeg",
           width: 1200,
           height: 630,
           alt: seo.title,
@@ -238,7 +252,7 @@ export function getApartmentCategoryMetadata(category: ApartmentClass, languageI
       card: "summary_large_image",
       title: seo.title,
       description: seo.description,
-      images: ["/og-image.jpg"],
+      images: [{ url: mainSocialImageUrl, secureUrl: mainSocialImageUrl, type: "image/jpeg", width: 1200, height: 630, alt: seo.title }],
     },
   };
 }
@@ -380,6 +394,21 @@ function apartmentSeoImages(id: ApartmentId) {
   return [...apartment.images, apartment.facadePhoto ?? "/common/building.png"];
 }
 
+function apartmentSocialImage(id: ApartmentId) {
+  const apartment = apartmentDetailsById[String(id)];
+  const apartmentRecord = getApartmentById(id);
+  const path = Number(id) === 67
+    ? "/apartments/GrigoreUreche67/3.jpeg"
+    : apartmentRecord?.cardPhoto ?? apartment.images[0];
+  const url = baseUrl + path;
+
+  return {
+    url,
+    secureUrl: url,
+    type: path.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg",
+  };
+}
+
 function imageObjects(images: string[], getAlt: (index: number) => string) {
   return images.map((image, index) => ({
     "@type": "ImageObject",
@@ -408,7 +437,6 @@ function offerForApartment(apartment: { id: ApartmentId; price: number }) {
 
 export function getApartmentMetadata(id: ApartmentId, languageInput?: string): Metadata {
   const language = normalizeSiteLanguage(languageInput);
-  const apartment = apartmentDetailsById[String(id)];
   const title =
     language === "ru" && id === 3
       ? "Студия Standard Plus в центре Кишинёва — ID 3 | RentPlaceMD"
@@ -423,6 +451,8 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
       : buildApartmentDescription(id, language);
   const path = apartmentPath(id);
   const url = languageInput ? localizedUrl(path, language) : getApartmentUrl(id);
+  const socialImage = apartmentSocialImage(id);
+  const socialImageAlt = apartmentImageAlt(id, 1, language);
 
   return {
     title: id === 3 || id === 5 ? { absolute: title } : title,
@@ -445,12 +475,7 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
       description,
       url,
       siteName,
-      images: apartmentSeoImages(id).map((image, index) => ({
-        url: image,
-        width: 1200,
-        height: 800,
-        alt: apartmentImageAlt(id, index + 1, language),
-      })),
+      images: [{ ...socialImage, alt: socialImageAlt }],
       locale: openGraphLocale[language],
       type: "website",
     },
@@ -458,7 +483,7 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
       card: "summary_large_image",
       title,
       description,
-      images: [apartment.images[0]],
+      images: [{ ...socialImage, alt: socialImageAlt }],
     },
   };
 }
@@ -573,7 +598,7 @@ export function buildSiteJsonLd() {
       name: siteName,
       url: baseUrl,
       logo: baseUrl + "/icon.png",
-      image: imageObjects(["/og-image.jpg"], () => "RentPlaceMD apartments in Chisinau"),
+      image: imageObjects([mainSocialImagePath], () => "RentPlaceMD apartments in Chisinau"),
       sameAs,
       contactPoint: [
         {
@@ -607,7 +632,7 @@ export function buildSiteJsonLd() {
       "@id": baseUrl + "/#localbusiness",
       name: siteName,
       url: baseUrl,
-      image: imageObjects(["/og-image.jpg", "/main.jpg"], (index) =>
+      image: imageObjects([mainSocialImagePath, "/main.jpg"], (index) =>
         index === 1 ? "RentPlaceMD apartments in Chisinau" : "Ismail 88 apartment building in Chisinau",
       ),
       logo: baseUrl + "/icon.png",

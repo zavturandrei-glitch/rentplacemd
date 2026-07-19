@@ -4,7 +4,7 @@ import {
   apartmentCategoryOrder,
   getApartmentCategoryPath,
 } from "@/lib/apartments";
-import { baseUrl, getApartmentUrl } from "@/lib/seo";
+import { baseUrl, getApartmentUrl, mainSocialImageUrl } from "@/lib/seo";
 
 const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-19"),
@@ -44,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: categoryLastModified,
     changeFrequency: "weekly" as const,
     priority: 0.88,
-    images: [baseUrl + "/og-image.jpg"],
+    images: [mainSocialImageUrl],
     alternates: languageAlternates(getApartmentCategoryPath(category)),
   }));
 
@@ -67,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: routeLastModified[""],
       changeFrequency: "daily",
       priority: 1,
-      images: [baseUrl + "/og-image.jpg", baseUrl + "/main.jpg", baseUrl + "/icon.png"],
+      images: [mainSocialImageUrl, baseUrl + "/main.jpg", baseUrl + "/icon.png"],
       alternates: languageAlternates(""),
     },
     ...["/about", "/apartments", "/check-in-rules", "/transfer", "/chisinau-guide"].map((path) => ({
@@ -75,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: routeLastModified[path],
       changeFrequency: "monthly" as const,
       priority: path === "/apartments" ? 0.9 : 0.72,
-      images: [baseUrl + "/og-image.jpg"],
+      images: [mainSocialImageUrl],
       alternates: languageAlternates(path),
     })),
     ...categoryRoutes,

@@ -5,11 +5,14 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import {
   baseUrl,
   buildSiteJsonLd,
+  alternateOpenGraphLocales,
   defaultLocale,
   iconMetadata,
   routeAlternates,
   seoKeywords,
   siteDescription,
+  mainSocialImageAlt,
+  mainSocialImageUrl,
   siteName,
   siteTitle,
 } from "@/lib/seo";
@@ -58,20 +61,32 @@ export const metadata: Metadata = {
     siteName,
     images: [
       {
-        url: "/og-image.jpg",
+        url: mainSocialImageUrl,
+        secureUrl: mainSocialImageUrl,
+        type: "image/jpeg",
         width: 1200,
         height: 630,
-        alt: "RentPlaceMD apartments in Chisinau, Ismail 88",
+        alt: mainSocialImageAlt,
       },
     ],
     locale: defaultLocale,
+    alternateLocale: alternateOpenGraphLocales,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/og-image.jpg"],
+    images: [
+      {
+        url: mainSocialImageUrl,
+        secureUrl: mainSocialImageUrl,
+        type: "image/jpeg",
+        width: 1200,
+        height: 630,
+        alt: mainSocialImageAlt,
+      },
+    ],
   },
   appleWebApp: {
     capable: true,

@@ -7,6 +7,23 @@ const nextConfig: NextConfig = {
     qualities: [75, 82],
     minimumCacheTTL: 31536000,
   },
+  async headers() {
+    return [
+      {
+        source: "/og/rentplace-main-1200x630-v2.jpg",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, s-maxage=31536000, immutable",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {

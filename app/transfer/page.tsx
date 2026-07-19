@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
-import { baseUrl, routeAlternates, siteName } from "@/lib/seo";
+import { baseUrl, mainSocialImage, routeAlternates, siteName } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Трансфер из аэропорта Кишинёва",
@@ -15,14 +15,14 @@ export const metadata: Metadata = {
     description: "Трансфер из аэропорта Кишинёва до квартиры RentPlaceMD по предварительной договорённости.",
     url: baseUrl + "/transfer",
     siteName,
-    images: ["/og-image.jpg"],
+    images: [mainSocialImage],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Трансфер из аэропорта Кишинёва | RentPlaceMD",
     description: "Трансфер из аэропорта до квартиры RentPlaceMD.",
-    images: ["/og-image.jpg"],
+    images: [mainSocialImage],
   },
 };
 
