@@ -172,7 +172,7 @@ function MobileHeader() {
                 type="button"
                 title={lang.display}
                 onClick={() => changeLanguage(lang.code as Lang)}
-                className={`flex items-center gap-1 text-[10px] font-black transition active:scale-95 ${language === lang.code ? "text-[#ffd21f]" : "text-white/85"}`}
+                className={`flex min-h-6 items-center gap-1 text-[10px] font-black transition active:scale-95 ${language === lang.code ? "text-[#ffd21f]" : "text-white/85"}`}
                 aria-label={lang.display}
               >
                 <span className="h-3 w-[18px] overflow-hidden rounded-[3px] shadow-sm ring-1 ring-white/10">
@@ -210,10 +210,10 @@ function MobileHeader() {
 
           <div className="shrink-0 pt-0 text-right">
             <div className="space-y-0.5 text-[14px] font-black leading-[1.02] text-white">
-              <a href="tel:+37379990190" className="block">
+              <a href="tel:+37379990190" className="flex min-h-6 items-center justify-end">
                 +373 79 990 190
               </a>
-              <a href="tel:+37369990190" className="block">
+              <a href="tel:+37369990190" className="flex min-h-6 items-center justify-end">
                 +373 69 990 190
               </a>
             </div>
@@ -223,7 +223,7 @@ function MobileHeader() {
                 href="https://wa.me/37369990190"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-5 w-5 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-lg shadow-emerald-500/25 ring-1 ring-white/10 transition active:scale-95"
+                className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-lg shadow-emerald-500/25 ring-1 ring-white/10 transition active:scale-95"
                 aria-label="WhatsApp"
               >
                 <WhatsAppIcon />
@@ -231,7 +231,7 @@ function MobileHeader() {
 
               <a
                 href="viber://chat?number=%2B37369990190"
-                className="flex h-5 w-5 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-lg shadow-violet-500/25 ring-1 ring-white/10 transition active:scale-95"
+                className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-lg shadow-violet-500/25 ring-1 ring-white/10 transition active:scale-95"
                 aria-label="Viber"
               >
                 <ViberIcon />
@@ -241,7 +241,7 @@ function MobileHeader() {
                 href="https://t.me/rentplacemd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-5 w-5 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-lg shadow-sky-500/25 ring-1 ring-white/10 transition active:scale-95"
+                className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-lg shadow-sky-500/25 ring-1 ring-white/10 transition active:scale-95"
                 aria-label="Telegram"
               >
                 <TelegramIcon />

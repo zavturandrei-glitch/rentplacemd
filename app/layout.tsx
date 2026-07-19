@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import JsonLdScript from "@/components/JsonLdScript";
 import { LanguageProvider } from "@/context/LanguageContext";
 import {
   baseUrl,
@@ -96,11 +97,9 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <LanguageProvider>{children}</LanguageProvider>
 
-        <Script
+        <JsonLdScript
           id="rentplacemd-structured-data"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          data={structuredData}
         />
 
         <Script

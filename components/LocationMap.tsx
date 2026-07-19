@@ -5,15 +5,19 @@ import type { Language } from "@/locales/translations";
 import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
 
 const locations = [
-  { id: 25, name: "Ismail 88", address: "Ismail 88, Chișinău, Moldova" },
-  { id: 67, name: "Grigore Ureche 67", address: "Grigore Ureche 67, Chișinău, Moldova" },
-  { id: 76, name: "Mihai Eminescu 76", address: "Mihai Eminescu 76, Chișinău, Moldova" },
-  { id: 77, name: "Lev Tolstoi 63/1", address: "Lev Tolstoi 63/1, Chișinău, Moldova" },
+  { id: 25, name: "Ismail 88", address: "Strada Ismail 88, Chișinău, Moldova", latitude: 47.017963, longitude: 28.849791 },
+  { id: 77, name: "Lev Tolstoi 63/1", address: "Strada Lev Tolstoi 63/1, Chișinău, Moldova", latitude: 47.015703, longitude: 28.847644 },
+  { id: 76, name: "Mihai Eminescu 76", address: "Strada Mihai Eminescu 76, Chișinău, Moldova", latitude: 47.024100, longitude: 28.841086 },
+  { id: 67, name: "Grigore Ureche 67", address: "Strada Grigore Ureche 67, Chișinău, Moldova", latitude: 47.027842, longitude: 28.846179 },
 ] as const;
 
-const mapDestinations = locations.slice(1).map((location) => encodeURIComponent(location.address)).join("+to:");
-const mapUrl = `https://www.google.com/maps?output=embed&saddr=${encodeURIComponent(locations[0].address)}&daddr=${mapDestinations}`;
-const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(locations[0].address)}&destination=${encodeURIComponent(locations[3].address)}&waypoints=${encodeURIComponent(locations.slice(1, 3).map((location) => location.address).join("|"))}`;
+function coordinates(location: (typeof locations)[number]) {
+  return `${location.latitude},${location.longitude}`;
+}
+
+const mapDestinations = locations.slice(1).map((location) => encodeURIComponent(coordinates(location))).join("+to:");
+const mapUrl = `https://www.google.com/maps?output=embed&saddr=${encodeURIComponent(coordinates(locations[0]))}&daddr=${mapDestinations}`;
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(coordinates(locations[0]))}&destination=${encodeURIComponent(coordinates(locations[3]))}&waypoints=${encodeURIComponent(locations.slice(1, 3).map(coordinates).join("|"))}`;
 
 const cityByLanguage: Record<Language, string> = {
   ru: "Кишинёв, Молдова",
@@ -97,7 +101,7 @@ export default function LocationMap() {
               {visibleLocations.map((location, index) => (
                 <a
                   key={location.address}
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinates(location))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group rounded-2xl border border-[#f0dfbf] bg-[#fffaf0] p-4 transition hover:border-[#d4146f]/35 hover:bg-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"

@@ -36,8 +36,6 @@ export const address = {
   addressCountry: "MD",
 };
 
-export const contentLastModified = new Date("2026-07-12");
-
 export const phoneNumbers = ["+37369990190", "+37379990190"];
 export const sameAs = ["https://t.me/rentplacemd", "https://wa.me/37369990190"];
 

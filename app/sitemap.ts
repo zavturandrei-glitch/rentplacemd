@@ -4,7 +4,26 @@ import {
   apartmentCategoryOrder,
   getApartmentCategoryPath,
 } from "@/lib/apartments";
-import { baseUrl, contentLastModified, getApartmentUrl } from "@/lib/seo";
+import { baseUrl, getApartmentUrl } from "@/lib/seo";
+
+const routeLastModified: Record<string, Date> = {
+  "": new Date("2026-07-19"),
+  "/about": new Date("2026-07-12"),
+  "/apartments": new Date("2026-07-19"),
+  "/check-in-rules": new Date("2026-06-24"),
+  "/transfer": new Date("2026-06-24"),
+  "/chisinau-guide": new Date("2026-06-24"),
+};
+const categoryLastModified = new Date("2026-07-19");
+const apartmentInventoryLastModified = new Date("2026-07-12");
+
+function absoluteAssetUrl(path: string) {
+  return new URL(path, baseUrl).href;
+}
+
+function uniqueAssetUrls(paths: readonly string[]) {
+  return [...new Set(paths.map(absoluteAssetUrl))];
+}
 
 function languageAlternates(path: string) {
   return {
@@ -22,7 +41,7 @@ function languageAlternates(path: string) {
 export default function sitemap(): MetadataRoute.Sitemap {
   const categoryRoutes = apartmentCategoryOrder.map((category) => ({
     url: baseUrl + getApartmentCategoryPath(category),
-    lastModified: contentLastModified,
+    lastModified: categoryLastModified,
     changeFrequency: "weekly" as const,
     priority: 0.88,
     images: [baseUrl + "/og-image.jpg"],
@@ -34,10 +53,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return {
       url,
-      lastModified: contentLastModified,
+      lastModified: apartmentInventoryLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.86,
-      images: [...apartment.photos, ...(apartment.facadePhoto ? [apartment.facadePhoto] : [])].map((image) => baseUrl + image),
+      images: uniqueAssetUrls([...apartment.photos, ...(apartment.facadePhoto ? [apartment.facadePhoto] : [])]),
       alternates: languageAlternates("/apartment/" + apartment.slug),
     };
   });
@@ -45,7 +64,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: contentLastModified,
+      lastModified: routeLastModified[""],
       changeFrequency: "daily",
       priority: 1,
       images: [baseUrl + "/og-image.jpg", baseUrl + "/main.jpg", baseUrl + "/icon.png"],
@@ -53,7 +72,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...["/about", "/apartments", "/check-in-rules", "/transfer", "/chisinau-guide"].map((path) => ({
       url: baseUrl + path,
-      lastModified: contentLastModified,
+      lastModified: routeLastModified[path],
       changeFrequency: "monthly" as const,
       priority: path === "/apartments" ? 0.9 : 0.72,
       images: [baseUrl + "/og-image.jpg"],

@@ -1,5 +1,3 @@
-import Script from "next/script";
-
 export default function JsonLdScript({
   id,
   data,
@@ -8,10 +6,9 @@ export default function JsonLdScript({
   data: unknown;
 }) {
   return (
-    <Script
+    <script
       id={id}
       type="application/ld+json"
-      strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(data).replace(/</g, "\\u003c"),
       }}
