@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
-import BackButton from "@/components/BackButton";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
 import JsonLdScript from "@/components/JsonLdScript";
 import TodayFree from "@/components/TodayFree";
@@ -62,7 +61,6 @@ export default async function ApartmentCategoryPage({ params, searchParams }: Ca
         data={jsonLd}
       />
       <Header />
-      <BackButton />
       <ApartmentCategoryNav currentClass={apartmentClass} />
       <TodayFree selectedClass={apartmentClass} />
       <Footer />

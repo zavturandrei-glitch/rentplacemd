@@ -15,7 +15,7 @@ const routeLastModified: Record<string, Date> = {
   "/chisinau-guide": new Date("2026-06-24"),
 };
 const categoryLastModified = new Date("2026-07-19");
-const apartmentInventoryLastModified = new Date("2026-07-12");
+const apartmentInventoryLastModified = new Date("2026-07-25");
 
 function absoluteAssetUrl(path: string) {
   return new URL(path, baseUrl).href;

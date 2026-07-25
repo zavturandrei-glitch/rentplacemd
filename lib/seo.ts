@@ -377,6 +377,19 @@ export function apartmentImageAlt(
 
 export function buildApartmentKeywords(id: ApartmentId) {
   const apartment = apartmentDetailsById[String(id)];
+  if (String(id) === "6") {
+    return [
+      "квартира посуточно Ботаника",
+      "снять квартиру на Ботанике",
+      "квартира возле аэропорта Кишинёв",
+      "квартира Cuza Vodă Кишинёв",
+      "квартира посуточно Кишинёв до 4 человек",
+      "квартира в новострое Кишинёв",
+      "квартира с одной спальней Кишинёв",
+      "апартаменты возле аэропорта Кишинёв",
+      "RentPlaceMD",
+    ];
+  }
   return [
     "квартира " + id + " посуточно Кишинев",
     "квартира " + id + " посуточно Кишинёв",
@@ -696,6 +709,7 @@ export function getApartmentJsonLd(
   const name = localized?.schemaName ?? "RentPlaceMD ID " + id + " - " + kindTitle[apartment.kind];
   const categoryPath = getApartmentCategoryPath(apartment.class);
   const categoryName = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
+  const isCuzaVoda = String(id) === "6";
 
   return [
     {
@@ -711,6 +725,13 @@ export function getApartmentJsonLd(
         ...address,
         streetAddress: displayAddress,
       },
+      ...(isCuzaVoda ? {
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: 46.98763,
+          longitude: 28.87104,
+        },
+      } : {}),
       description: buildApartmentDescription(id, language),
       telephone: phoneNumbers[0],
       priceRange: apartment.price + " MDL",
@@ -721,15 +742,10 @@ export function getApartmentJsonLd(
           maxValue: apartment.guests,
         },
       } : {}),
-      amenityFeature: [
-        "Wi-Fi",
-        "Air conditioning",
-        "Kitchen",
-        "Clean linen",
-        "24/7 check-in",
-        "Towels",
-        "Payment at check-in",
-      ].map((amenityName) => ({
+      amenityFeature: (isCuzaVoda && localized
+        ? localized.features
+        : ["Wi-Fi", "Air conditioning", "Kitchen", "Clean linen", "24/7 check-in", "Towels", "Payment at check-in"]
+      ).map((amenityName) => ({
         "@type": "LocationFeatureSpecification",
         name: amenityName,
         value: true,
@@ -777,7 +793,7 @@ export function getApartmentJsonLd(
       "@context": "https://schema.org",
       "@type": "FAQPage",
       inLanguage: language,
-      mainEntity: apartmentFaqByLanguage[language].map((item) => ({
+      mainEntity: (localized?.faq ?? apartmentFaqByLanguage[language]).map((item) => ({
         "@type": "Question",
         name: item.question,
         acceptedAnswer: {

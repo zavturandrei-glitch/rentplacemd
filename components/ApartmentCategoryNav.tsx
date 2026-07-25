@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   apartmentCategoryOrder,
@@ -15,6 +16,8 @@ const textByLanguage: Record<
     home: string;
     allApartments: string;
     allCategories: string;
+    category: string;
+    back: string;
     categories: Record<ApartmentClass, string>;
   }
 > = {
@@ -22,30 +25,40 @@ const textByLanguage: Record<
     home: "Главная",
     allApartments: "Все квартиры",
     allCategories: "Все категории",
+    category: "Категория",
+    back: "Назад",
     categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   ro: {
     home: "Acasă",
     allApartments: "Toate apartamentele",
     allCategories: "Toate categoriile",
+    category: "Categorie",
+    back: "Înapoi",
     categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   en: {
     home: "Home",
     allApartments: "All apartments",
     allCategories: "All categories",
+    category: "Category",
+    back: "Back",
     categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   uk: {
     home: "Головна",
     allApartments: "Усі квартири",
     allCategories: "Усі категорії",
+    category: "Категорія",
+    back: "Назад",
     categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
   cs: {
     home: "Domů",
     allApartments: "Všechny apartmány",
     allCategories: "Všechny kategorie",
+    category: "Kategorie",
+    back: "Zpět",
     categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
   },
 };
@@ -53,46 +66,32 @@ const textByLanguage: Record<
 export default function ApartmentCategoryNav({ currentClass }: { currentClass: ApartmentClass }) {
   const { language } = useLanguage();
   const text = textByLanguage[language];
+  const router = useRouter();
 
   return (
-    <section className="bg-[#fffaf0] px-4 pt-7 sm:px-6 sm:pt-10 lg:px-8">
+    <section className="bg-[#fffaf0] px-4 pt-4 sm:px-6 sm:pt-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-black text-[#07111f]/55 sm:text-sm">
-          <Link href="/" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            {text.home}
+        <div className="flex items-center justify-between gap-3">
+          <Link href="/apartments" className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
+            ← {text.back}
           </Link>
-          <span aria-hidden="true">/</span>
-          <Link href="/apartments" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            {text.allApartments}
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="rounded-full bg-[#07111f] px-3 py-2 text-white shadow-sm">
-            {text.categories[currentClass]}
-          </span>
-        </nav>
-
-        <div className="mt-5 flex flex-wrap gap-2">
-          <Link
-            href="/apartments"
-            className="rounded-2xl bg-[#07111f] px-4 py-3 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
-          >
-            {text.allCategories}
-          </Link>
-          {apartmentCategoryOrder.map((category) => (
-            <Link
-              key={category}
-              href={getApartmentCategoryPath(category)}
-              aria-current={category === currentClass ? "page" : undefined}
-              className={
-                "rounded-2xl px-4 py-3 text-sm font-black shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] " +
-                (category === currentClass
-                  ? "bg-[#ffd21f] text-[#07111f]"
-                  : "bg-white text-[#07111f] hover:text-[#d4146f]")
-              }
+          <label className="flex min-h-11 min-w-0 items-center gap-2 rounded-xl bg-white px-3 shadow-sm ring-1 ring-black/5">
+            <span className="hidden text-xs font-black text-slate-500 sm:inline">{text.category}:</span>
+            <select
+              value={currentClass}
+              onChange={(event) => {
+                const category = event.target.value as ApartmentClass | "all";
+                router.push(category === "all" ? "/apartments" : getApartmentCategoryPath(category));
+              }}
+              className="min-w-0 bg-transparent py-2 text-sm font-black text-[#07111f] outline-none"
+              aria-label={text.category}
             >
-              {text.categories[category]}
-            </Link>
-          ))}
+              <option value="all">{text.allCategories}</option>
+              {apartmentCategoryOrder.map((category) => (
+                <option key={category} value={category}>{text.categories[category]}</option>
+              ))}
+            </select>
+          </label>
         </div>
       </div>
     </section>

@@ -85,13 +85,6 @@ function getCategoryApartments(category: ApartmentClass) {
   return activeApartments.filter((apartment) => apartment.class === category);
 }
 
-const categoryStartingPrices: Record<ApartmentClass, number> = {
-  economy: 700,
-  standard: 800,
-  standardPlus: 900,
-  premium: 1000,
-};
-
 export default function ApartmentCategoryMenu() {
   const { language } = useLanguage();
   const text = textByLanguage[language];
@@ -99,16 +92,6 @@ export default function ApartmentCategoryMenu() {
   return (
     <section className="bg-[#efeee9] px-3 py-5 sm:px-6 sm:py-8 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-xs font-black text-[#07111f]/55 sm:text-sm">
-          <Link href="/" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            {text.home}
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="rounded-full bg-[#07111f] px-3 py-2 text-white shadow-sm">
-            {text.allApartments}
-          </span>
-        </nav>
-
         <div className="mb-4 sm:mb-6">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">
             {text.eyebrow}
@@ -126,7 +109,7 @@ export default function ApartmentCategoryMenu() {
             const categoryTitle = text.categories[category];
             const categoryApartments = getCategoryApartments(category);
             const firstApartment = categoryApartments[0];
-            const startingPrice = categoryStartingPrices[category];
+            const startingPrice = Math.min(...categoryApartments.map((apartment) => apartment.price));
 
             if (!firstApartment) {
               return null;

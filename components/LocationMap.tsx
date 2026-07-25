@@ -9,6 +9,7 @@ const locations = [
   { id: 77, name: "Lev Tolstoi 63/1", address: "Strada Lev Tolstoi 63/1, Chișinău, Moldova", latitude: 47.015703, longitude: 28.847644 },
   { id: 76, name: "Mihai Eminescu 76", address: "Strada Mihai Eminescu 76, Chișinău, Moldova", latitude: 47.024100, longitude: 28.841086 },
   { id: 67, name: "Grigore Ureche 67", address: "Strada Grigore Ureche 67, Chișinău, Moldova", latitude: 47.027842, longitude: 28.846179 },
+  { id: 6, name: "Cuza Vodă 1/2", address: "Bulevardul Cuza Vodă 1/2, Chișinău, Moldova", latitude: 46.98763, longitude: 28.87104 },
 ] as const;
 
 function coordinates(location: (typeof locations)[number]) {
@@ -17,7 +18,7 @@ function coordinates(location: (typeof locations)[number]) {
 
 const mapDestinations = locations.slice(1).map((location) => encodeURIComponent(coordinates(location))).join("+to:");
 const mapUrl = `https://www.google.com/maps?output=embed&saddr=${encodeURIComponent(coordinates(locations[0]))}&daddr=${mapDestinations}`;
-const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(coordinates(locations[0]))}&destination=${encodeURIComponent(coordinates(locations[3]))}&waypoints=${encodeURIComponent(locations.slice(1, 3).map(coordinates).join("|"))}`;
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(coordinates(locations[0]))}&destination=${encodeURIComponent(coordinates(locations[locations.length - 1]))}&waypoints=${encodeURIComponent(locations.slice(1, -1).map(coordinates).join("|"))}`;
 
 const cityByLanguage: Record<Language, string> = {
   ru: "Кишинёв, Молдова",
@@ -36,44 +37,44 @@ const textByLanguage: Record<Language, {
   mapTitle: string;
 }> = {
   ru: {
-    eyebrow: "4 адреса RentPlaceMD",
+    eyebrow: "5 адресов RentPlaceMD",
     title: "RentPlaceMD на карте",
-    text: "Четыре уникальных адреса RentPlaceMD в Кишинёве. Для каждого адреса показана одна точка.",
+    text: "Пять уникальных адресов RentPlaceMD в Кишинёве. Для каждого адреса показана одна точка.",
     button: "Маршрут по адресам",
     open: "Открыть в Google Maps",
-    mapTitle: "Четыре адреса RentPlaceMD на карте Кишинёва",
+    mapTitle: "Пять адресов RentPlaceMD на карте Кишинёва",
   },
   ro: {
-    eyebrow: "4 adrese RentPlaceMD",
+    eyebrow: "5 adrese RentPlaceMD",
     title: "RentPlaceMD pe hartă",
-    text: "Patru adrese unice RentPlaceMD în Chișinău. Fiecare adresă are un singur punct pe hartă.",
+    text: "Cinci adrese unice RentPlaceMD în Chișinău. Fiecare adresă are un singur punct pe hartă.",
     button: "Ruta între adrese",
     open: "Deschide în Google Maps",
-    mapTitle: "Patru adrese RentPlaceMD pe harta Chișinăului",
+    mapTitle: "Cinci adrese RentPlaceMD pe harta Chișinăului",
   },
   en: {
-    eyebrow: "4 RentPlaceMD addresses",
+    eyebrow: "5 RentPlaceMD addresses",
     title: "RentPlaceMD on the map",
-    text: "Four unique RentPlaceMD addresses in Chisinau. Each address is represented by one map point.",
+    text: "Five unique RentPlaceMD addresses in Chisinau. Each address is represented by one map point.",
     button: "Directions between addresses",
     open: "Open in Google Maps",
-    mapTitle: "Four RentPlaceMD addresses on the Chisinau map",
+    mapTitle: "Five RentPlaceMD addresses on the Chisinau map",
   },
   uk: {
-    eyebrow: "4 адреси RentPlaceMD",
+    eyebrow: "5 адрес RentPlaceMD",
     title: "RentPlaceMD на карті",
-    text: "Чотири унікальні адреси RentPlaceMD у Кишиневі. Для кожної адреси показано одну точку.",
+    text: "П’ять унікальних адрес RentPlaceMD у Кишиневі. Для кожної адреси показано одну точку.",
     button: "Маршрут за адресами",
     open: "Відкрити в Google Maps",
-    mapTitle: "Чотири адреси RentPlaceMD на карті Кишинева",
+    mapTitle: "П’ять адрес RentPlaceMD на карті Кишинева",
   },
   cs: {
-    eyebrow: "4 adresy RentPlaceMD",
+    eyebrow: "5 adres RentPlaceMD",
     title: "RentPlaceMD na mapě",
-    text: "Čtyři jedinečné adresy RentPlaceMD v Kišiněvě. Každá adresa má jeden bod na mapě.",
+    text: "Pět jedinečných adres RentPlaceMD v Kišiněvě. Každá adresa má jeden bod na mapě.",
     button: "Trasa mezi adresami",
     open: "Otevřít v Google Maps",
-    mapTitle: "Čtyři adresy RentPlaceMD na mapě Kišiněva",
+    mapTitle: "Pět adres RentPlaceMD na mapě Kišiněva",
   },
 };
 

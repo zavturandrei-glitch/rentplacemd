@@ -748,7 +748,7 @@ export default function ApartmentDetails({
   const intro = localizedApartment?.shortDescription ?? replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment, locationTitle);
   const aboutTitle = localizedApartment?.aboutTitle ?? replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment, locationTitle);
   const descriptionParagraphs = (
-    localizedApartment ? [localizedApartment.shortDescription, localizedApartment.layoutDescription] : apartment.descriptionParagraphs ?? [
+    localizedApartment ? localizedApartment.descriptionParagraphs ?? [localizedApartment.shortDescription, localizedApartment.layoutDescription] : apartment.descriptionParagraphs ?? [
       text.aboutFirst[apartment.kind],
       text.aboutSecond[apartment.kind],
     ]
@@ -760,10 +760,10 @@ export default function ApartmentDetails({
     nearbyKeys: ["center", "shops", "transport"],
   };
   const whyItems = localizedApartment ? localizedApartment.features : resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
-  const audienceItems = localizedApartment ? [] : resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases);
-  const nearbyItems = localizedApartment ? [] : resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
+  const audienceItems = localizedApartment?.audienceItems ?? (localizedApartment ? [] : resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases));
+  const nearbyItems = localizedApartment?.nearbyItems ?? (localizedApartment ? [] : resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle)));
   const trustPhrases = text.content.trustPhrases.filter((_, index) => !localizedApartment || index !== 1).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
-  const faq = (localizedApartment ? [] : text.content.faq).map((item) => ({
+  const faq = (localizedApartment?.faq ?? (localizedApartment ? [] : text.content.faq)).map((item) => ({
     ...item,
     question: replaceApartmentLocation(item.question, apartment, locationTitle),
     answer: replaceApartmentLocation(item.answer, apartment, locationTitle),

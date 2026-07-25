@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
-import BackButton from "@/components/BackButton";
 import ApartmentCategoryMenu from "@/components/ApartmentCategoryMenu";
 import Footer from "@/components/Footer";
 import JsonLdScript from "@/components/JsonLdScript";
@@ -29,7 +28,6 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
         data={jsonLd}
       />
       <Header />
-      <BackButton />
       <ApartmentCategoryMenu />
       <Footer />
     </main>
