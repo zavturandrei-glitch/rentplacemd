@@ -31,7 +31,10 @@ export type GuideSource = {
 export type GuideSection = {
   title: Localized;
   body: Localized;
-  bullets?: Record<Language, string[]>;
+  note?: {
+    title: Localized;
+    body: Localized;
+  };
   links?: { slug: GuideSlug; label: Localized }[];
 };
 
@@ -63,15 +66,7 @@ export const guideUi = {
     "Praktické trasy a tipy: co vidět ve městě, kam vyrazit na den a co před cestou ověřit."
   ),
   open: l("Открыть гид", "Deschide ghidul", "Open guide", "Відкрити гід", "Otevřít průvodce"),
-  updated: l("Проверено", "Verificat", "Verified", "Перевірено", "Ověřeno"),
-  sources: l("Официальные источники", "Surse oficiale", "Official sources", "Офіційні джерела", "Oficiální zdroje"),
-  practicalNote: l(
-    "Расписание, цены и правила могут измениться. Перед поездкой откройте официальный источник.",
-    "Programul, prețurile și regulile se pot schimba. Verifică sursa oficială înainte de vizită.",
-    "Opening times, prices and rules can change. Check the official source before visiting.",
-    "Розклад, ціни й правила можуть змінитися. Перед поїздкою перевірте офіційне джерело.",
-    "Otevírací doba, ceny a pravidla se mohou měnit. Před návštěvou ověřte oficiální zdroj."
-  ),
+  sources: l("Полезные официальные ресурсы", "Resurse oficiale utile", "Useful official resources", "Корисні офіційні ресурси", "Užitečné oficiální zdroje"),
   back: l("Все темы", "Toate temele", "All topics", "Усі теми", "Všechna témata"),
   emptyEvents: l(
     "Сейчас нет событий, подтверждённых организатором. Мы не публикуем примерные или вымышленные афиши.",
@@ -110,7 +105,7 @@ const page = (
 export const guidePages: Record<GuideSlug, GuidePageData> = {
   "walking-tours": page(
     "walking-tours",
-    "/guide/walking-tours.svg",
+    "/guide/walking-tours.webp",
     l("Пешие маршруты по Кишинёву", "Trasee pietonale prin Chișinău", "Walking routes in Chisinau", "Піші маршрути Кишиневом", "Pěší trasy po Kišiněvě"),
     l(
       "Четыре самостоятельных маршрута от короткой прогулки по центру до полного дня в городе.",
@@ -129,12 +124,15 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
           "Старт: Площа Великих Національних Зборів. Фініш: Національний музей історії. Легкий маршрут центральними вулицями.",
           "Start: Náměstí Velkého národního shromáždění. Cíl: Národní historické muzeum. Lehká trasa centrem."
         ),
-        bullets: {
-          ru: ["Соборный парк и кафедральный собор снаружи", "Триумфальная арка", "Парк и памятник Штефану чел Маре", "Улица 31 Августа 1989"],
-          ro: ["Parcul Catedralei și exteriorul catedralei", "Arcul de Triumf", "Parcul și monumentul lui Ștefan cel Mare", "Strada 31 August 1989"],
-          en: ["Cathedral Park and the cathedral exterior", "Triumphal Arch", "Ștefan cel Mare park and monument", "31 August 1989 Street"],
-          uk: ["Соборний парк і собор зовні", "Тріумфальна арка", "Парк і пам’ятник Штефану чел Маре", "Вулиця 31 Серпня 1989"],
-          cs: ["Katedrální park a exteriér katedrály", "Vítězný oblouk", "Park a pomník Ștefana cel Mare", "Ulice 31. srpna 1989"],
+        note: {
+          title: l("Остановки по пути", "Opriri pe traseu", "Stops along the way", "Зупинки на маршруті", "Zastávky po cestě"),
+          body: l(
+            "Маршрут проходит через Соборный парк, мимо кафедрального собора и Триумфальной арки, затем продолжается через парк Штефана чел Маре к улице 31 Августа 1989.",
+            "Traseul trece prin Parcul Catedralei, pe lângă catedrală și Arcul de Triumf, apoi continuă prin Parcul Ștefan cel Mare spre strada 31 August 1989.",
+            "The route crosses Cathedral Park, passes the cathedral and Triumphal Arch, then continues through Ștefan cel Mare Park towards 31 August 1989 Street.",
+            "Маршрут проходить через Соборний парк, повз кафедральний собор і Тріумфальну арку, а далі — через парк Штефана чел Маре до вулиці 31 Серпня 1989.",
+            "Trasa vede Katedrálním parkem kolem katedrály a Vítězného oblouku, pokračuje parkem Ștefan cel Mare a dále k ulici 31. srpna 1989."
+          ),
         },
       },
       {
@@ -146,12 +144,15 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
           "Старт: парк Штефана чел Маре. Фініш: Дендрарій. Спокійна прогулянка через Валя Морілор; є підйоми.",
           "Start: park Ștefan cel Mare. Cíl: dendrárium. Klidná procházka přes Valea Morilor s několika stoupáními."
         ),
-        bullets: {
-          ru: ["Возьмите воду в жаркий день", "Для Дендрария проверьте режим работы", "На лестницах и склонах нужна удобная обувь"],
-          ro: ["Ia apă într-o zi călduroasă", "Verifică programul Dendrariului", "Poartă încălțăminte comodă pentru scări și pante"],
-          en: ["Carry water on hot days", "Check Dendrarium opening information", "Wear comfortable shoes for steps and slopes"],
-          uk: ["Візьміть воду у спекотний день", "Перевірте години роботи Дендрарію", "Для сходів і схилів потрібне зручне взуття"],
-          cs: ["V horku si vezměte vodu", "Ověřte otevírací dobu dendrária", "Na schody a svahy se hodí pohodlná obuv"],
+        note: {
+          title: l("Перед прогулкой", "Înainte de plimbare", "Before the walk", "Перед прогулянкою", "Před procházkou"),
+          body: l(
+            "В жаркий день пригодится вода, а для лестниц и склонов — удобная обувь. Режим работы Дендрария лучше проверить непосредственно перед визитом.",
+            "Într-o zi călduroasă ia apă și poartă încălțăminte comodă pentru scări și pante. Verifică programul Dendrariului înainte de vizită.",
+            "Carry water on hot days and wear comfortable shoes for the steps and slopes. Check the Dendrarium’s current opening information before visiting.",
+            "У спекотний день візьміть воду, а для сходів і схилів — зручне взуття. Години роботи Дендрарію краще перевірити перед візитом.",
+            "V horkém dni si vezměte vodu a na schody a svahy pohodlnou obuv. Před návštěvou ověřte aktuální otevírací dobu dendrária."
+          ),
         },
       },
       {
@@ -179,7 +180,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   events: page(
     "events",
-    "/guide/events.svg",
+    "/guide/events.webp",
     l("События в Кишинёве", "Evenimente în Chișinău", "Events in Chisinau", "Події в Кишиневі", "Akce v Kišiněvě"),
     l("Только события, подтверждённые организатором или площадкой.", "Doar evenimente confirmate de organizator sau locație.", "Only events confirmed by an organiser or venue.", "Лише події, підтверджені організатором або майданчиком.", "Pouze akce potvrzené pořadatelem nebo místem konání."),
     [{
@@ -196,9 +197,9 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   "dental-tourism": page(
     "dental-tourism",
-    "/guide/dental-tourism.svg",
+    "/guide/dental-tourism.webp",
     l("Стоматологический туризм", "Turism stomatologic", "Dental tourism", "Стоматологічний туризм", "Dentální turistika"),
-    l("Нейтральный чек-лист для планирования лечения и проживания без рекомендаций конкретных клиник.", "Listă neutră pentru planificarea tratamentului și cazării, fără recomandări de clinici.", "A neutral checklist for planning treatment and accommodation, without recommending clinics.", "Нейтральний список для планування лікування й проживання без рекомендацій клінік.", "Neutrální kontrolní seznam pro plánování léčby a ubytování bez doporučování klinik."),
+    l("Практическая информация для планирования лечения и проживания без рекомендаций конкретных клиник.", "Informații practice pentru planificarea tratamentului și cazării, fără recomandări de clinici.", "Practical information for planning treatment and accommodation, without recommending clinics.", "Практична інформація для планування лікування й проживання без рекомендацій клінік.", "Praktické informace pro plánování léčby a ubytování bez doporučování klinik."),
     [
       {
         title: l("До записи", "Înainte de programare", "Before booking", "До запису", "Před objednáním"),
@@ -209,12 +210,15 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
           "Попросіть письмовий план лікування, кваліфікацію лікаря, перелік матеріалів, повний кошторис та умови гарантії. Уточніть, які етапи потребують повторного візиту.",
           "Vyžádejte si písemný léčebný plán, kvalifikaci lékaře, materiály, celkový rozpočet a záruční podmínky. Ověřte, které fáze vyžadují další návštěvu."
         ),
-        bullets: {
-          ru: ["Не принимайте медицинское решение только по переписке", "Оставьте резервные дни после процедуры", "Сохраните снимки, договор, чеки и выписку"],
-          ro: ["Nu lua o decizie medicală doar din mesaje", "Păstrează zile de rezervă după procedură", "Păstrează imaginile, contractul, chitanțele și scrisoarea medicală"],
-          en: ["Do not make a medical decision from messages alone", "Keep buffer days after treatment", "Retain scans, contract, receipts and discharge notes"],
-          uk: ["Не ухвалюйте медичного рішення лише за листуванням", "Залиште резервні дні після процедури", "Збережіть знімки, договір, чеки та виписку"],
-          cs: ["Nerozhodujte se o léčbě pouze podle zpráv", "Po zákroku si nechte časovou rezervu", "Uchovejte snímky, smlouvu, účtenky a lékařskou zprávu"],
+        note: {
+          title: l("План поездки", "Planul călătoriei", "Planning the trip", "План поїздки", "Plánování cesty"),
+          body: l(
+            "Медицинское решение не стоит принимать только по переписке. Оставьте после процедуры несколько резервных дней и сохраните снимки, договор, чеки и выписку.",
+            "Nu lua o decizie medicală doar din mesaje. Păstrează câteva zile de rezervă după procedură și toate imaginile, contractul, chitanțele și scrisoarea medicală.",
+            "Do not make a medical decision from messages alone. Keep a few buffer days after treatment and retain scans, the contract, receipts and discharge notes.",
+            "Не ухвалюйте медичного рішення лише за листуванням. Залиште кілька резервних днів після процедури та збережіть знімки, договір, чеки й виписку.",
+            "O léčbě nerozhodujte pouze podle zpráv. Po zákroku si nechte několik volných dnů a uchovejte snímky, smlouvu, účtenky i lékařskou zprávu."
+          ),
         },
       },
       {
@@ -232,7 +236,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   "moldova-trips": page(
     "moldova-trips",
-    "/guide/moldova-trips.svg",
+    "/guide/moldova-trips.webp",
     l("Поездки по Молдове", "Excursii prin Moldova", "Trips around Moldova", "Подорожі Молдовою", "Výlety po Moldavsku"),
     l("Идеи для самостоятельных поездок на один день из Кишинёва.", "Idei pentru excursii independente de o zi din Chișinău.", "Ideas for independent day trips from Chisinau.", "Ідеї для самостійних одноденних поїздок із Кишинева.", "Tipy na samostatné jednodenní výlety z Kišiněva."),
     [
@@ -261,7 +265,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   transnistria: page(
     "transnistria",
-    "/guide/transnistria.svg",
+    "/guide/transnistria.webp",
     l("Поездка в Приднестровский регион", "Călătorie în regiunea transnistreană", "Visiting the Transnistrian region", "Поїздка до Придністровського регіону", "Návštěva Podněsterského regionu"),
     l("Нейтральная подготовка к поездке в регион с особым фактическим режимом.", "Pregătire neutră pentru o vizită într-o regiune cu regim de facto distinct.", "Neutral preparation for a visit to a region with distinct de facto arrangements.", "Нейтральна підготовка до поїздки в регіон з особливим фактичним режимом.", "Neutrální příprava na cestu do regionu se zvláštním faktickým režimem."),
     [
@@ -274,12 +278,15 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
           "Перевірте актуальні рекомендації влади своєї країни, інформацію Прикордонної поліції Молдови та умови страхування. Не покладайтеся на старі блоги.",
           "Ověřte aktuální doporučení úřadů své země, informace moldavské pohraniční policie a podmínky pojištění. Nespoléhejte na staré blogy."
         ),
-        bullets: {
-          ru: ["Возьмите оригинал документа, подходящего для поездки", "Сообщите близким маршрут и время возвращения", "Уточните связь, оплату и обратный транспорт заранее"],
-          ro: ["Ia documentul original potrivit călătoriei", "Comunică apropiaților traseul și ora revenirii", "Clarifică din timp comunicațiile, plata și transportul de întoarcere"],
-          en: ["Carry the original travel document appropriate to your journey", "Share your route and return time", "Check connectivity, payment and return transport in advance"],
-          uk: ["Візьміть оригінал документа, придатного для поїздки", "Повідомте близьким маршрут і час повернення", "Заздалегідь перевірте зв’язок, оплату й зворотний транспорт"],
-          cs: ["Vezměte si originál cestovního dokladu", "Sdělte blízkým trasu a čas návratu", "Předem ověřte spojení, platby a dopravu zpět"],
+        note: {
+          title: l("Документы и связь", "Documente și comunicare", "Documents and communication", "Документи й зв’язок", "Doklady a spojení"),
+          body: l(
+            "Возьмите оригинал подходящего проездного документа, сообщите близким маршрут и время возвращения. Связь, способы оплаты и обратный транспорт стоит уточнить до выезда.",
+            "Ia documentul original potrivit călătoriei și comunică apropiaților traseul și ora revenirii. Verifică din timp comunicațiile, plata și transportul de întoarcere.",
+            "Carry the original travel document appropriate to your journey and share your route and return time. Check connectivity, payment options and return transport in advance.",
+            "Візьміть оригінал документа, придатного для поїздки, та повідомте близьким маршрут і час повернення. Заздалегідь перевірте зв’язок, оплату й зворотний транспорт.",
+            "Vezměte si originál vhodného cestovního dokladu a sdělte blízkým trasu i čas návratu. Předem ověřte spojení, platby a dopravu zpět."
+          ),
         },
       },
       {
@@ -297,7 +304,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   monasteries: page(
     "monasteries",
-    "/guide/monasteries.svg",
+    "/guide/monasteries.webp",
     l("Монастыри Молдовы", "Mănăstirile Moldovei", "Monasteries of Moldova", "Монастирі Молдови", "Moldavské kláštery"),
     l("Спокойный гид по религиозному наследию и правилам уважительного посещения.", "Ghid calm despre patrimoniul religios și vizitarea respectuoasă.", "A considerate guide to religious heritage and respectful visits.", "Спокійний гід релігійною спадщиною та правилами поважного відвідування.", "Ohleduplný průvodce náboženským dědictvím."),
     [
@@ -326,7 +333,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   museums: page(
     "museums",
-    "/guide/museums.svg",
+    "/guide/museums.webp",
     l("Музеи Кишинёва", "Muzeele Chișinăului", "Museums in Chisinau", "Музеї Кишинева", "Muzea v Kišiněvě"),
     l("Как выбрать музей и проверить актуальную информацию перед визитом.", "Cum să alegi un muzeu și să verifici informația actuală înainte de vizită.", "How to choose a museum and verify current visitor information.", "Як обрати музей і перевірити актуальну інформацію перед візитом.", "Jak vybrat muzeum a ověřit aktuální informace."),
     [
@@ -355,7 +362,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   wineries: page(
     "wineries",
-    "/guide/wineries.svg",
+    "/guide/wineries.webp",
     l("Винодельни Молдовы", "Vinăriile Moldovei", "Wineries of Moldova", "Виноробні Молдови", "Moldavská vinařství"),
     l("Как спланировать визит на винодельню без устаревших цен и расписаний.", "Cum să planifici o vizită la vinărie fără prețuri și programe învechite.", "How to plan a winery visit without relying on outdated prices or schedules.", "Як спланувати візит на виноробню без застарілих цін і розкладів.", "Jak naplánovat návštěvu vinařství bez zastaralých cen a časů."),
     [
@@ -384,7 +391,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   attractions: page(
     "attractions",
-    "/guide/attractions.svg",
+    "/guide/attractions.webp",
     l("Что посмотреть в Кишинёве", "Ce să vezi în Chișinău", "What to see in Chisinau", "Що подивитися в Кишиневі", "Co vidět v Kišiněvě"),
     l("Ориентиры для первого знакомства с городом.", "Repere pentru prima întâlnire cu orașul.", "Landmarks for a first introduction to the city.", "Орієнтири для першого знайомства з містом.", "Místa pro první seznámení s městem."),
     [
@@ -414,7 +421,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   ),
   restaurants: page(
     "restaurants",
-    "/guide/restaurants.svg",
+    "/guide/restaurants.webp",
     l("Рестораны и местная кухня", "Restaurante și bucătărie locală", "Restaurants and local food", "Ресторани й місцева кухня", "Restaurace a místní kuchyně"),
     l("Что попробовать и как выбрать место без рекламного рейтинга.", "Ce să încerci și cum să alegi un local fără clasamente publicitare.", "What to try and how to choose a place without an advertising ranking.", "Що скуштувати та як обрати місце без рекламного рейтингу.", "Co ochutnat a jak vybrat podnik bez reklamního žebříčku."),
     [

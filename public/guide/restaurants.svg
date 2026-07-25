@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
-  <title id="t">Restaurants and local cuisine</title><desc id="d">Stylised table setting with local food</desc>
-  <rect width="1200" height="675" fill="#07111f"/><circle cx="600" cy="340" r="235" fill="#fffaf0"/><circle cx="600" cy="340" r="155" fill="#ffd21f"/>
-  <path d="M180 110v455m-55-455v180q55 70 110 0V110M1000 110v455m-70-455h140l-70 225" fill="none" stroke="#fffaf0" stroke-width="28" stroke-linecap="round"/>
-  <g fill="#d4146f"><circle cx="540" cy="310" r="48"/><circle cx="650" cy="295" r="55"/><circle cx="610" cy="405" r="60"/></g>
-</svg>

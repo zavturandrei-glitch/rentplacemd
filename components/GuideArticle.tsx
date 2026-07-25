@@ -76,15 +76,15 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
                 <p className="mt-3 text-base font-medium leading-7 text-slate-600">
                   {section.body[language]}
                 </p>
-                {section.bullets ? (
-                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                    {section.bullets[language].map((item) => (
-                      <li key={item} className="flex gap-3 rounded-2xl bg-[#fffaf0] p-4 text-sm font-bold leading-6 text-[#07111f]">
-                        <span aria-hidden="true" className="text-[#d4146f]">✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                {section.note ? (
+                  <div className="mt-6 border-l-2 border-[#d4146f]/35 pl-4 sm:pl-5">
+                    <h3 className="text-base font-black text-[#07111f]">
+                      {section.note.title[language]}
+                    </h3>
+                    <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                      {section.note.body[language]}
+                    </p>
+                  </div>
                 ) : null}
                 {section.links ? (
                   <div className="mt-5 flex flex-wrap gap-2">
@@ -105,33 +105,27 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
         ))}
       </div>
 
-      <aside className="mt-6 rounded-[24px] bg-[#07111f] p-5 text-white sm:p-8" aria-labelledby="guide-sources">
-        <h2 id="guide-sources" className="text-2xl font-black">
-          {guideUi.sources[language]}
-        </h2>
-        <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-white/70">
-          {guideUi.practicalNote[language]}
-        </p>
-        {data.sources.length > 0 ? (
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+      {data.sources.length > 0 ? (
+        <aside className="mt-10 border-t border-slate-200 pt-6" aria-labelledby="guide-sources">
+          <h2 id="guide-sources" className="text-lg font-black text-[#07111f]">
+            {guideUi.sources[language]}
+          </h2>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm">
             {data.sources.map((source) => (
               <li key={source.sourceUrl}>
                 <a
                   href={source.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-14 items-center justify-between gap-3 rounded-2xl bg-white/10 px-4 py-3 font-black transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="font-bold text-[#d4146f] underline decoration-[#d4146f]/30 underline-offset-4 transition hover:decoration-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
                 >
-                  <span>{source.sourceName}</span>
-                  <span className="shrink-0 text-xs text-white/60">
-                    {guideUi.updated[language]} {source.verifiedAt}
-                  </span>
+                  {source.sourceName}
                 </a>
               </li>
             ))}
           </ul>
-        ) : null}
-      </aside>
+        </aside>
+      ) : null}
     </article>
   );
 }

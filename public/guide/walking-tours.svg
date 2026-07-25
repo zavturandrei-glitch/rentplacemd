@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
-  <title id="t">Walking routes in Chisinau</title><desc id="d">Illustrated city map with a walking route</desc>
-  <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#183a57"/></linearGradient></defs>
-  <rect width="1200" height="675" fill="url(#g)"/><path d="M0 485 200 380l190 90 220-180 210 115 170-155 210 100v325H0Z" fill="#fffaf0" opacity=".12"/>
-  <path d="M170 485C330 260 520 535 700 330s250 15 355-120" fill="none" stroke="#ffd21f" stroke-width="22" stroke-linecap="round" stroke-dasharray="2 44"/>
-  <g fill="#d4146f" stroke="#fff" stroke-width="10"><circle cx="170" cy="485" r="30"/><circle cx="700" cy="330" r="30"/><circle cx="1055" cy="210" r="30"/></g>
-</svg>

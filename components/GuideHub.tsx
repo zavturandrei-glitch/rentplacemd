@@ -37,7 +37,7 @@ export default function GuideHub() {
             <div className="relative aspect-[16/9] overflow-hidden bg-[#07111f]">
               <Image
                 src={card.image}
-                alt=""
+                alt={card.title[language]}
                 fill
                 priority={index < 3}
                 loading={index < 3 ? "eager" : "lazy"}

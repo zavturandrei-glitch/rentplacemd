@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
-  <title id="t">Trips around Moldova</title><desc id="d">Illustrated rolling landscape and road</desc>
-  <defs><linearGradient id="s" x2="0" y2="1"><stop stop-color="#183a57"/><stop offset="1" stop-color="#6ba8b8"/></linearGradient></defs>
-  <rect width="1200" height="675" fill="url(#s)"/><circle cx="950" cy="145" r="80" fill="#ffd21f"/>
-  <path d="M0 410Q260 260 520 430t680-50v295H0Z" fill="#47734b"/><path d="M0 510q280-140 560 0t640-20v185H0Z" fill="#2c5137"/>
-  <path d="M520 675q0-150 100-230t20-300" fill="none" stroke="#fffaf0" stroke-width="85" opacity=".88"/>
-</svg>
