@@ -4,7 +4,7 @@ import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentDisplayAddress, getApartmentLocalization } from "@/lib/apartmentLocalization";
-import { getApartmentPath, type Apartment } from "@/lib/apartments";
+import { getApartmentCatalogPrice, getApartmentPath, type Apartment } from "@/lib/apartments";
 import type { Language } from "@/locales/translations";
 
 const text: Record<Language, {
@@ -81,9 +81,7 @@ export default function ApartmentCard({
     apartment.guests === null ? null : copy.guests(apartment.guests),
     district,
   ].filter(Boolean).join(" · ");
-  const displayedPrice = apartment.class === "economy"
-    ? Math.round(apartment.price * 0.9)
-    : apartment.price;
+  const displayedPrice = getApartmentCatalogPrice(apartment);
 
   return (
     <Link

@@ -5,6 +5,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import {
   activeApartments,
   apartmentCategoryOrder,
+  getApartmentCategoryMinimumPrice,
+  getApartmentsByClass,
   type ApartmentClass,
 } from "@/lib/apartments";
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
@@ -47,10 +49,10 @@ const sectionText: Record<
         badge: "Premium",
       },
       standard: {
-        title: "Стандарт",
+        title: "Standard",
         description:
           "Более комфортные квартиры с современным интерьером. Отличный выбор для отдыха, командировок и проживания в центре Кишинёва.",
-        badge: "Стандарт",
+        badge: "Standard",
       },
       standardPlus: {
         title: "Standard+",
@@ -60,11 +62,11 @@ const sectionText: Record<
         highlightBadge: "Новые квартиры",
       },
       economy: {
-        title: "Эконом",
+        title: "Economy",
         description:
           "Практичные квартиры по более доступной цене. Хороший вариант для гостей, которым важно удобное расположение и разумная стоимость проживания.",
-        badge: "Эконом -10%",
-        discount: "Скидка 10%",
+        badge: "Economy · −100 MDL",
+        discount: "Скидка 100 MDL",
       },
     },
   },
@@ -99,8 +101,8 @@ const sectionText: Record<
         title: "Economy",
         description:
           "Apartamente practice, la un preț mai accesibil. O variantă bună pentru oaspeții care apreciază amplasarea comodă și costul rezonabil al șederii.",
-        badge: "Economy -10%",
-        discount: "10% discount",
+        badge: "Economy · −100 MDL",
+        discount: "Reducere 100 MDL",
       },
     },
   },
@@ -135,8 +137,8 @@ const sectionText: Record<
         title: "Economy",
         description:
           "Practical apartments at a more accessible price. A good option for guests who value a convenient location and a reasonable stay cost.",
-        badge: "Economy -10%",
-        discount: "10% discount",
+        badge: "Economy · −100 MDL",
+        discount: "100 MDL discount",
       },
     },
   },
@@ -171,8 +173,8 @@ const sectionText: Record<
         title: "Economy",
         description:
           "Praktické apartmány za dostupnější cenu. Dobrá varianta pro hosty, kteří ocení pohodlnou polohu a rozumnou cenu pobytu.",
-        badge: "Economy -10%",
-        discount: "10% discount",
+        badge: "Economy · −100 MDL",
+        discount: "Sleva 100 MDL",
       },
     },
   },
@@ -191,10 +193,10 @@ const sectionText: Record<
         badge: "Premium",
       },
       standard: {
-        title: "Стандарт",
+        title: "Standard",
         description:
           "Більш комфортні квартири із сучасним інтер'єром. Чудовий вибір для відпочинку, відряджень і проживання в центрі Кишинева.",
-        badge: "Стандарт",
+        badge: "Standard",
       },
       standardPlus: {
         title: "Standard+",
@@ -204,11 +206,11 @@ const sectionText: Record<
         highlightBadge: "Нові квартири",
       },
       economy: {
-        title: "Економ",
+        title: "Economy",
         description:
           "Практичні квартири за доступнішою ціною. Хороший варіант для гостей, яким важливі зручне розташування і розумна вартість проживання.",
-        badge: "Економ -10%",
-        discount: "Знижка 10%",
+        badge: "Economy · −100 MDL",
+        discount: "Знижка 100 MDL",
       },
     },
   },
@@ -221,10 +223,10 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
   const visibleCategories = selectedClass ? [selectedClass] : apartmentCategoryOrder;
   const selectedCategoryText = selectedClass ? text.categories[selectedClass] : null;
   const selectedCount = selectedClass
-    ? activeApartments.filter((apartment) => apartment.class === selectedClass).length
+    ? getApartmentsByClass(selectedClass).length
     : activeApartments.length;
   const selectedMinimumPrice = selectedClass
-    ? Math.min(...activeApartments.filter((apartment) => apartment.class === selectedClass).map((apartment) => apartment.price))
+    ? getApartmentCategoryMinimumPrice(selectedClass)
     : null;
 
   return (
@@ -274,9 +276,7 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
               badge: category === "standardPlus" ? "Standard+" : category,
             };
             const categoryText = text.categories[category] ?? fallbackCategoryText;
-            const categoryApartments = activeApartments.filter(
-              (apartment) => apartment.class === category,
-            );
+            const categoryApartments = getApartmentsByClass(category);
 
             if (categoryApartments.length === 0) {
               return null;

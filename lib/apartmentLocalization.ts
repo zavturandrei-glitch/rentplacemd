@@ -5,7 +5,7 @@ type LocalizedApartmentKind = "studio" | "oneBedroom";
 
 type ApartmentLocalizationDefinition = {
   address: Record<Language, string>;
-  category: "Standard+" | "Premium";
+  category: "Standard" | "Standard+" | "Premium";
   kind: LocalizedApartmentKind;
   price: number;
 };
@@ -61,18 +61,18 @@ const levTolstoi63: Record<Language, string> = {
 
 const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
   ru: {
-    displayAddress: "bd. Cuza Vodă 1/2, Ботаника",
-    title: "Квартира на Ботанике возле аэропорта — Cuza Vodă 1/2",
+    displayAddress: "бульвар Куза Водэ, 1/2 · Ботаника",
+    title: "Квартира на Ботанике возле аэропорта — бульвар Куза Водэ, 1/2",
     description: "Снять квартиру посуточно на Ботанике по адресу Cuza Vodă 1/2. Спальня и гостиная, до 4 гостей, кофемашина, кондиционер и автономное отопление. 900 MDL.",
-    imageAlt: "Квартира посуточно на Ботанике, Cuza Vodă 1/2, фото {index}",
-    schemaName: "Квартира посуточно на Ботанике — Cuza Vodă 1/2",
+    imageAlt: "Квартира посуточно на Ботанике, бульвар Куза Водэ, 1/2, фото {index}",
+    schemaName: "Квартира посуточно на Ботанике — бульвар Куза Водэ, 1/2",
     shortDescription: "Современная квартира в новострое на Ботанике, примерно в 10 минутах езды от аэропорта и центра Кишинёва.",
     layoutDescription: "1 спальня + гостиная, до 4 гостей",
     typeLabel: "1 спальня + гостиная",
-    aboutTitle: "Квартира посуточно на Ботанике, Cuza Vodă 1/2",
+    aboutTitle: "Квартира посуточно на Ботанике, бульвар Куза Водэ, 1/2",
     features: ["Полностью оборудованная кухня", "Духовка и кофемашина", "Кондиционер", "Автономное отопление", "Гардеробная", "Раскладное спальное место"],
     descriptionParagraphs: [
-      "Современная квартира посуточно в новострое на Ботанике, по адресу bd. Cuza Vodă 1/2. Отдельная спальня и гостиная с дополнительным раскладным спальным местом позволяют комфортно разместить до четырёх гостей.",
+      "Современная квартира посуточно в новострое на Ботанике, на бульваре Куза Водэ, 1/2. Отдельная спальня и гостиная с дополнительным раскладным спальным местом позволяют комфортно разместить до четырёх гостей.",
       "Квартира полностью обустроена для короткого и продолжительного проживания. В распоряжении гостей оборудованная кухня, духовка, электрический чайник, кофемашина, автономное отопление, исправный кондиционер и отдельная гардеробная.",
       "Дом находится в тихой части Ботаники, в начале улицы Cuza Vodă. Напротив расположен muzCafe Botanica, рядом — парк, кафе, рестораны, спортивные залы, McDonald’s, Andy’s Pizza и La Plăcinte. До аэропорта и центра Кишинёва — около 10 минут езды.",
     ],
@@ -109,7 +109,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
     ],
   },
   en: {
-    displayAddress: "1/2 Cuza Vodă Blvd, Botanica",
+    displayAddress: "1/2 Cuza Vodă Boulevard · Botanica",
     title: "Botanica apartment near the airport — Cuza Vodă 1/2",
     description: "Daily apartment rental in Botanica at Cuza Vodă 1/2. Bedroom and living room for up to 4 guests, coffee machine, air conditioning and independent heating. 900 MDL.",
     imageAlt: "Daily rental apartment in Botanica, Cuza Vodă 1/2, photo {index}",
@@ -133,18 +133,18 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
     ],
   },
   uk: {
-    displayAddress: "б-р Куза Воде, 1/2, Ботаніка",
-    title: "Квартира на Ботаніці біля аеропорту — Cuza Vodă 1/2",
+    displayAddress: "бульвар Куза Воде, 1/2 · Ботаніка",
+    title: "Квартира на Ботаніці біля аеропорту — бульвар Куза Воде, 1/2",
     description: "Подобова оренда квартири на Ботаніці за адресою Cuza Vodă 1/2. Спальня і вітальня, до 4 гостей, кавоварка, кондиціонер та автономне опалення. 900 MDL.",
-    imageAlt: "Квартира подобово на Ботаніці, Cuza Vodă 1/2, фото {index}",
-    schemaName: "Квартира подобово на Ботаніці — Cuza Vodă 1/2",
+    imageAlt: "Квартира подобово на Ботаніці, бульвар Куза Воде, 1/2, фото {index}",
+    schemaName: "Квартира подобово на Ботаніці — бульвар Куза Воде, 1/2",
     shortDescription: "Сучасна квартира в новобудові на Ботаніці, приблизно за 10 хвилин їзди від аеропорту та центру Кишинева.",
     layoutDescription: "1 спальня + вітальня, до 4 гостей",
     typeLabel: "1 спальня + вітальня",
-    aboutTitle: "Квартира подобово на Ботаніці, Cuza Vodă 1/2",
+    aboutTitle: "Квартира подобово на Ботаніці, бульвар Куза Воде, 1/2",
     features: ["Повністю обладнана кухня", "Духовка та кавоварка", "Кондиціонер", "Автономне опалення", "Гардеробна", "Розкладне спальне місце"],
     descriptionParagraphs: [
-      "Сучасна квартира подобово в новобудові на Ботаніці за адресою bd. Cuza Vodă 1/2. Окрема спальня та вітальня з додатковим розкладним спальним місцем комфортно вміщують до чотирьох гостей.",
+      "Сучасна квартира подобово в новобудові на Ботаніці, на бульварі Куза Воде, 1/2. Окрема спальня та вітальня з додатковим розкладним спальним місцем комфортно вміщують до чотирьох гостей.",
       "Квартира повністю облаштована для короткого або тривалого проживання. Є обладнана кухня, духовка, електричний чайник, кавоварка, автономне опалення, справний кондиціонер і окрема гардеробна.",
       "Будинок розташований у тихій частині Ботаніки, на початку вулиці Cuza Vodă. Навпроти — muzCafe Botanica, поруч парк, кафе, ресторани, спортивні зали, McDonald’s, Andy’s Pizza та La Plăcinte. До аеропорту й центру Кишинева — близько 10 хвилин їзди.",
     ],
@@ -157,7 +157,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
     ],
   },
   cs: {
-    displayAddress: "Cuza Vodă 1/2, Botanica",
+    displayAddress: "bulvár Cuza Vodă 1/2 · Botanica",
     title: "Apartmán v Botanice u letiště — Cuza Vodă 1/2",
     description: "Krátkodobý pronájem apartmánu v Botanice na adrese Cuza Vodă 1/2. Ložnice a obývací pokoj až pro 4 hosty, kávovar, klimatizace a vlastní topení. 900 MDL.",
     imageAlt: "Apartmán k pronájmu v Botanice, Cuza Vodă 1/2, fotografie {index}",
@@ -187,11 +187,11 @@ const localizationDefinitions: Record<string, ApartmentLocalizationDefinition> =
   "30": { address: ismail88, category: "Standard+", kind: "oneBedroom", price: 1000 },
   "67": { address: grigoreUreche67, category: "Standard+", kind: "oneBedroom", price: 1000 },
   "301": { address: ismail88, category: "Standard+", kind: "oneBedroom", price: 1000 },
-  "461": { address: ismail88, category: "Standard+", kind: "studio", price: 800 },
-  "463": { address: ismail88, category: "Standard+", kind: "studio", price: 800 },
-  "464": { address: ismail88, category: "Standard+", kind: "studio", price: 800 },
-  "661": { address: ismail88, category: "Standard+", kind: "studio", price: 800 },
-  "692": { address: ismail88, category: "Standard+", kind: "studio", price: 800 },
+  "461": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
+  "463": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
+  "464": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
+  "661": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
+  "692": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
   "76": { address: mihaiEminescu76, category: "Premium", kind: "oneBedroom", price: 1400 },
   "77": { address: levTolstoi63, category: "Premium", kind: "oneBedroom", price: 1100 },
   "78": { address: levTolstoi63, category: "Premium", kind: "oneBedroom", price: 1100 },
@@ -296,7 +296,31 @@ export function getApartmentDisplayAddress(
   fallbackAddress: string,
   language: Language,
 ) {
-  return getApartmentLocalization(apartmentId, language)?.displayAddress ?? fallbackAddress;
+  const localizedAddress = getApartmentLocalization(apartmentId, language)?.displayAddress;
+
+  if (localizedAddress) {
+    return localizedAddress;
+  }
+
+  const normalizedAddress = fallbackAddress.toLocaleLowerCase();
+
+  if (normalizedAddress.includes("измаил") || normalizedAddress.includes("ізмаїл") || normalizedAddress.includes("ismail")) {
+    return ismail88[language];
+  }
+
+  if (normalizedAddress.includes("grigore ureche") || normalizedAddress.includes("григоре уреке")) {
+    return grigoreUreche67[language];
+  }
+
+  if (normalizedAddress.includes("mihai eminescu") || normalizedAddress.includes("михай эминеску")) {
+    return mihaiEminescu76[language];
+  }
+
+  if (normalizedAddress.includes("lev tolstoi") || normalizedAddress.includes("lev tolstoy") || normalizedAddress.includes("лев толстой")) {
+    return levTolstoi63[language];
+  }
+
+  return fallbackAddress;
 }
 
 export function getApartmentSeoLocalization(apartmentId: string | number, language: Language) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import { apartmentFaqByLanguage } from "@/lib/apartmentFaq";
 import {
   formatLocalizedImageAlt,
   getApartmentDisplayAddress,
@@ -522,56 +523,6 @@ export const homeFaq = [
   },
 ];
 
-export const apartmentFaq = [
-  {
-    question: "Во сколько заселение?",
-    answer: "Стандартное заселение с 14:00. Ранний заезд можно согласовать заранее, если квартира свободна.",
-  },
-  {
-    question: "Есть ли Wi-Fi и кухня?",
-    answer: "Да, в квартире есть Wi-Fi, TV, кондиционер и кухня или мини-кухня для повседневного проживания.",
-  },
-  {
-    question: "Можно ли поздний заезд?",
-    answer: "Да, поздний заезд возможен по предварительной договорённости. Связь с RentPlaceMD доступна 24/7.",
-  },
-  {
-    question: "Можно ли заказать трансфер?",
-    answer: "Да, можно заранее уточнить трансфер из аэропорта Кишинёва прямо к адресу проживания.",
-  },
-];
-
-const apartmentFaqByLanguage: Record<
-  Language,
-  Array<{ question: string; answer: string }>
-> = {
-  ru: apartmentFaq,
-  ro: [
-    { question: "La ce oră este cazarea?", answer: "Cazarea standard începe la ora 14:00. Sosirea mai devreme poate fi stabilită în avans dacă apartamentul este liber." },
-    { question: "Există Wi-Fi și bucătărie?", answer: "Da, apartamentul are Wi-Fi, TV, aer condiționat și bucătărie pentru un sejur confortabil." },
-    { question: "Este posibilă cazarea târzie?", answer: "Da, cazarea târzie este posibilă cu acord prealabil. Asistența RentPlaceMD este disponibilă 24/7." },
-    { question: "Se poate comanda transfer?", answer: "Da, transferul de la aeroportul Chișinău la adresa apartamentului poate fi stabilit în avans." },
-  ],
-  en: [
-    { question: "What time is check-in?", answer: "Standard check-in starts at 14:00. Early arrival can be arranged in advance when the apartment is available." },
-    { question: "Are Wi-Fi and a kitchen available?", answer: "Yes, the apartment has Wi-Fi, TV, air conditioning and a kitchen for a comfortable stay." },
-    { question: "Is late check-in possible?", answer: "Yes, late check-in is available by prior arrangement. RentPlaceMD support is available 24/7." },
-    { question: "Can I book an airport transfer?", answer: "Yes, a transfer from Chisinau Airport to the apartment address can be arranged in advance." },
-  ],
-  uk: [
-    { question: "О котрій годині заселення?", answer: "Стандартне заселення починається о 14:00. Ранній заїзд можна погодити заздалегідь, якщо квартира вільна." },
-    { question: "Чи є Wi-Fi та кухня?", answer: "Так, у квартирі є Wi-Fi, TV, кондиціонер і кухня для комфортного проживання." },
-    { question: "Чи можливе пізнє заселення?", answer: "Так, пізнє заселення можливе за попередньою домовленістю. Підтримка RentPlaceMD доступна 24/7." },
-    { question: "Чи можна замовити трансфер?", answer: "Так, трансфер з аеропорту Кишинева до адреси квартири можна погодити заздалегідь." },
-  ],
-  cs: [
-    { question: "V kolik hodin je check-in?", answer: "Standardní check-in začíná ve 14:00. Dřívější příjezd lze domluvit předem, pokud je apartmán volný." },
-    { question: "Je k dispozici Wi-Fi a kuchyně?", answer: "Ano, apartmán má Wi-Fi, TV, klimatizaci a kuchyň pro pohodlný pobyt." },
-    { question: "Je možný pozdní příjezd?", answer: "Ano, pozdní příjezd je možný po předchozí domluvě. Podpora RentPlaceMD je dostupná 24/7." },
-    { question: "Lze objednat transfer?", answer: "Ano, transfer z letiště Kišiněv na adresu apartmánu lze domluvit předem." },
-  ],
-};
-
 const allApartmentsLabel: Record<Language, string> = {
   ru: "Все квартиры",
   ro: "Toate apartamentele",
@@ -793,7 +744,7 @@ export function getApartmentJsonLd(
       "@context": "https://schema.org",
       "@type": "FAQPage",
       inLanguage: language,
-      mainEntity: (localized?.faq ?? apartmentFaqByLanguage[language]).map((item) => ({
+      mainEntity: apartmentFaqByLanguage[language].map((item) => ({
         "@type": "Question",
         name: item.question,
         acceptedAnswer: {

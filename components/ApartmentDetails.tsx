@@ -11,6 +11,7 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { type Language } from "@/locales/translations";
 import { getApartmentBookedDates } from "@/lib/availability";
+import { apartmentFaqByLanguage } from "@/lib/apartmentFaq";
 import {
   formatLocalizedImageAlt,
   getApartmentDisplayAddress,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/apartmentLocalization";
 import {
   activeApartments,
+  getApartmentCatalogPrice,
   getApartmentCategoryPath,
   getApartmentPath,
   type ApartmentClass,
@@ -105,7 +107,7 @@ export type ApartmentLocalizedSeoPayload = Record<
 
 const apartmentPageContentText: Record<Language, DetailText["content"]> = {
   ru: {
-    whyTitle: "Почему выбрать именно эту квартиру",
+    whyTitle: "Оснащение квартиры",
     fitTitle: "Кому подойдёт эта квартира",
     nearbyTitle: "Что находится рядом",
     trustTitle: "Почему RentPlaceMD можно доверять",
@@ -157,7 +159,7 @@ const apartmentPageContentText: Record<Language, DetailText["content"]> = {
     ],
   },
   ro: {
-    whyTitle: "De ce sa alegeti acest apartament",
+    whyTitle: "Dotările apartamentului",
     fitTitle: "Pentru cine este potrivit",
     nearbyTitle: "Ce este in apropiere",
     trustTitle: "De ce puteti avea incredere in RentPlaceMD",
@@ -209,7 +211,7 @@ const apartmentPageContentText: Record<Language, DetailText["content"]> = {
     ],
   },
   en: {
-    whyTitle: "Why choose this apartment",
+    whyTitle: "Apartment amenities",
     fitTitle: "Who this apartment suits",
     nearbyTitle: "What is nearby",
     trustTitle: "Why RentPlaceMD is trustworthy",
@@ -261,7 +263,7 @@ const apartmentPageContentText: Record<Language, DetailText["content"]> = {
     ],
   },
   uk: {
-    whyTitle: "Чому варто вибрати саме цю квартиру",
+    whyTitle: "Оснащення квартири",
     fitTitle: "Кому підійде ця квартира",
     nearbyTitle: "Що знаходиться поруч",
     trustTitle: "Чому RentPlaceMD можна довіряти",
@@ -313,7 +315,7 @@ const apartmentPageContentText: Record<Language, DetailText["content"]> = {
     ],
   },
   cs: {
-    whyTitle: "Proc si vybrat prave tento apartman",
+    whyTitle: "Vybavení apartmánu",
     fitTitle: "Pro koho se apartman hodi",
     nearbyTitle: "Co je pobliz",
     trustTitle: "Proc duverovat RentPlaceMD",
@@ -372,7 +374,7 @@ const detailText: Record<Language, DetailText> = {
     addressTitle: "Измаил 88",
     back: "Назад ко всем квартирам",
     call: "Позвонить",
-    checkAvailability: "Проверить свободна",
+    checkAvailability: "Проверить даты",
     whatsappMessage: "Здравствуйте! Интересует квартира по адресу {address}, ID {id}",
     priceSuffix: "лей / сутки",
     photo: "Фото",
@@ -537,7 +539,7 @@ const detailText: Record<Language, DetailText> = {
     addressTitle: "Ізмаїл 88",
     back: "Назад до всіх квартир",
     call: "Подзвонити",
-    checkAvailability: "Перевірити вільна",
+    checkAvailability: "Перевірити дати",
     whatsappMessage: "Добрий день! Цікавить квартира за адресою {address}, ID {id}",
     priceSuffix: "лей / доба",
     photo: "Фото",
@@ -696,18 +698,23 @@ function replaceApartmentLocation(
 }
 
 function getRelatedApartments(apartment: ApartmentDetailsData) {
+  const apartmentArea = String(apartment.id) === "6" ? "botanica" : "center";
+
   return activeApartments
     .filter((candidate) => candidate.id !== apartment.id)
     .map((candidate) => {
+      const candidateArea = String(candidate.id) === "6" ? "botanica" : "center";
+      const priceDifference = Math.abs(getApartmentCatalogPrice(candidate) - getApartmentCatalogPrice(apartment));
       const score =
-        (apartment.guests !== null && candidate.guests === apartment.guests ? 6 : 0) +
+        (candidate.class === apartment.class ? 10 : 0) +
+        (apartment.guests !== null && candidate.guests === apartment.guests ? 7 : 0) +
         (candidate.kind === apartment.kind ? 5 : 0) +
-        (Math.abs(candidate.price - apartment.price) <= 100 ? 4 : 0) +
-        (Math.abs(candidate.price - apartment.price) <= 200 ? 1 : 0);
+        (candidateArea === apartmentArea ? 4 : 0) +
+        (priceDifference === 0 ? 5 : priceDifference <= 100 ? 3 : priceDifference <= 200 ? 1 : 0);
 
       return { apartment: candidate, score };
     })
-    .sort((left, right) => right.score - left.score || Math.abs(left.apartment.price - apartment.price) - Math.abs(right.apartment.price - apartment.price))
+    .sort((left, right) => right.score - left.score || Math.abs(getApartmentCatalogPrice(left.apartment) - getApartmentCatalogPrice(apartment)) - Math.abs(getApartmentCatalogPrice(right.apartment) - getApartmentCatalogPrice(apartment)))
     .slice(0, 3)
     .map(({ apartment: candidate }) => candidate);
 }
@@ -744,26 +751,18 @@ export default function ApartmentDetails({
   const heroPosition = apartment.heroPosition ?? "center 45%";
   const bookedDates = getApartmentBookedDates(apartment.id);
   const kindLabel = localizedApartment?.typeLabel ?? apartment.displayKind ?? text.kinds[apartment.kind];
-  const overlayLabel = localizedApartment?.layoutDescription ?? apartment.displayOverlay ?? text.overlay[apartment.kind];
   const intro = localizedApartment?.shortDescription ?? replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment, locationTitle);
   const aboutTitle = localizedApartment?.aboutTitle ?? replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment, locationTitle);
-  const descriptionParagraphs = (
-    localizedApartment ? localizedApartment.descriptionParagraphs ?? [localizedApartment.shortDescription, localizedApartment.layoutDescription] : apartment.descriptionParagraphs ?? [
-      text.aboutFirst[apartment.kind],
-      text.aboutSecond[apartment.kind],
-    ]
-  ).map((paragraph) => replaceApartmentLocation(paragraph, apartment, locationTitle));
   const features = localizedApartment?.features ?? apartment.features ?? text.features[apartment.kind];
   const contentProfile = apartmentContentProfiles[String(apartment.id)] ?? {
     valueKeys: [apartment.kind, apartment.guests !== null && apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
     audienceKeys: apartment.guests !== null && apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
     nearbyKeys: ["center", "shops", "transport"],
   };
-  const whyItems = localizedApartment ? localizedApartment.features : resolvePhrases(contentProfile.valueKeys, text.content.valuePhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
+  const equipmentItems = Array.from(new Set(features));
   const audienceItems = localizedApartment?.audienceItems ?? (localizedApartment ? [] : resolvePhrases(contentProfile.audienceKeys, text.content.audiencePhrases));
-  const nearbyItems = localizedApartment?.nearbyItems ?? (localizedApartment ? [] : resolvePhrases(contentProfile.nearbyKeys, text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle)));
-  const trustPhrases = text.content.trustPhrases.filter((_, index) => !localizedApartment || index !== 1).map((item) => replaceApartmentLocation(item, apartment, locationTitle));
-  const faq = (localizedApartment?.faq ?? (localizedApartment ? [] : text.content.faq)).map((item) => ({
+  const nearbyItems = (localizedApartment?.nearbyItems ?? (localizedApartment ? [] : resolvePhrases(contentProfile.nearbyKeys.filter((key) => key !== "airport"), text.content.nearbyPhrases).map((item) => replaceApartmentLocation(item, apartment, locationTitle)))).slice(0, 4);
+  const faq = apartmentFaqByLanguage[language].map((item) => ({
     ...item,
     question: replaceApartmentLocation(item.question, apartment, locationTitle),
     answer: replaceApartmentLocation(item.answer, apartment, locationTitle),
@@ -771,9 +770,9 @@ export default function ApartmentDetails({
   const relatedApartments = useMemo(() => getRelatedApartments(apartment), [apartment]);
   const categoryPath = getApartmentCategoryPath(apartment.class);
   const categoryLabel = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
-  const isExtendedGallery = apartment.galleryLayout === "extended";
-  const topGalleryImages = isExtendedGallery ? galleryImages.slice(0, 4) : galleryImages;
-  const lowerGalleryImages = isExtendedGallery ? galleryImages.slice(4) : [];
+  const topGalleryImages = galleryImages.slice(0, 4);
+  const hiddenGalleryCount = Math.max(0, galleryImages.length + (facadePhoto ? 1 : 0) - topGalleryImages.length);
+  const displayedPrice = getApartmentCatalogPrice(apartment);
   const lightboxPhotos = useMemo(
     () => [
       ...apartment.images.map((image, index) => ({
@@ -915,215 +914,166 @@ export default function ApartmentDetails({
       <Header />
       <BackButton />
 
-      <section className="mx-auto max-w-[1600px] px-4 pb-32 pt-4 sm:px-6 lg:px-10 lg:pb-16 lg:pt-8">
-        <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-xs font-black text-[#07111f]/55 sm:mb-5 sm:text-sm">
-          <Link href="/" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            RentPlaceMD
-          </Link>
+      <section className="mx-auto max-w-7xl px-4 pb-36 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pb-20">
+        <nav aria-label="Breadcrumb" className="mb-5 hidden items-center gap-2 text-sm font-bold text-[#07111f]/55 md:flex">
+          <Link href="/apartments" className="transition hover:text-[#d4146f]">{text.back}</Link>
           <span aria-hidden="true">/</span>
-          <Link href="/apartments" className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            {text.back}
-          </Link>
+          <Link href={categoryPath} className="transition hover:text-[#d4146f]">{categoryLabel}</Link>
           <span aria-hidden="true">/</span>
-          <Link href={categoryPath} className="rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            {categoryLabel}
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="rounded-full bg-[#07111f] px-3 py-2 text-white shadow-sm">{locationTitle} · ID {apartment.id}</span>
+          <span className="truncate text-[#07111f]">{locationTitle} · ID {apartment.id}</span>
         </nav>
 
-        <Link href={categoryPath} aria-label={text.back} className="mb-4 inline-flex rounded-full border border-[#d4146f]/10 bg-white px-4 py-2 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-xl sm:mb-6 sm:px-5 sm:py-2.5 sm:text-sm">← {categoryLabel}</Link>
-
-        <div className="overflow-hidden rounded-[22px] bg-[#07111f] shadow-2xl shadow-black/25 ring-1 ring-black/5 sm:rounded-[26px]">
-          <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
-            <div className="flex min-h-[0] flex-col justify-center bg-gradient-to-br from-[#07111f] via-[#0b1628] to-[#121b2b] p-5 text-white sm:min-h-[440px] sm:p-9 lg:min-h-[500px] lg:p-12">
-              <div className="mb-4 flex flex-wrap gap-2 sm:mb-6 sm:gap-2.5">
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">ID {apartment.id}</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{kindLabel}</span>
-                {apartment.guests !== null ? <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-black text-white shadow-inner sm:px-4 sm:py-2 sm:text-sm">{text.guests[apartment.guests]}</span> : null}
+        <article className="overflow-hidden rounded-[24px] bg-[#07111f] shadow-[0_24px_70px_rgba(7,17,31,0.2)] sm:rounded-[30px]">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="flex flex-col justify-center p-5 text-white sm:p-8 lg:p-10 xl:p-12">
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black ring-1 ring-white/10">ID {apartment.id}</span>
+                <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black ring-1 ring-white/10">{categoryLabel}</span>
               </div>
-              <h1 className="text-4xl font-black leading-[0.98] tracking-tight text-white sm:text-7xl lg:text-8xl">{locationTitle}</h1>
-              <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/78 sm:mt-6 sm:text-lg sm:leading-8">{intro}</p>
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-9 sm:grid-cols-3">
-                <div className="col-span-2 rounded-2xl bg-white p-4 text-[#07111f] shadow-xl shadow-black/10 sm:col-span-1 sm:p-5"><p className="text-3xl font-black leading-none text-[#d4146f] sm:text-4xl">{apartment.price}</p><p className="mt-1 text-xs font-black text-gray-500 sm:mt-2 sm:text-sm">{text.priceSuffix}</p></div>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label={text.checkAvailability} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#25D366] p-3 text-center text-sm font-black text-white shadow-xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:brightness-110 sm:min-h-[92px] sm:p-5 sm:text-base">{text.checkAvailability}</a>
-                <a href="tel:+37369990190" aria-label={text.call} className="flex min-h-[58px] items-center justify-center rounded-2xl bg-[#ffb800] p-3 text-center text-sm font-black text-[#07111f] shadow-xl shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:brightness-105 sm:min-h-[92px] sm:p-5 sm:text-base">{text.call}</a>
+              <h1 className="mt-5 text-3xl font-black leading-[1.03] tracking-tight sm:text-5xl lg:text-6xl">{locationTitle}</h1>
+              <div className="mt-5 flex flex-wrap gap-2 text-sm font-black text-white/90">
+                <span className="rounded-xl bg-white/[0.08] px-3 py-2">{kindLabel}</span>
+                {apartment.guests !== null ? <span className="rounded-xl bg-white/[0.08] px-3 py-2">{text.guests[apartment.guests]}</span> : null}
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-[0.8fr_1.1fr_1fr]">
+                <div className="rounded-2xl bg-white px-4 py-3 text-[#07111f]">
+                  <p className="text-3xl font-black leading-none text-[#d4146f]">{displayedPrice}</p>
+                  <p className="mt-1 text-xs font-black text-slate-500">{text.priceSuffix}</p>
+                </div>
+                <a href="#availability" className="flex min-h-14 items-center justify-center rounded-2xl bg-[#ffd21f] px-4 py-3 text-center text-sm font-black text-[#07111f] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">{text.checkAvailability}</a>
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="hidden min-h-14 items-center justify-center rounded-2xl bg-[#25D366] px-4 py-3 text-center text-sm font-black text-white transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:flex">WhatsApp</a>
               </div>
             </div>
-            <button type="button" onClick={() => openLightbox(0)} className="block h-full w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f]" aria-label={mainPhotoAlt}>
+            <button type="button" onClick={() => openLightbox(0)} className="block min-h-[260px] w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#ffd21f]" aria-label={mainPhotoAlt}>
               <ResponsiveImage
                 src={apartment.images[0]}
-                alt={locationTitle + " ID " + apartment.id}
-                className="h-[270px] bg-[#07111f] sm:h-[460px] lg:h-[500px]"
-                imgClassName="object-contain lg:object-cover"
-                sizes="(min-width: 1024px) 58vw, 100vw"
+                alt={mainPhotoAlt}
+                className="h-[280px] bg-[#07111f] sm:h-[430px] lg:h-full lg:min-h-[500px]"
+                imgClassName="object-cover"
+                sizes="(min-width: 1024px) 56vw, 100vw"
                 objectPosition={heroPosition}
                 priority
                 withWatermark
-              >
-                <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-2rem)] rounded-2xl bg-white/92 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur sm:bottom-5 sm:left-5 sm:px-5 sm:py-4"><p className="text-xs font-black text-gray-500 sm:text-sm">{kindLabel}</p><p className="text-base font-black text-[#07111f] sm:text-xl">{overlayLabel}</p></div>
-              </ResponsiveImage>
+              />
             </button>
           </div>
-        </div>
+        </article>
 
-        <section className="mt-9 sm:mt-12">
-          <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.photo}</p>
-          <h2 className="mt-2 text-3xl font-black tracking-tight text-[#07111f] sm:text-5xl">{text.galleryTitle}</h2>
-          <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="overflow-hidden rounded-[26px] bg-white p-2 shadow-xl shadow-black/10">
-              <button type="button" onClick={() => openLightbox(0)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[20px]" aria-label={mainPhotoAlt}>
-                <ResponsiveImage src={apartment.images[0]} alt={mainPhotoAlt} className="h-[260px] rounded-[18px] sm:h-[460px] sm:rounded-[20px] lg:h-[500px]" imgClassName={isExtendedGallery ? "object-cover" : "object-contain lg:object-cover"} sizes="(min-width: 1024px) 56vw, 100vw" objectPosition={heroPosition} withWatermark />
+        {topGalleryImages.length > 0 ? (
+          <section className="mt-8 sm:mt-10" aria-labelledby="apartment-gallery-title">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.photo}</p>
+                <h2 id="apartment-gallery-title" className="mt-1 text-2xl font-black tracking-tight sm:text-3xl">{text.galleryTitle}</h2>
+              </div>
+              <button type="button" onClick={() => openLightbox(0)} className="shrink-0 rounded-full bg-white px-4 py-2 text-xs font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
+                {lightboxPhotos.length} {text.photo.toLocaleLowerCase()}
               </button>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              {topGalleryImages.map((image, index) => (<div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10"><button type="button" onClick={() => openLightbox(index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={galleryPhotoAlt(index + 1)}><ResponsiveImage src={image} alt={galleryPhotoAlt(index + 1)} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[235px]" imgClassName={isExtendedGallery ? "object-cover object-center" : "object-contain object-center sm:object-cover"} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark /></button></div>))}
-              {!isExtendedGallery && facadePhoto ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10 sm:col-span-2"><button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}><ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] lg:h-[178px]" sizes="(min-width: 1024px) 44vw, 100vw" loading="lazy" withWatermark /></button></div> : null}
-            </div>
-          </div>
-          {isExtendedGallery ? (
-            <div className="mt-4 grid gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
-              {lowerGalleryImages.map((image, index) => (
-                <div key={image} className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
-                  <button type="button" onClick={() => openLightbox(topGalleryImages.length + index + 1)} className="block w-full cursor-zoom-in rounded-[16px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:rounded-[18px]" aria-label={galleryPhotoAlt(index + 5)}>
-                    <ResponsiveImage src={image} alt={galleryPhotoAlt(index + 5)} className="h-[220px] rounded-[16px] sm:h-[230px] sm:rounded-[18px] lg:h-[190px]" imgClassName="object-cover object-center" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
-                  </button>
-                </div>
-              ))}
-              {facadePhoto ? <div className="overflow-hidden rounded-[24px] bg-white p-2 shadow-xl shadow-black/10">
-                <button type="button" onClick={() => openLightbox(lightboxPhotos.length - 1)} className="block w-full cursor-zoom-in rounded-[18px] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={facadeAlt}>
-                  <ResponsiveImage src={facadePhoto} alt={facadeAlt} className="h-[220px] rounded-[18px] sm:h-[230px] lg:h-[190px]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" loading="lazy" withWatermark />
+            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4">
+              {topGalleryImages.map((image, index) => (
+                <button key={image} type="button" onClick={() => openLightbox(index + 1)} className="relative overflow-hidden rounded-[18px] bg-white p-1.5 shadow-lg shadow-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]" aria-label={galleryPhotoAlt(index + 1)}>
+                  <ResponsiveImage src={image} alt={galleryPhotoAlt(index + 1)} className="h-[150px] rounded-[13px] sm:h-[220px] lg:h-[210px]" imgClassName="object-cover" sizes="(min-width: 1024px) 25vw, 50vw" loading="lazy" withWatermark />
+                  {index === topGalleryImages.length - 1 && hiddenGalleryCount > 0 ? <span className="absolute inset-1.5 flex items-center justify-center rounded-[13px] bg-[#07111f]/60 text-xl font-black text-white backdrop-blur-[2px]">+{hiddenGalleryCount}</span> : null}
                 </button>
-              </div> : null}
+              ))}
             </div>
-          ) : null}
-        </section>
+          </section>
+        ) : null}
 
-        <section className="mt-8 grid items-start gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_420px] xl:grid-cols-[minmax(0,1fr)_460px]">
-          <div className="rounded-[22px] bg-white p-5 shadow-2xl shadow-black/10 sm:rounded-[26px] sm:p-9">
-            <p className="text-sm font-black uppercase tracking-[0.25em] text-[#d4146f]">{text.aboutLabel}</p>
-            <h2 className="mt-3 text-2xl font-black tracking-tight text-[#07111f] sm:text-5xl">{aboutTitle}</h2>
-            {descriptionParagraphs.map((paragraph, index) => (
-              <p key={paragraph} className={(index === 0 ? "mt-4 sm:mt-6" : "mt-4 sm:mt-5") + " text-base leading-7 text-gray-700 sm:text-lg sm:leading-8"}>{paragraph}</p>
-            ))}
-            <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">{[...(apartment.guests !== null ? [text.guests[apartment.guests]] : []), ...features].map((item) => (<div key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-black text-[#07111f] shadow-inner sm:px-5 sm:py-4 sm:text-base">{item}</div>))}</div>
+        <div id="availability" className="scroll-mt-24 pt-2">
+          <AvailabilityCalendar apartmentId={apartment.id} bookedDates={bookedDates} />
+        </div>
 
-            <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-2">
-              {whyItems.length > 0 ? <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
-                <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.whyTitle}</h3>
-                <div className="mt-4 grid gap-3">
-                  {whyItems.map((item) => (
-                    <p key={item} className="rounded-2xl bg-[#f4f1ee] px-4 py-3 text-sm font-bold leading-6 text-gray-700 shadow-inner">
-                      {item}
-                    </p>
-                  ))}
-                </div>
-              </section> : null}
+        <section className="mt-8 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+          <article className="rounded-[24px] bg-white p-5 shadow-xl shadow-black/8 sm:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.aboutLabel}</p>
+            <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl">{aboutTitle}</h2>
+            <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg sm:leading-8">{intro}</p>
 
-              {audienceItems.length > 0 ? <section className="rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:p-6">
-                <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.fitTitle}</h3>
-                <div className="mt-4 grid gap-2.5">
-                  {audienceItems.map((item) => (
-                    <p key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5 ring-1 ring-black/5">
-                      {item}
-                    </p>
-                  ))}
-                </div>
-              </section> : null}
-            </div>
-
-            <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-white p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
-              <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.nearbyTitle}</h3>
-              {nearbyItems.length > 0 ? (
-                <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                  {nearbyItems.map((item) => (
-                    <p key={item} className="rounded-2xl bg-[#fffaf0] px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-inner">
-                      {item}
-                    </p>
-                  ))}
-                </div>
-              ) : (
-                <p className="mt-4 text-sm font-semibold leading-6 text-gray-600">{text.content.nearbyFallback}</p>
-              )}
-            </section>
-
-            <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#07111f] p-5 text-white shadow-xl shadow-black/10 sm:mt-8 sm:p-6">
-              <h3 className="text-xl font-black tracking-tight sm:text-2xl">{text.content.trustTitle}</h3>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {trustPhrases.map((item) => (
-                  <p key={item} className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-white/82">
-                    {item}
-                  </p>
-                ))}
-              </div>
-            </section>
-
-            {faq.length > 0 ? <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffefb] p-5 shadow-sm shadow-black/5 sm:mt-8 sm:p-6">
-              <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.faqTitle}</h3>
-              <div className="mt-4 grid gap-3">
-                {faq.map((item) => (
-                  <details key={item.question} className="group rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/5">
-                    <summary className="cursor-pointer list-none text-base font-black text-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-[#d4146f]">
-                      {item.question}
-                    </summary>
-                    <p className="mt-3 text-sm font-semibold leading-6 text-gray-600">{item.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </section> : null}
-
-            {relatedApartments.length > 0 ? (
-              <section className="mt-6 rounded-[22px] border border-[#f1e6d4] bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
-                <h3 className="text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.content.relatedTitle}</h3>
-                <p className="mt-2 text-sm font-semibold leading-6 text-gray-600">{text.content.relatedText}</p>
-                <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                  {relatedApartments.map((relatedApartment) => (
-                    <Link
-                      key={relatedApartment.id}
-                      href={getApartmentPath(relatedApartment)}
-                      className="rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
-                    >
-                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">ID {relatedApartment.id}</p>
-                      <p className="mt-2 text-sm font-black leading-5 text-[#07111f]">{text.kinds[relatedApartment.kind]}</p>
-                      <p className="mt-2 text-xs font-bold leading-5 text-gray-500">
-                        {relatedApartment.guests !== null ? relatedApartment.guests + " " + text.content.relatedGuests + " · " : ""}{relatedApartment.price} {text.content.relatedPrice}
-                      </p>
-                    </Link>
-                  ))}
+            {equipmentItems.length > 0 ? (
+              <section className="mt-7 border-t border-slate-100 pt-6">
+                <h3 className="text-lg font-black sm:text-xl">{text.content.whyTitle}</h3>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {equipmentItems.map((item) => <span key={item} className="rounded-full bg-[#f4f1ee] px-3.5 py-2 text-sm font-bold text-[#07111f]">{item}</span>)}
                 </div>
               </section>
             ) : null}
 
-            <section className="mt-6 rounded-[22px] border border-[#d4146f]/10 bg-[#fffaf0] p-5 shadow-inner sm:mt-8 sm:p-6">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.rulesLabel}</p>
-              <h3 className="mt-2 text-xl font-black tracking-tight text-[#07111f] sm:text-2xl">{text.rulesTitle}</h3>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl bg-white p-4 shadow-sm shadow-black/5">
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">{text.rulesCheckInLabel}</p>
-                  <p className="mt-1 text-2xl font-black text-[#07111f]">{text.rulesCheckInTime}</p>
+            {audienceItems.length > 0 ? (
+              <section className="mt-6">
+                <h3 className="text-lg font-black sm:text-xl">{text.content.fitTitle}</h3>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {audienceItems.map((item) => <span key={item} className="rounded-full border border-[#d4146f]/15 bg-[#fffaf0] px-3.5 py-2 text-sm font-bold text-[#07111f]">{item}</span>)}
                 </div>
-                <div className="rounded-2xl bg-white p-4 shadow-sm shadow-black/5">
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">{text.rulesCheckOutLabel}</p>
-                  <p className="mt-1 text-2xl font-black text-[#07111f]">{text.rulesCheckOutTime}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-6 text-gray-700 sm:text-base sm:leading-7">{text.rulesIntro}</p>
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">{text.rulesItems.map((item) => (<div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black leading-5 text-[#07111f] shadow-sm shadow-black/5">{item}</div>))}</div>
-            </section>
+              </section>
+            ) : null}
+          </article>
 
-            <AvailabilityCalendar
-              apartmentId={apartment.id}
-              bookedDates={bookedDates}
-            />
-          </div>
-          <aside className="rounded-[22px] bg-[#d4146f] p-5 text-white shadow-2xl shadow-pink-700/20 sm:rounded-[26px] sm:p-8 lg:sticky lg:top-28 lg:h-fit">
-            <p className="text-sm font-black uppercase tracking-[0.25em] text-white/70">{text.bookingLabel}</p>
-            <p className="mt-3 text-5xl font-black leading-none sm:mt-4 sm:text-7xl">{apartment.price}</p>
-            <p className="mt-2 text-lg font-black text-white/80">{text.priceSuffix}</p>
-            <div className="mt-6 grid gap-3 sm:mt-8"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="block rounded-2xl bg-white py-4 text-center text-base font-black text-[#d4146f] shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">WhatsApp</a><a href="viber://chat?number=%2B37369990190" aria-label="Viber" className="block rounded-2xl bg-[#7c00d9] py-4 text-center text-base font-black text-white shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">Viber</a><a href="tel:+37369990190" aria-label={text.call} className="block rounded-2xl bg-[#ffb800] py-4 text-center text-base font-black text-[#07111f] shadow-lg transition hover:-translate-y-0.5 sm:py-5 sm:text-lg">{text.call}</a></div>
-            <p className="mt-5 rounded-2xl bg-white/12 p-4 text-center text-sm font-black leading-6 text-white/90 sm:mt-7 sm:p-5 sm:text-base sm:leading-7">{text.bookingNote}</p>
+          <aside className="rounded-[24px] bg-[#07111f] p-5 text-white shadow-xl shadow-black/10 sm:p-7">
+            <h2 className="text-2xl font-black tracking-tight">{text.content.nearbyTitle}</h2>
+            {nearbyItems.length > 0 ? (
+              <ul className="mt-5 grid gap-4">
+                {nearbyItems.map((item) => <li key={item} className="flex gap-3 text-sm font-bold leading-6 text-white/82"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#ffd21f]" />{item}</li>)}
+              </ul>
+            ) : <p className="mt-4 text-sm font-semibold leading-6 text-white/70">{text.content.nearbyFallback}</p>}
           </aside>
         </section>
+
+        <section className="mt-6 rounded-[24px] bg-white p-5 shadow-lg shadow-black/7 sm:p-7">
+          <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.rulesLabel}</p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight">{text.rulesTitle}</h2>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl bg-[#fffaf0] p-4"><p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">{text.rulesCheckInLabel}</p><p className="mt-1 text-xl font-black">{text.rulesCheckInTime}</p></div>
+                <div className="rounded-2xl bg-[#fffaf0] p-4"><p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">{text.rulesCheckOutLabel}</p><p className="mt-1 text-xl font-black">{text.rulesCheckOutTime}</p></div>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium leading-6 text-slate-600">{text.rulesIntro}</p>
+              <ul className="mt-4 grid gap-x-5 gap-y-3 sm:grid-cols-2">
+                {text.rulesItems.map((item) => <li key={item} className="flex gap-2.5 text-sm font-bold leading-5"><span className="text-[#d4146f]">✓</span>{item}</li>)}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {faq.length > 0 ? (
+          <section className="mt-6 rounded-[24px] bg-[#fffefb] p-5 shadow-lg shadow-black/7 sm:p-7">
+            <h2 className="text-2xl font-black tracking-tight">{text.content.faqTitle}</h2>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {faq.map((item) => (
+                <details key={item.question} className="group rounded-2xl bg-white p-4 ring-1 ring-black/5">
+                  <summary className="cursor-pointer list-none font-black outline-none focus-visible:ring-2 focus-visible:ring-[#d4146f]">{item.question}</summary>
+                  <p className="mt-3 text-sm font-medium leading-6 text-slate-600">{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        {relatedApartments.length > 0 ? (
+          <section className="mt-8" aria-labelledby="related-apartments-title">
+            <h2 id="related-apartments-title" className="text-2xl font-black tracking-tight sm:text-3xl">{text.content.relatedTitle}</h2>
+            <p className="mt-2 text-sm font-medium text-slate-600">{text.content.relatedText}</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {relatedApartments.map((relatedApartment) => {
+                const relatedAddress = getApartmentDisplayAddress(relatedApartment.id, relatedApartment.title, language);
+                return (
+                  <Link key={relatedApartment.id} href={getApartmentPath(relatedApartment)} className="group overflow-hidden rounded-[20px] bg-white shadow-lg shadow-black/8 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]">
+                    <ResponsiveImage src={relatedApartment.cardPhoto ?? relatedApartment.photos[0]} alt={relatedAddress + " · ID " + relatedApartment.id} className="h-40" imgClassName="object-cover transition group-hover:scale-[1.02]" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" />
+                    <div className="p-4">
+                      <div className="flex items-center justify-between gap-3"><p className="text-xs font-black text-[#d4146f]">ID {relatedApartment.id}</p><p className="text-sm font-black">{getApartmentCatalogPrice(relatedApartment)} {text.content.relatedPrice}</p></div>
+                      <p className="mt-2 truncate font-black">{relatedAddress}</p>
+                      <p className="mt-1 text-xs font-bold text-slate-500">{text.kinds[relatedApartment.kind]}{relatedApartment.guests !== null ? " · " + text.guests[relatedApartment.guests] : ""}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
       </section>
 
       {lightboxIndex !== null && activeLightboxPhoto ? (
@@ -1181,7 +1131,14 @@ export default function ApartmentDetails({
       ) : null}
 
       <Footer />
-      <div className="fixed bottom-3 left-3 right-3 z-50 grid grid-cols-3 gap-2 rounded-[20px] border border-white/20 bg-[#07111f]/88 p-2 shadow-2xl shadow-black/30 backdrop-blur lg:hidden"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-2xl bg-[#25D366] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-emerald-500/25">WhatsApp</a><a href="viber://chat?number=%2B37369990190" aria-label="Viber" className="rounded-2xl bg-[#7c00d9] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-purple-600/25">Viber</a><a href="tel:+37369990190" aria-label={text.call} className="rounded-2xl bg-[#d4146f] py-3.5 text-center text-sm font-black text-white shadow-2xl shadow-pink-600/25">{text.call}</a></div>
+      <div className="h-20 lg:hidden" aria-hidden="true" />
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/15 bg-[#07111f]/94 px-3 pt-2 shadow-[0_-12px_35px_rgba(7,17,31,0.24)] backdrop-blur lg:hidden" style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}>
+        <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-xl bg-[#25D366] py-3 text-center text-sm font-black text-white">WhatsApp</a>
+          <a href="viber://chat?number=%2B37369990190" aria-label="Viber" className="rounded-xl bg-[#7c00d9] py-3 text-center text-sm font-black text-white">Viber</a>
+          <a href="tel:+37369990190" aria-label={text.call} className="rounded-xl bg-[#d4146f] py-3 text-center text-sm font-black text-white">{text.call}</a>
+        </div>
+      </div>
     </main>
   );
 }

@@ -40,8 +40,8 @@ export type Apartment = {
 };
 
 export const apartmentClassLabels: Record<ApartmentClass, string> = {
-  economy: "Эконом",
-  standard: "Стандарт",
+  economy: "Economy",
+  standard: "Standard",
   standardPlus: "Standard+",
   premium: "Premium",
 };
@@ -592,7 +592,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "13",
-    class: "economy",
+    class: "standardPlus",
     price: 900,
     guests: 4,
     rooms: "2+1",
@@ -726,7 +726,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "42",
-    class: "standard",
+    class: "standardPlus",
     price: 900,
     guests: 5,
     rooms: "2+1",
@@ -887,7 +887,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "461",
-    class: "standardPlus",
+    class: "standard",
     price: 800,
     guests: null,
     rooms: "studio",
@@ -905,7 +905,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "463",
-    class: "standardPlus",
+    class: "standard",
     price: 800,
     guests: null,
     rooms: "studio",
@@ -926,7 +926,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "464",
-    class: "standardPlus",
+    class: "standard",
     price: 800,
     guests: null,
     rooms: "studio",
@@ -947,7 +947,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "661",
-    class: "standardPlus",
+    class: "standard",
     price: 800,
     guests: null,
     rooms: "studio",
@@ -968,7 +968,7 @@ export const apartments = [
     floor: null,
     entrance: null,
     apartmentNumber: "692",
-    class: "standardPlus",
+    class: "standard",
     price: 800,
     guests: null,
     rooms: "studio",
@@ -1052,6 +1052,28 @@ export const apartments = [
 export const activeApartments = apartments.filter(
   (apartment) => apartment.status === "active",
 );
+
+export const ECONOMY_CATALOG_DISCOUNT_MDL = 100;
+
+export function getApartmentCatalogPrice(
+  apartment: Pick<Apartment, "class" | "price">,
+) {
+  return apartment.class === "economy"
+    ? Math.max(0, apartment.price - ECONOMY_CATALOG_DISCOUNT_MDL)
+    : apartment.price;
+}
+
+export function getApartmentsByClass(category: ApartmentClass) {
+  return activeApartments.filter((apartment) => apartment.class === category);
+}
+
+export function getApartmentCategoryMinimumPrice(category: ApartmentClass) {
+  const categoryApartments = getApartmentsByClass(category);
+
+  return categoryApartments.length > 0
+    ? Math.min(...categoryApartments.map(getApartmentCatalogPrice))
+    : null;
+}
 
 export const apartmentDetailsById = Object.fromEntries(
   apartments.map((apartment) => [

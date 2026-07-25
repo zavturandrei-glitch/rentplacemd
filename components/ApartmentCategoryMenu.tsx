@@ -4,9 +4,10 @@ import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import {
-  activeApartments,
   apartmentCategoryOrder,
+  getApartmentCategoryMinimumPrice,
   getApartmentCategoryPath,
+  getApartmentsByClass,
   type ApartmentClass,
 } from "@/lib/apartments";
 import type { Language } from "@/locales/translations";
@@ -82,7 +83,7 @@ const textByLanguage: Record<Language, CategoryText> = {
 };
 
 function getCategoryApartments(category: ApartmentClass) {
-  return activeApartments.filter((apartment) => apartment.class === category);
+  return getApartmentsByClass(category);
 }
 
 export default function ApartmentCategoryMenu() {
@@ -109,7 +110,7 @@ export default function ApartmentCategoryMenu() {
             const categoryTitle = text.categories[category];
             const categoryApartments = getCategoryApartments(category);
             const firstApartment = categoryApartments[0];
-            const startingPrice = Math.min(...categoryApartments.map((apartment) => apartment.price));
+            const startingPrice = getApartmentCategoryMinimumPrice(category);
 
             if (!firstApartment) {
               return null;
@@ -136,7 +137,7 @@ export default function ApartmentCategoryMenu() {
                     {categoryTitle}
                   </h2>
                   <p className="mt-1 truncate text-[12px] font-black text-[#d4146f] sm:text-sm">
-                    {text.priceFrom(startingPrice)}
+                    {startingPrice === null ? text.emptyPrice : text.priceFrom(startingPrice)}
                   </p>
                   <p className="mt-0.5 truncate text-[11px] font-bold text-[#07111f]/60 sm:text-xs">
                     {text.count(categoryApartments.length)}
