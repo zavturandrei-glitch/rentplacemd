@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">Dental tourism planning</title><desc id="d">Illustrated checklist and medical cross</desc>
+  <rect width="1200" height="675" fill="#183a57"/><circle cx="260" cy="160" r="250" fill="#d4146f" opacity=".35"/><circle cx="1020" cy="590" r="300" fill="#ffd21f" opacity=".18"/>
+  <rect x="305" y="100" width="590" height="475" rx="52" fill="#fffaf0"/>
+  <g fill="none" stroke="#07111f" stroke-width="24" stroke-linecap="round"><path d="m410 240 35 35 65-80"/><path d="M565 240h215"/><path d="m410 385 35 35 65-80"/><path d="M565 385h215"/></g>
+</svg>

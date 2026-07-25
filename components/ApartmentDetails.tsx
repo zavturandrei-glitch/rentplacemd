@@ -786,9 +786,22 @@ export default function ApartmentDetails({
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isLightboxVisible, setIsLightboxVisible] = useState(false);
   const closeTimeoutRef = useRef<number | null>(null);
+  const openFrameRef = useRef<number | null>(null);
   const pointerStartXRef = useRef<number | null>(null);
+  const lightboxRef = useRef<HTMLDivElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const activeLightboxIndex = lightboxIndex ?? 0;
   const activeLightboxPhoto = lightboxPhotos[activeLightboxIndex] ?? lightboxPhotos[0];
+  const lightboxPositionIndexes = useMemo(() => {
+    const count = Math.min(7, lightboxPhotos.length);
+    if (count === 0) return [];
+    const start = activeLightboxIndex - Math.floor(count / 2);
+    return Array.from(
+      { length: count },
+      (_, offset) => (start + offset + lightboxPhotos.length) % lightboxPhotos.length,
+    );
+  }, [activeLightboxIndex, lightboxPhotos.length]);
 
   useEffect(() => {
     const seo = localizedSeo?.[language];
@@ -825,8 +838,15 @@ export default function ApartmentDetails({
       closeTimeoutRef.current = null;
     }
 
+    previousFocusRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
     setLightboxIndex(index);
-    window.setTimeout(() => setIsLightboxVisible(true), 0);
+    openFrameRef.current = window.requestAnimationFrame(() => {
+      setIsLightboxVisible(true);
+      closeButtonRef.current?.focus();
+      openFrameRef.current = null;
+    });
   }, [setIsLightboxVisible, setLightboxIndex]);
 
   const closeLightbox = useCallback(() => {
@@ -839,6 +859,8 @@ export default function ApartmentDetails({
     closeTimeoutRef.current = window.setTimeout(() => {
       setLightboxIndex(null);
       closeTimeoutRef.current = null;
+      previousFocusRef.current?.focus();
+      previousFocusRef.current = null;
     }, 260);
   }, [setIsLightboxVisible, setLightboxIndex]);
 
@@ -886,9 +908,33 @@ export default function ApartmentDetails({
     if (lightboxIndex === null) return undefined;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeLightbox();
-      if (event.key === "ArrowLeft") showPreviousPhoto();
-      if (event.key === "ArrowRight") showNextPhoto();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeLightbox();
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showPreviousPhoto();
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showNextPhoto();
+      }
+      if (event.key === "Tab") {
+        const focusable = lightboxRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+        );
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
     const previousOverflow = document.body.style.overflow;
 
@@ -902,9 +948,33 @@ export default function ApartmentDetails({
   }, [closeLightbox, lightboxIndex, showNextPhoto, showPreviousPhoto]);
 
   useEffect(() => {
+    if (lightboxIndex === null || lightboxPhotos.length < 2) return;
+
+    const neighbourIndexes = [
+      (lightboxIndex - 1 + lightboxPhotos.length) % lightboxPhotos.length,
+      (lightboxIndex + 1) % lightboxPhotos.length,
+    ];
+    const preloaders = [...new Set(neighbourIndexes)].map((index) => {
+      const preloader = new window.Image();
+      preloader.decoding = "async";
+      preloader.src = lightboxPhotos[index].src;
+      return preloader;
+    });
+
+    return () => {
+      preloaders.forEach((preloader) => {
+        preloader.src = "";
+      });
+    };
+  }, [lightboxIndex, lightboxPhotos]);
+
+  useEffect(() => {
     return () => {
       if (closeTimeoutRef.current) {
         window.clearTimeout(closeTimeoutRef.current);
+      }
+      if (openFrameRef.current) {
+        window.cancelAnimationFrame(openFrameRef.current);
       }
     };
   }, []);
@@ -1078,27 +1148,28 @@ export default function ApartmentDetails({
 
       {lightboxIndex !== null && activeLightboxPhoto ? (
         <div
+          ref={lightboxRef}
           className={(isLightboxVisible ? "opacity-100" : "opacity-0") + " fixed inset-0 z-[100] flex flex-col bg-black/95 text-white transition-opacity duration-300 ease-out"}
           role="dialog"
           aria-modal="true"
           aria-label={text.galleryTitle}
           onClick={closeLightbox}
         >
-          <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-sm font-black shadow-2xl backdrop-blur sm:top-5 sm:text-base" aria-live="polite">
+          <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2 rounded-full bg-black/70 px-4 py-2 text-sm font-black shadow-2xl sm:top-5 sm:text-base" aria-live="polite">
             {activeLightboxIndex + 1} / {lightboxPhotos.length}
           </div>
-          <button type="button" onClick={closeLightbox} className="absolute right-3 top-3 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/12 text-3xl font-light leading-none text-white shadow-2xl backdrop-blur transition duration-200 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:top-5" aria-label="Close">
+          <button ref={closeButtonRef} type="button" onClick={closeLightbox} className="absolute right-3 top-3 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-black/70 text-3xl font-light leading-none text-white shadow-2xl transition duration-200 hover:bg-black/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:top-5" aria-label="Close">
             ×
           </button>
-          <button type="button" onClick={(event) => { event.stopPropagation(); showPreviousPhoto(); }} className="absolute left-3 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-4xl font-light leading-none text-white shadow-2xl backdrop-blur transition duration-200 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:left-5 sm:h-14 sm:w-14" aria-label="Previous photo">
+          <button type="button" onClick={(event) => { event.stopPropagation(); showPreviousPhoto(); }} className="absolute left-3 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-4xl font-light leading-none text-white shadow-2xl transition duration-200 hover:bg-black/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:left-5 sm:h-14 sm:w-14" aria-label="Previous photo">
             ‹
           </button>
-          <button type="button" onClick={(event) => { event.stopPropagation(); showNextPhoto(); }} className="absolute right-3 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-4xl font-light leading-none text-white shadow-2xl backdrop-blur transition duration-200 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:h-14 sm:w-14" aria-label="Next photo">
+          <button type="button" onClick={(event) => { event.stopPropagation(); showNextPhoto(); }} className="absolute right-3 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-4xl font-light leading-none text-white shadow-2xl transition duration-200 hover:bg-black/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:h-14 sm:w-14" aria-label="Next photo">
             ›
           </button>
 
-          <div className="flex min-h-0 flex-1 touch-pan-y items-center justify-center px-3 pb-24 pt-16 sm:px-20 sm:pb-28 sm:pt-20" onClick={(event) => event.stopPropagation()} onPointerDown={handleLightboxPointerDown} onPointerUp={handleLightboxPointerUp} onPointerCancel={handleLightboxPointerCancel}>
-            <div className="relative h-full max-h-[calc(100dvh-10rem)] w-full max-w-[calc(100vw-1.5rem)] transition duration-300 ease-out sm:max-h-[calc(100dvh-12rem)] sm:max-w-6xl">
+          <div className="flex min-h-0 flex-1 touch-pan-y items-center justify-center px-3 pb-16 pt-16 sm:px-20 sm:pb-20 sm:pt-20" onClick={(event) => event.stopPropagation()} onPointerDown={handleLightboxPointerDown} onPointerUp={handleLightboxPointerUp} onPointerCancel={handleLightboxPointerCancel}>
+            <div className="relative h-full max-h-[calc(100dvh-8rem)] w-full max-w-[calc(100vw-1.5rem)] transition duration-300 ease-out sm:max-h-[calc(100dvh-10rem)] sm:max-w-6xl">
               <Image
                 key={activeLightboxPhoto.src}
                 src={activeLightboxPhoto.src}
@@ -1112,18 +1183,17 @@ export default function ApartmentDetails({
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-black/65 px-3 py-3 backdrop-blur sm:px-5 sm:py-4" onClick={(event) => event.stopPropagation()}>
-            <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto pb-1 sm:gap-3">
-              {lightboxPhotos.map((photo, index) => (
+          <div className="absolute bottom-0 left-0 right-0 z-20 flex justify-center bg-gradient-to-t from-black via-black/80 to-transparent px-3 pb-4 pt-8" onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-center gap-2">
+              {lightboxPositionIndexes.map((index) => (
                 <button
-                  key={photo.src + index}
+                  key={index}
                   type="button"
                   onClick={() => setLightboxIndex(index)}
-                  className={(index === activeLightboxIndex ? "ring-2 ring-[#ffd21f] ring-offset-2 ring-offset-black" : "opacity-70 hover:opacity-100") + " relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-white/10 transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:h-20 sm:w-28"}
-                  aria-label={photo.alt}
-                >
-                  <ResponsiveImage src={photo.src} alt={photo.alt} className="h-full w-full rounded-xl bg-transparent" imgClassName="object-cover" sizes="112px" loading="lazy" />
-                </button>
+                  className={(index === activeLightboxIndex ? "w-8 bg-[#ffd21f]" : "w-3 bg-white/55 hover:bg-white") + " h-3 rounded-full transition-[width,background-color] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"}
+                  aria-label={lightboxPhotos[index].alt}
+                  aria-current={index === activeLightboxIndex ? "true" : undefined}
+                />
               ))}
             </div>
           </div>

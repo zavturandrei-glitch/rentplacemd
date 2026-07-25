@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">Monasteries of Moldova</title><desc id="d">Stylised monastery among green hills</desc>
+  <rect width="1200" height="675" fill="#183a57"/><circle cx="955" cy="140" r="78" fill="#ffd21f"/>
+  <path d="M0 510q270-170 540 0t660-80v245H0Z" fill="#2c5137"/>
+  <g fill="#fffaf0"><rect x="355" y="305" width="490" height="250" rx="12"/><rect x="520" y="205" width="160" height="350"/><path d="M505 205q95-150 190 0Z"/></g>
+  <g fill="#07111f"><rect x="405" y="390" width="70" height="165" rx="35"/><rect x="565" y="390" width="70" height="165" rx="35"/><rect x="725" y="390" width="70" height="165" rx="35"/></g>
+</svg>

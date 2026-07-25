@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">Events in Chisinau</title><desc id="d">Illustrated calendar and stage lights</desc>
+  <rect width="1200" height="675" fill="#07111f"/><path d="m0 0 330 520L600 0l270 520L1200 0v675H0Z" fill="#d4146f" opacity=".18"/>
+  <rect x="315" y="135" width="570" height="420" rx="50" fill="#fffaf0"/><path d="M315 245h570" stroke="#ffd21f" stroke-width="45"/>
+  <g fill="#07111f"><circle cx="450" cy="345" r="38"/><circle cx="600" cy="345" r="38"/><circle cx="750" cy="345" r="38"/><circle cx="450" cy="465" r="38"/><circle cx="600" cy="465" r="38"/></g>
+</svg>

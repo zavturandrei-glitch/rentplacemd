@@ -5,6 +5,8 @@ import {
   getApartmentCategoryPath,
 } from "@/lib/apartments";
 import { baseUrl, getApartmentUrl, mainSocialImageUrl } from "@/lib/seo";
+import { eventsUpdatedAt } from "@/lib/events";
+import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 
 const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-19"),
@@ -12,7 +14,7 @@ const routeLastModified: Record<string, Date> = {
   "/apartments": new Date("2026-07-19"),
   "/check-in-rules": new Date("2026-06-24"),
   "/transfer": new Date("2026-06-24"),
-  "/chisinau-guide": new Date("2026-06-24"),
+  "/chisinau-guide": new Date("2026-07-25"),
 };
 const categoryLastModified = new Date("2026-07-19");
 const apartmentInventoryLastModified = new Date("2026-07-25");
@@ -61,6 +63,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  const guideRoutes = guideSlugs.map((slug) => {
+    const path = guidePath(slug);
+    return {
+      url: baseUrl + path,
+      lastModified: new Date(slug === "events" ? eventsUpdatedAt : "2026-07-25"),
+      changeFrequency: slug === "events" ? "weekly" as const : "monthly" as const,
+      priority: 0.7,
+      images: [baseUrl + guidePages[slug].image],
+      alternates: languageAlternates(path),
+    };
+  });
+
   return [
     {
       url: baseUrl,
@@ -79,6 +93,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: languageAlternates(path),
     })),
     ...categoryRoutes,
+    ...guideRoutes,
     ...apartmentRoutes,
   ];
 }

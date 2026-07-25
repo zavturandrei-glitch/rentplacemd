@@ -3,32 +3,21 @@ import Header from "@/components/Header";
 import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
-import { baseUrl, mainSocialImage, routeAlternates, siteName } from "@/lib/seo";
+import JsonLdScript from "@/components/JsonLdScript";
+import { buildInfoJsonLd, getInfoMetadata } from "@/lib/infoSeo";
 
-export const metadata: Metadata = {
-  title: "Правила заселения RentPlaceMD",
-  description:
-    "Основные правила заселения в квартиры RentPlaceMD: время заезда и выезда, документы, оплата и связь перед приездом.",
-  alternates: routeAlternates("/check-in-rules"),
-  openGraph: {
-    title: "Правила заселения RentPlaceMD",
-    description: "Время заезда и выезда, документы, оплата и связь перед приездом.",
-    url: baseUrl + "/check-in-rules",
-    siteName,
-    images: [mainSocialImage],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Правила заселения RentPlaceMD",
-    description: "Основные правила проживания и заселения в квартиры RentPlaceMD.",
-    images: [mainSocialImage],
-  },
-};
+type PageProps = { searchParams: Promise<{ lang?: string | string[] }> };
+const first = (value?: string | string[]) => Array.isArray(value) ? value[0] : value;
 
-export default function CheckInRulesPage() {
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  return getInfoMetadata("rules", first((await searchParams).lang));
+}
+
+export default async function CheckInRulesPage({ searchParams }: PageProps) {
+  const language = first((await searchParams).lang);
   return (
     <main className="min-h-screen bg-[#fffaf0]">
+      <JsonLdScript id="check-in-rules-jsonld" data={buildInfoJsonLd("rules", language)} />
       <Header />
       <BackButton />
       <InfoPage kind="rules" />
