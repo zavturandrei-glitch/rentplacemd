@@ -382,12 +382,10 @@ export function buildApartmentKeywords(id: ApartmentId) {
     return [
       "квартира посуточно Ботаника",
       "снять квартиру на Ботанике",
-      "квартира возле аэропорта Кишинёв",
       "квартира Cuza Vodă Кишинёв",
       "квартира посуточно Кишинёв до 4 человек",
       "квартира в новострое Кишинёв",
       "квартира с одной спальней Кишинёв",
-      "апартаменты возле аэропорта Кишинёв",
       "RentPlaceMD",
     ];
   }
@@ -411,7 +409,9 @@ function apartmentSeoImages(id: ApartmentId) {
 function apartmentSocialImage(id: ApartmentId) {
   const apartment = apartmentDetailsById[String(id)];
   const apartmentRecord = getApartmentById(id);
-  const path = Number(id) === 67
+  const path = Number(id) === 6
+    ? "/apartments/cuza-voda-1-2-6/social.jpg"
+    : Number(id) === 67
     ? "/apartments/GrigoreUreche67/3.jpeg"
     : apartmentRecord?.cardPhoto ?? apartment.images[0];
   const url = baseUrl + path;
@@ -420,6 +420,7 @@ function apartmentSocialImage(id: ApartmentId) {
     url,
     secureUrl: url,
     type: path.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg",
+    ...(Number(id) === 6 ? { width: 1200, height: 630 } : {}),
   };
 }
 

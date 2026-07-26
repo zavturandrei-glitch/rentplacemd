@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
 import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
@@ -34,6 +35,7 @@ const textByLanguage: Record<Language, {
   text: string;
   button: string;
   open: string;
+  show: string;
   mapTitle: string;
 }> = {
   ru: {
@@ -42,6 +44,7 @@ const textByLanguage: Record<Language, {
     text: "Пять уникальных адресов RentPlaceMD в Кишинёве. Для каждого адреса показана одна точка.",
     button: "Маршрут по адресам",
     open: "Открыть в Google Maps",
+    show: "Показать интерактивную карту",
     mapTitle: "Пять адресов RentPlaceMD на карте Кишинёва",
   },
   ro: {
@@ -50,6 +53,7 @@ const textByLanguage: Record<Language, {
     text: "Cinci adrese unice RentPlaceMD în Chișinău. Fiecare adresă are un singur punct pe hartă.",
     button: "Ruta între adrese",
     open: "Deschide în Google Maps",
+    show: "Arată harta interactivă",
     mapTitle: "Cinci adrese RentPlaceMD pe harta Chișinăului",
   },
   en: {
@@ -58,6 +62,7 @@ const textByLanguage: Record<Language, {
     text: "Five unique RentPlaceMD addresses in Chisinau. Each address is represented by one map point.",
     button: "Directions between addresses",
     open: "Open in Google Maps",
+    show: "Show interactive map",
     mapTitle: "Five RentPlaceMD addresses on the Chisinau map",
   },
   uk: {
@@ -66,6 +71,7 @@ const textByLanguage: Record<Language, {
     text: "П’ять унікальних адрес RentPlaceMD у Кишиневі. Для кожної адреси показано одну точку.",
     button: "Маршрут за адресами",
     open: "Відкрити в Google Maps",
+    show: "Показати інтерактивну карту",
     mapTitle: "П’ять адрес RentPlaceMD на карті Кишинева",
   },
   cs: {
@@ -74,12 +80,14 @@ const textByLanguage: Record<Language, {
     text: "Pět jedinečných adres RentPlaceMD v Kišiněvě. Každá adresa má jeden bod na mapě.",
     button: "Trasa mezi adresami",
     open: "Otevřít v Google Maps",
+    show: "Zobrazit interaktivní mapu",
     mapTitle: "Pět adres RentPlaceMD na mapě Kišiněva",
   },
 };
 
 export default function LocationMap() {
   const { language } = useLanguage();
+  const [showMap, setShowMap] = useState(false);
   const text = textByLanguage[language];
   const visibleLocations = locations.map((location) => {
     const displayName = getApartmentDisplayAddress(location.id, location.name, language);
@@ -122,8 +130,24 @@ export default function LocationMap() {
               {text.button}
             </a>
           </div>
-          <div className="min-h-[330px] border-t border-[#f0dfbf] bg-[#f7efe3] lg:border-l lg:border-t-0">
-            <iframe title={text.mapTitle} src={mapUrl} className="h-[330px] w-full sm:h-[430px] lg:h-full" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+          <div className="relative min-h-[330px] border-t border-[#f0dfbf] bg-[#f1ece3] lg:border-l lg:border-t-0">
+            {showMap ? (
+              <iframe title={text.mapTitle} src={mapUrl} className="h-[330px] w-full sm:h-[430px] lg:h-full" loading="eager" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+            ) : (
+              <div className="flex h-[330px] items-center justify-center px-6 text-center sm:h-[430px] lg:h-full lg:min-h-[560px]">
+                <div className="max-w-sm">
+                  <p className="text-xl font-semibold text-[#07111f]">{text.mapTitle}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{text.text}</p>
+                  <button
+                    type="button"
+                    onClick={() => setShowMap(true)}
+                    className="mt-6 min-h-12 rounded-full bg-[#07111f] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
+                  >
+                    {text.show}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

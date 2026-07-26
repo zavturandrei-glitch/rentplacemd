@@ -42,7 +42,7 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
               src={data.image}
               alt={data.title[language]}
               fill
-              priority
+              preload
               sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
             />

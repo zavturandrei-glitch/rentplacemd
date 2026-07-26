@@ -22,6 +22,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/apartments/cuza-voda-1-2-6/social.jpg",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, s-maxage=31536000, immutable",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+        ],
+      },
     ];
   },
   async redirects() {
