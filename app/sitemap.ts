@@ -6,6 +6,7 @@ import {
 } from "@/lib/apartments";
 import { baseUrl, getApartmentUrl, mainSocialImageUrl } from "@/lib/seo";
 import { eventsUpdatedAt } from "@/lib/events";
+import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 
 const routeLastModified: Record<string, Date> = {
@@ -75,6 +76,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  const eventMonthRoutes = eventMonthKeys.map((monthKey) => {
+    const path = eventMonthPath(monthKey);
+    return {
+      url: baseUrl + path,
+      lastModified: new Date(eventsUpdatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.74,
+      images: [baseUrl + guidePages.events.image],
+      alternates: languageAlternates(path),
+    };
+  });
+
   return [
     {
       url: baseUrl,
@@ -94,6 +107,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...categoryRoutes,
     ...guideRoutes,
+    ...eventMonthRoutes,
     ...apartmentRoutes,
   ];
 }

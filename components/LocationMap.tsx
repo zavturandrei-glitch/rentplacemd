@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
 import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
@@ -30,65 +30,84 @@ const cityByLanguage: Record<Language, string> = {
 };
 
 const textByLanguage: Record<Language, {
-  eyebrow: string;
   title: string;
   text: string;
   button: string;
   open: string;
-  show: string;
+  loading: string;
   mapTitle: string;
 }> = {
   ru: {
-    eyebrow: "5 адресов RentPlaceMD",
     title: "RentPlaceMD на карте",
-    text: "Пять уникальных адресов RentPlaceMD в Кишинёве. Для каждого адреса показана одна точка.",
+    text: "Пять адресов в Кишинёве собраны на одной карте. Откройте нужную точку отдельно или постройте общий маршрут между адресами.",
     button: "Маршрут по адресам",
     open: "Открыть в Google Maps",
-    show: "Показать интерактивную карту",
+    loading: "Загружаем интерактивную карту",
     mapTitle: "Пять адресов RentPlaceMD на карте Кишинёва",
   },
   ro: {
-    eyebrow: "5 adrese RentPlaceMD",
     title: "RentPlaceMD pe hartă",
-    text: "Cinci adrese unice RentPlaceMD în Chișinău. Fiecare adresă are un singur punct pe hartă.",
-    button: "Ruta între adrese",
+    text: "Cele cinci adrese din Chișinău sunt reunite pe aceeași hartă. Deschideți separat punctul dorit sau construiți traseul complet.",
+    button: "Traseu între adrese",
     open: "Deschide în Google Maps",
-    show: "Arată harta interactivă",
+    loading: "Se încarcă harta interactivă",
     mapTitle: "Cinci adrese RentPlaceMD pe harta Chișinăului",
   },
   en: {
-    eyebrow: "5 RentPlaceMD addresses",
     title: "RentPlaceMD on the map",
-    text: "Five unique RentPlaceMD addresses in Chisinau. Each address is represented by one map point.",
-    button: "Directions between addresses",
+    text: "All five Chișinău addresses are shown on one map. Open any location separately or build a route between the addresses.",
+    button: "Route between addresses",
     open: "Open in Google Maps",
-    show: "Show interactive map",
-    mapTitle: "Five RentPlaceMD addresses on the Chisinau map",
+    loading: "Loading the interactive map",
+    mapTitle: "Five RentPlaceMD addresses on the Chișinău map",
   },
   uk: {
-    eyebrow: "5 адрес RentPlaceMD",
     title: "RentPlaceMD на карті",
-    text: "П’ять унікальних адрес RentPlaceMD у Кишиневі. Для кожної адреси показано одну точку.",
+    text: "П’ять адрес у Кишиневі зібрані на одній карті. Відкрийте потрібну точку окремо або побудуйте маршрут між адресами.",
     button: "Маршрут за адресами",
     open: "Відкрити в Google Maps",
-    show: "Показати інтерактивну карту",
+    loading: "Завантажуємо інтерактивну карту",
     mapTitle: "П’ять адрес RentPlaceMD на карті Кишинева",
   },
   cs: {
-    eyebrow: "5 adres RentPlaceMD",
     title: "RentPlaceMD na mapě",
-    text: "Pět jedinečných adres RentPlaceMD v Kišiněvě. Každá adresa má jeden bod na mapě.",
+    text: "Všech pět kišiněvských adres je zobrazeno na jedné mapě. Otevřete jednotlivé místo nebo sestavte trasu mezi adresami.",
     button: "Trasa mezi adresami",
     open: "Otevřít v Google Maps",
-    show: "Zobrazit interaktivní mapu",
+    loading: "Načítá se interaktivní mapa",
     mapTitle: "Pět adres RentPlaceMD na mapě Kišiněva",
   },
 };
 
 export default function LocationMap() {
   const { language } = useLanguage();
-  const [showMap, setShowMap] = useState(false);
   const text = textByLanguage[language];
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoadMap, setShouldLoadMap] = useState(false);
+
+  useEffect(() => {
+    const element = mapContainerRef.current;
+    if (!element || shouldLoadMap) return;
+
+    if (!("IntersectionObserver" in window)) {
+      const fallbackTimer = globalThis.setTimeout(() => setShouldLoadMap(true), 0);
+      return () => globalThis.clearTimeout(fallbackTimer);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadMap(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "320px 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [shouldLoadMap]);
+
   const visibleLocations = locations.map((location) => {
     const displayName = getApartmentDisplayAddress(location.id, location.name, language);
     return {
@@ -99,55 +118,82 @@ export default function LocationMap() {
   });
 
   return (
-    <section className="bg-[#fffaf0] px-4 pb-12 pt-2 sm:px-6 sm:pb-16 lg:px-8">
+    <section
+      id="rentplace-map"
+      className="scroll-mt-[210px] bg-[#fffaf0] px-4 py-10 sm:px-6 sm:py-14 lg:scroll-mt-8 lg:px-8 lg:py-16"
+    >
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[26px] border border-[#f0dfbf] bg-white shadow-[0_18px_54px_rgba(15,23,42,0.08)]">
-        <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="p-5 sm:p-7 lg:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.eyebrow}</p>
-            <h2 className="mt-3 text-2xl font-black leading-tight text-[#07111f] sm:text-4xl">{text.title}</h2>
-            <p className="mt-4 text-base font-semibold leading-7 text-slate-600">{text.text}</p>
-            <div className="mt-5 grid gap-3">
-              {visibleLocations.map((location, index) => (
-                <a
-                  key={location.address}
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinates(location))}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group rounded-2xl border border-[#f0dfbf] bg-[#fffaf0] p-4 transition hover:border-[#d4146f]/35 hover:bg-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
-                >
-                  <span className="flex items-start gap-3">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#d4146f] text-xs font-black text-white">{index + 1}</span>
-                    <span>
-                      <strong className="block text-sm font-black text-[#07111f]">RentPlaceMD · {location.displayName}</strong>
-                      <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{location.displayAddress}</span>
-                      <span className="mt-2 block text-xs font-black text-[#d4146f] group-hover:underline">{text.open} ↗</span>
-                    </span>
-                  </span>
-                </a>
-              ))}
-            </div>
-            <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#d4146f] px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-pink-700/20 transition hover:bg-[#bd0f60] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:w-auto">
-              {text.button}
-            </a>
-          </div>
-          <div className="relative min-h-[330px] border-t border-[#f0dfbf] bg-[#f1ece3] lg:border-l lg:border-t-0">
-            {showMap ? (
-              <iframe title={text.mapTitle} src={mapUrl} className="h-[330px] w-full sm:h-[430px] lg:h-full" loading="eager" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+        <header className="border-b border-[#f0dfbf] px-5 py-7 sm:px-8 sm:py-9">
+          <h2 className="text-3xl font-semibold leading-tight tracking-[-0.03em] text-[#07111f] sm:text-4xl">
+            {text.title}
+          </h2>
+          <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
+            {text.text}
+          </p>
+        </header>
+
+        <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+          <div
+            ref={mapContainerRef}
+            className="relative h-[330px] overflow-hidden border-b border-[#f0dfbf] bg-[#eee9df] sm:h-[380px] lg:h-full lg:min-h-[590px] lg:border-b-0 lg:border-r"
+            aria-busy={!shouldLoadMap}
+          >
+            {shouldLoadMap ? (
+              <iframe
+                title={text.mapTitle}
+                src={mapUrl}
+                className="absolute inset-0 h-full w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             ) : (
-              <div className="flex h-[330px] items-center justify-center px-6 text-center sm:h-[430px] lg:h-full lg:min-h-[560px]">
-                <div className="max-w-sm">
-                  <p className="text-xl font-semibold text-[#07111f]">{text.mapTitle}</p>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{text.text}</p>
-                  <button
-                    type="button"
-                    onClick={() => setShowMap(true)}
-                    className="mt-6 min-h-12 rounded-full bg-[#07111f] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
-                  >
-                    {text.show}
-                  </button>
-                </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#eee9df_0%,#f8f5ee_50%,#e9e3d8_100%)] px-6 text-center">
+                <p className="rounded-full bg-white/85 px-5 py-3 text-sm font-semibold text-slate-600 shadow-sm">
+                  {text.loading}
+                </p>
               </div>
             )}
+          </div>
+
+          <div className="p-5 sm:p-7 lg:p-8">
+            <ol className="grid gap-3">
+              {visibleLocations.map((location, index) => (
+                <li key={location.address}>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinates(location))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${text.open}: ${location.displayAddress}`}
+                    className="group flex min-h-24 items-start gap-3 rounded-2xl border border-[#f0dfbf] bg-[#fffaf0] p-4 transition hover:border-[#d4146f]/35 hover:bg-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#d4146f] text-xs font-black text-white">
+                      {index + 1}
+                    </span>
+                    <span className="min-w-0">
+                      <strong className="block text-sm font-semibold text-[#07111f]">
+                        RentPlaceMD · {location.displayName}
+                      </strong>
+                      <span className="mt-1 block text-xs font-medium leading-5 text-slate-500">
+                        {location.displayAddress}
+                      </span>
+                      <span className="mt-2 block text-xs font-semibold text-[#d4146f] group-hover:underline">
+                        {text.open} ↗
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[#d4146f] px-6 py-3 text-center text-base font-semibold text-white shadow-lg shadow-pink-700/20 transition hover:bg-[#bd0f60] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
+            >
+              {text.button}
+            </a>
           </div>
         </div>
       </div>

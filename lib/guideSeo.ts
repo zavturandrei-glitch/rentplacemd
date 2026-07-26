@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import { eventsUpdatedAt, getUpcomingGuideEvents } from "@/lib/events";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 import {
   baseUrl,
@@ -24,6 +25,7 @@ function metadataFor(
   language: Language,
   explicitLanguage?: string,
   image = mainSocialImageUrl,
+  type: "article" | "website" = "article",
 ): Metadata {
   const url = baseUrl + path + (explicitLanguage ? `?lang=${language}` : "");
   const imageUrl = image.startsWith("http") ? image : baseUrl + image;
@@ -38,7 +40,7 @@ function metadataFor(
       url,
       siteName,
       locale: ogLocale[language],
-      type: "article",
+      type,
       images: [{ url: imageUrl, alt: title }],
     },
     twitter: {
@@ -71,6 +73,7 @@ export function getGuidePageMetadata(slug: GuideSlug, languageInput?: string): M
     language,
     languageInput,
     data.image,
+    slug === "events" ? "website" : "article",
   );
 }
 
@@ -79,6 +82,77 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
   const data = guidePages[slug];
   const path = guidePath(slug);
   const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: guideUi.hubTitle[language],
+        item: baseUrl + "/chisinau-guide",
+      },
+      { "@type": "ListItem", position: 3, name: data.title[language], item: url },
+    ],
+  };
+
+  if (slug === "events") {
+    const eventNodes = getUpcomingGuideEvents().map((event) => ({
+      "@type": "Event",
+      "@id": `${url}#${event.slug}`,
+      name: event.title[language],
+      description: event.description[language],
+      startDate: event.startDate,
+      ...(event.endDate ? { endDate: event.endDate } : {}),
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      location: {
+        "@type": "Place",
+        name: event.venue[language],
+        ...(event.address
+          ? {
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: event.address[language],
+                addressLocality: "Chișinău",
+                addressCountry: "MD",
+              },
+            }
+          : {}),
+      },
+      url: event.sourceUrl,
+      organizer: {
+        "@type": "Organization",
+        name: event.sourceName,
+        url: event.sourceUrl,
+      },
+      inLanguage: language,
+    }));
+
+    return [
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: data.title[language],
+        description: data.description[language],
+        url,
+        inLanguage: language,
+        dateModified: eventsUpdatedAt,
+        publisher: { "@type": "Organization", name: siteName, url: baseUrl },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: eventNodes.length,
+          itemListElement: eventNodes.map((event, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: event,
+          })),
+        },
+      },
+      breadcrumb,
+    ];
+  }
 
   return [
     {
@@ -92,20 +166,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
       dateModified: "2026-07-25",
       publisher: { "@type": "Organization", name: siteName, url: baseUrl },
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: guideUi.hubTitle[language],
-          item: baseUrl + "/chisinau-guide",
-        },
-        { "@type": "ListItem", position: 3, name: data.title[language], item: url },
-      ],
-    },
+    breadcrumb,
   ];
 }
 

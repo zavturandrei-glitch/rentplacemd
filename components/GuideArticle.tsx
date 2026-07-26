@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
+import EventsCalendar from "@/components/EventsCalendar";
 import { useLanguage } from "@/context/LanguageContext";
-import { guideEvents } from "@/lib/events";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 
 export default function GuideArticle({ slug }: { slug: GuideSlug }) {
@@ -14,6 +14,10 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
   useEffect(() => {
     document.title = `${data.title[language]} | RentPlaceMD`;
   }, [data.title, language]);
+
+  if (slug === "events") {
+    return <EventsCalendar />;
+  }
 
   return (
     <article className="mx-auto max-w-6xl px-4 pb-20 pt-4 sm:px-6 sm:pt-8 lg:px-8">
@@ -49,15 +53,6 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
           </div>
         </div>
       </header>
-
-      {slug === "events" && guideEvents.length === 0 ? (
-        <section className="mt-6 rounded-[24px] border border-[#ffd21f]/60 bg-[#fff4b9] p-5 sm:p-7" aria-live="polite">
-          <h2 className="text-xl font-black text-[#07111f]">{data.title[language]}</h2>
-          <p className="mt-2 max-w-3xl font-semibold leading-7 text-[#07111f]/75">
-            {guideUi.emptyEvents[language]}
-          </p>
-        </section>
-      ) : null}
 
       <div className="mt-6 grid gap-5">
         {data.sections.map((section, index) => (

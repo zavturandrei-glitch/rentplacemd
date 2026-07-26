@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import GuideArticle from "@/components/GuideArticle";
@@ -31,6 +31,9 @@ export default async function GuidePage({ params, searchParams }: PageProps) {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
   if (!isGuideSlug(slug)) notFound();
   const language = first(query.lang);
+  if (slug === "events") {
+    permanentRedirect(`/events${language ? `?lang=${language}` : ""}`);
+  }
 
   return (
     <main className="min-h-screen bg-[#fffaf0]">

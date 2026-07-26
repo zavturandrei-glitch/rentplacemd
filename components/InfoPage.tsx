@@ -188,6 +188,323 @@ const aboutCopy: Record<Language, AboutCopy> = {
   },
 };
 
+type AboutBusinessCopy = {
+  title: string;
+  lead: string;
+  chooseApartment: string;
+  manageApartment: string;
+  whoTitle: string;
+  who: string[];
+  guestsTitle: string;
+  guestItems: string[];
+  ownersTitle: string;
+  ownersText: string;
+  ownerItems: string[];
+  suitableTitle: string;
+  suitableItems: string[];
+  stepsTitle: string;
+  steps: string[];
+  ownerCtaTitle: string;
+  ownerCtaText: string;
+  whatsapp: string;
+  viber: string;
+  telegram: string;
+  call: string;
+};
+
+const aboutBusinessCopy: Record<Language, AboutBusinessCopy> = {
+  ru: {
+    title: "RentPlaceMD — квартиры посуточно и профессиональное управление недвижимостью в Кишинёве",
+    lead: "Помогаем гостям быстро находить подходящие квартиры, а владельцам — получать доход от посуточной аренды без ежедневной рутины.",
+    chooseApartment: "Подобрать квартиру",
+    manageApartment: "Передать квартиру в управление",
+    whoTitle: "Кто мы",
+    who: [
+      "RentPlaceMD — локальный сервис посуточной аренды квартир в Кишинёве. Мы работаем непосредственно с объектами размещения, помогаем гостям подобрать подходящую квартиру и сопровождаем бронирование от первого обращения до выезда.",
+      "Наша задача — сделать аренду понятной, быстрой и безопасной: предоставить актуальную информацию, реальные фотографии, удобную связь и поддержку во время проживания.",
+    ],
+    guestsTitle: "Что получают гости",
+    guestItems: [
+      "Подбор квартиры по датам, бюджету и району",
+      "Реальные фотографии и понятное описание",
+      "Прямая связь с RentPlaceMD",
+      "Сопровождение до заселения",
+      "Помощь во время проживания",
+      "Возможность заказать трансфер",
+      "Квартиры в центре и других удобных районах Кишинёва",
+    ],
+    ownersTitle: "Передайте квартиру в профессиональное администрирование",
+    ownersText: "Если у вас есть квартира в Кишинёве, RentPlaceMD может взять на себя организацию посуточной аренды полностью или частично. Формат сотрудничества и перечень услуг согласовываются индивидуально с владельцем.",
+    ownerItems: [
+      "Подготовка объекта к размещению",
+      "Создание и улучшение объявления",
+      "Фотографии и описание",
+      "Размещение на RentPlaceMD и согласованных площадках",
+      "Обработка обращений и общение с гостями",
+      "Согласование бронирований",
+      "Ведение календаря занятости",
+      "Организация заселения и выезда",
+      "Координация уборки и подготовки квартиры",
+      "Контроль состояния объекта",
+      "Информирование владельца",
+      "Рекомендации по цене и загрузке",
+    ],
+    suitableTitle: "Кому подходит такой формат",
+    suitableItems: [
+      "Владельцам, которые живут за границей",
+      "Тем, у кого нет времени ежедневно заниматься гостями",
+      "Собственникам, которым сложно вести несколько площадок",
+      "Владельцам, желающим улучшить объявление и обслуживание",
+      "Инвесторам с одной или несколькими квартирами",
+    ],
+    stepsTitle: "Как начать сотрудничество",
+    steps: [
+      "Свяжитесь с RentPlaceMD удобным способом.",
+      "Мы знакомимся с квартирой и обсуждаем условия.",
+      "Согласовываем формат управления и перечень услуг.",
+      "Подготавливаем объект и начинаем работу.",
+    ],
+    ownerCtaTitle: "Есть квартира в Кишинёве?",
+    ownerCtaText: "Свяжитесь с нами, чтобы обсудить размещение квартиры на RentPlaceMD или передачу объекта в администрирование.",
+    whatsapp: "Написать в WhatsApp",
+    viber: "Написать в Viber",
+    telegram: "Написать в Telegram",
+    call: "Позвонить",
+  },
+  ro: {
+    title: "RentPlaceMD — apartamente în regim hotelier și administrare profesionistă în Chișinău",
+    lead: "Îi ajutăm pe oaspeți să găsească rapid apartamentul potrivit, iar pe proprietari să obțină venituri din închirierea pe termen scurt fără rutina zilnică.",
+    chooseApartment: "Alege un apartament",
+    manageApartment: "Încredințează-ne apartamentul",
+    whoTitle: "Cine suntem",
+    who: [
+      "RentPlaceMD este un serviciu local de închiriere în regim hotelier în Chișinău. Lucrăm direct cu proprietățile, îi ajutăm pe oaspeți să aleagă locuința potrivită și îi însoțim de la prima solicitare până la plecare.",
+      "Ne dorim ca închirierea să fie clară, rapidă și sigură, cu informații actuale, fotografii reale, comunicare accesibilă și sprijin în timpul șederii.",
+    ],
+    guestsTitle: "Ce primesc oaspeții",
+    guestItems: [
+      "Selecție după date, buget și zonă",
+      "Fotografii reale și descrieri clare",
+      "Comunicare directă cu RentPlaceMD",
+      "Asistență înainte de cazare",
+      "Ajutor în timpul șederii",
+      "Posibilitatea de a comanda transfer",
+      "Apartamente în centru și în alte zone convenabile",
+    ],
+    ownersTitle: "Încredințați apartamentul unei administrări profesioniste",
+    ownersText: "Dacă aveți un apartament în Chișinău, RentPlaceMD poate prelua integral sau parțial organizarea închirierii pe termen scurt. Formatul colaborării și serviciile se stabilesc individual cu proprietarul.",
+    ownerItems: [
+      "Pregătirea proprietății pentru închiriere",
+      "Crearea și îmbunătățirea anunțului",
+      "Fotografii și descriere",
+      "Publicarea pe RentPlaceMD și pe platformele agreate",
+      "Prelucrarea solicitărilor și comunicarea cu oaspeții",
+      "Coordonarea rezervărilor",
+      "Gestionarea calendarului de ocupare",
+      "Organizarea cazării și plecării",
+      "Coordonarea curățeniei și pregătirii",
+      "Supravegherea stării proprietății",
+      "Informarea proprietarului",
+      "Recomandări privind prețul și gradul de ocupare",
+    ],
+    suitableTitle: "Cui i se potrivește",
+    suitableItems: [
+      "Proprietarilor care locuiesc în străinătate",
+      "Celor care nu au timp pentru comunicarea zilnică cu oaspeții",
+      "Proprietarilor care gestionează cu dificultate mai multe platforme",
+      "Celor care vor un anunț și un serviciu mai bine organizate",
+      "Investitorilor cu unul sau mai multe apartamente",
+    ],
+    stepsTitle: "Cum începem colaborarea",
+    steps: [
+      "Contactați RentPlaceMD prin canalul preferat.",
+      "Cunoaștem apartamentul și discutăm condițiile.",
+      "Stabilim formatul administrării și serviciile.",
+      "Pregătim proprietatea și începem activitatea.",
+    ],
+    ownerCtaTitle: "Aveți un apartament în Chișinău?",
+    ownerCtaText: "Contactați-ne pentru a discuta publicarea pe RentPlaceMD sau administrarea proprietății.",
+    whatsapp: "Scrie pe WhatsApp",
+    viber: "Scrie pe Viber",
+    telegram: "Scrie pe Telegram",
+    call: "Sună",
+  },
+  en: {
+    title: "RentPlaceMD — short-stay apartments and professional property management in Chișinău",
+    lead: "We help guests find the right apartment quickly and help owners earn from short stays without managing the daily routine themselves.",
+    chooseApartment: "Find an apartment",
+    manageApartment: "Let us manage your apartment",
+    whoTitle: "Who we are",
+    who: [
+      "RentPlaceMD is a local short-stay apartment service in Chișinău. We work directly with the properties, help guests choose suitable accommodation and support each stay from the first enquiry to departure.",
+      "Our aim is to make renting clear, efficient and safe through current information, genuine photographs, accessible communication and support during the stay.",
+    ],
+    guestsTitle: "What guests receive",
+    guestItems: [
+      "Apartment selection by dates, budget and area",
+      "Genuine photographs and clear descriptions",
+      "Direct contact with RentPlaceMD",
+      "Support before check-in",
+      "Help during the stay",
+      "Optional airport transfer",
+      "Apartments in the centre and other convenient areas",
+    ],
+    ownersTitle: "Put your apartment in professional management",
+    ownersText: "If you own an apartment in Chișinău, RentPlaceMD can manage all or part of its short-stay operation. The scope of work and cooperation model are agreed individually with each owner.",
+    ownerItems: [
+      "Preparing the property for guests",
+      "Creating and improving the listing",
+      "Photography and written description",
+      "Publishing on RentPlaceMD and agreed platforms",
+      "Handling enquiries and guest communication",
+      "Coordinating reservations",
+      "Maintaining the occupancy calendar",
+      "Organising check-in and departure",
+      "Coordinating cleaning and preparation",
+      "Monitoring the condition of the property",
+      "Keeping the owner informed",
+      "Recommendations on pricing and occupancy",
+    ],
+    suitableTitle: "Who this suits",
+    suitableItems: [
+      "Owners who live abroad",
+      "Owners without time for daily guest communication",
+      "People who find it difficult to manage several platforms",
+      "Owners who want to improve their listing and service",
+      "Investors with one or several apartments",
+    ],
+    stepsTitle: "How to start",
+    steps: [
+      "Contact RentPlaceMD through your preferred channel.",
+      "We visit the apartment and discuss the terms.",
+      "We agree the management model and services.",
+      "We prepare the property and begin work.",
+    ],
+    ownerCtaTitle: "Do you own an apartment in Chișinău?",
+    ownerCtaText: "Contact us to discuss listing it on RentPlaceMD or placing the property under management.",
+    whatsapp: "Message on WhatsApp",
+    viber: "Message on Viber",
+    telegram: "Message on Telegram",
+    call: "Call us",
+  },
+  uk: {
+    title: "RentPlaceMD — подобова оренда та професійне управління нерухомістю в Кишиневі",
+    lead: "Допомагаємо гостям швидко знаходити відповідні квартири, а власникам — отримувати дохід від подобової оренди без щоденної рутини.",
+    chooseApartment: "Підібрати квартиру",
+    manageApartment: "Передати квартиру в управління",
+    whoTitle: "Хто ми",
+    who: [
+      "RentPlaceMD — локальний сервіс подобової оренди квартир у Кишиневі. Ми працюємо безпосередньо з об’єктами, допомагаємо гостям обрати житло та супроводжуємо проживання від першого звернення до виїзду.",
+      "Наше завдання — зробити оренду зрозумілою, швидкою та безпечною завдяки актуальній інформації, реальним фотографіям, зручному зв’язку й підтримці під час проживання.",
+    ],
+    guestsTitle: "Що отримують гості",
+    guestItems: [
+      "Підбір квартири за датами, бюджетом і районом",
+      "Реальні фотографії та зрозумілий опис",
+      "Прямий зв’язок із RentPlaceMD",
+      "Супровід до заселення",
+      "Допомога під час проживання",
+      "Можливість замовити трансфер",
+      "Квартири в центрі та інших зручних районах",
+    ],
+    ownersTitle: "Передайте квартиру в професійне адміністрування",
+    ownersText: "Якщо у вас є квартира в Кишиневі, RentPlaceMD може повністю або частково організувати її подобову оренду. Формат співпраці та перелік послуг погоджуються з власником індивідуально.",
+    ownerItems: [
+      "Підготовка об’єкта до розміщення",
+      "Створення та покращення оголошення",
+      "Фотографії й опис",
+      "Розміщення на RentPlaceMD і погоджених платформах",
+      "Обробка звернень і спілкування з гостями",
+      "Погодження бронювань",
+      "Ведення календаря зайнятості",
+      "Організація заселення та виїзду",
+      "Координація прибирання й підготовки",
+      "Контроль стану об’єкта",
+      "Інформування власника",
+      "Рекомендації щодо ціни та завантаження",
+    ],
+    suitableTitle: "Кому підходить",
+    suitableItems: [
+      "Власникам, які живуть за кордоном",
+      "Тим, хто не має часу щодня працювати з гостями",
+      "Власникам, яким складно вести кілька платформ",
+      "Тим, хто прагне покращити оголошення та сервіс",
+      "Інвесторам з однією чи кількома квартирами",
+    ],
+    stepsTitle: "Як почати співпрацю",
+    steps: [
+      "Зв’яжіться з RentPlaceMD зручним способом.",
+      "Ми знайомимося з квартирою та обговорюємо умови.",
+      "Погоджуємо формат управління і перелік послуг.",
+      "Готуємо об’єкт і починаємо роботу.",
+    ],
+    ownerCtaTitle: "Маєте квартиру в Кишиневі?",
+    ownerCtaText: "Зв’яжіться з нами, щоб обговорити розміщення на RentPlaceMD або передачу об’єкта в адміністрування.",
+    whatsapp: "Написати у WhatsApp",
+    viber: "Написати у Viber",
+    telegram: "Написати у Telegram",
+    call: "Зателефонувати",
+  },
+  cs: {
+    title: "RentPlaceMD — krátkodobé pronájmy a profesionální správa nemovitostí v Kišiněvě",
+    lead: "Hostům pomáháme rychle najít vhodný apartmán a majitelům získávat příjem z krátkodobých pobytů bez každodenní administrativy.",
+    chooseApartment: "Vybrat apartmán",
+    manageApartment: "Svěřit apartmán do správy",
+    whoTitle: "Kdo jsme",
+    who: [
+      "RentPlaceMD je místní služba krátkodobých pronájmů v Kišiněvě. Pracujeme přímo s ubytovacími objekty, pomáháme hostům vybrat vhodný apartmán a provázíme pobyt od prvního dotazu až po odjezd.",
+      "Naším cílem je přehledný, rychlý a bezpečný pronájem s aktuálními informacemi, skutečnými fotografiemi, snadným kontaktem a podporou během pobytu.",
+    ],
+    guestsTitle: "Co získávají hosté",
+    guestItems: [
+      "Výběr podle termínu, rozpočtu a čtvrti",
+      "Skutečné fotografie a jasný popis",
+      "Přímý kontakt s RentPlaceMD",
+      "Podporu před ubytováním",
+      "Pomoc během pobytu",
+      "Možnost objednat transfer",
+      "Apartmány v centru i dalších praktických čtvrtích",
+    ],
+    ownersTitle: "Svěřte apartmán do profesionální správy",
+    ownersText: "Máte-li apartmán v Kišiněvě, RentPlaceMD může převzít celou nebo část organizace krátkodobých pronájmů. Rozsah služeb a způsob spolupráce domlouváme s každým majitelem individuálně.",
+    ownerItems: [
+      "Příprava nemovitosti pro hosty",
+      "Vytvoření a vylepšení nabídky",
+      "Fotografie a textový popis",
+      "Zveřejnění na RentPlaceMD a dohodnutých platformách",
+      "Vyřizování dotazů a komunikace s hosty",
+      "Koordinace rezervací",
+      "Správa kalendáře obsazenosti",
+      "Organizace příjezdu a odjezdu",
+      "Koordinace úklidu a přípravy",
+      "Kontrola stavu nemovitosti",
+      "Informování majitele",
+      "Doporučení k ceně a obsazenosti",
+    ],
+    suitableTitle: "Pro koho je služba vhodná",
+    suitableItems: [
+      "Pro majitele žijící v zahraničí",
+      "Pro ty, kdo nemají čas na každodenní komunikaci s hosty",
+      "Pro majitele, kteří obtížně spravují více platforem",
+      "Pro ty, kdo chtějí zlepšit nabídku a služby",
+      "Pro investory s jedním či několika apartmány",
+    ],
+    stepsTitle: "Jak začít spolupráci",
+    steps: [
+      "Kontaktujte RentPlaceMD zvoleným způsobem.",
+      "Seznámíme se s apartmánem a probereme podmínky.",
+      "Dohodneme model správy a rozsah služeb.",
+      "Připravíme nemovitost a zahájíme práci.",
+    ],
+    ownerCtaTitle: "Máte apartmán v Kišiněvě?",
+    ownerCtaText: "Ozvěte se nám a probereme zveřejnění na RentPlaceMD nebo předání nemovitosti do správy.",
+    whatsapp: "Napsat na WhatsApp",
+    viber: "Napsat na Viber",
+    telegram: "Napsat na Telegram",
+    call: "Zavolat",
+  },
+};
+
 type RulesCopy = {
   title: string;
   lead: string;
@@ -547,58 +864,99 @@ const transferCopy: Record<Language, TransferCopy> = {
 const primaryButton = "inline-flex min-h-12 items-center justify-center rounded-full bg-[#d4146f] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#b81160] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]";
 const secondaryButton = "inline-flex min-h-12 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-[#07111f] transition hover:border-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#07111f]";
 
-function AboutPage({ copy }: { copy: AboutCopy }) {
+function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusinessCopy }) {
   return (
     <article className="bg-[#faf9f6] text-[#07111f]">
-      <header className="mx-auto max-w-6xl px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-12 lg:px-8">
-        <h1 className="max-w-5xl text-[2.25rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
-          {copy.title}
-        </h1>
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-          {copy.lead}
-        </p>
-      </header>
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-slate-200 sm:aspect-[16/9] sm:rounded-[30px]">
+      <header className="mx-auto grid max-w-7xl gap-10 px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-8">
+        <div>
+          <h1 className="max-w-5xl text-[2.25rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
+            {business.title}
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
+            {business.lead}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="/apartments" className={primaryButton}>{business.chooseApartment}</Link>
+            <Link href="#owners" className={secondaryButton}>{business.manageApartment}</Link>
+          </div>
+        </div>
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-slate-200 sm:aspect-[16/12] sm:rounded-[30px]">
           <Image
             src="/service-pages/about-apartment.webp"
             alt={copy.imageAlt}
             fill
             preload
-            sizes="(min-width: 1280px) 1216px, calc(100vw - 32px)"
+            sizes="(min-width: 1024px) 46vw, calc(100vw - 32px)"
             className="object-cover object-center"
           />
         </div>
-      </div>
+      </header>
 
-      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <blockquote className="border-y border-slate-300 py-12 font-serif text-2xl italic leading-[1.45] text-[#07111f] sm:py-16 sm:text-4xl">
-          {copy.quote}
-        </blockquote>
-        <p className="mt-14 max-w-3xl text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9">
-          {copy.introduction}
-        </p>
-
-        <div className="mt-16">
-          {copy.sections.map((section) => (
-            <section key={section.title} className="grid gap-5 border-t border-slate-300 py-10 md:grid-cols-[0.38fr_0.62fr] md:gap-12 md:py-12">
-              <h2 className="text-2xl font-semibold tracking-[-0.02em]">{section.title}</h2>
-              <div className="max-w-2xl space-y-5 text-base leading-8 text-slate-600 sm:text-lg">
-                {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-              </div>
-            </section>
-          ))}
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-[0.34fr_0.66fr] md:gap-14 lg:px-8">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.whoTitle}</h2>
+          <div className="space-y-5 text-lg leading-8 text-slate-600">
+            {business.who.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </div>
         </div>
       </section>
 
-      <SimpleCta
-        title={copy.closingTitle}
-        text={copy.closingText}
-        primaryLabel={copy.apartments}
-        primaryHref="/apartments"
-        secondaryLabel={copy.contact}
-      />
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{business.guestsTitle}</h2>
+        <ul className="mt-8 grid gap-px overflow-hidden rounded-[24px] border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
+          {business.guestItems.map((item) => (
+            <li key={item} className="bg-white p-5 text-base font-medium leading-7 text-slate-700 sm:p-6">{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="owners" className="scroll-mt-[210px] bg-[#07111f] text-white lg:scroll-mt-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+          <div>
+            <h2 className="text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-4xl">{business.ownersTitle}</h2>
+            <p className="mt-5 text-lg leading-8 text-white/70">{business.ownersText}</p>
+          </div>
+          <ul className="grid gap-x-8 gap-y-0 sm:grid-cols-2">
+            {business.ownerItems.map((item) => (
+              <li key={item} className="border-t border-white/15 py-4 text-sm font-medium leading-6 text-white/85">{item}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-8">
+        <div>
+          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.suitableTitle}</h2>
+          <ul className="mt-7 divide-y divide-slate-300 border-y border-slate-300">
+            {business.suitableItems.map((item) => <li key={item} className="py-4 leading-7 text-slate-600">{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.stepsTitle}</h2>
+          <ol className="mt-7 space-y-5">
+            {business.steps.map((step, index) => (
+              <li key={step} className="grid grid-cols-[42px_1fr] gap-4">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-sm font-semibold">{index + 1}</span>
+                <p className="pt-1.5 leading-7 text-slate-600">{step}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="border-t border-slate-200 bg-white px-4 py-14 sm:px-6 sm:py-18 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.ownerCtaTitle}</h2>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{business.ownerCtaText}</p>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className={primaryButton}>{business.whatsapp}</a>
+            <a href="viber://chat?number=%2B37369990190" className={secondaryButton}>{business.viber}</a>
+            <a href="https://t.me/rentplacemd" target="_blank" rel="noopener noreferrer" className={secondaryButton}>{business.telegram}</a>
+            <a href="tel:+37379990190" className={secondaryButton}>{business.call}</a>
+          </div>
+          <p className="mt-6 text-sm font-medium text-slate-500">+373 79 990 190 · +373 69 990 190</p>
+        </div>
+      </section>
     </article>
   );
 }
@@ -730,7 +1088,7 @@ function SimpleCta({
 export default function InfoPage({ kind }: { kind: InfoPageKind }) {
   const { language } = useLanguage();
 
-  if (kind === "about") return <AboutPage copy={aboutCopy[language]} />;
+  if (kind === "about") return <AboutPage copy={aboutCopy[language]} business={aboutBusinessCopy[language]} />;
   if (kind === "rules") return <RulesPage copy={rulesCopy[language]} />;
   if (kind === "transfer") return <TransferPage copy={transferCopy[language]} />;
   return null;

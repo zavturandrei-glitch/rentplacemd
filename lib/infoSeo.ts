@@ -26,11 +26,11 @@ const paths: Record<LegacyInfoKind, string> = {
 
 const content: Record<LegacyInfoKind, Record<Language, { title: string; description: string }>> = {
   about: {
-    ru: { title: "О RentPlaceMD", description: "О сервисе RentPlaceMD: квартиры посуточно в Кишинёве, реальные фотографии, понятные цены и прямой контакт с командой." },
-    ro: { title: "Despre RentPlaceMD", description: "Despre RentPlaceMD: apartamente în regim hotelier în Chișinău, fotografii reale, prețuri clare și contact direct cu echipa." },
-    en: { title: "About RentPlaceMD", description: "About RentPlaceMD: short-stay apartments in Chisinau, real photographs, clear prices and direct contact with the team." },
-    uk: { title: "Про RentPlaceMD", description: "Про RentPlaceMD: квартири подобово в Кишиневі, реальні фотографії, зрозумілі ціни та прямий зв’язок із командою." },
-    cs: { title: "O RentPlaceMD", description: "O RentPlaceMD: krátkodobé pronájmy apartmánů v Kišiněvě, skutečné fotografie, jasné ceny a přímý kontakt s týmem." },
+    ru: { title: "О RentPlaceMD — квартиры посуточно и управление квартирами в Кишинёве", description: "RentPlaceMD помогает гостям арендовать квартиры посуточно в Кишинёве и предлагает владельцам размещение и профессиональное администрирование квартир." },
+    ro: { title: "Despre RentPlaceMD — închirieri și administrarea apartamentelor în Chișinău", description: "RentPlaceMD ajută oaspeții să închirieze apartamente în Chișinău și oferă proprietarilor publicare și administrare profesionistă." },
+    en: { title: "About RentPlaceMD — short stays and apartment management in Chișinău", description: "RentPlaceMD helps guests rent short-stay apartments in Chișinău and offers owners professional listing and property management services." },
+    uk: { title: "Про RentPlaceMD — подобова оренда та управління квартирами в Кишиневі", description: "RentPlaceMD допомагає гостям орендувати квартири подобово в Кишиневі та пропонує власникам розміщення й професійне адміністрування." },
+    cs: { title: "O RentPlaceMD — krátkodobé pronájmy a správa apartmánů v Kišiněvě", description: "RentPlaceMD pomáhá hostům s krátkodobým pronájmem v Kišiněvě a majitelům nabízí zveřejnění a profesionální správu apartmánů." },
   },
   rules: {
     ru: { title: "Правила заселения RentPlaceMD", description: "Время заезда и выезда, документы, оплата и связь перед заселением в квартиры RentPlaceMD." },
@@ -124,5 +124,18 @@ export function buildInfoJsonLd(kind: LegacyInfoKind, languageInput?: string) {
         { "@type": "ListItem", position: 2, name: item.title, item: url },
       ],
     },
+    ...(kind === "about"
+      ? [{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: siteName,
+          url: baseUrl,
+          telephone: ["+37379990190", "+37369990190"],
+          sameAs: [
+            "https://wa.me/37369990190",
+            "https://t.me/rentplacemd",
+          ],
+        }]
+      : []),
   ];
 }

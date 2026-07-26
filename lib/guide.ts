@@ -181,8 +181,8 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   events: page(
     "events",
     "/guide/events.webp",
-    l("События в Кишинёве", "Evenimente în Chișinău", "Events in Chisinau", "Події в Кишиневі", "Akce v Kišiněvě"),
-    l("Только события, подтверждённые организатором или площадкой.", "Doar evenimente confirmate de organizator sau locație.", "Only events confirmed by an organiser or venue.", "Лише події, підтверджені організатором або майданчиком.", "Pouze akce potvrzené pořadatelem nebo místem konání."),
+    l("Календарь концертов и событий в Кишинёве 2026", "Calendarul concertelor și evenimentelor din Chișinău 2026", "Chișinău concerts and events calendar 2026", "Календар концертів і подій у Кишиневі 2026", "Kalendář koncertů a akcí v Kišiněvě 2026"),
+    l("Подтверждённые концерты, фестивали, спектакли и городские события с прямыми ссылками на организаторов и билеты.", "Concerte, festivaluri, spectacole și evenimente urbane confirmate, cu linkuri directe către organizatori și bilete.", "Confirmed concerts, festivals, shows and city events with direct organiser and ticket links.", "Підтверджені концерти, фестивалі, вистави й міські події з прямими посиланнями на організаторів і квитки.", "Potvrzené koncerty, festivaly, představení a městské akce s přímými odkazy na pořadatele a vstupenky."),
     [{
       title: l("Как мы отбираем афишу", "Cum selectăm evenimentele", "How listings are selected", "Як ми відбираємо афішу", "Jak vybíráme akce"),
       body: l(
@@ -458,5 +458,5 @@ export const guideCards = guideSlugs.map((slug) => ({
 }));
 
 export function guidePath(slug: GuideSlug) {
-  return `/guide/${slug}`;
+  return slug === "events" ? "/events" : `/guide/${slug}`;
 }
