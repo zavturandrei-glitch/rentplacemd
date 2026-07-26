@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
 
-type CardKey = "about" | "rules" | "transfer" | "guide";
+type CardKey = "about" | "rules" | "transfer" | "guide" | "events";
 
 const sharedCards: Array<{
   key: CardKey;
@@ -37,10 +37,17 @@ const sharedCards: Array<{
   },
   {
     key: "guide",
-    href: "/events",
+    href: "/chisinau-guide",
     image: "/main.jpg",
     position: "50% 50%",
     tone: "bg-[#ffd21f] text-[#07111f]",
+  },
+  {
+    key: "events",
+    href: "/events",
+    image: "/guide/events.webp",
+    position: "50% 50%",
+    tone: "bg-[#07111f] text-white",
   },
 ];
 
@@ -72,8 +79,13 @@ const textByLanguage: Record<
         alt: "Графитовый Peugeot 3008 в городской поездке",
       },
       guide: {
+        title: "Гид по Кишинёву",
+        text: "Что посмотреть, где остановиться и что учесть во время поездки.",
+        alt: "Центр Кишинёва",
+      },
+      events: {
         title: "Календарь событий",
-        text: "Концерты, фестивали и городские события 2026.",
+        text: "Концерты, фестивали и важные события Кишинёва.",
         alt: "Вечернее городское событие в Кишинёве",
       },
     },
@@ -98,8 +110,13 @@ const textByLanguage: Record<
         alt: "Peugeot 3008 grafit într-o călătorie urbană",
       },
       guide: {
+        title: "Ghidul Chișinăului",
+        text: "Ce să vizitați, unde să vă cazați și ce să aveți în vedere în timpul călătoriei.",
+        alt: "Centrul Chișinăului",
+      },
+      events: {
         title: "Calendar de evenimente",
-        text: "Concerte, festivaluri și evenimente urbane în 2026.",
+        text: "Concerte, festivaluri și evenimente importante din Chișinău.",
         alt: "Eveniment urban de seară în Chișinău",
       },
     },
@@ -124,8 +141,13 @@ const textByLanguage: Record<
         alt: "Graphite Peugeot 3008 travelling through the city",
       },
       guide: {
-        title: "Events calendar",
-        text: "Concerts, festivals and city events in 2026.",
+        title: "Chișinău Guide",
+        text: "What to see, where to stay, and what to know during your trip.",
+        alt: "Central Chișinău",
+      },
+      events: {
+        title: "Events Calendar",
+        text: "Concerts, festivals, and important events in Chișinău.",
         alt: "Evening city event in Chișinău",
       },
     },
@@ -150,8 +172,13 @@ const textByLanguage: Record<
         alt: "Графітовий Peugeot 3008 під час міської поїздки",
       },
       guide: {
+        title: "Гід по Кишиневу",
+        text: "Що подивитися, де зупинитися та що врахувати під час поїздки.",
+        alt: "Центр Кишинева",
+      },
+      events: {
         title: "Календар подій",
-        text: "Концерти, фестивалі та міські події 2026 року.",
+        text: "Концерти, фестивалі та важливі події Кишинева.",
         alt: "Вечірня міська подія в Кишиневі",
       },
     },
@@ -176,8 +203,13 @@ const textByLanguage: Record<
         alt: "Grafitový Peugeot 3008 během jízdy městem",
       },
       guide: {
+        title: "Průvodce Kišiněvem",
+        text: "Co navštívit, kde se ubytovat a co vzít v úvahu během cesty.",
+        alt: "Centrum Kišiněva",
+      },
+      events: {
         title: "Kalendář akcí",
-        text: "Koncerty, festivaly a městské akce v roce 2026.",
+        text: "Koncerty, festivaly a významné události v Kišiněvě.",
         alt: "Večerní městská akce v Kišiněvě",
       },
     },
@@ -198,7 +230,7 @@ export default function HomeNavigation() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
           {sharedCards.map((card) => {
             const cardText = text.cards[card.key];
 
@@ -206,7 +238,7 @@ export default function HomeNavigation() {
               <Link
                 key={card.key}
                 href={card.href}
-                className="group grid h-[210px] min-w-0 grid-rows-[104px_1fr] overflow-hidden rounded-[18px] bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99] sm:h-[236px] sm:grid-rows-[128px_1fr] sm:rounded-[22px]"
+                className={`group grid h-[210px] min-w-0 grid-rows-[104px_1fr] overflow-hidden rounded-[18px] bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99] sm:h-[236px] sm:grid-rows-[128px_1fr] sm:rounded-[22px] ${card.key === "events" ? "col-span-2 sm:col-span-1" : ""}`}
                 aria-label={cardText.title}
               >
                 <div className="relative overflow-hidden">
@@ -214,7 +246,7 @@ export default function HomeNavigation() {
                     src={card.image}
                     alt={cardText.alt}
                     fill
-                    sizes="(min-width: 1024px) 280px, 50vw"
+                    sizes="(min-width: 1024px) 230px, 50vw"
                     quality={75}
                     className="object-cover transition duration-300 ease-out group-hover:scale-[1.04]"
                     style={{ objectPosition: card.position }}
@@ -224,7 +256,7 @@ export default function HomeNavigation() {
                   <h3 className="text-[15px] font-semibold leading-[1.2] sm:text-xl">
                     {cardText.title}
                   </h3>
-                  <p className="mt-2 line-clamp-2 text-[12px] leading-4 text-slate-600 sm:text-sm sm:leading-5">
+                  <p className={`mt-2 line-clamp-2 text-[12px] leading-4 sm:text-sm sm:leading-5 ${card.key === "events" ? "text-white/75" : "text-slate-600"}`}>
                     {cardText.text}
                   </p>
                 </div>
