@@ -130,7 +130,7 @@ export default function HomeCategoryLinks() {
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">{copy.intro}</p>
         <nav
-          className="mt-7 grid min-w-0 grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-4"
+          className="mt-7 grid min-w-0 grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
           aria-label={copy.title}
         >
           {apartmentCategoryOrder.map((category) => {
@@ -144,46 +144,43 @@ export default function HomeCategoryLinks() {
               <Link
                 key={category}
                 href={getApartmentCategoryPath(category)}
-                className="group grid h-[282px] min-w-0 grid-rows-[124px_1fr] overflow-hidden rounded-[24px] bg-white shadow-[0_12px_34px_rgba(15,23,42,0.1)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,23,42,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99] sm:h-[316px] sm:grid-rows-[142px_1fr] sm:rounded-[22px]"
+                className="group grid h-[210px] min-w-0 grid-rows-[104px_1fr] overflow-hidden rounded-[18px] bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99] sm:h-[236px] sm:grid-rows-[128px_1fr] sm:rounded-[22px] lg:h-[280px]"
               >
                 <span className="relative block overflow-hidden">
                   <Image
                     src={representative.cardPhoto ?? representative.photos[0]}
                     alt={`${apartmentClassLabels[category]} · RentPlaceMD`}
                     fill
-                    sizes="(min-width: 1024px) 280px, (min-width: 520px) 50vw, 100vw"
+                    sizes="(min-width: 1024px) 280px, 50vw"
                     quality={78}
                     className="object-cover transition duration-500 ease-out group-hover:scale-[1.045]"
                   />
-                  <span className="absolute inset-0 bg-gradient-to-t from-[#07111f]/45 via-transparent to-transparent" />
-                  <span className="absolute bottom-4 left-4 text-xs font-black uppercase tracking-[0.16em] text-white drop-shadow">
-                    RentPlace · {apartmentClassLabels[category]}
-                  </span>
                 </span>
 
-                <span className="flex min-h-0 flex-col p-5">
-                  <span className="flex items-start justify-between gap-3">
-                    <strong className="text-[1.35rem] font-black leading-none tracking-[-0.035em] text-[#07111f]">
+                <span className="flex min-h-0 flex-col p-3 sm:p-5">
+                  <span className="flex items-start justify-between gap-2">
+                    <strong className="min-w-0 text-[15px] font-black leading-none tracking-[-0.025em] text-[#07111f] sm:text-[1.2rem]">
                       {apartmentClassLabels[category]}
                     </strong>
                     {minimumPrice !== null ? (
                       <span className="shrink-0 text-right">
-                        <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                        <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-slate-400 sm:text-[10px]">
                           {copy.from}
                         </span>
-                        <span className="mt-0.5 block text-lg font-black leading-none tabular-nums text-[#d4146f]">
+                        <span className="mt-0.5 block text-base font-black leading-none tabular-nums text-[#d4146f] sm:text-lg">
                           {minimumPrice}
                         </span>
                       </span>
                     ) : null}
                   </span>
 
-                  <span className="mt-3 line-clamp-2 text-sm font-medium leading-5 text-slate-600">
+                  <span className="mt-3 hidden line-clamp-2 text-sm font-medium leading-5 text-slate-600 sm:block">
                     {copy.descriptions[category]}
                   </span>
 
-                  <span className="mt-auto pt-4 text-[11px] font-bold leading-4 text-slate-400">
-                    {copy.options(apartments.length)} · {copy.realPhotos}
+                  <span className="mt-auto truncate pt-2 text-[10px] font-bold leading-4 text-slate-400 sm:pt-3 sm:text-[11px]">
+                    {copy.options(apartments.length)}
+                    <span className="hidden sm:inline"> · {copy.realPhotos}</span>
                   </span>
                 </span>
               </Link>

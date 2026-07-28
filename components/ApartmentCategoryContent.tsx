@@ -2,14 +2,13 @@
 
 import type { CSSProperties } from "react";
 import Link from "next/link";
+import ApartmentCard from "@/components/ApartmentCard";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   activeApartments,
   apartmentCategoryOrder,
   apartmentClassLabels,
   getApartmentCatalogPrice,
-  getApartmentCategoryPath,
-  getApartmentPath,
   type ApartmentClass,
   type ApartmentRooms,
 } from "@/lib/apartments";
@@ -30,6 +29,7 @@ type ContentText = {
   optionsTitle: string;
   perDay: string;
   details: string;
+  showAll: string;
   faqTitle: string;
   priceQuestion: string;
   priceAnswer: (minimum: number, maximum: number) => string;
@@ -59,6 +59,7 @@ const contentByLanguage: Record<Language, ContentText> = {
     optionsTitle: "Подходящие варианты",
     perDay: "MDL / сутки",
     details: "Смотреть квартиру",
+    showAll: "Показать все квартиры",
     faqTitle: "Частые вопросы",
     priceQuestion: "Сколько стоит квартира в этой подборке?",
     priceAnswer: (minimum, maximum) => minimum === maximum
@@ -88,6 +89,7 @@ const contentByLanguage: Record<Language, ContentText> = {
     optionsTitle: "Opțiuni potrivite",
     perDay: "MDL / noapte",
     details: "Vezi apartamentul",
+    showAll: "Arată toate apartamentele",
     faqTitle: "Întrebări frecvente",
     priceQuestion: "Cât costă un apartament din această selecție?",
     priceAnswer: (minimum, maximum) => minimum === maximum
@@ -117,6 +119,7 @@ const contentByLanguage: Record<Language, ContentText> = {
     optionsTitle: "Relevant options",
     perDay: "MDL / night",
     details: "View apartment",
+    showAll: "Show all apartments",
     faqTitle: "Frequently asked questions",
     priceQuestion: "How much does an apartment in this selection cost?",
     priceAnswer: (minimum, maximum) => minimum === maximum
@@ -146,6 +149,7 @@ const contentByLanguage: Record<Language, ContentText> = {
     optionsTitle: "Відповідні варіанти",
     perDay: "MDL / доба",
     details: "Переглянути квартиру",
+    showAll: "Показати всі квартири",
     faqTitle: "Часті запитання",
     priceQuestion: "Скільки коштує квартира в цій добірці?",
     priceAnswer: (minimum, maximum) => minimum === maximum
@@ -175,6 +179,7 @@ const contentByLanguage: Record<Language, ContentText> = {
     optionsTitle: "Vhodné možnosti",
     perDay: "MDL / noc",
     details: "Zobrazit apartmán",
+    showAll: "Zobrazit všechny apartmány",
     faqTitle: "Časté otázky",
     priceQuestion: "Kolik stojí apartmán v tomto výběru?",
     priceAnswer: (minimum, maximum) => minimum === maximum
@@ -267,7 +272,7 @@ export default function ApartmentCategoryContent({
       : Math.min(...guestValues) + "–" + Math.max(...guestValues)
     : null;
   const highlighted = category
-    ? apartments.slice(0, 3)
+    ? apartments.slice(0, 4)
     : apartmentCategoryOrder
         .map((item) => activeApartments.find((apartment) => apartment.class === item))
         .filter((apartment) => apartment !== undefined);
@@ -382,86 +387,34 @@ export default function ApartmentCategoryContent({
           </div>
         </section>
 
-        <div className="mt-20 grid min-w-0 gap-16 lg:mt-28 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24">
-          <section className="min-w-0">
+        <section className="mt-20 min-w-0 lg:mt-28">
+          <div className="max-w-2xl">
             <p className="text-[0.68rem] font-black uppercase tracking-[0.22em] text-[var(--category-accent)]">
-              01
-            </p>
-            <h3 className="mt-4 max-w-[14ch] text-2xl font-black leading-tight tracking-[-0.035em] sm:text-3xl">
-              {text.compareTitle}
-            </h3>
-            <p className="mt-5 max-w-md text-sm font-medium leading-7 opacity-65 sm:text-base">
-              {text.compareText}
-            </p>
-            <nav
-              className="mt-8 hidden border-b border-[var(--category-line)] sm:block"
-              aria-label={text.compareTitle}
-            >
-              {apartmentCategoryOrder.map((item) => {
-                const isCurrent = category === item;
-                return (
-                  <Link
-                    key={item}
-                    href={getApartmentCategoryPath(item)}
-                    aria-current={isCurrent ? "page" : undefined}
-                    className="group flex min-h-14 items-center justify-between border-t border-[var(--category-line)] py-3 text-base font-black transition hover:text-[var(--category-accent)] aria-[current=page]:text-[var(--category-accent)]"
-                  >
-                    <span className="flex items-center gap-3">
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full transition ${
-                          isCurrent
-                            ? "bg-[var(--category-accent)]"
-                            : "bg-current opacity-20 group-hover:opacity-100"
-                        }`}
-                        aria-hidden="true"
-                      />
-                      {apartmentClassLabels[item]}
-                    </span>
-                    <span className="text-lg font-medium transition-transform group-hover:translate-x-1" aria-hidden="true">
-                      →
-                    </span>
-                  </Link>
-                );
-              })}
-            </nav>
-          </section>
-
-          <section className="min-w-0">
-            <p className="text-[0.68rem] font-black uppercase tracking-[0.22em] text-[var(--category-accent)]">
-              02 · RentPlace
+              RentPlace
             </p>
             <h3 className="mt-4 text-2xl font-black leading-tight tracking-[-0.035em] sm:text-3xl">
               {text.optionsTitle}
             </h3>
-            <div className="mt-8 border-b border-[var(--category-line)]">
-              {highlighted.map((apartment) => (
-                <article
-                  key={apartment.id}
-                  className="group grid min-w-0 grid-cols-[1fr_auto] gap-5 border-t border-[var(--category-line)] py-6 sm:items-center sm:py-7"
-                >
-                  <div className="min-w-0">
-                    <p className="text-[0.64rem] font-black uppercase tracking-[0.18em] text-[var(--category-accent)]">
-                      {apartmentClassLabels[apartment.class]} · ID {apartment.id}
-                    </p>
-                    <p className="mt-2 break-words text-lg font-black leading-tight tracking-[-0.02em] sm:text-xl">
-                      {apartment.address}
-                    </p>
-                    <p className="mt-2 text-xs font-semibold opacity-55 sm:text-sm">
-                      {getApartmentCatalogPrice(apartment)} {text.perDay} · {text.roomLabels[apartment.rooms]}
-                    </p>
-                  </div>
-                  <Link
-                    href={getApartmentPath(apartment)}
-                    aria-label={`${text.details}: ID ${apartment.id}`}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--category-line)] text-lg font-black transition group-hover:border-[var(--category-accent)] group-hover:bg-[var(--category-accent)] group-hover:text-white"
-                  >
-                    <span aria-hidden="true">↗</span>
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </section>
-        </div>
+            <p className="mt-4 text-sm font-medium leading-7 opacity-65 sm:text-base">
+              {text.compareText}
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {highlighted.map((apartment) => (
+              <ApartmentCard key={apartment.id} apartment={apartment} />
+            ))}
+          </div>
+
+          {category && apartments.length > 4 ? (
+            <Link
+              href="#apartments"
+              className="mt-7 inline-flex min-h-12 items-center justify-center rounded-xl bg-[var(--category-ink)] px-5 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--category-accent)]"
+            >
+              {text.showAll}
+            </Link>
+          ) : null}
+        </section>
 
         <section className="mt-20 border-t border-[var(--category-line)] pt-10 lg:mt-28 lg:grid lg:grid-cols-[0.7fr_1.3fr] lg:gap-24 lg:pt-14">
           <div>

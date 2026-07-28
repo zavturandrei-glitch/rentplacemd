@@ -75,13 +75,7 @@ export default function ApartmentCategoryNav({ currentClass }: { currentClass: A
           <Link href="/apartments" className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
             ← {text.back}
           </Link>
-          <span
-            className="inline-flex min-h-11 min-w-0 items-center rounded-xl bg-[#07111f] px-4 text-sm font-black text-white shadow-sm sm:hidden"
-            aria-current="page"
-          >
-            {text.categories[currentClass]}
-          </span>
-          <label className="hidden min-h-11 min-w-0 items-center gap-2 rounded-xl bg-white px-3 shadow-sm ring-1 ring-black/5 sm:flex">
+          <label className="flex min-h-11 min-w-0 items-center gap-2 rounded-xl bg-white px-3 shadow-sm ring-1 ring-black/5">
             <span className="hidden text-xs font-black text-slate-500 sm:inline">{text.category}:</span>
             <select
               value={currentClass}
@@ -99,27 +93,6 @@ export default function ApartmentCategoryNav({ currentClass }: { currentClass: A
             </select>
           </label>
         </div>
-        <nav
-          className="mt-3 hidden min-w-0 flex-wrap gap-2 sm:flex"
-          aria-label={text.allCategories}
-        >
-          <Link
-            href="/apartments"
-            className="rounded-full bg-white px-3 py-2 text-xs font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]"
-          >
-            {text.allApartments}
-          </Link>
-          {apartmentCategoryOrder.map((category) => (
-            <Link
-              key={category}
-              href={getApartmentCategoryPath(category)}
-              aria-current={category === currentClass ? "page" : undefined}
-              className="rounded-full bg-white px-3 py-2 text-xs font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f] aria-[current=page]:bg-[#07111f] aria-[current=page]:text-white"
-            >
-              {text.categories[category]}
-            </Link>
-          ))}
-        </nav>
       </div>
     </section>
   );
