@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
@@ -13,13 +14,47 @@ const locations = [
   { id: 6, name: "Cuza Vodă 1/2", address: "Bulevardul Cuza Vodă 1/2, Chișinău, Moldova", latitude: 46.98763, longitude: 28.87104 },
 ] as const;
 
-function coordinates(location: (typeof locations)[number]) {
-  return `${location.latitude},${location.longitude}`;
-}
+const mapBounds = {
+  minLatitude: 46.979,
+  maxLatitude: 47.034,
+  minLongitude: 28.832,
+  maxLongitude: 28.878,
+};
+const mapUrl =
+  "https://www.openstreetmap.org/export/embed.html?bbox=" +
+  [
+    mapBounds.minLongitude,
+    mapBounds.minLatitude,
+    mapBounds.maxLongitude,
+    mapBounds.maxLatitude,
+  ].join("%2C") +
+  "&layer=mapnik";
 
-const mapDestinations = locations.slice(1).map((location) => encodeURIComponent(coordinates(location))).join("+to:");
-const mapUrl = `https://www.google.com/maps?output=embed&saddr=${encodeURIComponent(coordinates(locations[0]))}&daddr=${mapDestinations}`;
-const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(coordinates(locations[0]))}&destination=${encodeURIComponent(coordinates(locations[locations.length - 1]))}&waypoints=${encodeURIComponent(locations.slice(1, -1).map(coordinates).join("|"))}`;
+function markerPosition(location: (typeof locations)[number]) {
+  const centerLongitude = (mapBounds.minLongitude + mapBounds.maxLongitude) / 2;
+  const projectedLatitudeSpan =
+    (mapBounds.maxLatitude - mapBounds.minLatitude) /
+    Math.cos((((mapBounds.minLatitude + mapBounds.maxLatitude) / 2) * Math.PI) / 180);
+  const horizontalPosition = (aspectRatio: number) => {
+    const longitudeSpan = Math.max(
+      mapBounds.maxLongitude - mapBounds.minLongitude,
+      projectedLatitudeSpan * aspectRatio,
+    );
+    const minLongitude = centerLongitude - longitudeSpan / 2;
+    return ((location.longitude - minLongitude) / longitudeSpan) * 100 + "%";
+  };
+
+  return {
+    "--marker-mobile-left": horizontalPosition(0.88),
+    "--marker-tablet-left": horizontalPosition(1.28),
+    "--marker-desktop-left": horizontalPosition(2.04),
+    top:
+      ((mapBounds.maxLatitude - location.latitude) /
+        (mapBounds.maxLatitude - mapBounds.minLatitude)) *
+        100 +
+      "%",
+  } as CSSProperties;
+}
 
 const cityByLanguage: Record<Language, string> = {
   ru: "Кишинёв, Молдова",
@@ -32,47 +67,41 @@ const cityByLanguage: Record<Language, string> = {
 const textByLanguage: Record<Language, {
   title: string;
   text: string;
-  button: string;
   open: string;
   loading: string;
   mapTitle: string;
 }> = {
   ru: {
     title: "RentPlaceMD на карте",
-    text: "Пять адресов в Кишинёве собраны на одной карте. Откройте нужную точку отдельно или постройте общий маршрут между адресами.",
-    button: "Маршрут по адресам",
+    text: "Пять адресов RentPlaceMD отмечены на одной чистой карте Кишинёва.",
     open: "Открыть в Google Maps",
     loading: "Загружаем интерактивную карту",
     mapTitle: "Пять адресов RentPlaceMD на карте Кишинёва",
   },
   ro: {
     title: "RentPlaceMD pe hartă",
-    text: "Cele cinci adrese din Chișinău sunt reunite pe aceeași hartă. Deschideți separat punctul dorit sau construiți traseul complet.",
-    button: "Traseu între adrese",
+    text: "Cele cinci adrese RentPlaceMD sunt marcate pe o hartă clară a Chișinăului.",
     open: "Deschide în Google Maps",
     loading: "Se încarcă harta interactivă",
     mapTitle: "Cinci adrese RentPlaceMD pe harta Chișinăului",
   },
   en: {
     title: "RentPlaceMD on the map",
-    text: "All five Chișinău addresses are shown on one map. Open any location separately or build a route between the addresses.",
-    button: "Route between addresses",
+    text: "All five RentPlaceMD addresses are marked on one clean map of Chișinău.",
     open: "Open in Google Maps",
     loading: "Loading the interactive map",
     mapTitle: "Five RentPlaceMD addresses on the Chișinău map",
   },
   uk: {
     title: "RentPlaceMD на карті",
-    text: "П’ять адрес у Кишиневі зібрані на одній карті. Відкрийте потрібну точку окремо або побудуйте маршрут між адресами.",
-    button: "Маршрут за адресами",
+    text: "П’ять адрес RentPlaceMD позначені на одній чистій карті Кишинева.",
     open: "Відкрити в Google Maps",
     loading: "Завантажуємо інтерактивну карту",
     mapTitle: "П’ять адрес RentPlaceMD на карті Кишинева",
   },
   cs: {
     title: "RentPlaceMD na mapě",
-    text: "Všech pět kišiněvských adres je zobrazeno na jedné mapě. Otevřete jednotlivé místo nebo sestavte trasu mezi adresami.",
-    button: "Trasa mezi adresami",
+    text: "Všech pět adres RentPlaceMD je vyznačeno na přehledné mapě Kišiněva.",
     open: "Otevřít v Google Maps",
     loading: "Načítá se interaktivní mapa",
     mapTitle: "Pět adres RentPlaceMD na mapě Kišiněva",
@@ -132,69 +161,48 @@ export default function LocationMap() {
           </p>
         </header>
 
-        <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
-          <div
-            ref={mapContainerRef}
-            className="relative h-[330px] overflow-hidden border-b border-[#f0dfbf] bg-[#eee9df] sm:h-[380px] lg:h-full lg:min-h-[590px] lg:border-b-0 lg:border-r"
-            aria-busy={!shouldLoadMap}
-          >
-            {shouldLoadMap ? (
+        <div
+          ref={mapContainerRef}
+          className="relative h-[390px] overflow-hidden bg-[#eee9df] sm:h-[500px] lg:h-[620px]"
+          aria-busy={!shouldLoadMap}
+        >
+          {shouldLoadMap ? (
+            <>
               <iframe
                 title={text.mapTitle}
                 src={mapUrl}
                 className="absolute inset-0 h-full w-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
               />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#eee9df_0%,#f8f5ee_50%,#e9e3d8_100%)] px-6 text-center">
-                <p className="rounded-full bg-white/85 px-5 py-3 text-sm font-semibold text-slate-600 shadow-sm">
-                  {text.loading}
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="p-5 sm:p-7 lg:p-8">
-            <ol className="grid gap-3">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-[#07111f]/5" />
               {visibleLocations.map((location, index) => (
-                <li key={location.address}>
-                  <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinates(location))}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${text.open}: ${location.displayAddress}`}
-                    className="group flex min-h-24 items-start gap-3 rounded-2xl border border-[#f0dfbf] bg-[#fffaf0] p-4 transition hover:border-[#d4146f]/35 hover:bg-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
-                  >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#d4146f] text-xs font-black text-white">
-                      {index + 1}
-                    </span>
-                    <span className="min-w-0">
-                      <strong className="block text-sm font-semibold text-[#07111f]">
-                        RentPlaceMD · {location.displayName}
-                      </strong>
-                      <span className="mt-1 block text-xs font-medium leading-5 text-slate-500">
-                        {location.displayAddress}
-                      </span>
-                      <span className="mt-2 block text-xs font-semibold text-[#d4146f] group-hover:underline">
-                        {text.open} ↗
-                      </span>
-                    </span>
-                  </a>
-                </li>
+                <a
+                  key={location.address}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${text.open}: ${location.displayAddress}`}
+                  title={location.displayAddress}
+                  style={markerPosition(location)}
+                  className="group absolute left-[var(--marker-mobile-left)] z-10 -translate-x-1/2 -translate-y-full focus-visible:outline-none sm:left-[var(--marker-tablet-left)] lg:left-[var(--marker-desktop-left)]"
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-[3px] border-white bg-[#d4146f] text-xs font-black text-white shadow-[0_8px_22px_rgba(7,17,31,0.28)] transition group-hover:-translate-y-1 group-hover:scale-110 group-focus-visible:-translate-y-1 group-focus-visible:scale-110 sm:h-10 sm:w-10">
+                    {index + 1}
+                  </span>
+                  <span className="absolute left-1/2 top-full mt-1 hidden -translate-x-1/2 whitespace-nowrap rounded-full bg-[#07111f] px-3 py-1.5 text-[10px] font-bold text-white shadow-lg group-hover:block group-focus-visible:block sm:text-xs">
+                    {location.displayName}
+                  </span>
+                </a>
               ))}
-            </ol>
-
-            <a
-              href={directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[#d4146f] px-6 py-3 text-center text-base font-semibold text-white shadow-lg shadow-pink-700/20 transition hover:bg-[#bd0f60] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
-            >
-              {text.button}
-            </a>
-          </div>
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#eee9df_0%,#f8f5ee_50%,#e9e3d8_100%)] px-6 text-center">
+              <p className="rounded-full bg-white/85 px-5 py-3 text-sm font-semibold text-slate-600 shadow-sm">
+                {text.loading}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -4,6 +4,7 @@ import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import InfoPage from "@/components/InfoPage";
 import JsonLdScript from "@/components/JsonLdScript";
+import LocationMap from "@/components/LocationMap";
 import { buildInfoJsonLd, getInfoMetadata } from "@/lib/infoSeo";
 
 type PageProps = { searchParams: Promise<{ lang?: string | string[] }> };
@@ -21,6 +22,7 @@ export default async function AboutPage({ searchParams }: PageProps) {
       <Header />
       <BackButton />
       <InfoPage kind="about" />
+      <LocationMap />
       <Footer />
     </main>
   );

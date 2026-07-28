@@ -13,19 +13,20 @@ const sharedCards: Array<{
   image: string;
   position: string;
   tone: string;
+  imageClass?: string;
 }> = [
   {
     key: "about",
     href: "/about",
-    image: "/service-pages/about-apartment.webp",
-    position: "50% 50%",
+    image: "/apartments/mihai-eminescu-76-me-76/1.jpg",
+    position: "50% 52%",
     tone: "bg-white text-[#07111f]",
   },
   {
     key: "rules",
     href: "/check-in-rules",
-    image: "/service-pages/check-in-ready.webp",
-    position: "50% 50%",
+    image: "/apartments/lev-tolstoi-63-1-ltz-63/1.jpg",
+    position: "50% 48%",
     tone: "bg-white text-[#07111f]",
   },
   {
@@ -45,9 +46,10 @@ const sharedCards: Array<{
   {
     key: "events",
     href: "/events",
-    image: "/guide/events.webp",
-    position: "50% 50%",
-    tone: "bg-[#07111f] text-white",
+    image: "/guide/museums.webp",
+    position: "50% 42%",
+    tone: "bg-[#fff3d6] text-[#07111f]",
+    imageClass: "brightness-[1.06] saturate-[1.08]",
   },
 ];
 
@@ -66,7 +68,7 @@ const textByLanguage: Record<
       about: {
         title: "О нас",
         text: "Как устроен сервис и чем мы помогаем гостям.",
-        alt: "Светлая спальня в квартире RentPlaceMD",
+        alt: "Светлая кухня Premium-квартиры RentPlaceMD",
       },
       rules: {
         title: "Правила заселения",
@@ -86,7 +88,7 @@ const textByLanguage: Record<
       events: {
         title: "Календарь событий",
         text: "Концерты, фестивали и важные события Кишинёва.",
-        alt: "Вечернее городское событие в Кишинёве",
+        alt: "Светлая площадка городских культурных событий в Кишинёве",
       },
     },
   },
@@ -97,7 +99,7 @@ const textByLanguage: Record<
       about: {
         title: "Despre noi",
         text: "Cum funcționează serviciul și cum ajutăm oaspeții.",
-        alt: "Dormitor luminos într-un apartament RentPlaceMD",
+        alt: "Bucătărie luminoasă într-un apartament Premium RentPlaceMD",
       },
       rules: {
         title: "Reguli de cazare",
@@ -117,7 +119,7 @@ const textByLanguage: Record<
       events: {
         title: "Calendar de evenimente",
         text: "Concerte, festivaluri și evenimente importante din Chișinău.",
-        alt: "Eveniment urban de seară în Chișinău",
+        alt: "Spațiu luminos pentru evenimente culturale urbane în Chișinău",
       },
     },
   },
@@ -128,7 +130,7 @@ const textByLanguage: Record<
       about: {
         title: "About us",
         text: "How the service works and supports each stay.",
-        alt: "Bright bedroom in a RentPlaceMD apartment",
+        alt: "Bright kitchen in a Premium RentPlaceMD apartment",
       },
       rules: {
         title: "Check-in rules",
@@ -148,7 +150,7 @@ const textByLanguage: Record<
       events: {
         title: "Events Calendar",
         text: "Concerts, festivals, and important events in Chișinău.",
-        alt: "Evening city event in Chișinău",
+        alt: "Bright venue for city cultural events in Chișinău",
       },
     },
   },
@@ -159,7 +161,7 @@ const textByLanguage: Record<
       about: {
         title: "Про нас",
         text: "Як працює сервіс і чим ми допомагаємо гостям.",
-        alt: "Світла спальня у квартирі RentPlaceMD",
+        alt: "Світла кухня у Premium-квартирі RentPlaceMD",
       },
       rules: {
         title: "Правила заселення",
@@ -179,7 +181,7 @@ const textByLanguage: Record<
       events: {
         title: "Календар подій",
         text: "Концерти, фестивалі та важливі події Кишинева.",
-        alt: "Вечірня міська подія в Кишиневі",
+        alt: "Світлий майданчик міських культурних подій у Кишиневі",
       },
     },
   },
@@ -190,7 +192,7 @@ const textByLanguage: Record<
       about: {
         title: "O nás",
         text: "Jak služba funguje a pomáhá hostům.",
-        alt: "Světlá ložnice v apartmánu RentPlaceMD",
+        alt: "Světlá kuchyně v apartmánu Premium RentPlaceMD",
       },
       rules: {
         title: "Pravidla ubytování",
@@ -210,7 +212,7 @@ const textByLanguage: Record<
       events: {
         title: "Kalendář akcí",
         text: "Koncerty, festivaly a významné události v Kišiněvě.",
-        alt: "Večerní městská akce v Kišiněvě",
+        alt: "Světlé místo pro městské kulturní akce v Kišiněvě",
       },
     },
   },
@@ -248,7 +250,7 @@ export default function HomeNavigation() {
                     fill
                     sizes="(min-width: 1024px) 230px, 50vw"
                     quality={75}
-                    className="object-cover transition duration-300 ease-out group-hover:scale-[1.04]"
+                    className={`object-cover transition duration-300 ease-out group-hover:scale-[1.04] ${card.imageClass ?? ""}`}
                     style={{ objectPosition: card.position }}
                   />
                 </div>
@@ -256,7 +258,7 @@ export default function HomeNavigation() {
                   <h3 className="text-[15px] font-semibold leading-[1.2] sm:text-xl">
                     {cardText.title}
                   </h3>
-                  <p className={`mt-2 line-clamp-2 text-[12px] leading-4 sm:text-sm sm:leading-5 ${card.key === "events" ? "text-white/75" : "text-slate-600"}`}>
+                  <p className="mt-2 line-clamp-2 text-[12px] leading-4 text-slate-600 sm:text-sm sm:leading-5">
                     {cardText.text}
                   </p>
                 </div>
