@@ -22,7 +22,6 @@ const text: Record<
     perDay: string;
     realPhotos: string;
     options: (count: number) => string;
-    cta: string;
     descriptions: Record<ApartmentClass, string>;
   }
 > = {
@@ -43,7 +42,6 @@ const text: Record<
             : "вариантов";
       return count + " " + ending;
     },
-    cta: "Смотреть",
     descriptions: {
       economy: "Практичный выбор по минимальной цене каталога.",
       standard: "Комфортные студии и квартиры для короткой поездки.",
@@ -58,7 +56,6 @@ const text: Record<
     perDay: "MDL / noapte",
     realPhotos: "Fotografii reale",
     options: (count) => count + (count === 1 ? " opțiune" : " opțiuni"),
-    cta: "Vezi",
     descriptions: {
       economy: "O alegere practică la cel mai mic preț din catalog.",
       standard: "Garsoniere și apartamente confortabile pentru călătorii scurte.",
@@ -73,7 +70,6 @@ const text: Record<
     perDay: "MDL / night",
     realPhotos: "Real photos",
     options: (count) => count + (count === 1 ? " option" : " options"),
-    cta: "Explore",
     descriptions: {
       economy: "A practical choice at the catalogue’s lowest price.",
       standard: "Comfortable studios and apartments for shorter stays.",
@@ -98,7 +94,6 @@ const text: Record<
             : "варіантів";
       return count + " " + ending;
     },
-    cta: "Переглянути",
     descriptions: {
       economy: "Практичний вибір за найнижчою ціною каталогу.",
       standard: "Комфортні студії та квартири для короткої подорожі.",
@@ -113,7 +108,6 @@ const text: Record<
     perDay: "MDL / noc",
     realPhotos: "Skutečné fotografie",
     options: (count) => count + (count === 1 ? " možnost" : count >= 2 && count <= 4 ? " možnosti" : " možností"),
-    cta: "Prohlédnout",
     descriptions: {
       economy: "Praktická volba za nejnižší cenu v katalogu.",
       standard: "Pohodlná studia a apartmány pro kratší pobyty.",
@@ -121,13 +115,6 @@ const text: Record<
       premium: "Výrazné interiéry na samostatných adresách ve městě.",
     },
   },
-};
-
-const categoryAccent: Record<ApartmentClass, string> = {
-  economy: "bg-[#087f6d]",
-  standard: "bg-[#2667b8]",
-  standardPlus: "bg-[#c21868]",
-  premium: "bg-[#a86f18]",
 };
 
 export default function HomeCategoryLinks() {
@@ -157,7 +144,7 @@ export default function HomeCategoryLinks() {
               <Link
                 key={category}
                 href={getApartmentCategoryPath(category)}
-                className="group grid h-[316px] min-w-0 grid-rows-[142px_1fr] overflow-hidden rounded-[22px] bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,23,42,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99]"
+                className="group grid h-[282px] min-w-0 grid-rows-[124px_1fr] overflow-hidden rounded-[24px] bg-white shadow-[0_12px_34px_rgba(15,23,42,0.1)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,23,42,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99] sm:h-[316px] sm:grid-rows-[142px_1fr] sm:rounded-[22px]"
               >
                 <span className="relative block overflow-hidden">
                   <Image
@@ -169,7 +156,6 @@ export default function HomeCategoryLinks() {
                     className="object-cover transition duration-500 ease-out group-hover:scale-[1.045]"
                   />
                   <span className="absolute inset-0 bg-gradient-to-t from-[#07111f]/45 via-transparent to-transparent" />
-                  <span className={`absolute left-4 top-4 h-2.5 w-2.5 rounded-full ring-4 ring-white/80 ${categoryAccent[category]}`} />
                   <span className="absolute bottom-4 left-4 text-xs font-black uppercase tracking-[0.16em] text-white drop-shadow">
                     RentPlace · {apartmentClassLabels[category]}
                   </span>
@@ -196,14 +182,8 @@ export default function HomeCategoryLinks() {
                     {copy.descriptions[category]}
                   </span>
 
-                  <span className="mt-auto flex items-end justify-between gap-3 pt-4">
-                    <span className="text-[11px] font-bold leading-4 text-slate-400">
-                      {copy.options(apartments.length)} · {copy.realPhotos}
-                    </span>
-                    <span className="inline-flex shrink-0 items-center gap-1 text-xs font-black text-[#07111f] transition group-hover:text-[#d4146f]">
-                      {copy.cta}
-                      <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
-                    </span>
+                  <span className="mt-auto pt-4 text-[11px] font-bold leading-4 text-slate-400">
+                    {copy.options(apartments.length)} · {copy.realPhotos}
                   </span>
                 </span>
               </Link>

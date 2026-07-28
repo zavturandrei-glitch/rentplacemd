@@ -394,7 +394,7 @@ export default function ApartmentCategoryContent({
               {text.compareText}
             </p>
             <nav
-              className="mt-8 border-b border-[var(--category-line)]"
+              className="mt-8 hidden border-b border-[var(--category-line)] sm:block"
               aria-label={text.compareTitle}
             >
               {apartmentCategoryOrder.map((item) => {

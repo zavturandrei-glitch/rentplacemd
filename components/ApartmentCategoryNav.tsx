@@ -75,7 +75,13 @@ export default function ApartmentCategoryNav({ currentClass }: { currentClass: A
           <Link href="/apartments" className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
             ← {text.back}
           </Link>
-          <label className="flex min-h-11 min-w-0 items-center gap-2 rounded-xl bg-white px-3 shadow-sm ring-1 ring-black/5">
+          <span
+            className="inline-flex min-h-11 min-w-0 items-center rounded-xl bg-[#07111f] px-4 text-sm font-black text-white shadow-sm sm:hidden"
+            aria-current="page"
+          >
+            {text.categories[currentClass]}
+          </span>
+          <label className="hidden min-h-11 min-w-0 items-center gap-2 rounded-xl bg-white px-3 shadow-sm ring-1 ring-black/5 sm:flex">
             <span className="hidden text-xs font-black text-slate-500 sm:inline">{text.category}:</span>
             <select
               value={currentClass}
@@ -94,7 +100,7 @@ export default function ApartmentCategoryNav({ currentClass }: { currentClass: A
           </label>
         </div>
         <nav
-          className="mt-3 flex min-w-0 flex-wrap gap-2"
+          className="mt-3 hidden min-w-0 flex-wrap gap-2 sm:flex"
           aria-label={text.allCategories}
         >
           <Link
