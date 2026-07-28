@@ -283,11 +283,12 @@ export function getApartmentLocalization(apartmentId: string | number, language:
     description: text.description(type, address, id, definition.category, definition.price),
     imageAlt: text.imageAlt(type, address, id, "{index}"),
     schemaName: text.schemaName(type, address, id),
-    shortDescription: text.short[definition.kind],
+    shortDescription: text.short[definition.kind] + " ID " + id + " · " + definition.category + " · " + definition.price + " MDL.",
     layoutDescription: text.layout[definition.kind],
     typeLabel: type,
-    aboutTitle: text.about(type, address),
+    aboutTitle: text.about(type, address) + " · ID " + id,
     features: text.features(definition.kind, definition.category),
+    descriptionParagraphs: [text.layout[definition.kind]],
   } satisfies LocalizedApartmentSeo;
 }
 
@@ -330,6 +331,25 @@ export function getApartmentSeoLocalization(apartmentId: string | number, langua
 export function hasApartmentLocalization(apartmentId: string | number) {
   const id = normalizeApartmentId(apartmentId);
   return id === "6" || Boolean(localizationDefinitions[id]);
+}
+
+const allLocalizedLanguages: readonly Language[] = ["ru", "ro", "en", "uk", "cs"];
+
+export function getApartmentLocalizedLanguages(apartmentId: string | number): readonly Language[] {
+  return hasApartmentLocalization(apartmentId) ? allLocalizedLanguages : ["ru"];
+}
+
+export function getApartmentSeoLanguage(
+  apartmentId: string | number,
+  requestedLanguage?: string,
+): Language {
+  const normalizedLanguage = allLocalizedLanguages.includes(requestedLanguage as Language)
+    ? requestedLanguage as Language
+    : "ru";
+
+  return getApartmentLocalizedLanguages(apartmentId).includes(normalizedLanguage)
+    ? normalizedLanguage
+    : "ru";
 }
 
 export function formatLocalizedImageAlt(template: string, index: number) {

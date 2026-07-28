@@ -201,6 +201,47 @@ function createApartment(
   };
 }
 
+type VerifiedDescriptionInput = {
+  id: ApartmentId;
+  address: string;
+  category: ApartmentClass;
+  price: number;
+  rooms: ApartmentRooms;
+  guests: ApartmentGuests | null;
+  beds: number | null;
+  photoCount: number;
+  floor?: number | null;
+};
+
+const verifiedRoomLabel: Record<ApartmentRooms, string> = {
+  studio: "студия",
+  "1+1": "планировка 1+1",
+  "2+1": "планировка 2+1",
+};
+
+function verifiedShortDescription(input: VerifiedDescriptionInput) {
+  const category = apartmentClassLabels[input.category];
+  const capacity = input.guests === null ? "" : ", до " + input.guests + " гостей";
+
+  return "ID " + input.id + ": " + verifiedRoomLabel[input.rooms] + " " + category + capacity +
+    ", " + input.photoCount + " фото в каталоге.";
+}
+
+function verifiedFullDescription(input: VerifiedDescriptionInput) {
+  const facts = [
+    verifiedRoomLabel[input.rooms],
+    "категория " + apartmentClassLabels[input.category],
+    "адрес " + input.address,
+    "цена " + input.price + " MDL за сутки",
+    input.guests === null ? null : "вместимость до " + input.guests + " гостей",
+    input.beds === null ? null : input.beds + " кровать" + (input.beds === 1 ? "" : input.beds < 5 ? "и" : "ей"),
+    input.floor == null ? null : input.floor + " этаж",
+    input.photoCount + " фотографий конкретной квартиры",
+  ].filter((fact): fact is string => Boolean(fact));
+
+  return "Для квартиры ID " + input.id + " подтверждены следующие данные: " + facts.join(", ") + ".";
+}
+
 export const apartments = [
   createApartment({
     id: 1,
@@ -249,9 +290,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 2, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 4, floor: 4,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 2, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 4, floor: 4,
+    }),
     photos: apartmentPhotos("izmail88-2", 4, "jpeg"),
     facadePhoto: "/apartments/izmail88-2/4.jpeg",
     cardPhoto: "/apartments/izmail88-2/1.jpeg",
@@ -331,14 +377,21 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 4, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 5, floor: 4,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 4, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 5, floor: 4,
+    }),
     photos: apartmentPhotos("izmail88-4", 5, "jpeg"),
     facadePhoto: "/apartments/izmail88-4/5.jpeg",
     cardPhoto: "/apartments/izmail88-4/1.jpeg",
     galleryLayout: "extended",
   }),
+  // TODO(owner data, IDs 5, 7): подтвердить индивидуальные отличия студий
+  // помимо ID и разных фотогалерей (например, конкретную комплектацию или тип кровати).
   createApartment({
     id: 5,
     floor: null,
@@ -351,9 +404,9 @@ export const apartments = [
     beds: 1,
     kind: "studio",
     shortDescription:
-      "Современная студия категории Standard+ в центре Кишинёва для двух гостей.",
+      "Студия Standard+ ID 5 для двух гостей; в каталоге 19 фотографий конкретной квартиры.",
     fullDescription:
-      "Современная студия категории Standard+ в новом доме в центре Кишинёва.\n\nПодходит для двух гостей.\n\nВ квартире имеются большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, кухонные принадлежности, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nКруглосуточное заселение по предварительной договорённости.",
+      "Студия Standard+ ID 5 рассчитана на двух гостей и стоит 900 MDL за сутки.\n\nВ квартире подтверждены большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, кухонные принадлежности, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nВ каталоге опубликовано 19 фотографий этой квартиры. Заселение 24/7 возможно по предварительной договорённости.",
     amenities: [
       "Большая двуспальная кровать",
       "Кондиционер",
@@ -451,9 +504,9 @@ export const apartments = [
     beds: 1,
     kind: "studio",
     shortDescription:
-      "Современная студия категории Standard+ в центре Кишинёва для двух гостей.",
+      "Студия Standard+ ID 7 для двух гостей; в каталоге 28 фотографий конкретной квартиры.",
     fullDescription:
-      "Современная студия категории Standard+ в новом доме в центре Кишинёва.\n\nПодходит для двух гостей.\n\nВ квартире имеются большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, кухонные принадлежности, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nКруглосуточное заселение по предварительной договорённости.",
+      "Студия Standard+ ID 7 рассчитана на двух гостей и стоит 900 MDL за сутки.\n\nВ квартире подтверждены большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, кухонные принадлежности, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nВ каталоге опубликовано 28 фотографий этой квартиры. Заселение 24/7 возможно по предварительной договорённости.",
     amenities: [
       "Большая двуспальная кровать",
       "Кондиционер",
@@ -503,6 +556,9 @@ export const apartments = [
     ],
     cardPhoto: "/apartments/izmail88-7/D4S_2562.jpg",
   }),
+  // TODO(owner data, IDs 2, 4, 8, 9, 14, 110, 111, 112):
+  // получить отличия конкретных студий — тип кровати, индивидуальную комплектацию,
+  // особенности санузла/кухни и подтверждённые характеристики расположения внутри дома.
   createApartment({
     id: 8,
     floor: null,
@@ -514,9 +570,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 8, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 23,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 8, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 23,
+    }),
     galleryLayout: "extended",
     ...ismail88Et3PhotosWithMain("izmail88-8", 23, 46, 27),
   }),
@@ -531,9 +592,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 9, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 21,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 9, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 21,
+    }),
     galleryLayout: "extended",
     ...ismail88Et3BasePhotosWithMain("izmail88-9", 22, 8),
   }),
@@ -615,9 +681,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 14, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 22,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 14, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 22,
+    }),
     galleryLayout: "extended",
     ...ismail88Et3PhotosWithMain("izmail88-14", 125, 147, 129),
   }),
@@ -772,9 +843,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 110, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 21,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 110, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 21,
+    }),
     galleryLayout: "extended",
     ...ismail88Et3PhotosWithMain("izmail88-110", 47, 68, 53),
   }),
@@ -789,9 +865,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 111, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 32,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 111, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 32,
+    }),
     galleryLayout: "extended",
     ...ismail88Et3PhotosWithMain("izmail88-111", 69, 101, 88),
   }),
@@ -806,9 +887,14 @@ export const apartments = [
     rooms: "studio",
     beds: 1,
     kind: "studio",
-    shortDescription: "Standard+ studio apartment in the Ismail 88 complex for up to 2 guests.",
-    fullDescription:
-      "Standard+ studio apartment in the Ismail 88 complex. Suitable for one guest or a couple, with Wi-Fi, TV, air conditioning, kitchen, clean linen and 24/7 check-in.",
+    shortDescription: verifiedShortDescription({
+      id: 112, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 22,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 112, address: "Измаил, 88", category: "standardPlus", price: 900,
+      rooms: "studio", guests: 2, beds: 1, photoCount: 22,
+    }),
     galleryLayout: "extended",
     ...ismail88Et3PhotosWithMain("izmail88-112", 102, 124, 105),
   }),
@@ -828,6 +914,8 @@ export const apartments = [
       "Уютная студия в центре Кишинева для одного гостя или пары, с удобной локацией и всем необходимым.",
     photos: apartmentPhotos("izmail88-371", 4),
   }),
+  // TODO(owner data, IDs 25, 30, 301): уточнить вместимость, количество и тип
+  // кроватей, индивидуальное оснащение и реальные отличия трёх квартир 1+1.
   createApartment({
     id: 25,
     floor: null,
@@ -839,8 +927,14 @@ export const apartments = [
     rooms: "1+1",
     beds: null,
     kind: "oneBedroom",
-    shortDescription: "Двухкомнатная квартира с отдельной спальней и гостиной.",
-    fullDescription: "Квартира Standard+ с отдельной спальней и гостиной по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 25, address: "Измаил, 88", category: "standardPlus", price: 1000,
+      rooms: "1+1", guests: null, beds: null, photoCount: 6,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 25, address: "Измаил, 88", category: "standardPlus", price: 1000,
+      rooms: "1+1", guests: null, beds: null, photoCount: 6,
+    }),
     photos: promotePhoto(apartmentPhotos("izmail88-25", 6, "jpg"), "/apartments/izmail88-25/3.jpg"),
     cardPhoto: "/apartments/izmail88-25/3.jpg",
     facadePhoto: null,
@@ -857,8 +951,14 @@ export const apartments = [
     rooms: "1+1",
     beds: null,
     kind: "oneBedroom",
-    shortDescription: "Двухкомнатная квартира с отдельной спальней и гостиной.",
-    fullDescription: "Квартира Standard+ с отдельной спальней и гостиной по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 30, address: "Измаил, 88", category: "standardPlus", price: 1000,
+      rooms: "1+1", guests: null, beds: null, photoCount: 6,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 30, address: "Измаил, 88", category: "standardPlus", price: 1000,
+      rooms: "1+1", guests: null, beds: null, photoCount: 6,
+    }),
     photos: promotePhoto(apartmentPhotos("izmail88-30", 6, "jpg"), "/apartments/izmail88-30/2.jpg"),
     cardPhoto: "/apartments/izmail88-30/2.jpg",
     facadePhoto: null,
@@ -875,13 +975,22 @@ export const apartments = [
     rooms: "1+1",
     beds: null,
     kind: "oneBedroom",
-    shortDescription: "Двухкомнатная квартира с отдельной спальней и гостиной.",
-    fullDescription: "Квартира Standard+ с отдельной спальней и гостиной по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 301, address: "Измаил, 88", category: "standardPlus", price: 1000,
+      rooms: "1+1", guests: null, beds: null, photoCount: 7,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 301, address: "Измаил, 88", category: "standardPlus", price: 1000,
+      rooms: "1+1", guests: null, beds: null, photoCount: 7,
+    }),
     photos: promotePhoto(apartmentPhotos("izmail88-301", 7, "jpg"), "/apartments/izmail88-301/5.jpg"),
     cardPhoto: "/apartments/izmail88-301/5.jpg",
     facadePhoto: null,
     amenities: [],
   }),
+  // TODO(owner data, IDs 461, 463, 464, 661, 692): уточнить вместимость,
+  // кровати и индивидуальное оснащение; сейчас подтверждены только класс,
+  // планировка, цена, адрес и набор фотографий каждой студии.
   createApartment({
     id: 461,
     floor: null,
@@ -893,8 +1002,14 @@ export const apartments = [
     rooms: "studio",
     beds: null,
     kind: "studio",
-    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
-    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 461, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 8,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 461, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 8,
+    }),
     photos: numberedApartmentPhotos("izmail88-461", [1, 2, 3, 4, 5, 6, 8, 9]),
     cardPhoto: "/apartments/izmail88-461/1.jpg",
     facadePhoto: null,
@@ -911,8 +1026,14 @@ export const apartments = [
     rooms: "studio",
     beds: null,
     kind: "studio",
-    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
-    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 463, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 8,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 463, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 8,
+    }),
     photos: promotePhoto(
       numberedApartmentPhotos("izmail88-463", [1, 2, 3, 4, 5, 7, 9, 10]),
       "/apartments/izmail88-463/3.jpg",
@@ -932,8 +1053,14 @@ export const apartments = [
     rooms: "studio",
     beds: null,
     kind: "studio",
-    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
-    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 464, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 6,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 464, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 6,
+    }),
     photos: promotePhoto(
       numberedApartmentPhotos("izmail88-464", [1, 2, 3, 4, 5, 6]),
       "/apartments/izmail88-464/3.jpg",
@@ -953,8 +1080,14 @@ export const apartments = [
     rooms: "studio",
     beds: null,
     kind: "studio",
-    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
-    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 661, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 8,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 661, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 8,
+    }),
     photos: promotePhoto(
       numberedApartmentPhotos("izmail88-661", [1, 2, 3, 4, 5, 8, 9, 10]),
       "/apartments/izmail88-661/5.jpg",
@@ -974,8 +1107,14 @@ export const apartments = [
     rooms: "studio",
     beds: null,
     kind: "studio",
-    shortDescription: "Студия Standard+ по адресу Измаил, 88.",
-    fullDescription: "Студия Standard+ для одного гостя или пары по адресу Измаил, 88.",
+    shortDescription: verifiedShortDescription({
+      id: 692, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 6,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 692, address: "Измаил, 88", category: "standard", price: 800,
+      rooms: "studio", guests: null, beds: null, photoCount: 6,
+    }),
     photos: promotePhoto(apartmentPhotos("izmail88-692", 6, "jpg"), "/apartments/izmail88-692/2.jpg"),
     cardPhoto: "/apartments/izmail88-692/2.jpg",
     facadePhoto: null,
@@ -1005,6 +1144,8 @@ export const apartments = [
     facadePhoto: null,
     amenities: [],
   }),
+  // TODO(owner data, IDs 77, 78): получить подтверждённые различия по
+  // вместимости, кроватям, оснащению и особенностям двух квартир по одному адресу.
   createApartment({
     id: 77,
     slug: "lev-tolstoi-63-1-77",
@@ -1019,8 +1160,14 @@ export const apartments = [
     rooms: "1+1",
     beds: null,
     kind: "oneBedroom",
-    shortDescription: "Квартира с отдельной спальней и гостиной.",
-    fullDescription: "Квартира Premium с отдельной спальней и гостиной по адресу Лев Толстой, 63/1.",
+    shortDescription: verifiedShortDescription({
+      id: 77, address: "Лев Толстой, 63/1", category: "premium", price: 1100,
+      rooms: "1+1", guests: null, beds: null, photoCount: 9,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 77, address: "Лев Толстой, 63/1", category: "premium", price: 1100,
+      rooms: "1+1", guests: null, beds: null, photoCount: 9,
+    }),
     photos: promotePhoto(apartmentPhotos("lev-tolstoi-63-1-ltz-63", 9, "jpg"), "/apartments/lev-tolstoi-63-1-ltz-63/1.jpg"),
     cardPhoto: "/apartments/lev-tolstoi-63-1-ltz-63/1.jpg",
     facadePhoto: null,
@@ -1040,8 +1187,14 @@ export const apartments = [
     rooms: "1+1",
     beds: null,
     kind: "oneBedroom",
-    shortDescription: "Квартира с отдельной спальней и гостиной.",
-    fullDescription: "Квартира Premium с отдельной спальней и гостиной по адресу Лев Толстой, 63/1.",
+    shortDescription: verifiedShortDescription({
+      id: 78, address: "Лев Толстой, 63/1", category: "premium", price: 1100,
+      rooms: "1+1", guests: null, beds: null, photoCount: 7,
+    }),
+    fullDescription: verifiedFullDescription({
+      id: 78, address: "Лев Толстой, 63/1", category: "premium", price: 1100,
+      rooms: "1+1", guests: null, beds: null, photoCount: 7,
+    }),
     photos: promotePhoto(apartmentPhotos("lev-tolstoi-63-1-ltg-63", 7, "jpg"), "/apartments/lev-tolstoi-63-1-ltg-63/3.jpg"),
     cardPhoto: "/apartments/lev-tolstoi-63-1-ltg-63/3.jpg",
     facadePhoto: null,
@@ -1090,6 +1243,10 @@ export const apartmentDetailsById = Object.fromEntries(
       heroPosition: apartment.heroPosition,
       facadePhoto: apartment.facadePhoto,
       galleryLayout: apartment.galleryLayout,
+      intro: apartment.shortDescription,
+      aboutTitle: "Квартира ID " + apartment.id + " · " + apartment.title,
+      descriptionParagraphs: apartment.fullDescription.split("\n\n"),
+      features: apartment.amenities,
       ...(apartment.id === 1
         ? {
             displayKind: "Standard+",

@@ -4,7 +4,9 @@ import { apartmentFaqByLanguage } from "@/lib/apartmentFaq";
 import {
   formatLocalizedImageAlt,
   getApartmentDisplayAddress,
+  getApartmentLocalizedLanguages,
   getApartmentSeoLocalization,
+  getApartmentSeoLanguage,
 } from "@/lib/apartmentLocalization";
 import {
   apartmentCategoryOrder,
@@ -124,8 +126,30 @@ export function routeAlternates(path = "", language?: string) {
   };
 }
 
-export function apartmentAlternates(id: ApartmentId, language?: string) {
-  return routeAlternates(apartmentPath(id), language);
+export function apartmentAlternates(id: ApartmentId, languageInput?: string) {
+  const path = apartmentPath(id);
+  const language = getApartmentSeoLanguage(id, languageInput);
+  const availableLanguages = getApartmentLocalizedLanguages(id);
+  const canonical =
+    languageInput && language !== "ru"
+      ? localizedUrl(path, language)
+      : getApartmentUrl(id);
+
+  return {
+    canonical,
+    languages: {
+      ru: getApartmentUrl(id),
+      ...Object.fromEntries(
+        availableLanguages
+          .filter((availableLanguage) => availableLanguage !== "ru")
+          .map((availableLanguage) => [
+            availableLanguage,
+            localizedUrl(path, availableLanguage),
+          ]),
+      ),
+      "x-default": getApartmentUrl(id),
+    },
+  };
 }
 
 export const apartmentCategorySeo: Record<
@@ -338,7 +362,7 @@ export function getApartmentCategoryJsonLd(category: ApartmentClass, languageInp
       itemListElement: categoryApartments.map((apartment, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: languageInput ? localizedUrl(apartmentPath(apartment.id), language) : getApartmentUrl(apartment.id),
+        url: String(apartmentAlternates(apartment.id, languageInput).canonical),
         name: "RentPlaceMD ID " + apartment.id,
       })),
     },
@@ -362,7 +386,11 @@ export function buildApartmentDescription(
   const apartment = apartmentDetailsById[String(id)];
   const localized = getApartmentSeoLocalization(id, language);
   if (localized) return localized.description;
-  return "Квартира ID " + id + ": " + kindTitle[apartment.kind] + " по адресу " + apartment.address + ". " + apartment.price + " лей/сутки, до " + apartment.guests + " гостей, реальные фото, Wi-Fi, чистое бельё, заселение 24/7.";
+  const apartmentRecord = getApartmentById(id);
+  if (apartmentRecord) {
+    return apartmentRecord.shortDescription + " Адрес: " + apartmentRecord.address + ". Цена: " + apartment.price + ".";
+  }
+  return "Квартира ID " + id + " по адресу " + apartment.address + ". Цена: " + apartment.price + ".";
 }
 
 export function apartmentImageAlt(
@@ -451,7 +479,7 @@ function offerForApartment(apartment: { id: ApartmentId; price: number }) {
 }
 
 export function getApartmentMetadata(id: ApartmentId, languageInput?: string): Metadata {
-  const language = normalizeSiteLanguage(languageInput);
+  const language = getApartmentSeoLanguage(id, languageInput);
   const title =
     language === "ru" && id === 3
       ? "Студия Standard Plus в центре Кишинёва — ID 3 | RentPlaceMD"
@@ -464,8 +492,8 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
       : language === "ru" && id === 5
         ? "Современная студия категории Standard+ в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
       : buildApartmentDescription(id, language);
-  const path = apartmentPath(id);
-  const url = languageInput ? localizedUrl(path, language) : getApartmentUrl(id);
+  const alternates = apartmentAlternates(id, languageInput);
+  const url = String(alternates.canonical);
   const socialImage = apartmentSocialImage(id);
   const socialImageAlt = apartmentImageAlt(id, 1, language);
 
@@ -473,7 +501,7 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
     title: id === 3 || id === 5 ? { absolute: title } : title,
     description,
     keywords: buildApartmentKeywords(id),
-    alternates: apartmentAlternates(id, languageInput),
+    alternates,
     robots: {
       index: true,
       follow: true,
@@ -533,28 +561,6 @@ const allApartmentsLabel: Record<Language, string> = {
 };
 
 export function buildSiteJsonLd() {
-  const apartmentOffers = activeApartments.map((apartment) => ({
-    ...offerForApartment(apartment),
-    itemOffered: {
-      "@type": "Apartment",
-      name: "RentPlaceMD ID " + apartment.id + " - " + kindTitle[apartment.kind],
-      image: imageObjects([...apartment.photos, ...(apartment.facadePhoto ? [apartment.facadePhoto] : [])], (index) =>
-        "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + apartment.id + ", " + apartment.title + ", photo " + index,
-      ),
-      ...(apartment.guests !== null ? {
-        occupancy: {
-          "@type": "QuantitativeValue",
-          maxValue: apartment.guests,
-        },
-      } : {}),
-      address: {
-        "@type": "PostalAddress",
-        ...address,
-        streetAddress: apartment.address.split(",")[0],
-      },
-    },
-  }));
-
   return [
     {
       "@context": "https://schema.org",
@@ -585,11 +591,6 @@ export function buildSiteJsonLd() {
       publisher: {
         "@id": baseUrl + "/#organization",
       },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: baseUrl + "/apartment/izmail88-{search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@context": "https://schema.org",
@@ -602,7 +603,7 @@ export function buildSiteJsonLd() {
       ),
       logo: baseUrl + "/icon.png",
       telephone: phoneNumbers,
-      priceRange: "800-1000 MDL",
+      priceRange: "800-1400 MDL",
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -627,24 +628,7 @@ export function buildSiteJsonLd() {
           availableLanguage: ["ru", "ro", "en", "uk", "cs"],
         },
       ],
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: "Квартиры посуточно RentPlaceMD",
-        itemListElement: apartmentOffers,
-      },
       sameAs,
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: siteName,
-          item: baseUrl,
-        },
-      ],
     },
   ];
 }
@@ -705,10 +689,6 @@ export function getApartmentJsonLd(
       offers: offerForApartment({ id, price: apartment.price }),
       provider: {
         "@id": baseUrl + "/#localbusiness",
-        "@type": ["LocalBusiness", "LodgingBusiness"],
-        name: siteName,
-        telephone: phoneNumbers[0],
-        url: baseUrl,
       },
     },
     {

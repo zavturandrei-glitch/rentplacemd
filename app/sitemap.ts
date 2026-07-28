@@ -4,21 +4,26 @@ import {
   apartmentCategoryOrder,
   getApartmentCategoryPath,
 } from "@/lib/apartments";
-import { baseUrl, getApartmentUrl, mainSocialImageUrl } from "@/lib/seo";
+import {
+  apartmentAlternates,
+  baseUrl,
+  getApartmentUrl,
+  mainSocialImageUrl,
+} from "@/lib/seo";
 import { eventsUpdatedAt } from "@/lib/events";
 import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 
 const routeLastModified: Record<string, Date> = {
-  "": new Date("2026-07-19"),
-  "/about": new Date("2026-07-12"),
-  "/apartments": new Date("2026-07-19"),
-  "/check-in-rules": new Date("2026-06-24"),
-  "/transfer": new Date("2026-06-24"),
-  "/chisinau-guide": new Date("2026-07-25"),
+  "": new Date("2026-07-26"),
+  "/about": new Date("2026-07-26"),
+  "/apartments": new Date("2026-07-25"),
+  "/check-in-rules": new Date("2026-07-25"),
+  "/transfer": new Date("2026-07-25"),
+  "/chisinau-guide": new Date("2026-07-26"),
 };
-const categoryLastModified = new Date("2026-07-19");
-const apartmentInventoryLastModified = new Date("2026-07-25");
+const categoryLastModified = new Date("2026-07-25");
+const apartmentInventoryLastModified = new Date("2026-07-26");
 
 function absoluteAssetUrl(path: string) {
   return new URL(path, baseUrl).href;
@@ -60,7 +65,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.86,
       images: uniqueAssetUrls([...apartment.photos, ...(apartment.facadePhoto ? [apartment.facadePhoto] : [])]),
-      alternates: languageAlternates("/apartment/" + apartment.slug),
+      alternates: {
+        languages: apartmentAlternates(apartment.id).languages,
+      },
     };
   });
 

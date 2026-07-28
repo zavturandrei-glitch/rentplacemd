@@ -754,6 +754,10 @@ export default function ApartmentDetails({
   const intro = localizedApartment?.shortDescription ?? replaceApartmentLocation(apartment.intro ?? text.intro[apartment.kind], apartment, locationTitle);
   const aboutTitle = localizedApartment?.aboutTitle ?? replaceApartmentLocation(apartment.aboutTitle ?? text.aboutTitle[apartment.kind], apartment, locationTitle);
   const features = localizedApartment?.features ?? apartment.features ?? text.features[apartment.kind];
+  const descriptionParagraphs =
+    language === "ru" && apartment.descriptionParagraphs?.length
+      ? apartment.descriptionParagraphs
+      : localizedApartment?.descriptionParagraphs ?? apartment.descriptionParagraphs ?? [];
   const contentProfile = apartmentContentProfiles[String(apartment.id)] ?? {
     valueKeys: [apartment.kind, apartment.guests !== null && apartment.guests <= 2 ? "twoGuests" : "family", "kitchen", "checkin"],
     audienceKeys: apartment.guests !== null && apartment.guests <= 2 ? ["couple", "solo", "business"] : ["family", "business", "medical"],
@@ -1060,6 +1064,13 @@ export default function ApartmentDetails({
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d4146f]">{text.aboutLabel}</p>
             <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl">{aboutTitle}</h2>
             <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg sm:leading-8">{intro}</p>
+            {descriptionParagraphs.length > 0 ? (
+              <div className="mt-4 grid max-w-3xl gap-3 text-sm font-medium leading-6 text-slate-600 sm:text-base sm:leading-7">
+                {descriptionParagraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            ) : null}
 
             {equipmentItems.length > 0 ? (
               <section className="mt-7 border-t border-slate-100 pt-6">

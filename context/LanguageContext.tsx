@@ -24,12 +24,16 @@ function normalizeLanguage(value: string | null): Language | null {
   return isLanguage(normalizedValue) ? normalizedValue : null;
 }
 
-function getInitialLanguage(): Language {
-  return "ru";
-}
-
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+export function LanguageProvider({
+  children,
+  initialLanguage = "ru",
+  documentLanguage,
+}: {
+  children: ReactNode;
+  initialLanguage?: Language;
+  documentLanguage?: Language;
+}) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
 
   useEffect(() => {
     const restoreSavedLanguage = window.setTimeout(() => {
@@ -81,8 +85,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
+    document.documentElement.lang = documentLanguage ?? language;
+  }, [documentLanguage, language]);
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }

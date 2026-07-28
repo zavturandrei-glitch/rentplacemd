@@ -93,6 +93,27 @@ export default function ApartmentCategoryNav({ currentClass }: { currentClass: A
             </select>
           </label>
         </div>
+        <nav
+          className="mt-3 flex min-w-0 flex-wrap gap-2"
+          aria-label={text.allCategories}
+        >
+          <Link
+            href="/apartments"
+            className="rounded-full bg-white px-3 py-2 text-xs font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]"
+          >
+            {text.allApartments}
+          </Link>
+          {apartmentCategoryOrder.map((category) => (
+            <Link
+              key={category}
+              href={getApartmentCategoryPath(category)}
+              aria-current={category === currentClass ? "page" : undefined}
+              className="rounded-full bg-white px-3 py-2 text-xs font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f] aria-[current=page]:bg-[#07111f] aria-[current=page]:text-white"
+            >
+              {text.categories[category]}
+            </Link>
+          ))}
+        </nav>
       </div>
     </section>
   );

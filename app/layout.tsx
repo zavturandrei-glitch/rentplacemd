@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { headers } from "next/headers";
 import JsonLdScript from "@/components/JsonLdScript";
 import { LanguageProvider } from "@/context/LanguageContext";
+import type { Language } from "@/locales/translations";
 import {
   baseUrl,
   buildSiteJsonLd,
@@ -96,21 +98,39 @@ export const metadata: Metadata = {
 };
 
 const structuredData = buildSiteJsonLd();
+const supportedLanguages = new Set<Language>(["ru", "ro", "en", "uk", "cs"]);
 const googleAnalyticsScript =
   "window.dataLayer = window.dataLayer || [];" +
   "function gtag(){dataLayer.push(arguments);}" +
   "gtag('js', new Date());" +
   "gtag('config', 'G-404L3B7Q2R');";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const requestHeaders = await headers();
+  const requestedLanguage = requestHeaders.get("x-rentplace-language") as Language | null;
+  const requestedContentLanguage = requestHeaders.get("x-rentplace-content-language") as Language | null;
+  const locksContentLanguage = requestHeaders.get("x-rentplace-content-language-locked") === "1";
+  const initialLanguage = requestedLanguage && supportedLanguages.has(requestedLanguage)
+    ? requestedLanguage
+    : "ru";
+  const initialContentLanguage =
+    requestedContentLanguage && supportedLanguages.has(requestedContentLanguage)
+      ? requestedContentLanguage
+      : initialLanguage;
+
   return (
-    <html lang="ru" className="h-full antialiased">
+    <html lang={initialContentLanguage} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider
+          initialLanguage={initialLanguage}
+          documentLanguage={locksContentLanguage ? initialContentLanguage : undefined}
+        >
+          {children}
+        </LanguageProvider>
 
         <JsonLdScript
           id="rentplacemd-structured-data"

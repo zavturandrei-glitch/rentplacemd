@@ -9,7 +9,10 @@ import {
   activeApartments,
   getActiveApartmentBySlug,
 } from "@/lib/apartments";
-import { hasApartmentLocalization } from "@/lib/apartmentLocalization";
+import {
+  getApartmentSeoLanguage,
+  hasApartmentLocalization,
+} from "@/lib/apartmentLocalization";
 import {
   buildApartmentDescription,
   buildApartmentTitle,
@@ -53,8 +56,16 @@ export default async function ApartmentPage({ params, searchParams }: ApartmentP
     notFound();
   }
 
-  const language = typeof lang === "string" && ["ru", "ro", "en", "uk", "cs"].includes(lang) ? lang as Language : "ru";
-  const jsonLd = getApartmentJsonLd(apartment.id, language, typeof lang === "string");
+  const requestedLanguage =
+    typeof lang === "string" && ["ru", "ro", "en", "uk", "cs"].includes(lang)
+      ? (lang as Language)
+      : "ru";
+  const language = getApartmentSeoLanguage(apartment.id, requestedLanguage);
+  const jsonLd = getApartmentJsonLd(
+    apartment.id,
+    language,
+    typeof lang === "string" && language !== "ru",
+  );
   const languages: Language[] = ["ru", "ro", "en", "uk", "cs"];
   const localizedSeo = Object.fromEntries(
     languages.map((language) => [

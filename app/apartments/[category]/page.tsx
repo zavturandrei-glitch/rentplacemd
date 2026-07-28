@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
+import ApartmentCategoryContent from "@/components/ApartmentCategoryContent";
 import JsonLdScript from "@/components/JsonLdScript";
 import TodayFree from "@/components/TodayFree";
 import Footer from "@/components/Footer";
@@ -63,6 +64,7 @@ export default async function ApartmentCategoryPage({ params, searchParams }: Ca
       <Header />
       <ApartmentCategoryNav currentClass={apartmentClass} />
       <TodayFree selectedClass={apartmentClass} />
+      <ApartmentCategoryContent category={apartmentClass} />
       <Footer />
     </main>
   );

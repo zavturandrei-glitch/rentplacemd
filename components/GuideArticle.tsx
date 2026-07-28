@@ -6,6 +6,44 @@ import { useEffect } from "react";
 import EventsCalendar from "@/components/EventsCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
+import type { Language } from "@/locales/translations";
+
+const apartmentRelevantGuides = new Set<GuideSlug>([
+  "walking-tours",
+  "dental-tourism",
+  "museums",
+  "wineries",
+  "attractions",
+  "restaurants",
+]);
+
+const apartmentCta: Record<Language, { title: string; body: string; link: string }> = {
+  ru: {
+    title: "Нужна квартира на время поездки?",
+    body: "Сравните опубликованные варианты по классу, цене, планировке и фотографиям.",
+    link: "Открыть каталог квартир",
+  },
+  ro: {
+    title: "Ai nevoie de un apartament pentru călătorie?",
+    body: "Compară opțiunile publicate după clasă, preț, compartimentare și fotografii.",
+    link: "Deschide catalogul de apartamente",
+  },
+  en: {
+    title: "Need an apartment for your visit?",
+    body: "Compare the published options by class, price, layout and photos.",
+    link: "Open the apartment catalogue",
+  },
+  uk: {
+    title: "Потрібна квартира на час поїздки?",
+    body: "Порівняйте опубліковані варіанти за класом, ціною, плануванням і фотографіями.",
+    link: "Відкрити каталог квартир",
+  },
+  cs: {
+    title: "Potřebujete apartmán během návštěvy?",
+    body: "Porovnejte zveřejněné nabídky podle třídy, ceny, dispozice a fotografií.",
+    link: "Otevřít katalog apartmánů",
+  },
+};
 
 export default function GuideArticle({ slug }: { slug: GuideSlug }) {
   const { language } = useLanguage();
@@ -99,6 +137,21 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
           </section>
         ))}
       </div>
+
+      {apartmentRelevantGuides.has(slug) ? (
+        <aside className="mt-8 rounded-[24px] bg-[#07111f] p-6 text-white sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-8">
+          <div className="min-w-0">
+            <h2 className="text-xl font-black sm:text-2xl">{apartmentCta[language].title}</h2>
+            <p className="mt-2 leading-7 text-white/75">{apartmentCta[language].body}</p>
+          </div>
+          <Link
+            href="/apartments"
+            className="mt-5 inline-flex min-h-11 shrink-0 items-center rounded-full bg-[#ffd21f] px-5 text-sm font-black text-[#07111f] transition hover:bg-white sm:mt-0"
+          >
+            {apartmentCta[language].link} →
+          </Link>
+        </aside>
+      ) : null}
 
       {data.sources.length > 0 ? (
         <aside className="mt-10 border-t border-slate-200 pt-6" aria-labelledby="guide-sources">

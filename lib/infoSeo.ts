@@ -124,18 +124,5 @@ export function buildInfoJsonLd(kind: LegacyInfoKind, languageInput?: string) {
         { "@type": "ListItem", position: 2, name: item.title, item: url },
       ],
     },
-    ...(kind === "about"
-      ? [{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: siteName,
-          url: baseUrl,
-          telephone: ["+37379990190", "+37369990190"],
-          sameAs: [
-            "https://wa.me/37369990190",
-            "https://t.me/rentplacemd",
-          ],
-        }]
-      : []),
   ];
 }
