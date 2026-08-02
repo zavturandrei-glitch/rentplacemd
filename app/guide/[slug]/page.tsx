@@ -5,18 +5,8 @@ import Footer from "@/components/Footer";
 import GuideArticle from "@/components/GuideArticle";
 import Header from "@/components/Header";
 import JsonLdScript from "@/components/JsonLdScript";
-import MoldovaDestinationPage from "@/components/MoldovaDestinationPage";
-import WineriesHub from "@/components/WineriesHub";
 import { guideSlugs, isGuideSlug } from "@/lib/guide";
-import {
-  buildDestinationJsonLd,
-  buildGuideJsonLd,
-  buildWineriesHubJsonLd,
-  getDestinationMetadata,
-  getGuidePageMetadata,
-  getWineriesHubMetadata,
-} from "@/lib/guideSeo";
-import { destinationSlugs, isDestinationSlug } from "@/lib/moldovaDestinations";
+import { buildGuideJsonLd, getGuidePageMetadata } from "@/lib/guideSeo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -28,56 +18,25 @@ function first(value?: string | string[]) {
 }
 
 export function generateStaticParams() {
-  return [...guideSlugs, ...destinationSlugs].map((slug) => ({ slug }));
+  return guideSlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
-  if (isDestinationSlug(slug)) {
-    return getDestinationMetadata(slug, first(query.lang));
-  }
   if (!isGuideSlug(slug)) return {};
-  if (slug === "wineries") {
-    return getWineriesHubMetadata(first(query.lang));
-  }
   return getGuidePageMetadata(slug, first(query.lang));
 }
 
 export default async function GuidePage({ params, searchParams }: PageProps) {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
-  const language = first(query.lang);
-
-  if (isDestinationSlug(slug)) {
-    return (
-      <main className="min-h-screen overflow-x-clip bg-[#fffaf0]">
-        <JsonLdScript id={`destination-${slug}-jsonld`} data={buildDestinationJsonLd(slug, language)} />
-        <Header />
-        <BackButton />
-        <MoldovaDestinationPage slug={slug} />
-        <Footer />
-      </main>
-    );
-  }
-
   if (!isGuideSlug(slug)) notFound();
+  const language = first(query.lang);
   if (slug === "events") {
     permanentRedirect(`/events${language ? `?lang=${language}` : ""}`);
   }
 
-  if (slug === "wineries") {
-    return (
-      <main className="min-h-screen overflow-x-clip bg-[#fffaf0]">
-        <JsonLdScript id="wineries-hub-jsonld" data={buildWineriesHubJsonLd(language)} />
-        <Header />
-        <BackButton />
-        <WineriesHub />
-        <Footer />
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#fffaf0]">
+    <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id={`guide-${slug}-jsonld`} data={buildGuideJsonLd(slug, language)} />
       <Header />
       <BackButton />

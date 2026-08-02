@@ -396,7 +396,7 @@ export default function AvailabilityCalendar({
         </div>
       </div>
 
-      <div className="-mx-3 mt-5 max-w-[560px] sm:mx-auto">
+      <div className="mt-5 rounded-2xl border border-[#07111f]/10 p-2.5 sm:p-4">
         <div className="flex items-center justify-between gap-2 px-1">
           <button
             type="button"
@@ -420,20 +420,16 @@ export default function AvailabilityCalendar({
           </button>
         </div>
 
-        <div className="mt-3 overflow-hidden rounded-xl border border-[#07111f]/12 bg-white">
-          <div className="grid grid-cols-7 border-b border-[#07111f]/12 bg-[#f7f3ed] text-center text-[10px] font-black uppercase tracking-[0.08em] text-slate-500 sm:text-xs">
-            {text.weekdays.map((day, index) => (
-              <div
-                key={day}
-                className={`flex h-9 items-center justify-center ${index < 6 ? "border-r border-[#07111f]/10" : ""}`}
-              >
-                {day}
-              </div>
-            ))}
-          </div>
+        <div className="mt-2 grid grid-cols-7 text-center text-[10px] font-black uppercase tracking-[0.08em] text-slate-400 sm:text-xs">
+          {text.weekdays.map((day) => (
+            <div key={day} className="py-2">
+              {day}
+            </div>
+          ))}
+        </div>
 
-          <div className="grid grid-cols-7 bg-[#07111f]/10">
-            {calendarDays.map((day, index) => {
+        <div className="grid grid-cols-7 gap-y-1">
+          {calendarDays.map((day) => {
             const dateKey = formatDate(day);
             const isCurrentMonth = day.getMonth() === visibleMonth.getMonth();
             const isBooked = bookedDateSet.has(dateKey);
@@ -457,29 +453,26 @@ export default function AvailabilityCalendar({
                 aria-label={label}
                 aria-pressed={isSelected}
                 className={[
-                  "relative flex h-12 min-w-0 items-center justify-center bg-white text-sm font-black transition focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#d4146f] sm:h-[52px]",
-                  index % 7 < 6 ? "border-r border-[#07111f]/10" : "",
-                  index < 35 ? "border-b border-[#07111f]/10" : "",
-                  isCurrentMonth ? "" : "bg-slate-50 text-slate-400",
+                  "relative flex min-h-11 items-center justify-center text-sm font-black transition focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#d4146f]",
+                  isCurrentMonth ? "" : "opacity-35",
                   isPast
-                    ? "cursor-not-allowed bg-slate-50 text-slate-300"
+                    ? "cursor-not-allowed text-slate-300"
                     : isBooked
-                      ? "cursor-not-allowed bg-slate-100 text-slate-400 line-through decoration-slate-500/70"
+                      ? "cursor-not-allowed text-slate-400 line-through decoration-slate-400/70"
                       : "text-[#07111f] hover:bg-[#fff3d1]",
-                  isRangeMiddle ? "bg-[#ffe3ef] text-[#8d0f48] hover:bg-[#ffe3ef]" : "",
+                  isRangeMiddle ? "bg-[#ffe8f2] text-[#8d0f48]" : "",
                   isStart || isEnd
-                    ? "bg-[#07111f] text-white shadow-[inset_0_0_0_2px_#07111f] hover:bg-[#07111f]"
+                    ? "rounded-xl bg-[#07111f] text-white shadow-sm hover:bg-[#07111f]"
                     : "",
                   isToday && !isSelected
-                    ? "shadow-[inset_0_0_0_2px_#d4146f] after:absolute after:bottom-1 after:h-1 after:w-1 after:rounded-full after:bg-[#d4146f]"
+                    ? "after:absolute after:bottom-1 after:h-1 after:w-1 after:rounded-full after:bg-[#d4146f]"
                     : "",
                 ].join(" ")}
               >
                 {day.getDate()}
               </button>
             );
-            })}
-          </div>
+          })}
         </div>
       </div>
 

@@ -3,13 +3,6 @@ import type { Language } from "@/locales/translations";
 import { eventsUpdatedAt, getUpcomingGuideEvents } from "@/lib/events";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 import {
-  destinationPath,
-  destinations,
-  destinationSlugs,
-  destinationUi,
-  type DestinationSlug,
-} from "@/lib/moldovaDestinations";
-import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
@@ -81,34 +74,6 @@ export function getGuidePageMetadata(slug: GuideSlug, languageInput?: string): M
     languageInput,
     data.image,
     slug === "events" ? "website" : "article",
-  );
-}
-
-export function getWineriesHubMetadata(languageInput?: string): Metadata {
-  const language = normalizeSiteLanguage(languageInput);
-  return metadataFor(
-    "/guide/wineries",
-    destinationUi.hubTitle[language],
-    destinationUi.hubIntro[language],
-    language,
-    languageInput,
-    guidePages.wineries.image,
-    "website",
-  );
-}
-
-export function getDestinationMetadata(slug: DestinationSlug, languageInput?: string): Metadata {
-  const language = normalizeSiteLanguage(languageInput);
-  const data = destinations[slug];
-  const copy = data.copy[language];
-  return metadataFor(
-    destinationPath(slug),
-    copy.seoTitle,
-    copy.description,
-    language,
-    languageInput,
-    data.image,
-    "article",
   );
 }
 
@@ -232,117 +197,6 @@ export function buildGuideHubJsonLd(languageInput?: string) {
           name: guideUi.hubTitle[language],
           item: baseUrl + "/chisinau-guide",
         },
-      ],
-    },
-  ];
-}
-
-export function buildWineriesHubJsonLd(languageInput?: string) {
-  const language = normalizeSiteLanguage(languageInput);
-  const path = "/guide/wineries";
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
-  return [
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: destinationUi.hubTitle[language],
-      description: destinationUi.hubIntro[language],
-      url,
-      inLanguage: language,
-      dateModified: "2026-08-02",
-      mainEntity: {
-        "@type": "ItemList",
-        numberOfItems: destinationSlugs.length,
-        itemListElement: destinationSlugs.map((slug, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: destinations[slug].copy[language].title,
-          url: baseUrl + destinationPath(slug),
-        })),
-      },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: guideUi.hubTitle[language],
-          item: baseUrl + "/chisinau-guide",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: destinationUi.hubTitle[language],
-          item: url,
-        },
-      ],
-    },
-  ];
-}
-
-export function buildDestinationJsonLd(slug: DestinationSlug, languageInput?: string) {
-  const language = normalizeSiteLanguage(languageInput);
-  const data = destinations[slug];
-  const copy = data.copy[language];
-  const path = destinationPath(slug);
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
-
-  return [
-    {
-      "@context": "https://schema.org",
-      "@type": "TouristAttraction",
-      name: data.name,
-      description: copy.description,
-      image: baseUrl + data.image,
-      url,
-      sameAs: data.officialUrl,
-      touristType: data.kind === "winery" ? "Wine tourism" : "Cultural tourism",
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: copy.seoTitle,
-      description: copy.description,
-      image: baseUrl + data.image,
-      url,
-      inLanguage: language,
-      dateModified: "2026-08-02",
-      publisher: { "@type": "Organization", name: siteName, url: baseUrl },
-      about: { "@type": "TouristAttraction", name: data.name },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: copy.faq.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: guideUi.hubTitle[language],
-          item: baseUrl + "/chisinau-guide",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: destinationUi.hubTitle[language],
-          item: baseUrl + "/guide/wineries",
-        },
-        { "@type": "ListItem", position: 4, name: data.name, item: url },
       ],
     },
   ];

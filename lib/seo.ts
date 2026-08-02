@@ -471,6 +471,7 @@ function offerForApartment(apartment: { id: ApartmentId; price: number }) {
     url: getApartmentUrl(apartment.id),
     price: apartment.price,
     priceCurrency: "MDL",
+    availability: "https://schema.org/InStock",
     priceSpecification: {
       "@type": "PriceSpecification",
       price: apartment.price,
@@ -605,6 +606,7 @@ export function buildSiteJsonLd() {
       ),
       logo: baseUrl + "/icon.png",
       telephone: phoneNumbers,
+      priceRange: "800-1400 MDL",
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -613,6 +615,14 @@ export function buildSiteJsonLd() {
         "@type": "City",
         name: "Chisinau",
       },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "00:00",
+          closes: "23:59",
+        },
+      ],
       contactPoint: [
         {
           "@type": "ContactPoint",
@@ -669,6 +679,7 @@ export function getApartmentJsonLd(
       } : {}),
       description: buildApartmentDescription(id, language),
       telephone: phoneNumbers[0],
+      priceRange: apartment.price + " MDL",
       numberOfRooms: apartment.kind === "studio" ? 1 : apartment.kind === "oneBedroom" ? 2 : 3,
       ...(apartment.guests !== null ? {
         occupancy: {
