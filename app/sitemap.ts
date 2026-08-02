@@ -18,9 +18,11 @@ const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-26"),
   "/about": new Date("2026-07-26"),
   "/apartments": new Date("2026-08-02"),
+  "/owners": new Date("2026-08-02"),
   "/check-in-rules": new Date("2026-07-25"),
   "/transfer": new Date("2026-07-25"),
   "/chisinau-guide": new Date("2026-07-26"),
+  "/chisinau-videos": new Date("2026-08-02"),
 };
 const categoryLastModified = new Date("2026-08-02");
 const apartmentInventoryLastModified = new Date("2026-07-26");
@@ -108,11 +110,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [mainSocialImageUrl, baseUrl + "/main.jpg", baseUrl + "/icon.png"],
       alternates: languageAlternates(""),
     },
-    ...["/about", "/apartments", "/check-in-rules", "/transfer", "/chisinau-guide"].map((path) => ({
+    ...["/about", "/apartments", "/owners", "/check-in-rules", "/transfer", "/chisinau-guide", "/chisinau-videos"].map((path) => ({
       url: baseUrl + path,
       lastModified: routeLastModified[path],
       changeFrequency: "monthly" as const,
-      priority: path === "/apartments" ? 0.9 : 0.72,
+      priority: path === "/apartments" ? 0.9 : path === "/owners" ? 0.76 : path === "/chisinau-videos" ? 0.74 : 0.72,
       images: [mainSocialImageUrl],
       alternates: languageAlternates(path),
     })),

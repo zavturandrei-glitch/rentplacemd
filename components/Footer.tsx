@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { formatApartmentCountText } from "@/lib/apartments";
 
 type FooterTranslation = ReturnType<typeof useLanguage>["t"];
 
@@ -39,7 +40,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
 
         <div className="mt-6 grid grid-cols-2 gap-2.5">
           <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />
-          <BenefitItem icon={<HomeIcon />} text={t.footer.moreThan12Apartments} />
+          <BenefitItem icon={<HomeIcon />} text={formatApartmentCountText(t.footer.moreThan12Apartments)} />
           <BenefitItem icon={<ClockIcon />} text={t.footer.checkin247} />
           <BenefitItem icon={<ShieldIcon />} text={t.footer.noMiddlemen} />
         </div>
@@ -150,7 +151,7 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
 
             <div className="mt-6 grid max-w-xl grid-cols-2 gap-3">
               <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />
-              <BenefitItem icon={<HomeIcon />} text={t.footer.moreThan12Apartments} />
+              <BenefitItem icon={<HomeIcon />} text={formatApartmentCountText(t.footer.moreThan12Apartments)} />
               <BenefitItem icon={<ClockIcon />} text={t.footer.checkin247} />
               <BenefitItem icon={<ShieldIcon />} text={t.footer.noMiddlemen} />
             </div>

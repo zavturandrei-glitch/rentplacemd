@@ -4,16 +4,9 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
+import { rentPlaceLocationCount, rentPlaceLocations } from "@/lib/locations";
 import type { Language } from "@/locales/translations";
 import styles from "@/components/LocationMap.module.css";
-
-const locations = [
-  { id: 25, name: "Ismail 88", address: "Strada Ismail 88, Chișinău, Moldova", latitude: 47.017963, longitude: 28.849791 },
-  { id: 77, name: "Lev Tolstoi 63/1", address: "Strada Lev Tolstoi 63/1, Chișinău, Moldova", latitude: 47.015703, longitude: 28.847644 },
-  { id: 76, name: "Mihai Eminescu 76", address: "Strada Mihai Eminescu 76, Chișinău, Moldova", latitude: 47.0241, longitude: 28.841086 },
-  { id: 67, name: "Grigore Ureche 67", address: "Strada Grigore Ureche 67, Chișinău, Moldova", latitude: 47.027842, longitude: 28.846179 },
-  { id: 6, name: "Cuza Vodă 1/2", address: "Bulevardul Cuza Vodă 1/2, Chișinău, Moldova", latitude: 46.98763, longitude: 28.87104 },
-] as const;
 
 const cityByLanguage: Record<Language, string> = {
   ru: "Кишинёв, Молдова",
@@ -25,45 +18,51 @@ const cityByLanguage: Record<Language, string> = {
 
 const textByLanguage: Record<Language, {
   title: string;
-  text: string;
+  text: (count: number) => string;
   open: string;
+  apartments: string;
   loading: string;
-  mapTitle: string;
+  mapTitle: (count: number) => string;
 }> = {
   ru: {
     title: "RentPlaceMD на карте",
-    text: "Пять адресов в Кишинёве — без маршрутов и лишних панелей.",
+    text: (count) => `${count} адресов в Кишинёве — без маршрутов и лишних панелей.`,
     open: "Открыть адрес в Google Maps",
+    apartments: "Квартиры по этому адресу",
     loading: "Загружаем карту",
-    mapTitle: "Пять адресов RentPlaceMD на карте Кишинёва",
+    mapTitle: (count) => `${count} адресов RentPlaceMD на карте Кишинёва`,
   },
   ro: {
     title: "RentPlaceMD pe hartă",
-    text: "Cinci adrese în Chișinău, fără trasee sau panouri inutile.",
+    text: (count) => `${count} adrese în Chișinău, fără trasee sau panouri inutile.`,
     open: "Deschide adresa în Google Maps",
+    apartments: "Apartamente la această adresă",
     loading: "Se încarcă harta",
-    mapTitle: "Cinci adrese RentPlaceMD pe harta Chișinăului",
+    mapTitle: (count) => `${count} adrese RentPlaceMD pe harta Chișinăului`,
   },
   en: {
     title: "RentPlaceMD on the map",
-    text: "Five Chișinău addresses, without routes or distracting panels.",
+    text: (count) => `${count} Chișinău addresses, without routes or distracting panels.`,
     open: "Open address in Google Maps",
+    apartments: "Apartments at this address",
     loading: "Loading the map",
-    mapTitle: "Five RentPlaceMD addresses on the Chișinău map",
+    mapTitle: (count) => `${count} RentPlaceMD addresses on the Chișinău map`,
   },
   uk: {
     title: "RentPlaceMD на карті",
-    text: "П’ять адрес у Кишиневі — без маршрутів і зайвих панелей.",
+    text: (count) => `${count} адрес у Кишиневі — без маршрутів і зайвих панелей.`,
     open: "Відкрити адресу в Google Maps",
+    apartments: "Квартири за цією адресою",
     loading: "Завантажуємо карту",
-    mapTitle: "П’ять адрес RentPlaceMD на карті Кишинева",
+    mapTitle: (count) => `${count} адрес RentPlaceMD на карті Кишинева`,
   },
   cs: {
     title: "RentPlaceMD na mapě",
-    text: "Pět adres v Kišiněvě bez tras a zbytečných panelů.",
+    text: (count) => `${count} adres v Kišiněvě bez tras a zbytečných panelů.`,
     open: "Otevřít adresu v Google Maps",
+    apartments: "Apartmány na této adrese",
     loading: "Načítá se mapa",
-    mapTitle: "Pět adres RentPlaceMD na mapě Kišiněva",
+    mapTitle: (count) => `${count} adres RentPlaceMD na mapě Kišiněva`,
   },
 };
 
@@ -75,12 +74,21 @@ export default function LocationMap() {
   const [mapReady, setMapReady] = useState(false);
 
   const visibleLocations = useMemo(
-    () => locations.map((location) => {
-      const displayName = getApartmentDisplayAddress(location.id, location.name, language);
+    () => rentPlaceLocations.map((location) => {
+      const displayName = getApartmentDisplayAddress(
+        location.primaryApartmentId,
+        location.name,
+        language,
+      );
+      const [city, country] = cityByLanguage[language].split(", ");
+      const includesCity = displayName.toLocaleLowerCase(language)
+        .includes(city.toLocaleLowerCase(language));
       return {
         ...location,
         displayName,
-        displayAddress: displayName + ", " + cityByLanguage[language],
+        displayAddress: includesCity
+          ? `${displayName}, ${country}`
+          : `${displayName}, ${city}, ${country}`,
       };
     }),
     [language],
@@ -158,12 +166,26 @@ export default function LocationMap() {
         popup.className = styles.popup;
         const address = document.createElement("strong");
         address.textContent = location.displayAddress;
+        const apartments = document.createElement("span");
+        apartments.className = styles.popupApartments;
+        apartments.textContent = text.apartments + ": ";
+        location.apartments.forEach((apartment, apartmentIndex) => {
+          const apartmentLink = document.createElement("a");
+          apartmentLink.href = apartment.href;
+          apartmentLink.textContent = `ID ${apartment.id}`;
+          apartments.append(apartmentLink);
+          if (apartmentIndex < location.apartments.length - 1) {
+            apartments.append(document.createTextNode(" · "));
+          }
+        });
         const link = document.createElement("a");
         link.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = text.open;
-        popup.append(address, link);
+        popup.append(address);
+        if (location.apartments.length > 0) popup.append(apartments);
+        popup.append(link);
 
         marker.bindPopup(popup, { closeButton: false, offset: [0, -2] });
         bounds.extend([location.latitude, location.longitude]);
@@ -186,7 +208,7 @@ export default function LocationMap() {
       disposed = true;
       mapInstance?.remove();
     };
-  }, [shouldLoadMap, text.open, visibleLocations]);
+  }, [shouldLoadMap, text.apartments, text.open, visibleLocations]);
 
   return (
     <section
@@ -200,7 +222,7 @@ export default function LocationMap() {
             {text.title}
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
-            {text.text}
+            {text.text(rentPlaceLocationCount)}
           </p>
         </header>
 
@@ -209,7 +231,7 @@ export default function LocationMap() {
             ref={mapContainerRef}
             className={`${styles.map} h-[360px] sm:h-[460px] lg:h-[520px]`}
             role="region"
-            aria-label={text.mapTitle}
+            aria-label={text.mapTitle(rentPlaceLocationCount)}
             aria-busy={!mapReady}
           />
           {!mapReady ? (

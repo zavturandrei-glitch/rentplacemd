@@ -4,9 +4,12 @@ import EventsCalendar from "@/components/EventsCalendar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import JsonLdScript from "@/components/JsonLdScript";
+import CityVideoRail from "@/components/CityVideoRail";
 import { guidePages } from "@/lib/guide";
 import { buildGuideJsonLd } from "@/lib/guideSeo";
 import { getGuidePageMetadata } from "@/lib/guideSeo";
+import { readPublishedCityVideos } from "@/lib/cityVideoStore";
+import { getChisinauDateKey } from "@/lib/chisinauDate";
 
 type PageProps = { searchParams: Promise<{ lang?: string | string[] }> };
 
@@ -44,6 +47,8 @@ export default async function EventsPage({ searchParams }: PageProps) {
     const serialized = JSON.stringify(entry).replaceAll("/guide/events", "/events");
     return JSON.parse(serialized) as unknown;
   });
+  const pastEventVideos = (await readPublishedCityVideos())
+    .filter((video) => video.date < getChisinauDateKey());
 
   return (
     <main className="min-h-screen bg-[#fffaf0]">
@@ -51,6 +56,9 @@ export default async function EventsPage({ searchParams }: PageProps) {
       <Header />
       <BackButton />
       <EventsCalendar />
+      <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <CityVideoRail videos={pastEventVideos} placement="events" />
+      </div>
       <Footer />
     </main>
   );

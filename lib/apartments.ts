@@ -1383,6 +1383,12 @@ export const activeApartments = apartments.filter(
   (apartment) => apartment.status === "active",
 );
 
+export const activeApartmentCount = activeApartments.length;
+
+export function formatApartmentCountText(text: string) {
+  return text.replaceAll("{count}", String(activeApartmentCount));
+}
+
 export const ECONOMY_CATALOG_DISCOUNT_MDL = 100;
 
 export function getApartmentCatalogPrice(

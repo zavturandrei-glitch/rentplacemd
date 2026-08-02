@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { formatApartmentCountText } from "@/lib/apartments";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -35,7 +36,7 @@ export default function Hero() {
           </h1>
 
           <p className="mx-auto mt-3 max-w-[340px] text-[17px] font-bold leading-6 text-white/90 sm:mt-4 sm:max-w-4xl sm:text-2xl sm:leading-8">
-            {t.hero.subtitle}
+            {formatApartmentCountText(t.hero.subtitle)}
           </p>
         </div>
 

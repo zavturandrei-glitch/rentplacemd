@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ApartmentIdSearch from "@/components/ApartmentIdSearch";
+import { formatApartmentCountText } from "@/lib/apartments";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
 
@@ -32,7 +33,7 @@ const headerText: Record<
     center: "Центр",
     city: "города",
     checkin: "Заселение",
-    apartmentsCountTop: "Более 36",
+    apartmentsCountTop: "Более {count}",
     apartmentsCountBottom: "квартир",
     noAgentsTop: "Без",
     noAgentsBottom: "посредников",
@@ -45,7 +46,7 @@ const headerText: Record<
     center: "Centrul",
     city: "orașului",
     checkin: "Cazare",
-    apartmentsCountTop: "Peste 36",
+    apartmentsCountTop: "Peste {count}",
     apartmentsCountBottom: "apartamente",
     noAgentsTop: "Fără",
     noAgentsBottom: "intermediari",
@@ -58,7 +59,7 @@ const headerText: Record<
     center: "City",
     city: "center",
     checkin: "Check-in",
-    apartmentsCountTop: "Over 36",
+    apartmentsCountTop: "Over {count}",
     apartmentsCountBottom: "apartments",
     noAgentsTop: "No",
     noAgentsBottom: "middlemen",
@@ -71,7 +72,7 @@ const headerText: Record<
     center: "Centrum",
     city: "města",
     checkin: "Ubytování",
-    apartmentsCountTop: "Více než 36",
+    apartmentsCountTop: "Více než {count}",
     apartmentsCountBottom: "apartmánů",
     noAgentsTop: "Bez",
     noAgentsBottom: "prostředníků",
@@ -84,7 +85,7 @@ const headerText: Record<
     center: "Центр",
     city: "міста",
     checkin: "Заселення",
-    apartmentsCountTop: "Понад 36",
+    apartmentsCountTop: "Понад {count}",
     apartmentsCountBottom: "квартир",
     noAgentsTop: "Без",
     noAgentsBottom: "посередників",
@@ -508,7 +509,7 @@ function DesktopHeader() {
           <div className="flex items-center justify-center gap-2.5">
             <HomeIcon />
             <p className="text-[14px] font-black leading-tight">
-              {text.apartmentsCountTop}
+              {formatApartmentCountText(text.apartmentsCountTop)}
               <br />
               {text.apartmentsCountBottom}
             </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import { formatApartmentCountText } from "@/lib/apartments";
 
 export default function Benefits() {
   const { t } = useLanguage();
@@ -33,7 +34,7 @@ export default function Benefits() {
               </div>
 
               <h3 className="mb-4 text-[1.35rem] font-bold leading-tight text-gray-950 sm:text-[1.45rem]">
-                {item.title}
+                {formatApartmentCountText(item.title)}
               </h3>
 
               <p className="text-[15px] leading-7 text-gray-600 sm:text-base sm:leading-8">
