@@ -1,56 +1,22 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
 
-type CardKey = "about" | "rules" | "transfer" | "guide" | "events";
+type PrimaryKey = "about" | "rules" | "owners";
+type SecondaryKey = "transfer" | "guide" | "events";
 
-const sharedCards: Array<{
-  key: CardKey;
-  href: string;
-  image: string;
-  position: string;
-  tone: string;
-  imageClass?: string;
-}> = [
-  {
-    key: "about",
-    href: "/about",
-    image: "/apartments/mihai-eminescu-76-me-76/1.jpg",
-    position: "50% 52%",
-    tone: "bg-white text-[#07111f]",
-  },
-  {
-    key: "rules",
-    href: "/check-in-rules",
-    image: "/apartments/lev-tolstoi-63-1-ltz-63/1.jpg",
-    position: "50% 48%",
-    tone: "bg-white text-[#07111f]",
-  },
-  {
-    key: "transfer",
-    href: "/transfer",
-    image: "/service-pages/transfer-city.webp",
-    position: "50% 50%",
-    tone: "bg-white text-[#07111f]",
-  },
-  {
-    key: "guide",
-    href: "/chisinau-guide",
-    image: "/main.jpg",
-    position: "50% 50%",
-    tone: "bg-[#ffd21f] text-[#07111f]",
-  },
-  {
-    key: "events",
-    href: "/events",
-    image: "/guide/museums.webp",
-    position: "50% 42%",
-    tone: "bg-[#fff3d6] text-[#07111f]",
-    imageClass: "brightness-[1.06] saturate-[1.08]",
-  },
+const primaryLinks: Array<{ key: PrimaryKey; href: string }> = [
+  { key: "about", href: "/about" },
+  { key: "rules", href: "/check-in-rules" },
+  { key: "owners", href: "/owners" },
+];
+
+const secondaryLinks: Array<{ key: SecondaryKey; href: string }> = [
+  { key: "transfer", href: "/transfer" },
+  { key: "guide", href: "/chisinau-guide" },
+  { key: "events", href: "/events" },
 ];
 
 const textByLanguage: Record<
@@ -58,162 +24,138 @@ const textByLanguage: Record<
   {
     label: string;
     title: string;
-    cards: Record<CardKey, { title: string; text: string; alt: string }>;
+    primary: Record<PrimaryKey, { title: string; text: string; action: string }>;
+    secondary: Record<SecondaryKey, string>;
   }
 > = {
   ru: {
-    label: "Навигация",
-    title: "Выберите нужный раздел",
-    cards: {
+    label: "Полезные разделы",
+    title: "Всё важное для поездки и сотрудничества",
+    primary: {
       about: {
         title: "О нас",
-        text: "Как устроен сервис и чем мы помогаем гостям.",
-        alt: "Светлая кухня Premium-квартиры RentPlaceMD",
+        text: "Кто такой RentPlaceMD и как мы помогаем гостям.",
+        action: "Узнать о сервисе",
       },
       rules: {
         title: "Правила заселения",
-        text: "Что согласовать до приезда и при выезде.",
-        alt: "Подготовленная к приезду гостей спальня",
+        text: "Что важно согласовать до приезда и при выезде.",
+        action: "Прочитать правила",
       },
-      transfer: {
-        title: "Трансфер",
-        text: "Встреча в аэропорту и поездка до квартиры.",
-        alt: "Графитовый Peugeot 3008 в городской поездке",
+      owners: {
+        title: "Передать квартиру в управление",
+        text: "Отдельный раздел для владельцев квартир в Кишинёве.",
+        action: "Условия для владельцев",
       },
-      guide: {
-        title: "Гид по Кишинёву",
-        text: "Что посмотреть, где остановиться и что учесть во время поездки.",
-        alt: "Центр Кишинёва",
-      },
-      events: {
-        title: "Календарь событий",
-        text: "Концерты, фестивали и важные события Кишинёва.",
-        alt: "Светлая площадка городских культурных событий в Кишинёве",
-      },
+    },
+    secondary: {
+      transfer: "Трансфер из аэропорта",
+      guide: "Гид по Кишинёву",
+      events: "События в Кишинёве",
     },
   },
   ro: {
-    label: "Navigare",
-    title: "Alege secțiunea dorită",
-    cards: {
+    label: "Secțiuni utile",
+    title: "Tot ce este important pentru călătorie și colaborare",
+    primary: {
       about: {
         title: "Despre noi",
-        text: "Cum funcționează serviciul și cum ajutăm oaspeții.",
-        alt: "Bucătărie luminoasă într-un apartament Premium RentPlaceMD",
+        text: "Cine este RentPlaceMD și cum îi ajutăm pe oaspeți.",
+        action: "Despre serviciu",
       },
       rules: {
         title: "Reguli de cazare",
-        text: "Ce coordonați înainte de sosire și la plecare.",
-        alt: "Dormitor pregătit pentru sosirea oaspeților",
+        text: "Ce trebuie coordonat înainte de sosire și la plecare.",
+        action: "Citește regulile",
       },
-      transfer: {
-        title: "Transfer",
-        text: "Drumul de la aeroport la apartament.",
-        alt: "Peugeot 3008 grafit într-o călătorie urbană",
+      owners: {
+        title: "Încredințează-ne apartamentul",
+        text: "Secțiunea dedicată proprietarilor de apartamente din Chișinău.",
+        action: "Pentru proprietari",
       },
-      guide: {
-        title: "Ghidul Chișinăului",
-        text: "Ce să vizitați, unde să vă cazați și ce să aveți în vedere în timpul călătoriei.",
-        alt: "Centrul Chișinăului",
-      },
-      events: {
-        title: "Calendar de evenimente",
-        text: "Concerte, festivaluri și evenimente importante din Chișinău.",
-        alt: "Spațiu luminos pentru evenimente culturale urbane în Chișinău",
-      },
+    },
+    secondary: {
+      transfer: "Transfer de la aeroport",
+      guide: "Ghidul Chișinăului",
+      events: "Evenimente în Chișinău",
     },
   },
   en: {
-    label: "Navigation",
-    title: "Choose a section",
-    cards: {
+    label: "Useful sections",
+    title: "The essentials for your trip and for working with us",
+    primary: {
       about: {
         title: "About us",
-        text: "How the service works and supports each stay.",
-        alt: "Bright kitchen in a Premium RentPlaceMD apartment",
+        text: "Who RentPlaceMD is and how we support guests.",
+        action: "About the service",
       },
       rules: {
         title: "Check-in rules",
-        text: "What to agree before arrival and departure.",
-        alt: "Guest-ready apartment bedroom",
+        text: "What to agree before arrival and at departure.",
+        action: "Read the rules",
       },
-      transfer: {
-        title: "Transfer",
-        text: "From the airport to the apartment.",
-        alt: "Graphite Peugeot 3008 travelling through the city",
+      owners: {
+        title: "Let us manage your apartment",
+        text: "A dedicated section for apartment owners in Chișinău.",
+        action: "Information for owners",
       },
-      guide: {
-        title: "Chișinău Guide",
-        text: "What to see, where to stay, and what to know during your trip.",
-        alt: "Central Chișinău",
-      },
-      events: {
-        title: "Events Calendar",
-        text: "Concerts, festivals, and important events in Chișinău.",
-        alt: "Bright venue for city cultural events in Chișinău",
-      },
+    },
+    secondary: {
+      transfer: "Airport transfer",
+      guide: "Chișinău guide",
+      events: "Events in Chișinău",
     },
   },
   uk: {
-    label: "Навігація",
-    title: "Оберіть потрібний розділ",
-    cards: {
+    label: "Корисні розділи",
+    title: "Усе важливе для поїздки та співпраці",
+    primary: {
       about: {
         title: "Про нас",
-        text: "Як працює сервіс і чим ми допомагаємо гостям.",
-        alt: "Світла кухня у Premium-квартирі RentPlaceMD",
+        text: "Хто такий RentPlaceMD і як ми допомагаємо гостям.",
+        action: "Дізнатися про сервіс",
       },
       rules: {
         title: "Правила заселення",
-        text: "Що погодити до приїзду та під час виїзду.",
-        alt: "Підготовлена до приїзду гостей спальня",
+        text: "Що важливо погодити до приїзду та під час виїзду.",
+        action: "Прочитати правила",
       },
-      transfer: {
-        title: "Трансфер",
-        text: "Дорога з аеропорту до квартири.",
-        alt: "Графітовий Peugeot 3008 під час міської поїздки",
+      owners: {
+        title: "Передати квартиру в управління",
+        text: "Окремий розділ для власників квартир у Кишиневі.",
+        action: "Умови для власників",
       },
-      guide: {
-        title: "Гід по Кишиневу",
-        text: "Що подивитися, де зупинитися та що врахувати під час поїздки.",
-        alt: "Центр Кишинева",
-      },
-      events: {
-        title: "Календар подій",
-        text: "Концерти, фестивалі та важливі події Кишинева.",
-        alt: "Світлий майданчик міських культурних подій у Кишиневі",
-      },
+    },
+    secondary: {
+      transfer: "Трансфер з аеропорту",
+      guide: "Гід Кишиневом",
+      events: "Події в Кишиневі",
     },
   },
   cs: {
-    label: "Navigace",
-    title: "Vyberte sekci",
-    cards: {
+    label: "Užitečné sekce",
+    title: "Vše důležité pro cestu i spolupráci",
+    primary: {
       about: {
         title: "O nás",
-        text: "Jak služba funguje a pomáhá hostům.",
-        alt: "Světlá kuchyně v apartmánu Premium RentPlaceMD",
+        text: "Kdo je RentPlaceMD a jak pomáháme hostům.",
+        action: "O službě",
       },
       rules: {
         title: "Pravidla ubytování",
         text: "Co domluvit před příjezdem a při odjezdu.",
-        alt: "Ložnice připravená na příjezd hostů",
+        action: "Přečíst pravidla",
       },
-      transfer: {
-        title: "Transfer",
-        text: "Z letiště k apartmánu.",
-        alt: "Grafitový Peugeot 3008 během jízdy městem",
+      owners: {
+        title: "Svěřit apartmán do správy",
+        text: "Samostatná sekce pro majitele apartmánů v Kišiněvě.",
+        action: "Informace pro majitele",
       },
-      guide: {
-        title: "Průvodce Kišiněvem",
-        text: "Co navštívit, kde se ubytovat a co vzít v úvahu během cesty.",
-        alt: "Centrum Kišiněva",
-      },
-      events: {
-        title: "Kalendář akcí",
-        text: "Koncerty, festivaly a významné události v Kišiněvě.",
-        alt: "Světlé místo pro městské kulturní akce v Kišiněvě",
-      },
+    },
+    secondary: {
+      transfer: "Transfer z letiště",
+      guide: "Průvodce Kišiněvem",
+      events: "Akce v Kišiněvě",
     },
   },
 };
@@ -223,49 +165,54 @@ export default function HomeNavigation() {
   const text = textByLanguage[language];
 
   return (
-    <section className="bg-[#efeee9] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#efeee9] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-5 sm:mb-7">
-          <p className="text-sm font-semibold text-[#d4146f]">{text.label}</p>
-          <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-[-0.02em] text-[#07111f] sm:text-3xl">
-            {text.title}
-          </h2>
-        </div>
+        <p className="text-sm font-semibold text-[#d4146f]">{text.label}</p>
+        <h2 className="mt-2 max-w-3xl text-2xl font-semibold leading-tight tracking-[-0.02em] text-[#07111f] sm:text-3xl">
+          {text.title}
+        </h2>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
-          {sharedCards.map((card) => {
-            const cardText = text.cards[card.key];
+        <div className="mt-7 divide-y divide-[#07111f]/10 border-y border-[#07111f]/10 md:grid md:grid-cols-3 md:divide-x md:divide-y-0">
+          {primaryLinks.map((item) => {
+            const copy = text.primary[item.key];
+            const isOwnerLink = item.key === "owners";
 
             return (
               <Link
-                key={card.key}
-                href={card.href}
-                className={`group grid h-[210px] min-w-0 grid-rows-[104px_1fr] overflow-hidden rounded-[18px] bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-black/8 transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99] sm:h-[236px] sm:grid-rows-[128px_1fr] sm:rounded-[22px] ${card.key === "events" ? "col-span-2 sm:col-span-1" : ""}`}
-                aria-label={cardText.title}
+                key={item.key}
+                href={`${item.href}?lang=${language}`}
+                className={[
+                  "group flex min-h-[164px] flex-col justify-between px-1 py-6 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d4146f] md:px-6",
+                  isOwnerLink
+                    ? "bg-[#07111f] px-5 text-white hover:bg-[#122037] md:px-6"
+                    : "text-[#07111f] hover:bg-white/55",
+                ].join(" ")}
               >
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={card.image}
-                    alt={cardText.alt}
-                    fill
-                    sizes="(min-width: 1024px) 230px, 50vw"
-                    quality={75}
-                    className={`object-cover transition duration-300 ease-out group-hover:scale-[1.04] ${card.imageClass ?? ""}`}
-                    style={{ objectPosition: card.position }}
-                  />
-                </div>
-                <div className={`${card.tone} flex min-h-0 flex-col justify-center p-3 sm:p-5`}>
-                  <h3 className="text-[15px] font-semibold leading-[1.2] sm:text-xl">
-                    {cardText.title}
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-[12px] leading-4 text-slate-600 sm:text-sm sm:leading-5">
-                    {cardText.text}
+                <div>
+                  <h3 className="text-xl font-semibold leading-tight">{copy.title}</h3>
+                  <p className={`mt-2 text-sm leading-6 ${isOwnerLink ? "text-white/70" : "text-slate-600"}`}>
+                    {copy.text}
                   </p>
                 </div>
+                <span className={`mt-5 text-sm font-semibold ${isOwnerLink ? "text-[#ff5ca7]" : "text-[#d4146f]"}`}>
+                  {copy.action} →
+                </span>
               </Link>
             );
           })}
         </div>
+
+        <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-3" aria-label={text.label}>
+          {secondaryLinks.map((item) => (
+            <Link
+              key={item.key}
+              href={`${item.href}?lang=${language}`}
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-slate-600 underline decoration-slate-300 underline-offset-4 transition hover:text-[#07111f] hover:decoration-[#d4146f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
+            >
+              {text.secondary[item.key]}
+            </Link>
+          ))}
+        </nav>
       </div>
     </section>
   );

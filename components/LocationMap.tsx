@@ -25,40 +25,40 @@ const textByLanguage: Record<Language, {
   mapTitle: (count: number) => string;
 }> = {
   ru: {
-    title: "RentPlaceMD на карте",
-    text: (count) => `${count} адресов в Кишинёве — без маршрутов и лишних панелей.`,
+    title: "Наши квартиры в Кишинёве",
+    text: (count) => `${count} адресов в разных районах города. Выберите маркер, чтобы посмотреть квартиры.`,
     open: "Открыть адрес в Google Maps",
     apartments: "Квартиры по этому адресу",
     loading: "Загружаем карту",
     mapTitle: (count) => `${count} адресов RentPlaceMD на карте Кишинёва`,
   },
   ro: {
-    title: "RentPlaceMD pe hartă",
-    text: (count) => `${count} adrese în Chișinău, fără trasee sau panouri inutile.`,
+    title: "Apartamentele noastre în Chișinău",
+    text: (count) => `${count} adrese în diferite zone ale orașului. Alegeți un marker pentru a vedea apartamentele.`,
     open: "Deschide adresa în Google Maps",
     apartments: "Apartamente la această adresă",
     loading: "Se încarcă harta",
     mapTitle: (count) => `${count} adrese RentPlaceMD pe harta Chișinăului`,
   },
   en: {
-    title: "RentPlaceMD on the map",
-    text: (count) => `${count} Chișinău addresses, without routes or distracting panels.`,
+    title: "Our apartments in Chișinău",
+    text: (count) => `${count} addresses across the city. Select a marker to see the apartments.`,
     open: "Open address in Google Maps",
     apartments: "Apartments at this address",
     loading: "Loading the map",
     mapTitle: (count) => `${count} RentPlaceMD addresses on the Chișinău map`,
   },
   uk: {
-    title: "RentPlaceMD на карті",
-    text: (count) => `${count} адрес у Кишиневі — без маршрутів і зайвих панелей.`,
+    title: "Наші квартири в Кишиневі",
+    text: (count) => `${count} адрес у різних районах міста. Оберіть маркер, щоб переглянути квартири.`,
     open: "Відкрити адресу в Google Maps",
     apartments: "Квартири за цією адресою",
     loading: "Завантажуємо карту",
     mapTitle: (count) => `${count} адрес RentPlaceMD на карті Кишинева`,
   },
   cs: {
-    title: "RentPlaceMD na mapě",
-    text: (count) => `${count} adres v Kišiněvě bez tras a zbytečných panelů.`,
+    title: "Naše apartmány v Kišiněvě",
+    text: (count) => `${count} adres v různých částech města. Výběrem značky zobrazíte apartmány.`,
     open: "Otevřít adresu v Google Maps",
     apartments: "Apartmány na této adrese",
     loading: "Načítá se mapa",
@@ -171,7 +171,7 @@ export default function LocationMap() {
         apartments.textContent = text.apartments + ": ";
         location.apartments.forEach((apartment, apartmentIndex) => {
           const apartmentLink = document.createElement("a");
-          apartmentLink.href = apartment.href;
+          apartmentLink.href = `${apartment.href}?lang=${language}`;
           apartmentLink.textContent = `ID ${apartment.id}`;
           apartments.append(apartmentLink);
           if (apartmentIndex < location.apartments.length - 1) {
@@ -208,17 +208,16 @@ export default function LocationMap() {
       disposed = true;
       mapInstance?.remove();
     };
-  }, [shouldLoadMap, text.apartments, text.open, visibleLocations]);
+  }, [language, shouldLoadMap, text.apartments, text.open, visibleLocations]);
 
   return (
     <section
       id="rentplace-map"
       className="scroll-mt-[210px] bg-[#fffaf0] px-4 py-10 sm:px-6 sm:py-14 lg:scroll-mt-8 lg:px-8 lg:py-16"
     >
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-[22px] bg-white shadow-[0_14px_44px_rgba(15,23,42,0.08)] ring-1 ring-black/6 sm:rounded-[26px]">
-        <header className="px-5 py-6 sm:px-8 sm:py-8">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">RentPlace</p>
-          <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-[-0.03em] text-[#07111f] sm:text-4xl">
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-5 sm:mb-7">
+          <h2 className="text-2xl font-semibold leading-tight tracking-[-0.03em] text-[#07111f] sm:text-4xl">
             {text.title}
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
@@ -226,7 +225,7 @@ export default function LocationMap() {
           </p>
         </header>
 
-        <div className="relative border-t border-black/6 bg-[#e9e5dc]">
+        <div className="relative overflow-hidden rounded-[18px] border border-black/10 bg-[#e9e5dc] sm:rounded-[22px]">
           <div
             ref={mapContainerRef}
             className={`${styles.map} h-[360px] sm:h-[460px] lg:h-[520px]`}

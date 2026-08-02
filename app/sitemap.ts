@@ -13,6 +13,11 @@ import {
 import { eventsUpdatedAt } from "@/lib/events";
 import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
+import {
+  destinationPath,
+  destinations,
+  destinationSlugs,
+} from "@/lib/moldovaDestinations";
 
 const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-26"),
@@ -20,6 +25,7 @@ const routeLastModified: Record<string, Date> = {
   "/apartments": new Date("2026-08-02"),
   "/owners": new Date("2026-08-02"),
   "/check-in-rules": new Date("2026-07-25"),
+  "/booking-terms": new Date("2026-08-02"),
   "/transfer": new Date("2026-07-25"),
   "/chisinau-guide": new Date("2026-07-26"),
   "/chisinau-videos": new Date("2026-08-02"),
@@ -81,10 +87,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const path = guidePath(slug);
     return {
       url: baseUrl + path,
-      lastModified: new Date(slug === "events" ? eventsUpdatedAt : "2026-07-25"),
+      lastModified: new Date(slug === "events" ? eventsUpdatedAt : slug === "wineries" ? "2026-08-02" : "2026-07-25"),
       changeFrequency: slug === "events" ? "weekly" as const : "monthly" as const,
       priority: 0.7,
-      images: [baseUrl + guidePages[slug].image],
+      images: slug === "wineries"
+        ? uniqueAssetUrls([
+            guidePages.wineries.image,
+            ...destinationSlugs.map((destinationSlug) => destinations[destinationSlug].image),
+          ])
+        : [baseUrl + guidePages[slug].image],
+      alternates: languageAlternates(path),
+    };
+  });
+
+  const destinationRoutes = destinationSlugs.map((slug) => {
+    const path = destinationPath(slug);
+    return {
+      url: baseUrl + path,
+      lastModified: new Date("2026-08-02"),
+      changeFrequency: "monthly" as const,
+      priority: 0.74,
+      images: [baseUrl + destinations[slug].image],
       alternates: languageAlternates(path),
     };
   });
@@ -110,7 +133,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [mainSocialImageUrl, baseUrl + "/main.jpg", baseUrl + "/icon.png"],
       alternates: languageAlternates(""),
     },
-    ...["/about", "/apartments", "/owners", "/check-in-rules", "/transfer", "/chisinau-guide", "/chisinau-videos"].map((path) => ({
+    ...["/about", "/apartments", "/owners", "/check-in-rules", "/booking-terms", "/transfer", "/chisinau-guide", "/chisinau-videos"].map((path) => ({
       url: baseUrl + path,
       lastModified: routeLastModified[path],
       changeFrequency: "monthly" as const,
@@ -120,6 +143,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...categoryRoutes,
     ...guideRoutes,
+    ...destinationRoutes,
     ...eventMonthRoutes,
     ...apartmentRoutes,
   ];

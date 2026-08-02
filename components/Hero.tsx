@@ -7,7 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { formatApartmentCountText } from "@/lib/apartments";
 
 export default function Hero() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [showRequest, setShowRequest] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -72,7 +72,7 @@ export default function Hero() {
             </span>
           </article>
 
-          <Link href="/apartments" className="flex h-[188px] min-w-0 cursor-pointer flex-col rounded-[1.35rem] border border-white/40 bg-[#ffd21f]/92 p-3.5 text-[#07111f] shadow-2xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_22px_64px_rgba(255,210,31,0.28)] sm:h-[220px] sm:rounded-[1.75rem] sm:p-6">
+          <Link href={`/apartments?lang=${language}`} className="flex h-[188px] min-w-0 cursor-pointer flex-col rounded-[1.35rem] border border-white/40 bg-[#ffd21f]/92 p-3.5 text-[#07111f] shadow-2xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_22px_64px_rgba(255,210,31,0.28)] sm:h-[220px] sm:rounded-[1.75rem] sm:p-6">
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#07111f]/70 sm:text-xs sm:tracking-[0.25em]">
               {t.hero.catalogLabel}
             </p>

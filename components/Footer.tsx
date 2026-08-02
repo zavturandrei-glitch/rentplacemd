@@ -3,21 +3,72 @@
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatApartmentCountText } from "@/lib/apartments";
+import type { Language } from "@/locales/translations";
 
 type FooterTranslation = ReturnType<typeof useLanguage>["t"];
 
+const footerNav: Record<Language, Array<{ href: string; label: string }>> = {
+  ru: [
+    { href: "/about", label: "О нас" },
+    { href: "/check-in-rules", label: "Правила заселения" },
+    { href: "/booking-terms", label: "Как проходит бронирование" },
+    { href: "/owners", label: "Владельцам" },
+    { href: "/chisinau-guide", label: "Гид по Молдове" },
+  ],
+  ro: [
+    { href: "/about", label: "Despre noi" },
+    { href: "/check-in-rules", label: "Reguli de cazare" },
+    { href: "/booking-terms", label: "Cum funcționează rezervarea" },
+    { href: "/owners", label: "Pentru proprietari" },
+    { href: "/chisinau-guide", label: "Ghidul Moldovei" },
+  ],
+  en: [
+    { href: "/about", label: "About" },
+    { href: "/check-in-rules", label: "Check-in rules" },
+    { href: "/booking-terms", label: "How booking works" },
+    { href: "/owners", label: "For owners" },
+    { href: "/chisinau-guide", label: "Moldova guide" },
+  ],
+  uk: [
+    { href: "/about", label: "Про нас" },
+    { href: "/check-in-rules", label: "Правила заселення" },
+    { href: "/booking-terms", label: "Як відбувається бронювання" },
+    { href: "/owners", label: "Власникам" },
+    { href: "/chisinau-guide", label: "Гід Молдовою" },
+  ],
+  cs: [
+    { href: "/about", label: "O nás" },
+    { href: "/check-in-rules", label: "Pravidla ubytování" },
+    { href: "/booking-terms", label: "Jak probíhá rezervace" },
+    { href: "/owners", label: "Pro majitele" },
+    { href: "/chisinau-guide", label: "Průvodce Moldavskem" },
+  ],
+};
+
 export default function Footer() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <footer className="bg-gradient-to-b from-[#0b1628] to-[#07111f] text-white">
-      <MobileFooter t={t} />
-      <DesktopFooter t={t} />
+      <MobileFooter t={t} language={language} />
+      <DesktopFooter t={t} language={language} />
     </footer>
   );
 }
 
-function MobileFooter({ t }: { t: FooterTranslation }) {
+function FooterNavigation({ language }: { language: Language }) {
+  return (
+    <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-5 gap-y-3 text-sm font-semibold text-white/65">
+      {footerNav[language].map((item) => (
+        <Link key={item.href} href={`${item.href}?lang=${language}`} className="min-h-11 content-center transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+          {item.label}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+function MobileFooter({ t, language }: { t: FooterTranslation; language: Language }) {
   return (
     <div className="lg:hidden px-4 pt-8 pb-28">
       <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/25">
@@ -111,7 +162,8 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
         </div>
 
         <div className="mt-5 border-t border-white/10 pt-5 text-center">
-          <p className="text-[13px] font-bold leading-relaxed text-white/70">
+          <FooterNavigation language={language} />
+          <p className="mt-4 text-[13px] font-bold leading-relaxed text-white/70">
             {t.footer.copyright}
           </p>
           <p className="mt-2 text-[12px] font-semibold leading-relaxed text-white/45">
@@ -123,7 +175,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
   );
 }
 
-function DesktopFooter({ t }: { t: FooterTranslation }) {
+function DesktopFooter({ t, language }: { t: FooterTranslation; language: Language }) {
   return (
     <div className="hidden lg:block">
       <div className="mx-auto max-w-[1600px] px-10 py-10">
@@ -236,7 +288,8 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
         </div>
 
         <div className="mt-6 border-t border-white/10 pt-6 text-center">
-          <p className="text-[14px] font-bold text-white/55">
+          <FooterNavigation language={language} />
+          <p className="mt-4 text-[14px] font-bold text-white/55">
             {t.footer.copyright}
           </p>
 

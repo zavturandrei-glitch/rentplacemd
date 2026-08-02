@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import HomeCategoryLinks from "@/components/HomeCategoryLinks";
-import HomeLatestApartments from "@/components/HomeLatestApartments";
 import HomeNavigation from "@/components/HomeNavigation";
 import LocationMap from "@/components/LocationMap";
-import OwnersCta from "@/components/OwnersCta";
 import CityVideoRail from "@/components/CityVideoRail";
 import Footer from "@/components/Footer";
 import { getHomeMetadata } from "@/lib/infoSeo";
@@ -30,9 +27,6 @@ export default async function Home() {
     <main className="min-h-screen bg-white">
       <Header />
       <Hero />
-      <HomeCategoryLinks />
-      <HomeLatestApartments />
-      <OwnersCta />
       <HomeNavigation />
       <CityVideoRail videos={homeVideos} placement="home" />
       <LocationMap />

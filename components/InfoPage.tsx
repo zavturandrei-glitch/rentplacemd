@@ -513,6 +513,7 @@ type RulesCopy = {
   steps: Array<{ title: string; paragraphs: string[] }>;
   closing: string;
   contact: string;
+  bookingTerms: string;
 };
 
 const rulesCopy: Record<Language, RulesCopy> = {
@@ -522,6 +523,13 @@ const rulesCopy: Record<Language, RulesCopy> = {
     imageAlt: "Подготовленная к приезду гостей спальня в квартире RentPlaceMD",
     schedule: "Стандартное время заезда — с 14:00, выезда — до 12:00. Другое время возможно только по предварительному согласованию и при наличии возможности.",
     steps: [
+      {
+        title: "Запрос на бронирование",
+        paragraphs: [
+          "Сообщите даты, ID квартиры и количество гостей по телефону или в мессенджере. Мы проверим доступность выбранного варианта и при необходимости предложим альтернативу.",
+          "Отправленный запрос сам по себе не подтверждает бронь. Квартира и даты считаются согласованными после прямого подтверждения RentPlaceMD и уточнения условий конкретного проживания.",
+        ],
+      },
       {
         title: "До приезда",
         paragraphs: [
@@ -550,9 +558,16 @@ const rulesCopy: Record<Language, RulesCopy> = {
           "Согласуйте передачу ключей, проверьте личные вещи и оставьте квартиру в нормальном состоянии. Если планы изменились, достаточно связаться с RentPlaceMD по телефону или через привычный мессенджер.",
         ],
       },
+      {
+        title: "Изменение или отмена",
+        paragraphs: [
+          "Условия изменения и отмены согласовываются для конкретной брони до её подтверждения. Если планы изменились, сообщите об этом как можно раньше, чтобы мы могли проверить доступные варианты.",
+        ],
+      },
     ],
     closing: "Условия конкретной квартиры подтверждаются перед приездом. Если что-то осталось непонятным, напишите нам — обычного сообщения достаточно.",
     contact: "Задать вопрос",
+    bookingTerms: "Как проходит бронирование",
   },
   ro: {
     title: "Reguli de cazare",
@@ -560,6 +575,13 @@ const rulesCopy: Record<Language, RulesCopy> = {
     imageAlt: "Dormitor RentPlaceMD pregătit pentru sosirea oaspeților",
     schedule: "Ora standard de check-in este după 14:00, iar check-out-ul până la 12:00. Un alt program este posibil numai cu acord prealabil și dacă situația permite.",
     steps: [
+      {
+        title: "Solicitarea rezervării",
+        paragraphs: [
+          "Trimiteți datele, ID-ul apartamentului și numărul de oaspeți prin telefon sau mesagerie. Verificăm disponibilitatea și, dacă este necesar, propunem o alternativă.",
+          "Trimiterea solicitării nu confirmă automat rezervarea. Apartamentul și datele sunt convenite după confirmarea directă din partea RentPlaceMD și clarificarea condițiilor șederii.",
+        ],
+      },
       {
         title: "Înainte de sosire",
         paragraphs: [
@@ -588,9 +610,16 @@ const rulesCopy: Record<Language, RulesCopy> = {
           "Coordonați predarea cheilor, verificați lucrurile personale și lăsați apartamentul într-o stare normală. Dacă planurile se schimbă, contactați-ne prin telefon sau mesageria preferată.",
         ],
       },
+      {
+        title: "Modificare sau anulare",
+        paragraphs: [
+          "Condițiile de modificare sau anulare se stabilesc pentru rezervarea concretă înainte de confirmare. Dacă planurile se schimbă, anunțați-ne cât mai devreme pentru a verifica opțiunile disponibile.",
+        ],
+      },
     ],
     closing: "Condițiile apartamentului ales sunt confirmate înainte de sosire. Dacă mai aveți o întrebare, este suficient să ne scrieți.",
     contact: "Pune o întrebare",
+    bookingTerms: "Cum funcționează rezervarea",
   },
   en: {
     title: "Check-in rules",
@@ -598,6 +627,13 @@ const rulesCopy: Record<Language, RulesCopy> = {
     imageAlt: "RentPlaceMD bedroom prepared for arriving guests",
     schedule: "Standard check-in is from 14:00 and check-out is by 12:00. Different times are possible only by prior agreement and when the apartment schedule allows.",
     steps: [
+      {
+        title: "Booking request",
+        paragraphs: [
+          "Send the dates, apartment ID and number of guests by phone or messenger. We check the selected apartment and suggest an alternative when needed.",
+          "Sending a request does not confirm a booking automatically. The apartment and dates are agreed only after direct confirmation from RentPlaceMD and clarification of the terms for that stay.",
+        ],
+      },
       {
         title: "Before arrival",
         paragraphs: [
@@ -626,9 +662,16 @@ const rulesCopy: Record<Language, RulesCopy> = {
           "Agree the key return, check your personal belongings and leave the apartment in a reasonable condition. If plans change, contact RentPlaceMD by phone or your usual messenger.",
         ],
       },
+      {
+        title: "Changes or cancellation",
+        paragraphs: [
+          "Change and cancellation conditions are agreed for the individual booking before confirmation. If your plans change, contact us as early as possible so that available options can be checked.",
+        ],
+      },
     ],
     closing: "The terms for the chosen apartment are confirmed before arrival. If anything is unclear, simply send us a message.",
     contact: "Ask a question",
+    bookingTerms: "How booking works",
   },
   uk: {
     title: "Правила заселення",
@@ -636,6 +679,13 @@ const rulesCopy: Record<Language, RulesCopy> = {
     imageAlt: "Підготовлена до приїзду гостей спальня у квартирі RentPlaceMD",
     schedule: "Стандартний час заїзду — з 14:00, виїзду — до 12:00. Інший час можливий лише за попереднім погодженням і якщо це дозволяє графік квартири.",
     steps: [
+      {
+        title: "Запит на бронювання",
+        paragraphs: [
+          "Повідомте дати, ID квартири та кількість гостей телефоном або в месенджері. Ми перевіримо доступність і за потреби запропонуємо інший варіант.",
+          "Надісланий запит не підтверджує бронювання автоматично. Квартира й дати вважаються погодженими після прямого підтвердження RentPlaceMD та уточнення умов конкретного проживання.",
+        ],
+      },
       {
         title: "До приїзду",
         paragraphs: [
@@ -664,9 +714,16 @@ const rulesCopy: Record<Language, RulesCopy> = {
           "Погодьте передачу ключів, перевірте особисті речі та залиште квартиру в нормальному стані. Якщо плани змінилися, зв’яжіться з RentPlaceMD телефоном або через месенджер.",
         ],
       },
+      {
+        title: "Зміна або скасування",
+        paragraphs: [
+          "Умови зміни чи скасування погоджуються для конкретного бронювання до його підтвердження. Якщо плани змінилися, повідомте якомога раніше, щоб ми перевірили доступні варіанти.",
+        ],
+      },
     ],
     closing: "Умови конкретної квартири підтверджуються до приїзду. Якщо щось залишилося незрозумілим, просто напишіть нам.",
     contact: "Поставити запитання",
+    bookingTerms: "Як відбувається бронювання",
   },
   cs: {
     title: "Pravidla ubytování",
@@ -674,6 +731,13 @@ const rulesCopy: Record<Language, RulesCopy> = {
     imageAlt: "Ložnice RentPlaceMD připravená na příjezd hostů",
     schedule: "Standardní check-in je od 14:00 a check-out do 12:00. Jiný čas je možný pouze po předchozí dohodě a podle možností apartmánu.",
     steps: [
+      {
+        title: "Žádost o rezervaci",
+        paragraphs: [
+          "Pošlete termín, ID apartmánu a počet hostů telefonem nebo přes messenger. Ověříme dostupnost a případně navrhneme jinou možnost.",
+          "Odeslání žádosti rezervaci automaticky nepotvrzuje. Apartmán a termín jsou dohodnuté až po přímém potvrzení RentPlaceMD a upřesnění podmínek pobytu.",
+        ],
+      },
       {
         title: "Před příjezdem",
         paragraphs: [
@@ -702,9 +766,16 @@ const rulesCopy: Record<Language, RulesCopy> = {
           "Domluvte vrácení klíčů, zkontrolujte osobní věci a zanechte apartmán v běžném stavu. Při změně plánů nás kontaktujte telefonem nebo přes obvyklý messenger.",
         ],
       },
+      {
+        title: "Změna nebo zrušení",
+        paragraphs: [
+          "Podmínky změny či zrušení se sjednávají pro konkrétní rezervaci před jejím potvrzením. Pokud se plány změní, ozvěte se co nejdříve, abychom prověřili dostupné možnosti.",
+        ],
+      },
     ],
     closing: "Podmínky vybraného apartmánu potvrzujeme před příjezdem. Pokud něco není jasné, stačí nám napsat.",
     contact: "Položit otázku",
+    bookingTerms: "Jak rezervace probíhá",
   },
 };
 
@@ -864,20 +935,20 @@ const transferCopy: Record<Language, TransferCopy> = {
 const primaryButton = "inline-flex min-h-12 items-center justify-center rounded-full bg-[#d4146f] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#b81160] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]";
 const secondaryButton = "inline-flex min-h-12 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-[#07111f] transition hover:border-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#07111f]";
 
-function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusinessCopy }) {
+function AboutPage({ copy, business, language }: { copy: AboutCopy; business: AboutBusinessCopy; language: Language }) {
   return (
     <article className="bg-[#faf9f6] text-[#07111f]">
-      <header className="mx-auto grid max-w-7xl gap-10 px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-8">
+      <header className="mx-auto grid max-w-7xl gap-8 px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-8">
         <div>
           <h1 className="max-w-5xl text-[2.25rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
-            {business.title}
+            {copy.title}
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-            {business.lead}
+            {copy.lead}
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/apartments" className={primaryButton}>{business.chooseApartment}</Link>
-            <Link href="#owners" className={secondaryButton}>{business.manageApartment}</Link>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link href={`/apartments?lang=${language}`} className={primaryButton}>{business.chooseApartment}</Link>
+            <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className={secondaryButton}>{copy.contact}</a>
           </div>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-slate-200 sm:aspect-[16/12] sm:rounded-[30px]">
@@ -893,75 +964,55 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
       </header>
 
       <section className="border-y border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-[0.34fr_0.66fr] md:gap-14 lg:px-8">
-          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.whoTitle}</h2>
-          <div className="space-y-5 text-lg leading-8 text-slate-600">
-            {business.who.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{business.guestsTitle}</h2>
-        <ul className="mt-8 grid gap-px overflow-hidden rounded-[24px] border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
-          {business.guestItems.map((item) => (
-            <li key={item} className="bg-white p-5 text-base font-medium leading-7 text-slate-700 sm:p-6">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section id="owners" className="scroll-mt-[210px] bg-[#07111f] text-white lg:scroll-mt-8">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
           <div>
-            <h2 className="text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-4xl">{business.ownersTitle}</h2>
-            <p className="mt-5 text-lg leading-8 text-white/70">{business.ownersText}</p>
+            <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.whoTitle}</h2>
+            <div className="mt-5 space-y-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+              {business.who.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </div>
           </div>
-          <ul className="grid gap-x-8 gap-y-0 sm:grid-cols-2">
-            {business.ownerItems.map((item) => (
-              <li key={item} className="border-t border-white/15 py-4 text-sm font-medium leading-6 text-white/85">{item}</li>
-            ))}
-          </ul>
+          <div>
+            <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.guestsTitle}</h2>
+            <ul className="mt-5 divide-y divide-slate-200 border-y border-slate-200">
+              {business.guestItems.slice(0, 5).map((item) => (
+                <li key={item} className="py-3 text-base font-medium leading-6 text-slate-700">{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-8">
-        <div>
-          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.suitableTitle}</h2>
-          <ul className="mt-7 divide-y divide-slate-300 border-y border-slate-300">
-            {business.suitableItems.map((item) => <li key={item} className="py-4 leading-7 text-slate-600">{item}</li>)}
-          </ul>
-        </div>
-        <div>
-          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.stepsTitle}</h2>
-          <ol className="mt-7 space-y-5">
-            {business.steps.map((step, index) => (
-              <li key={step} className="grid grid-cols-[42px_1fr] gap-4">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-sm font-semibold">{index + 1}</span>
-                <p className="pt-1.5 leading-7 text-slate-600">{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="border-t border-slate-200 bg-white px-4 py-14 sm:px-6 sm:py-18 lg:px-8">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.ownerCtaTitle}</h2>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{business.ownerCtaText}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className={primaryButton}>{business.whatsapp}</a>
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="grid gap-6 border-b border-slate-300 pb-10 md:grid-cols-[0.75fr_1.25fr] md:gap-12">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-[-0.02em]">{copy.contact}</h2>
+            <div className="mt-3 flex flex-col gap-1 text-lg font-semibold">
+              <a href="tel:+37379990190" className="w-fit hover:text-[#d4146f]">+373 79 990 190</a>
+              <a href="tel:+37369990190" className="w-fit hover:text-[#d4146f]">+373 69 990 190</a>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-start gap-2">
+            <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className={secondaryButton}>{business.whatsapp}</a>
             <a href="viber://chat?number=%2B37369990190" className={secondaryButton}>{business.viber}</a>
             <a href="https://t.me/rentplacemd" target="_blank" rel="noopener noreferrer" className={secondaryButton}>{business.telegram}</a>
-            <a href="tel:+37379990190" className={secondaryButton}>{business.call}</a>
           </div>
-          <p className="mt-6 text-sm font-medium text-slate-500">+373 79 990 190 · +373 69 990 190</p>
+        </div>
+      </section>
+
+      <section className="bg-[#07111f] px-4 py-10 text-white sm:px-6 sm:py-12 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-[-0.02em]">{business.ownerCtaTitle}</h2>
+            <p className="mt-2 max-w-3xl text-base leading-7 text-white/70">{business.ownerCtaText}</p>
+          </div>
+          <Link href={`/owners?lang=${language}`} className={primaryButton}>{business.manageApartment}</Link>
         </div>
       </section>
     </article>
   );
 }
 
-function RulesPage({ copy }: { copy: RulesCopy }) {
+function RulesPage({ copy, language }: { copy: RulesCopy; language: Language }) {
   return (
     <article className="bg-[#faf9f6] text-[#07111f]">
       <header className="mx-auto grid max-w-7xl gap-10 px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-16 lg:px-8">
@@ -1000,6 +1051,8 @@ function RulesPage({ copy }: { copy: RulesCopy }) {
         title={copy.closing}
         primaryLabel={copy.contact}
         primaryHref="https://wa.me/37369990190"
+        secondaryLabel={copy.bookingTerms}
+        secondaryHref={`/booking-terms?lang=${language}`}
       />
     </article>
   );
@@ -1062,12 +1115,14 @@ function SimpleCta({
   primaryLabel,
   primaryHref,
   secondaryLabel,
+  secondaryHref,
 }: {
   title: string;
   text?: string;
   primaryLabel: string;
   primaryHref: string;
   secondaryLabel?: string;
+  secondaryHref?: string;
 }) {
   return (
     <section className="border-t border-white/10 bg-[#07111f] px-4 py-14 text-white sm:px-6 sm:py-18 lg:px-8">
@@ -1078,7 +1133,7 @@ function SimpleCta({
         </div>
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <Link href={primaryHref} className={primaryButton}>{primaryLabel}</Link>
-          {secondaryLabel ? <Link href="https://wa.me/37369990190" className={secondaryButton}>{secondaryLabel}</Link> : null}
+          {secondaryLabel && secondaryHref ? <Link href={secondaryHref} className={secondaryButton}>{secondaryLabel}</Link> : null}
         </div>
       </div>
     </section>
@@ -1088,8 +1143,8 @@ function SimpleCta({
 export default function InfoPage({ kind }: { kind: InfoPageKind }) {
   const { language } = useLanguage();
 
-  if (kind === "about") return <AboutPage copy={aboutCopy[language]} business={aboutBusinessCopy[language]} />;
-  if (kind === "rules") return <RulesPage copy={rulesCopy[language]} />;
+  if (kind === "about") return <AboutPage copy={aboutCopy[language]} business={aboutBusinessCopy[language]} language={language} />;
+  if (kind === "rules") return <RulesPage copy={rulesCopy[language]} language={language} />;
   if (kind === "transfer") return <TransferPage copy={transferCopy[language]} />;
   return null;
 }

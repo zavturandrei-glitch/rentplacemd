@@ -12,6 +12,10 @@ The local WebP files in this directory are resized and compressed derivatives of
 | `monasteries.webp` | *Curchi Monastery, Moldova* — Diego Delso, delso.photo | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Monasterio_de_Curchi,_Curchi,_Moldavia,_2023-11-01,_DD_84-86_HDR.jpg) |
 | `museums.webp` | *National Museum of History, Chisinau* — Mirek237 | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chisinau_Museum_of_Archeology_and_the_History.jpg) |
 | `wineries.webp` | *Vineyard at Cricova — Moldova* — David Stanley | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Vineyard_at_Cricova_-_Moldova_(by_David_Stanley).jpg) |
+| `destinations/cricova.webp` | *Cricova Winery — Moldova* — David Stanley | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cricova_Winery_-_Moldova_(by_David_Stanley).jpg) |
+| `destinations/milestii-mici.webp` | *Mileștii Mici 20250406 1* — Z thomas | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mile%C8%99tii_Mici_20250406_1.jpg) |
+| `destinations/purcari.webp` | *Purcari* — Diana Moraru | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Purcari.jpg) |
+| `destinations/castel-mimi.webp` | *Castelul Mimi din satul Bulboaca 01* — Vladikh | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Castelul_Mimi_din_satul_Bulboaca_01.jpg) |
 | `attractions.webp` | *Chisinau cathedral at night* — Gikü | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chisinau_cathedral_at_night.jpg) |
 | `restaurants.webp` | *Hominy on a spoon and various vegetarian dishes* — Orhan Pergel | [Pexels License](https://www.pexels.com/license/) | [Pexels](https://www.pexels.com/photo/hominy-on-a-spoon-and-various-vegetarian-dishes-15793780/) |
 

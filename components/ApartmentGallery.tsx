@@ -61,6 +61,7 @@ export default function ApartmentGallery({
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
+    setActiveIndex(index);
     setLightboxIndex(index);
     window.requestAnimationFrame(() => {
       setIsLightboxVisible(true);
@@ -292,11 +293,11 @@ export default function ApartmentGallery({
               <button
                 key={photo.src}
                 type="button"
-                onClick={() => setActiveIndex(index)}
+                onClick={() => openLightbox(index)}
                 aria-label={photo.alt}
                 aria-current={activeIndex === index ? "true" : undefined}
                 className={[
-                  "overflow-hidden rounded-xl border-2 bg-white p-0.5 transition",
+                  "cursor-zoom-in overflow-hidden rounded-xl border-2 bg-white p-0.5 transition",
                   activeIndex === index
                     ? "border-[#d4146f]"
                     : "border-transparent opacity-80 hover:opacity-100",
