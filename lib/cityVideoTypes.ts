@@ -2,12 +2,16 @@ import type { Language } from "@/locales/translations";
 
 export const cityVideoPlatforms = ["youtube", "tiktok", "instagram"] as const;
 export type CityVideoPlatform = (typeof cityVideoPlatforms)[number];
+export const cityVideoCategories = ["city", "events", "places", "food", "culture"] as const;
+export type CityVideoCategory = (typeof cityVideoCategories)[number];
 export type LocalizedVideoText = Record<Language, string>;
 
 export type CityVideo = {
   id: string;
   date: string;
   platform: CityVideoPlatform;
+  category: CityVideoCategory;
+  sourceName: string;
   videoUrl: string;
   thumbnailUrl: string | null;
   title: LocalizedVideoText;

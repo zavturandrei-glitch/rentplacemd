@@ -6,15 +6,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import { cityVideosPath, cityVideoUi } from "@/lib/cityVideoContent";
 import type { CityVideo } from "@/lib/cityVideoTypes";
 
-export default function CityVideoRail({
-  videos,
-  placement,
-}: {
-  videos: CityVideo[];
-  placement: "home" | "events";
-}) {
+export default function CityVideoRail({ videos, placement }: { videos: CityVideo[]; placement: "home" | "events" }) {
   const { language } = useLanguage();
   const copy = cityVideoUi[language][placement];
+  if (videos.length === 0) return null;
+  const href = `${cityVideosPath}?lang=${language}`;
 
   return (
     <section className={placement === "home" ? "bg-[#efeee9] px-4 py-10 sm:px-6 sm:py-14 lg:px-8" : "mt-14 rounded-[26px] bg-[#07111f] px-5 py-8 text-white sm:px-8 sm:py-10"}>
@@ -25,25 +21,13 @@ export default function CityVideoRail({
             <h2 className={`mt-2 text-3xl font-black tracking-[-0.035em] sm:text-4xl ${placement === "home" ? "text-[#07111f]" : "text-white"}`}>{copy.title}</h2>
             <p className={`mt-3 max-w-2xl text-sm leading-6 sm:text-base ${placement === "home" ? "text-slate-600" : "text-white/68"}`}>{copy.intro}</p>
           </div>
-          <Link href={cityVideosPath} className={`hidden min-h-11 shrink-0 items-center rounded-xl px-4 text-sm font-black sm:inline-flex ${placement === "home" ? "bg-white text-[#07111f] shadow-sm ring-1 ring-black/5" : "bg-white text-[#07111f]"}`}>
-            {copy.all}
-          </Link>
+          <Link href={href} className="hidden min-h-11 shrink-0 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 sm:inline-flex">{copy.all}</Link>
         </div>
-
-        {videos.length > 0 ? (
-          <div className="-mx-4 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
-            {videos.map((video) => <CityVideoCard key={video.id} video={video} />)}
-            <span className="w-1 shrink-0" aria-hidden="true" />
-          </div>
-        ) : (
-          <div className={`mt-7 rounded-[22px] border border-dashed p-6 text-sm font-semibold leading-6 ${placement === "home" ? "border-[#07111f]/15 bg-white/60 text-slate-600" : "border-white/18 bg-white/[0.04] text-white/60"}`}>
-            {copy.empty}
-          </div>
-        )}
-
-        <Link href={cityVideosPath} className={`mt-5 inline-flex min-h-11 items-center rounded-xl px-4 text-sm font-black sm:hidden ${placement === "home" ? "bg-white text-[#07111f] shadow-sm" : "bg-white text-[#07111f]"}`}>
-          {copy.all}
-        </Link>
+        <div className="-mx-4 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
+          {videos.map((video) => <CityVideoCard key={video.id} video={video} />)}
+          <span className="w-1 shrink-0" aria-hidden="true" />
+        </div>
+        <Link href={href} className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm sm:hidden">{copy.all}</Link>
       </div>
     </section>
   );

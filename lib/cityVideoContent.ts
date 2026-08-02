@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import type { CityVideoCategory } from "@/lib/cityVideoTypes";
 import {
   baseUrl,
   mainSocialImageUrl,
@@ -9,6 +10,14 @@ import {
 } from "@/lib/seo";
 
 export const cityVideosPath = "/chisinau-videos";
+
+export const cityVideoCategoryLabels: Record<CityVideoCategory, Record<Language, string>> = {
+  city: { ru: "Город", ro: "Oraș", en: "City", uk: "Місто", cs: "Město" },
+  events: { ru: "События", ro: "Evenimente", en: "Events", uk: "Події", cs: "Akce" },
+  places: { ru: "Места", ro: "Locuri", en: "Places", uk: "Місця", cs: "Místa" },
+  food: { ru: "Еда", ro: "Gastronomie", en: "Food", uk: "Їжа", cs: "Gastronomie" },
+  culture: { ru: "Культура", ro: "Cultură", en: "Culture", uk: "Культура", cs: "Kultura" },
+};
 
 export type CityVideoUi = {
   home: { eyebrow: string; title: string; intro: string; all: string; empty: string };
@@ -35,7 +44,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       title: "Кишинёв в движении",
       intro: "События, фестивали и атмосфера города глазами RentPlace.",
       all: "Смотреть все",
-      empty: "Опубликованные ролики появятся здесь после добавления в админке.",
+      empty: "Новые проверенные ролики скоро появятся в этом разделе.",
     },
     events: {
       eyebrow: "Видеоархив",
@@ -48,7 +57,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       eyebrow: "RentPlace · городской гид",
       title: "Видео о Кишинёве — события, фестивали и интересные места",
       intro: "Короткие ролики помогают увидеть атмосферу города перед поездкой: городские события, праздники и места, которые можно добавить в маршрут.",
-      empty: "Пока нет опубликованных роликов. Новые видео появятся после проверки и публикации через админку RentPlace.",
+      empty: "Видеоархив готовится. Пока продолжите знакомство с городом в путеводителе и календаре событий.",
       linksTitle: "Продолжить знакомство с Кишинёвом",
       events: "Календарь событий",
       guide: "Гид по Кишинёву",
@@ -68,7 +77,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       title: "Chișinăul în mișcare",
       intro: "Evenimente, festivaluri și atmosfera orașului prin ochii RentPlace.",
       all: "Vezi toate",
-      empty: "Videoclipurile publicate vor apărea aici după adăugarea lor în administrare.",
+      empty: "Videoclipuri noi și verificate vor apărea în curând aici.",
     },
     events: {
       eyebrow: "Arhivă video",
@@ -81,7 +90,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       eyebrow: "RentPlace · ghid urban",
       title: "Videoclipuri despre Chișinău — evenimente, festivaluri și locuri interesante",
       intro: "Videoclipurile scurte prezintă atmosfera orașului înainte de călătorie: evenimente, sărbători și locuri pe care le puteți adăuga traseului.",
-      empty: "Nu există încă videoclipuri publicate. Acestea vor apărea după verificare și publicare în administrarea RentPlace.",
+      empty: "Arhiva video este în pregătire. Între timp, descoperă orașul în ghid și în calendarul de evenimente.",
       linksTitle: "Continuați să descoperiți Chișinăul",
       events: "Calendar de evenimente",
       guide: "Ghidul Chișinăului",
@@ -101,7 +110,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       title: "Chisinau in motion",
       intro: "Events, festivals and the atmosphere of the city through RentPlace.",
       all: "View all",
-      empty: "Published videos will appear here after they are added in the admin area.",
+      empty: "New verified city videos will appear here soon.",
     },
     events: {
       eyebrow: "Video archive",
@@ -114,7 +123,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       eyebrow: "RentPlace · city guide",
       title: "Videos of Chisinau — events, festivals and places to see",
       intro: "Short videos offer a feel for the city before your trip: events, celebrations and places worth adding to your itinerary.",
-      empty: "There are no published videos yet. New videos will appear after review and publication through the RentPlace admin area.",
+      empty: "The video archive is being prepared. In the meantime, explore the city guide and events calendar.",
       linksTitle: "Keep exploring Chisinau",
       events: "Events calendar",
       guide: "Chisinau guide",
@@ -134,7 +143,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       title: "Кишинів у русі",
       intro: "Події, фестивалі та атмосфера міста очима RentPlace.",
       all: "Переглянути всі",
-      empty: "Опубліковані ролики з’являться тут після додавання в адмінці.",
+      empty: "Нові перевірені відео незабаром з’являться в цьому розділі.",
     },
     events: {
       eyebrow: "Відеоархів",
@@ -147,7 +156,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       eyebrow: "RentPlace · міський гід",
       title: "Відео про Кишинів — події, фестивалі та цікаві місця",
       intro: "Короткі ролики допомагають відчути атмосферу міста перед поїздкою: події, свята та місця, які варто додати до маршруту.",
-      empty: "Опублікованих роликів поки немає. Нові відео з’являться після перевірки та публікації через адмінку RentPlace.",
+      empty: "Відеоархів готується. А поки відкрийте міський гід і календар подій.",
       linksTitle: "Продовжити знайомство з Кишиневом",
       events: "Календар подій",
       guide: "Гід по Кишиневу",
@@ -167,7 +176,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       title: "Kišiněv v pohybu",
       intro: "Akce, festivaly a atmosféra města očima RentPlace.",
       all: "Zobrazit vše",
-      empty: "Zveřejněná videa se zde objeví po přidání v administraci.",
+      empty: "Nová ověřená městská videa se zde brzy objeví.",
     },
     events: {
       eyebrow: "Videoarchiv",
@@ -180,7 +189,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       eyebrow: "RentPlace · městský průvodce",
       title: "Videa o Kišiněvě — akce, festivaly a zajímavá místa",
       intro: "Krátká videa přibližují atmosféru města před cestou: akce, slavnosti a místa, která stojí za zařazení do programu.",
-      empty: "Zatím nejsou zveřejněna žádná videa. Nová se objeví po kontrole a zveřejnění v administraci RentPlace.",
+      empty: "Videoarchiv se připravuje. Mezitím pokračujte průvodcem města a kalendářem akcí.",
       linksTitle: "Pokračujte v objevování Kišiněva",
       events: "Kalendář akcí",
       guide: "Průvodce Kišiněvem",

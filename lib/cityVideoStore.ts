@@ -5,11 +5,13 @@ import path from "path";
 import seedVideos from "@/data/cityVideos.json";
 import {
   cityVideoPlatforms,
+  cityVideoCategories,
   isSafeOptionalUrl,
   isValidPlatformUrl,
   type CityVideo,
   type CityVideoInput,
   type CityVideoPlatform,
+  type CityVideoCategory,
   type LocalizedVideoText,
 } from "@/lib/cityVideoTypes";
 import type { Language } from "@/locales/translations";
@@ -18,6 +20,8 @@ type CityVideoRow = {
   id: string;
   event_date: string | Date;
   platform: CityVideoPlatform;
+  category: CityVideoCategory | null;
+  source_name: string | null;
   video_url: string;
   thumbnail_url: string | null;
   title: LocalizedVideoText | string;
@@ -64,6 +68,8 @@ async function ensureVideoTable() {
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now()
   )`;
+  await sql`ALTER TABLE city_videos ADD COLUMN IF NOT EXISTS category text`;
+  await sql`ALTER TABLE city_videos ADD COLUMN IF NOT EXISTS source_name text`;
 
   return sql;
 }
@@ -94,12 +100,20 @@ export function normalizeCityVideoInput(value: unknown): CityVideoInput {
   const platform = String(input.platform ?? "") as CityVideoPlatform;
   const videoUrl = String(input.videoUrl ?? "").trim();
   const date = String(input.date ?? "").trim();
+  const category = String(input.category ?? "") as CityVideoCategory;
+  const sourceName = String(input.sourceName ?? "").trim();
 
   if (!cityVideoPlatforms.includes(platform)) {
     throw new Error("Выберите поддерживаемую платформу.");
   }
   if (!datePattern.test(date)) {
     throw new Error("Дата должна быть в формате YYYY-MM-DD.");
+  }
+  if (!cityVideoCategories.includes(category)) {
+    throw new Error("Выберите категорию видео.");
+  }
+  if (!sourceName || sourceName.length > 100) {
+    throw new Error("Укажите источник видео (до 100 символов).");
   }
   if (!isValidPlatformUrl(platform, videoUrl)) {
     throw new Error("Ссылка не соответствует выбранной платформе.");
@@ -110,6 +124,8 @@ export function normalizeCityVideoInput(value: unknown): CityVideoInput {
   return {
     date,
     platform,
+    category,
+    sourceName,
     videoUrl,
     thumbnailUrl: normalizeOptionalUrl(input.thumbnailUrl),
     title: normalizeText(input.title, "title"),
@@ -138,6 +154,8 @@ function videoFromRow(row: CityVideoRow): CityVideo {
     id: row.id,
     date: normalizeDate(row.event_date),
     platform: row.platform,
+    category: cityVideoCategories.includes(row.category as CityVideoCategory) ? row.category as CityVideoCategory : "city",
+    sourceName: row.source_name?.trim() || "RentPlaceMD",
     videoUrl: row.video_url,
     thumbnailUrl: row.thumbnail_url,
     title: parseJsonText(row.title),
@@ -162,7 +180,7 @@ function sortVideos(videos: CityVideo[]) {
 async function readFromNeon() {
   const sql = await ensureVideoTable();
   if (!sql) return null;
-  const rows = await sql`SELECT id, event_date, platform, video_url, thumbnail_url, title, description,
+  const rows = await sql`SELECT id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
     related_url, featured, published, display_order, created_at, updated_at
     FROM city_videos
     ORDER BY display_order ASC, event_date DESC, created_at DESC`;
@@ -172,7 +190,12 @@ async function readFromNeon() {
 async function readLocalFile() {
   try {
     const content = await fs.readFile(filePath, "utf8");
-    return sortVideos(JSON.parse(content) as CityVideo[]);
+    const parsed = JSON.parse(content) as CityVideo[];
+    return sortVideos(parsed.map((video) => ({
+      ...video,
+      category: video.category || "city",
+      sourceName: video.sourceName || "RentPlaceMD",
+    })));
   } catch {
     return sortVideos(seedVideos as CityVideo[]);
   }
@@ -216,10 +239,10 @@ export async function createCityVideo(value: unknown) {
 
   if (sql) {
     await sql`INSERT INTO city_videos (
-      id, event_date, platform, video_url, thumbnail_url, title, description,
+      id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
       related_url, featured, published, display_order, created_at, updated_at
     ) VALUES (
-      ${video.id}, ${video.date}::date, ${video.platform}, ${video.videoUrl}, ${video.thumbnailUrl},
+      ${video.id}, ${video.date}::date, ${video.platform}, ${video.category}, ${video.sourceName}, ${video.videoUrl}, ${video.thumbnailUrl},
       ${JSON.stringify(video.title)}::jsonb, ${JSON.stringify(video.description)}::jsonb,
       ${video.relatedUrl}, ${video.featured}, ${video.published}, ${video.displayOrder}, now(), now()
     )`;
@@ -243,6 +266,8 @@ export async function updateCityVideo(id: string, value: unknown) {
     const rows = await sql`UPDATE city_videos SET
       event_date = ${input.date}::date,
       platform = ${input.platform},
+      category = ${input.category},
+      source_name = ${input.sourceName},
       video_url = ${input.videoUrl},
       thumbnail_url = ${input.thumbnailUrl},
       title = ${JSON.stringify(input.title)}::jsonb,
@@ -253,7 +278,7 @@ export async function updateCityVideo(id: string, value: unknown) {
       display_order = ${input.displayOrder},
       updated_at = now()
       WHERE id = ${id}
-      RETURNING id, event_date, platform, video_url, thumbnail_url, title, description,
+      RETURNING id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
         related_url, featured, published, display_order, created_at, updated_at`;
     if (!rows[0]) throw new Error("Видео не найдено.");
     return videoFromRow(rows[0] as CityVideoRow);

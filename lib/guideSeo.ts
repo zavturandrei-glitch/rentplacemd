@@ -3,6 +3,10 @@ import type { Language } from "@/locales/translations";
 import { eventsUpdatedAt, getUpcomingGuideEvents } from "@/lib/events";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 import {
+  destinations,
+  type DestinationSlug,
+} from "@/lib/moldovaDestinations";
+import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
@@ -75,6 +79,60 @@ export function getGuidePageMetadata(slug: GuideSlug, languageInput?: string): M
     data.image,
     slug === "events" ? "website" : "article",
   );
+}
+
+export function getDestinationMetadata(slug: DestinationSlug, languageInput?: string): Metadata {
+  const language = normalizeSiteLanguage(languageInput);
+  const data = destinations[slug];
+  return metadataFor(
+    data.path,
+    data.title[language],
+    data.description[language],
+    language,
+    languageInput,
+    data.image,
+  );
+}
+
+export function buildDestinationJsonLd(slug: DestinationSlug, languageInput?: string) {
+  const language = normalizeSiteLanguage(languageInput);
+  const data = destinations[slug];
+  const url = baseUrl + data.path + (languageInput ? `?lang=${language}` : "");
+  const parentPath = slug === "orheiul-vechi" ? "/chisinau-guide" : "/guide/wineries";
+  const parentName = slug === "orheiul-vechi"
+    ? guideUi.hubTitle[language]
+    : guidePages.wineries.title[language];
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: data.title[language],
+      description: data.description[language],
+      image: baseUrl + data.image,
+      url,
+      inLanguage: language,
+      dateModified: "2026-08-02",
+      publisher: { "@type": "Organization", name: siteName, url: baseUrl },
+      about: {
+        "@type": "TouristAttraction",
+        name: data.officialName,
+        url: data.officialUrl,
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+        { "@type": "ListItem", position: 2, name: guideUi.hubTitle[language], item: baseUrl + "/chisinau-guide" },
+        ...(slug === "orheiul-vechi" ? [] : [
+          { "@type": "ListItem", position: 3, name: parentName, item: baseUrl + parentPath },
+        ]),
+        { "@type": "ListItem", position: slug === "orheiul-vechi" ? 3 : 4, name: data.title[language], item: url },
+      ],
+    },
+  ];
 }
 
 export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
@@ -184,7 +242,11 @@ export function buildGuideHubJsonLd(languageInput?: string) {
         "@type": "Article",
         name: item.title[language],
         url: baseUrl + guidePath(item.slug),
-      })),
+      })).concat(Object.values(destinations).map((item) => ({
+        "@type": "Article",
+        name: item.title[language],
+        url: baseUrl + item.path,
+      }))),
     },
     {
       "@context": "https://schema.org",

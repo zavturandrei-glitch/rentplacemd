@@ -13,6 +13,7 @@ import {
 import { eventsUpdatedAt } from "@/lib/events";
 import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
+import { destinations } from "@/lib/moldovaDestinations";
 
 const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-26"),
@@ -101,6 +102,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  const destinationRoutes = Object.values(destinations).map((destination) => ({
+    url: baseUrl + destination.path,
+    lastModified: new Date("2026-08-02"),
+    changeFrequency: "monthly" as const,
+    priority: 0.76,
+    images: [baseUrl + destination.image],
+    alternates: languageAlternates(destination.path),
+  }));
+
   return [
     {
       url: baseUrl,
@@ -120,6 +130,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...categoryRoutes,
     ...guideRoutes,
+    ...destinationRoutes,
     ...eventMonthRoutes,
     ...apartmentRoutes,
   ];

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   cityVideoPlatforms,
+  cityVideoCategories,
   type CityVideo,
   type CityVideoInput,
   type LocalizedVideoText,
@@ -29,6 +30,8 @@ function emptyForm(): CityVideoInput {
   return {
     date: new Date().toISOString().slice(0, 10),
     platform: "youtube",
+    category: "city",
+    sourceName: "RentPlaceMD",
     videoUrl: "",
     thumbnailUrl: null,
     title: emptyText(),
@@ -108,6 +111,8 @@ export default function AdminVideosManager() {
     setForm({
       date: video.date,
       platform: video.platform,
+      category: video.category,
+      sourceName: video.sourceName,
       videoUrl: video.videoUrl,
       thumbnailUrl: video.thumbnailUrl,
       title: { ...video.title },
@@ -216,6 +221,14 @@ export default function AdminVideosManager() {
           <Field label="Дата события">
             <input type="date" required value={form.date} onChange={(event) => setForm({ ...form, date: event.target.value })} className={inputClass} />
           </Field>
+          <Field label="Категория">
+            <select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value as CityVideoInput["category"] })} className={inputClass}>
+              {cityVideoCategories.map((category) => <option key={category} value={category}>{category}</option>)}
+            </select>
+          </Field>
+          <Field label="Источник">
+            <input required maxLength={100} value={form.sourceName} onChange={(event) => setForm({ ...form, sourceName: event.target.value })} placeholder="RentPlaceMD / организатор" className={inputClass} />
+          </Field>
           <Field label="Ссылка на видео">
             <input type="url" required value={form.videoUrl} onChange={(event) => setForm({ ...form, videoUrl: event.target.value })} placeholder="https://..." className={inputClass} />
           </Field>
@@ -265,8 +278,9 @@ export default function AdminVideosManager() {
               <article key={video.id} className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs font-black uppercase text-[#d4146f]">{video.platform} · {video.date}</p>
+                    <p className="text-xs font-black uppercase text-[#d4146f]">{video.platform} · {video.category} · {video.date}</p>
                     <h3 className="mt-2 text-lg font-black">{video.title.ru}</h3>
+                    <p className="mt-1 text-xs text-slate-500">{video.sourceName}</p>
                   </div>
                   <span className={`rounded-full px-2.5 py-1 text-xs font-black ${video.published ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-600"}`}>{video.published ? "Опубликовано" : "Черновик"}</span>
                 </div>

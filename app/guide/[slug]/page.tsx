@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import GuideArticle from "@/components/GuideArticle";
 import Header from "@/components/Header";
 import JsonLdScript from "@/components/JsonLdScript";
+import WineriesHub from "@/components/WineriesHub";
 import { guideSlugs, isGuideSlug } from "@/lib/guide";
 import { buildGuideJsonLd, getGuidePageMetadata } from "@/lib/guideSeo";
 
@@ -40,7 +41,7 @@ export default async function GuidePage({ params, searchParams }: PageProps) {
       <JsonLdScript id={`guide-${slug}-jsonld`} data={buildGuideJsonLd(slug, language)} />
       <Header />
       <BackButton />
-      <GuideArticle slug={slug} />
+      {slug === "wineries" ? <WineriesHub /> : <GuideArticle slug={slug} />}
       <Footer />
     </main>
   );

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { cityVideoUi } from "@/lib/cityVideoContent";
+import { cityVideoCategoryLabels, cityVideoUi } from "@/lib/cityVideoContent";
 import {
   getCityVideoEmbedUrl,
   getCityVideoThumbnail,
@@ -49,6 +49,9 @@ export default function CityVideoCard({
             className="absolute inset-0 h-full w-full border-0 bg-black"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
           />
         ) : (
           <>
@@ -86,7 +89,7 @@ export default function CityVideoCard({
               </a>
             )}
             <div className="absolute inset-x-0 bottom-0 p-5">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#ff83b9]">{video.platform} · {date}</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#ff83b9]">{cityVideoCategoryLabels[video.category][language]} · {video.sourceName} · {date}</p>
               <h3 className="mt-2 text-xl font-black leading-tight tracking-[-0.025em]">{title}</h3>
               {description ? <p className="mt-2 line-clamp-3 text-sm leading-5 text-white/70">{description}</p> : null}
             </div>
@@ -97,7 +100,7 @@ export default function CityVideoCard({
         <a href={video.videoUrl} target="_blank" rel="noopener noreferrer" className="text-[#d4146f]">{copy.actions.original} ↗</a>
         {video.relatedUrl ? (
           video.relatedUrl.startsWith("/") ? (
-            <Link href={video.relatedUrl} className="text-[#07111f]">{copy.actions.related} →</Link>
+            <Link href={`${video.relatedUrl}${video.relatedUrl.includes("?") ? "&" : "?"}lang=${language}`} className="text-[#07111f]">{copy.actions.related} →</Link>
           ) : (
             <a href={video.relatedUrl} target="_blank" rel="noopener noreferrer" className="text-[#07111f]">{copy.actions.related} ↗</a>
           )

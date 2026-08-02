@@ -57,7 +57,7 @@ const l = (ru: string, ro: string, en: string, uk: string, cs: string): Localize
 });
 
 export const guideUi = {
-  hubTitle: l("Гид по Кишинёву и Молдове", "Ghid pentru Chișinău și Moldova", "Chisinau and Moldova guide", "Гід Кишиневом і Молдовою", "Průvodce Kišiněvem a Moldavskem"),
+  hubTitle: l("Что посмотреть в Кишинёве и Молдове", "Ce să vezi în Chișinău și Moldova", "What to see in Chisinau and Moldova", "Що подивитися в Кишиневі та Молдові", "Co vidět v Kišiněvě a Moldavsku"),
   hubIntro: l(
     "Практичные маршруты и идеи для поездки: что посмотреть в городе, куда съездить на день и что проверить перед выездом.",
     "Trasee și idei practice: ce să vezi în oraș, unde să mergi pentru o zi și ce să verifici înainte de plecare.",

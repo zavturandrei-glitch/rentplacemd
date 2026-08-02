@@ -36,10 +36,10 @@ export default function CityVideoLibrary({ videos }: { videos: CityVideo[] }) {
         <div className="mx-auto max-w-6xl">
           <h2 className="text-2xl font-black tracking-[-0.03em] text-[#07111f] sm:text-3xl">{copy.linksTitle}</h2>
           <nav className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label={copy.linksTitle}>
-            <InternalLink href="/events" label={copy.events} />
-            <InternalLink href="/chisinau-guide" label={copy.guide} />
-            <InternalLink href="/apartments" label={copy.apartments} />
-            <InternalLink href="/guide/attractions" label={copy.attractions} />
+            <InternalLink href={`/events?lang=${language}`} label={copy.events} />
+            <InternalLink href={`/chisinau-guide?lang=${language}`} label={copy.guide} />
+            <InternalLink href={`/apartments?lang=${language}`} label={copy.apartments} />
+            <InternalLink href={`/guide/attractions?lang=${language}`} label={copy.attractions} />
           </nav>
         </div>
       </section>
