@@ -186,5 +186,25 @@
   {
     "apartmentId": "78",
     "bookedDates": []
+  },
+  {
+    "apartmentId": "201",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "202",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "203",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "204",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "205",
+    "bookedDates": []
   }
 ]

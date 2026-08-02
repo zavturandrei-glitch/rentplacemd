@@ -17,13 +17,15 @@ import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-26"),
   "/about": new Date("2026-07-26"),
-  "/apartments": new Date("2026-07-25"),
+  "/apartments": new Date("2026-08-02"),
   "/check-in-rules": new Date("2026-07-25"),
   "/transfer": new Date("2026-07-25"),
   "/chisinau-guide": new Date("2026-07-26"),
 };
-const categoryLastModified = new Date("2026-07-25");
+const categoryLastModified = new Date("2026-08-02");
 const apartmentInventoryLastModified = new Date("2026-07-26");
+const newApartmentLastModified = new Date("2026-08-02");
+const newApartmentIds = new Set(["201", "202", "203", "204", "205"]);
 
 function absoluteAssetUrl(path: string) {
   return new URL(path, baseUrl).href;
@@ -61,7 +63,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return {
       url,
-      lastModified: apartmentInventoryLastModified,
+      lastModified: newApartmentIds.has(String(apartment.id))
+        ? newApartmentLastModified
+        : apartmentInventoryLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.86,
       images: uniqueAssetUrls([...apartment.photos, ...(apartment.facadePhoto ? [apartment.facadePhoto] : [])]),

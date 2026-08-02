@@ -1,5 +1,6 @@
 import type { Language } from "@/locales/translations";
 import { normalizeApartmentId } from "@/lib/apartmentId";
+import { newApartmentLocalizations } from "@/lib/newApartmentLocalization";
 
 type LocalizedApartmentKind = "studio" | "oneBedroom";
 
@@ -15,6 +16,7 @@ export type LocalizedApartmentSeo = {
   title: string;
   description: string;
   imageAlt: string;
+  facadeAlt?: string;
   schemaName: string;
   shortDescription: string;
   layoutDescription: string;
@@ -269,6 +271,8 @@ const localizationText: Record<Language, LocalizationText> = {
 
 export function getApartmentLocalization(apartmentId: string | number, language: Language) {
   const id = normalizeApartmentId(apartmentId);
+  const newApartmentLocalization = newApartmentLocalizations[id]?.[language];
+  if (newApartmentLocalization) return newApartmentLocalization;
   if (id === "6") return cuzaVoda12[language];
   const definition = localizationDefinitions[id];
   if (!definition) return null;
@@ -330,7 +334,7 @@ export function getApartmentSeoLocalization(apartmentId: string | number, langua
 
 export function hasApartmentLocalization(apartmentId: string | number) {
   const id = normalizeApartmentId(apartmentId);
-  return id === "6" || Boolean(localizationDefinitions[id]);
+  return id === "6" || Boolean(newApartmentLocalizations[id]) || Boolean(localizationDefinitions[id]);
 }
 
 const allLocalizedLanguages: readonly Language[] = ["ru", "ro", "en", "uk", "cs"];

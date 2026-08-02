@@ -100,8 +100,14 @@ function useRentPlaceLanguage() {
 
   useEffect(() => {
     const restoreSavedLanguage = window.setTimeout(() => {
+      const urlLanguage = new URLSearchParams(window.location.search)
+        .get("lang")
+        ?.toUpperCase() as Lang | undefined;
       const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
-      const normalizedSaved = saved?.toUpperCase() as Lang | undefined;
+      const normalizedSaved =
+        urlLanguage && urlLanguage in headerText
+          ? urlLanguage
+          : (saved?.toUpperCase() as Lang | undefined);
 
       if (normalizedSaved && normalizedSaved in headerText) {
         setLanguage(normalizedSaved);
@@ -141,16 +147,105 @@ function useRentPlaceLanguage() {
   return { language, changeLanguage, text: headerText[language] };
 }
 
-export default function Header() {
+export default function Header({
+  apartmentId,
+}: {
+  apartmentId?: string | number;
+}) {
   return (
-    <header className="sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:static lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl">
-      <MobileHeader />
+    <header
+      className={
+        apartmentId === undefined
+          ? "sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:static lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
+          : "relative z-40 bg-white text-slate-950 shadow-xl lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
+      }
+    >
+      <MobileHeader apartmentMode={apartmentId !== undefined} />
       <DesktopHeader />
+      {apartmentId !== undefined ? (
+        <ApartmentCompactHeader apartmentId={apartmentId} />
+      ) : null}
     </header>
   );
 }
 
-function MobileHeader() {
+function ApartmentCompactHeader({
+  apartmentId,
+}: {
+  apartmentId: string | number;
+}) {
+  const { language, changeLanguage } = useRentPlaceLanguage();
+  const [isVisible, setIsVisible] = useState(false);
+  const languages: Lang[] = ["RU", "RO", "EN", "UK", "CS"];
+
+  useEffect(() => {
+    function handleScroll() {
+      setIsVisible(window.scrollY > 210);
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div
+      className={[
+        "fixed inset-x-0 top-0 z-[70] border-b border-white/10 bg-[#07111f]/96 px-3 py-2 text-white shadow-lg backdrop-blur transition-transform duration-200 lg:hidden",
+        isVisible
+          ? "translate-y-0"
+          : "pointer-events-none -translate-y-full",
+      ].join(" ")}
+      aria-hidden={!isVisible}
+      inert={!isVisible}
+    >
+      <div className="mx-auto flex min-h-11 max-w-md items-center justify-between gap-3">
+        <Link href="/" className="text-[17px] font-black tracking-tight">
+          RentPlace<span className="text-[#d4146f]">MD</span>
+        </Link>
+        <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black">
+          ID {apartmentId}
+        </span>
+        <div className="flex items-center gap-2">
+          <details className="group relative">
+            <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-xl bg-white/10 px-2 text-[11px] font-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f]">
+              {language === "UK" ? "UA" : language === "CS" ? "CZ" : language}
+            </summary>
+            <div className="absolute right-0 top-12 grid min-w-36 grid-cols-5 gap-1 rounded-2xl border border-white/10 bg-[#07111f] p-2 shadow-2xl">
+              {languages.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={(event) => {
+                    changeLanguage(item);
+                    event.currentTarget.closest("details")?.removeAttribute("open");
+                  }}
+                  className={[
+                    "flex h-9 items-center justify-center rounded-lg text-[10px] font-black",
+                    language === item
+                      ? "bg-[#ffd21f] text-[#07111f]"
+                      : "bg-white/8 text-white",
+                  ].join(" ")}
+                >
+                  {item === "UK" ? "UA" : item === "CS" ? "CZ" : item}
+                </button>
+              ))}
+            </div>
+          </details>
+          <a
+            href="tel:+37369990190"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl bg-[#d4146f] text-lg font-black"
+            aria-label="+373 69 990 190"
+          >
+            ☎
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
@@ -192,24 +287,47 @@ function MobileHeader() {
 
       <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-2.5">
         <div className="flex items-start justify-between gap-2">
-          <Link href="/" className="flex min-w-0 items-center gap-2.5">
-            <LogoIcon size="mobile" />
+          <Link
+            href="/"
+            className={[
+              "flex min-w-0 items-center",
+              apartmentMode ? "gap-1.5" : "gap-2.5",
+            ].join(" ")}
+          >
+            <LogoIcon size={apartmentMode ? "mobileCompact" : "mobile"} />
 
             <div className="min-w-0">
-              <div className="truncate text-[21px] font-black leading-none tracking-tight text-white">
+              <div
+                className={[
+                  "font-black leading-none tracking-tight text-white",
+                  apartmentMode
+                    ? "text-[18px]"
+                    : "truncate text-[21px]",
+                ].join(" ")}
+              >
                 RentPlace<span className="text-[#d4146f]">MD</span>
                 <sup className="ml-0.5 align-super text-[8px] font-bold text-white/80">
                   ™
                 </sup>
               </div>
-              <p className="mt-1 whitespace-nowrap text-[9px] font-semibold leading-none text-white/65">
+              <p
+                className={[
+                  "mt-1 whitespace-nowrap text-[9px] font-semibold leading-none text-white/65",
+                  apartmentMode ? "hidden min-[390px]:block" : "",
+                ].join(" ")}
+              >
                 {text.tagline}
               </p>
             </div>
           </Link>
 
           <div className="shrink-0 pt-0 text-right">
-            <div className="space-y-0.5 text-[14px] font-black leading-[1.02] text-white">
+            <div
+              className={[
+                "space-y-0.5 font-black leading-[1.02] text-white",
+                apartmentMode ? "text-[12px] min-[390px]:text-[14px]" : "text-[14px]",
+              ].join(" ")}
+            >
               <a href="tel:+37379990190" className="flex min-h-6 items-center justify-end">
                 +373 79 990 190
               </a>
@@ -410,18 +528,32 @@ function DesktopHeader() {
   );
 }
 
-function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
+function LogoIcon({
+  size,
+}: {
+  size: "mobile" | "mobileCompact" | "desktop";
+}) {
   const boxClass =
-    size === "mobile"
+    size === "mobile" || size === "mobileCompact"
       ? "flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-2xl bg-white shadow-lg shadow-black/30"
       : "flex h-[64px] w-[64px] shrink-0 items-center justify-center";
 
-  const svgClass = size === "mobile" ? "h-10 w-10" : "h-[64px] w-[64px]";
+  const compactBoxClass =
+    size === "mobileCompact"
+      ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-black/30"
+      : boxClass;
 
-  const mainColor = size === "mobile" ? "#07111f" : "white";
+  const svgClass =
+    size === "mobile"
+      ? "h-10 w-10"
+      : size === "mobileCompact"
+        ? "h-9 w-9"
+        : "h-[64px] w-[64px]";
+
+  const mainColor = size === "desktop" ? "white" : "#07111f";
 
   return (
-    <div className={boxClass}>
+    <div className={compactBoxClass}>
       <svg viewBox="0 0 96 96" className={svgClass} fill="none">
         <path
           d="M12 76C28 70 68 70 84 76"

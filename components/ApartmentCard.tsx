@@ -75,7 +75,12 @@ export default function ApartmentCard({
         ? copy.twoBedroom
         : copy.oneBedroom
   );
-  const district = String(apartment.id) === "6" ? copy.botanica : copy.center;
+  const isNewApartment = ["201", "202", "203", "204", "205"].includes(String(apartment.id));
+  const district = isNewApartment
+    ? localized?.layoutDescription
+    : String(apartment.id) === "6"
+      ? copy.botanica
+      : copy.center;
   const characteristics = [
     room,
     apartment.guests === null ? null : copy.guests(apartment.guests),

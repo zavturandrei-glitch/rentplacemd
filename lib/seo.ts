@@ -431,7 +431,10 @@ export function buildApartmentKeywords(id: ApartmentId) {
 
 function apartmentSeoImages(id: ApartmentId) {
   const apartment = apartmentDetailsById[String(id)];
-  return [...apartment.images, apartment.facadePhoto ?? "/common/building.png"];
+  return [
+    ...apartment.images,
+    ...(apartment.facadePhoto ? [apartment.facadePhoto] : []),
+  ];
 }
 
 function apartmentSocialImage(id: ApartmentId) {
@@ -655,7 +658,13 @@ export function getApartmentJsonLd(
       "@id": url + "#apartment",
       name,
       url,
-      image: imageObjects(apartmentSeoImages(id), (index) => apartmentImageAlt(id, index, language)),
+      image: imageObjects(apartmentSeoImages(id), (index) =>
+        apartment.facadePhoto &&
+        index === apartment.images.length + 1 &&
+        localized?.facadeAlt
+          ? localized.facadeAlt
+          : apartmentImageAlt(id, index, language),
+      ),
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -678,7 +687,7 @@ export function getApartmentJsonLd(
           maxValue: apartment.guests,
         },
       } : {}),
-      amenityFeature: (isCuzaVoda && localized
+      amenityFeature: (localized
         ? localized.features
         : ["Wi-Fi", "Air conditioning", "Kitchen", "Clean linen", "24/7 check-in", "Towels", "Payment at check-in"]
       ).map((amenityName) => ({
@@ -725,7 +734,7 @@ export function getApartmentJsonLd(
       "@context": "https://schema.org",
       "@type": "FAQPage",
       inLanguage: language,
-      mainEntity: apartmentFaqByLanguage[language].map((item) => ({
+      mainEntity: (localized?.faq ?? apartmentFaqByLanguage[language]).map((item) => ({
         "@type": "Question",
         name: item.question,
         acceptedAnswer: {
