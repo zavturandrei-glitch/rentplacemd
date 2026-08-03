@@ -1,79 +1,90 @@
 "use client";
 
 import Link from "next/link";
-import ApartmentCard from "@/components/ApartmentCard";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
-import { activeApartments } from "@/lib/apartments";
+import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
+import {
+  activeApartments,
+  apartmentClassLabels,
+  getApartmentCatalogPrice,
+  getApartmentPath,
+} from "@/lib/apartments";
 import type { Language } from "@/locales/translations";
 
-const latestCopy: Record<Language, {
-  eyebrow: string;
-  title: string;
-  text: string;
-  all: string;
-}> = {
-  ru: {
-    eyebrow: "Новые квартиры",
-    title: "Последние добавленные варианты",
-    text: "Пять новых квартир на Coca 15 и Varlaam 50 с реальными фотографиями и прямым бронированием.",
-    all: "Смотреть весь каталог",
-  },
-  ro: {
-    eyebrow: "Apartamente noi",
-    title: "Cele mai recente opțiuni",
-    text: "Cinci apartamente noi pe Coca 15 și Varlaam 50, cu fotografii reale și rezervare directă.",
-    all: "Vezi întregul catalog",
-  },
-  en: {
-    eyebrow: "New apartments",
-    title: "Recently added stays",
-    text: "Five new apartments at Coca 15 and Varlaam 50, with real photographs and direct booking.",
-    all: "View the full catalogue",
-  },
-  uk: {
-    eyebrow: "Нові квартири",
-    title: "Нещодавно додані варіанти",
-    text: "П’ять нових квартир на Coca 15 і Varlaam 50 з реальними фотографіями та прямим бронюванням.",
-    all: "Переглянути весь каталог",
-  },
-  cs: {
-    eyebrow: "Nové apartmány",
-    title: "Nejnověji přidané možnosti",
-    text: "Pět nových apartmánů na adresách Coca 15 a Varlaam 50 se skutečnými fotografiemi a přímou rezervací.",
-    all: "Zobrazit celý katalog",
-  },
+const copyByLanguage: Record<Language, { title: string; hint: string; perDay: string; open: string; all: string }> = {
+  ru: { title: "Рекомендуемые квартиры", hint: "Листайте в сторону", perDay: "MDL / сутки", open: "Подробнее", all: "Весь каталог" },
+  ro: { title: "Apartamente recomandate", hint: "Glisează lateral", perDay: "MDL / noapte", open: "Detalii", all: "Tot catalogul" },
+  en: { title: "Recommended apartments", hint: "Swipe sideways", perDay: "MDL / night", open: "View", all: "Full catalogue" },
+  uk: { title: "Рекомендовані квартири", hint: "Гортайте вбік", perDay: "MDL / доба", open: "Докладніше", all: "Увесь каталог" },
+  cs: { title: "Doporučené apartmány", hint: "Posuňte do strany", perDay: "MDL / noc", open: "Detail", all: "Celý katalog" },
 };
 
-const latestApartments = activeApartments.slice(-5);
+const recommendedApartments = activeApartments.filter((apartment) =>
+  ["202", "203", "204"].includes(String(apartment.id)),
+);
 
 export default function HomeLatestApartments() {
   const { language } = useLanguage();
-  const copy = latestCopy[language];
+  const copy = copyByLanguage[language];
 
   return (
-    <section className="bg-[#fffaf0] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section className="bg-[#07111f] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">{copy.eyebrow}</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#07111f] sm:text-4xl">
-              {copy.title}
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">{copy.text}</p>
+            <h2 className="text-xl font-black tracking-[-0.025em] text-white sm:text-3xl">{copy.title}</h2>
+            <p className="mt-1.5 text-xs font-semibold text-white/50 sm:text-sm">{copy.hint} →</p>
           </div>
-          <Link
-            href="/apartments"
-            className="inline-flex min-h-11 w-fit items-center justify-center rounded-xl border border-[#07111f]/15 bg-white px-4 text-sm font-black text-[#07111f] transition hover:border-[#d4146f] hover:text-[#d4146f]"
-          >
+          <Link href="/apartments" className="hidden min-h-11 items-center rounded-xl border border-white/12 bg-white/6 px-4 text-sm font-black text-white sm:inline-flex">
             {copy.all}
           </Link>
         </div>
 
-        <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          {latestApartments.map((apartment, index) => (
-            <ApartmentCard key={apartment.id} apartment={apartment} priority={index < 2} />
-          ))}
+        <div className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:gap-4 sm:px-0">
+          {recommendedApartments.map((apartment, index) => {
+            const address = getApartmentDisplayAddress(apartment.id, apartment.title, language);
+            return (
+              <Link
+                key={apartment.id}
+                href={getApartmentPath(apartment)}
+                aria-label={`${copy.open}: ID ${apartment.id}, ${address}`}
+                className="group w-[78vw] max-w-[310px] shrink-0 snap-start overflow-hidden rounded-[20px] border border-white/10 bg-[#111e31] text-white shadow-[0_14px_34px_rgba(0,0,0,.24)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4fa3] sm:w-[320px]"
+              >
+                <ResponsiveImage
+                  src={apartment.cardPhoto ?? apartment.photos[0]}
+                  alt={`ID ${apartment.id} · ${address}`}
+                  className="aspect-[16/10]"
+                  imgClassName="transition duration-500 group-hover:scale-[1.035]"
+                  sizes="320px"
+                  objectPosition={apartment.cardImagePosition ?? "center"}
+                  priority={index === 0}
+                  withWatermark
+                >
+                  <span className="absolute left-3 top-3 rounded-full bg-[#ffd21f] px-3 py-1.5 text-xs font-black text-[#07111f] shadow">
+                    ID {apartment.id}
+                  </span>
+                </ResponsiveImage>
+                <span className="block p-4">
+                  <span className="block text-[11px] font-black uppercase tracking-[0.13em] text-[#ff83b9]">
+                    {apartmentClassLabels[apartment.class]}
+                  </span>
+                  <strong className="mt-1.5 block truncate text-base font-black">{address}</strong>
+                  <span className="mt-3 flex items-end justify-between gap-3">
+                    <span className="text-lg font-black text-[#ffd21f]">
+                      {getApartmentCatalogPrice(apartment)} <small className="text-[10px]">{copy.perDay}</small>
+                    </span>
+                    <span className="text-xs font-black text-white/70">{copy.open} →</span>
+                  </span>
+                </span>
+              </Link>
+            );
+          })}
+          <span className="w-1 shrink-0" aria-hidden="true" />
         </div>
+        <Link href="/apartments" className="mt-2 inline-flex min-h-11 items-center rounded-xl border border-white/12 bg-white/6 px-4 text-sm font-black text-white sm:hidden">
+          {copy.all}
+        </Link>
       </div>
     </section>
   );

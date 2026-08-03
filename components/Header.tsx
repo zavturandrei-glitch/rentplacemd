@@ -286,13 +286,13 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
         </div>
       </div>
 
-      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-2.5">
+      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-2">
         <div className="flex items-start justify-between gap-2">
           <Link
             href="/"
             className={[
               "flex min-w-0 items-center",
-              apartmentMode ? "gap-1.5" : "gap-2.5",
+              apartmentMode ? "gap-1.5" : "gap-1.5 min-[360px]:gap-2",
             ].join(" ")}
           >
             <LogoIcon size={apartmentMode ? "mobileCompact" : "mobile"} />
@@ -303,7 +303,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
                   "font-black leading-none tracking-tight text-white",
                   apartmentMode
                     ? "text-[18px]"
-                    : "truncate text-[21px]",
+                    : "truncate text-[15px] min-[360px]:text-[20px]",
                 ].join(" ")}
               >
                 RentPlace<span className="text-[#d4146f]">MD</span>
@@ -313,8 +313,8 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
               </div>
               <p
                 className={[
-                  "mt-1 whitespace-nowrap text-[9px] font-semibold leading-none text-white/65",
-                  apartmentMode ? "hidden min-[390px]:block" : "",
+                  "mt-1 hidden whitespace-nowrap text-[9px] font-semibold leading-none text-white/65 min-[360px]:block",
+                  apartmentMode ? "min-[360px]:hidden min-[390px]:block" : "",
                 ].join(" ")}
               >
                 {text.tagline}
@@ -322,11 +322,11 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
             </div>
           </Link>
 
-          <div className="shrink-0 pt-0 text-right">
+          <div className="shrink-0 text-right">
             <div
               className={[
                 "space-y-0.5 font-black leading-[1.02] text-white",
-                apartmentMode ? "text-[12px] min-[390px]:text-[14px]" : "text-[14px]",
+                apartmentMode ? "text-[11px] min-[390px]:text-[14px]" : "text-[11px] min-[360px]:text-[14px]",
               ].join(" ")}
             >
               <a href="tel:+37379990190" className="flex min-h-6 items-center justify-end">
@@ -337,39 +337,35 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
               </a>
             </div>
 
-            <div className="mt-1.5 flex items-center justify-end gap-1.5">
-              <a
-                href="https://wa.me/37369990190"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-lg shadow-emerald-500/25 ring-1 ring-white/10 transition active:scale-95"
-                aria-label="WhatsApp"
-              >
-                <WhatsAppIcon />
-              </a>
-
-              <a
-                href="viber://chat?number=%2B37369990190"
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-lg shadow-violet-500/25 ring-1 ring-white/10 transition active:scale-95"
-                aria-label="Viber"
-              >
-                <ViberIcon />
-              </a>
-
-              <a
-                href="https://t.me/rentplacemd"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-lg shadow-sky-500/25 ring-1 ring-white/10 transition active:scale-95"
-                aria-label="Telegram"
-              >
-                <TelegramIcon />
-              </a>
-            </div>
           </div>
         </div>
 
-        <div className="mt-2">
+        <div className="mt-2 flex min-w-0 items-center gap-1.5">
+          <a
+            href="https://wa.me/37369990190"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition active:scale-95"
+            aria-label="WhatsApp"
+          >
+            <WhatsAppIcon />
+          </a>
+          <a
+            href="viber://chat?number=%2B37369990190"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition active:scale-95"
+            aria-label="Viber"
+          >
+            <ViberIcon />
+          </a>
+          <a
+            href="https://t.me/rentplacemd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition active:scale-95"
+            aria-label="Telegram"
+          >
+            <TelegramIcon />
+          </a>
           <ApartmentIdSearch variant="header" />
         </div>
       </div>
@@ -536,7 +532,7 @@ function LogoIcon({
 }) {
   const boxClass =
     size === "mobile" || size === "mobileCompact"
-      ? "flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-2xl bg-white shadow-lg shadow-black/30"
+      ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-black/30 min-[360px]:h-[48px] min-[360px]:w-[48px] min-[360px]:rounded-2xl"
       : "flex h-[64px] w-[64px] shrink-0 items-center justify-center";
 
   const compactBoxClass =
@@ -546,7 +542,7 @@ function LogoIcon({
 
   const svgClass =
     size === "mobile"
-      ? "h-10 w-10"
+      ? "h-9 w-9 min-[360px]:h-10 min-[360px]:w-10"
       : size === "mobileCompact"
         ? "h-9 w-9"
         : "h-[64px] w-[64px]";

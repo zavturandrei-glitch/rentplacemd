@@ -5,7 +5,6 @@ import HomeCategoryLinks from "@/components/HomeCategoryLinks";
 import HomeLatestApartments from "@/components/HomeLatestApartments";
 import HomeNavigation from "@/components/HomeNavigation";
 import LocationMap from "@/components/LocationMap";
-import OwnersCta from "@/components/OwnersCta";
 import CityVideoRail from "@/components/CityVideoRail";
 import Footer from "@/components/Footer";
 import { getHomeMetadata } from "@/lib/infoSeo";
@@ -27,13 +26,12 @@ export default async function Home() {
   ].slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen overflow-x-clip bg-[#07111f]">
       <Header />
       <Hero />
+      <HomeNavigation />
       <HomeCategoryLinks />
       <HomeLatestApartments />
-      <OwnersCta />
-      <HomeNavigation />
       <CityVideoRail videos={homeVideos} placement="home" />
       <LocationMap />
       <Footer />

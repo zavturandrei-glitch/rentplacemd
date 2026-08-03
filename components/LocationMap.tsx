@@ -18,7 +18,6 @@ const cityByLanguage: Record<Language, string> = {
 
 const textByLanguage: Record<Language, {
   title: string;
-  text: (count: number) => string;
   open: string;
   apartments: string;
   loading: string;
@@ -26,7 +25,6 @@ const textByLanguage: Record<Language, {
 }> = {
   ru: {
     title: "RentPlaceMD на карте",
-    text: (count) => `${count} адресов в Кишинёве — без маршрутов и лишних панелей.`,
     open: "Открыть адрес в Google Maps",
     apartments: "Квартиры по этому адресу",
     loading: "Загружаем карту",
@@ -34,7 +32,6 @@ const textByLanguage: Record<Language, {
   },
   ro: {
     title: "RentPlaceMD pe hartă",
-    text: (count) => `${count} adrese în Chișinău, fără trasee sau panouri inutile.`,
     open: "Deschide adresa în Google Maps",
     apartments: "Apartamente la această adresă",
     loading: "Se încarcă harta",
@@ -42,7 +39,6 @@ const textByLanguage: Record<Language, {
   },
   en: {
     title: "RentPlaceMD on the map",
-    text: (count) => `${count} Chișinău addresses, without routes or distracting panels.`,
     open: "Open address in Google Maps",
     apartments: "Apartments at this address",
     loading: "Loading the map",
@@ -50,7 +46,6 @@ const textByLanguage: Record<Language, {
   },
   uk: {
     title: "RentPlaceMD на карті",
-    text: (count) => `${count} адрес у Кишиневі — без маршрутів і зайвих панелей.`,
     open: "Відкрити адресу в Google Maps",
     apartments: "Квартири за цією адресою",
     loading: "Завантажуємо карту",
@@ -58,7 +53,6 @@ const textByLanguage: Record<Language, {
   },
   cs: {
     title: "RentPlaceMD na mapě",
-    text: (count) => `${count} adres v Kišiněvě bez tras a zbytečných panelů.`,
     open: "Otevřít adresu v Google Maps",
     apartments: "Apartmány na této adrese",
     loading: "Načítá se mapa",
@@ -144,6 +138,19 @@ export default function LocationMap() {
         .addTo(map);
 
       const bounds = leaflet.latLngBounds([]);
+      const points = visibleLocations.map((location) =>
+        leaflet.latLng(location.latitude, location.longitude),
+      );
+
+      leaflet.polyline(points, {
+        color: "#38bdf8",
+        weight: 3,
+        opacity: 0.72,
+        lineCap: "round",
+        lineJoin: "round",
+        dashArray: "8 9",
+        interactive: false,
+      }).addTo(map);
 
       visibleLocations.forEach((location, index) => {
         const icon = leaflet.divIcon({
@@ -213,23 +220,19 @@ export default function LocationMap() {
   return (
     <section
       id="rentplace-map"
-      className="scroll-mt-[210px] bg-[#fffaf0] px-4 py-10 sm:px-6 sm:py-14 lg:scroll-mt-8 lg:px-8 lg:py-16"
+      className="scroll-mt-[180px] bg-[#07111f] px-4 py-8 sm:px-6 sm:py-12 lg:scroll-mt-8 lg:px-8"
     >
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-[22px] bg-white shadow-[0_14px_44px_rgba(15,23,42,0.08)] ring-1 ring-black/6 sm:rounded-[26px]">
-        <header className="px-5 py-6 sm:px-8 sm:py-8">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">RentPlace</p>
-          <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-[-0.03em] text-[#07111f] sm:text-4xl">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-[22px] border border-white/10 bg-[#111e31] shadow-[0_16px_44px_rgba(0,0,0,.25)] sm:rounded-[26px]">
+        <header className="px-5 py-5 sm:px-8 sm:py-7">
+          <h2 className="text-xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl">
             {text.title}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
-            {text.text(rentPlaceLocationCount)}
-          </p>
         </header>
 
-        <div className="relative border-t border-black/6 bg-[#e9e5dc]">
+        <div className="relative border-t border-white/10 bg-[#e9e5dc]">
           <div
             ref={mapContainerRef}
-            className={`${styles.map} h-[360px] sm:h-[460px] lg:h-[520px]`}
+            className={`${styles.map} h-[330px] sm:h-[430px] lg:h-[500px]`}
             role="region"
             aria-label={text.mapTitle(rentPlaceLocationCount)}
             aria-busy={!mapReady}

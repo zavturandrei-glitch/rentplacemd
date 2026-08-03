@@ -52,9 +52,9 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
   }
 
   return (
-    <div className="w-full min-w-0 rounded-lg border border-white/10 bg-white/[0.06] px-2 py-1.5 text-white shadow-inner lg:w-[210px] lg:bg-white/[0.05] xl:w-[255px]">
+    <div className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/[0.06] p-1 text-white shadow-inner lg:w-[210px] lg:flex-none lg:bg-white/[0.05] lg:px-2 lg:py-1.5 xl:w-[255px]">
       <div className="flex min-w-0 items-center gap-1.5">
-        <h2 className="min-w-[74px] max-w-[96px] shrink text-[10px] font-black uppercase leading-tight tracking-[0.06em] text-white/90 lg:min-w-[68px] lg:max-w-[86px] lg:text-[9px] xl:min-w-[82px] xl:max-w-[112px] xl:text-[11px]">
+        <h2 className="sr-only lg:not-sr-only lg:min-w-[68px] lg:max-w-[86px] lg:shrink lg:text-[9px] lg:font-black lg:uppercase lg:leading-tight lg:tracking-[0.06em] lg:text-white/90 xl:min-w-[82px] xl:max-w-[112px] xl:text-[11px]">
           {t.hero.idTitle}
         </h2>
 
@@ -68,13 +68,13 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
           }}
           placeholder="76"
           aria-label={t.hero.idTitle}
-          className="h-9 min-w-0 flex-1 rounded-md border border-white/15 bg-white px-2 text-center text-[16px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] lg:h-8 lg:text-[14px]"
+          className="h-10 w-[46px] min-w-0 flex-1 rounded-lg border border-white/15 bg-white px-1 text-center text-[15px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] lg:h-8 lg:text-[14px]"
         />
 
         <button
           type="button"
           onClick={openApartmentById}
-          className="h-9 shrink-0 rounded-md bg-[#ffd21f] px-3 text-[12px] font-black leading-none text-[#07111f] shadow-sm transition active:scale-95 lg:h-8 lg:px-3.5 lg:hover:bg-white"
+          className="h-10 shrink-0 rounded-lg bg-[#ffd21f] px-2.5 text-[11px] font-black leading-none text-[#07111f] shadow-sm transition active:scale-95 lg:h-8 lg:px-3.5 lg:text-[12px] lg:hover:bg-white"
         >
           {t.hero.find}
         </button>
