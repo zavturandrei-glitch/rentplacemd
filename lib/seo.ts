@@ -24,7 +24,7 @@ export const baseUrl = "https://rentplace.md";
 export const siteName = "RentPlaceMD";
 export const defaultLocale = "ru_MD";
 export const alternateOpenGraphLocales = ["ro_MD", "en_US", "uk_UA", "cs_CZ"];
-export const mainSocialImagePath = "/og/rentplace-main-1200x630-v2.jpg";
+export const mainSocialImagePath = "/og/rentplace-gold-main-1200x630-v3.jpg";
 export const mainSocialImageUrl = baseUrl + mainSocialImagePath;
 export const mainSocialImageAlt = "RentPlace.md — квартиры посуточно в Кишинёве";
 export const mainSocialImage = {
@@ -79,14 +79,14 @@ export const kindTitle = {
 
 export const iconMetadata: Metadata["icons"] = {
   icon: [
-    { url: "/favicon.ico", sizes: "any" },
-    { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-    { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-    { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
-    { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    { url: "/brand/rentplace-favicon-gold-v3.ico", sizes: "any", type: "image/x-icon" },
+    { url: "/brand/rentplace-favicon-gold-v3-16.png", sizes: "16x16", type: "image/png" },
+    { url: "/brand/rentplace-favicon-gold-v3-32.png", sizes: "32x32", type: "image/png" },
+    { url: "/brand/rentplace-favicon-gold-v3-48.png", sizes: "48x48", type: "image/png" },
+    { url: "/brand/rentplace-icon-gold-v3-512.png", sizes: "512x512", type: "image/png" },
   ],
-  shortcut: ["/favicon.ico"],
-  apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  shortcut: ["/brand/rentplace-favicon-gold-v3.ico"],
+  apple: [{ url: "/brand/rentplace-apple-touch-gold-v3.png", sizes: "180x180", type: "image/png" }],
 };
 
 export function getApartmentSlug(id: ApartmentId) {
@@ -571,7 +571,7 @@ export function buildSiteJsonLd() {
       "@id": baseUrl + "/#organization",
       name: siteName,
       url: baseUrl,
-      logo: baseUrl + "/icon.png",
+      logo: baseUrl + "/brand/rentplace-icon-gold-v3-512.png",
       image: imageObjects([mainSocialImagePath], () => "RentPlaceMD apartments in Chisinau"),
       sameAs,
       contactPoint: [
@@ -604,7 +604,7 @@ export function buildSiteJsonLd() {
       image: imageObjects([mainSocialImagePath, "/main.jpg"], (index) =>
         index === 1 ? "RentPlaceMD apartments in Chisinau" : "Ismail 88 apartment building in Chisinau",
       ),
-      logo: baseUrl + "/icon.png",
+      logo: baseUrl + "/brand/rentplace-icon-gold-v3-512.png",
       telephone: phoneNumbers,
       priceRange: "800-1400 MDL",
       address: {

@@ -145,7 +145,7 @@ export default function HomeNavigation() {
                 </span>
               </>
             );
-            const classes = `group flex h-[190px] min-w-0 flex-col overflow-hidden rounded-[20px] border border-white/[0.08] shadow-[0_12px_32px_rgba(0,0,0,.2)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[.985] sm:h-[208px] ${card.tone} ${card.textTone}`;
+            const classes = `group flex h-[172px] min-w-0 flex-col overflow-hidden rounded-[20px] border border-white/[0.08] shadow-[0_12px_32px_rgba(0,0,0,.2)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[.985] sm:h-[208px] ${card.tone} ${card.textTone}`;
 
             return card.key === "quick" ? (
               <button key={card.key} type="button" onClick={() => setShowRequest(true)} className={`${classes} text-left`}>

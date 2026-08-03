@@ -52,7 +52,7 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
   }
 
   return (
-    <div className="flex-none text-white lg:w-[210px] lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.05] lg:px-2 lg:py-1.5 lg:shadow-inner xl:w-[255px]">
+    <div className="ml-2 flex-none -translate-y-0.5 text-white lg:ml-0 lg:w-[210px] lg:translate-y-0 lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.05] lg:px-2 lg:py-1.5 lg:shadow-inner xl:w-[255px]">
       <div className="flex min-w-0 items-center gap-1">
         <h2 className="shrink-0 whitespace-nowrap text-[7px] font-black uppercase leading-none tracking-[0.015em] text-white/90 min-[390px]:text-[7.5px] lg:min-w-[68px] lg:max-w-[86px] lg:whitespace-normal lg:text-[9px] lg:leading-tight lg:tracking-[0.06em] xl:min-w-[82px] xl:max-w-[112px] xl:text-[11px]">
           {t.hero.idTitle}

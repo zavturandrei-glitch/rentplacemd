@@ -16,11 +16,11 @@ export default function BrandLogo({
       subtitle: "text-[4.5px] tracking-[0.08em]",
     },
     mobile: {
-      root: "gap-2",
-      mark: "h-10 w-11",
-      monogram: "text-[28px]",
-      name: "text-[15px] tracking-[0.12em]",
-      subtitle: "text-[5px] tracking-[0.09em]",
+      root: "gap-1.5",
+      mark: "h-9 w-10",
+      monogram: "text-[25px]",
+      name: "text-[14px] tracking-[0.12em]",
+      subtitle: "text-[4.5px] tracking-[0.08em]",
     },
     desktop: {
       root: "gap-3",

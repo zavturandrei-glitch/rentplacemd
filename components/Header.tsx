@@ -287,7 +287,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
         </div>
       </div>
 
-      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-1">
+      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-0.5">
         <div className="flex items-start justify-between gap-2">
           <Link
             href="/"
@@ -303,13 +303,13 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
             <div
               className={[
                 "space-y-0.5 font-black leading-[1.02] text-white",
-                apartmentMode ? "text-[11px] min-[390px]:text-[14px]" : "text-[11px] min-[360px]:text-[14px]",
+                apartmentMode ? "text-[10.5px] min-[390px]:text-[13px]" : "text-[10.5px] min-[360px]:text-[13px]",
               ].join(" ")}
             >
-              <a href="tel:+37379990190" className="flex min-h-6 items-center justify-end">
+              <a href="tel:+37379990190" className="flex min-h-5 items-center justify-end">
                 +373 79 990 190
               </a>
-              <a href="tel:+37369990190" className="flex min-h-6 items-center justify-end">
+              <a href="tel:+37369990190" className="flex min-h-5 items-center justify-end">
                 +373 69 990 190
               </a>
             </div>
@@ -317,21 +317,21 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
           </div>
         </div>
 
-        <div className="mt-1 flex min-w-0 items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center justify-between gap-2">
           <ApartmentIdSearch variant="header" />
           <div className="ml-auto flex shrink-0 items-center gap-1.5">
             <a
               href="https://wa.me/37369990190"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-md shadow-emerald-500/15 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-8 min-[390px]:w-8"
+              className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-md shadow-emerald-500/15 ring-1 ring-white/10 after:absolute after:-inset-[3px] transition active:scale-95"
               aria-label="WhatsApp"
             >
               <WhatsAppIcon />
             </a>
             <a
               href="viber://chat?number=%2B37369990190"
-              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-md shadow-violet-500/15 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-8 min-[390px]:w-8"
+              className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-md shadow-violet-500/15 ring-1 ring-white/10 after:absolute after:-inset-[3px] transition active:scale-95"
               aria-label="Viber"
             >
               <ViberIcon />
@@ -340,7 +340,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
               href="https://t.me/rentplacemd"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-md shadow-sky-500/15 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-8 min-[390px]:w-8"
+              className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-md shadow-sky-500/15 ring-1 ring-white/10 after:absolute after:-inset-[3px] transition active:scale-95"
               aria-label="Telegram"
             >
               <TelegramIcon />

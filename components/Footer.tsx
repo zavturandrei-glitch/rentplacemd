@@ -4,17 +4,107 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatApartmentCountText } from "@/lib/apartments";
+import type { Language } from "@/locales/translations";
 
 type FooterTranslation = ReturnType<typeof useLanguage>["t"];
 
-export default function Footer() {
-  const { t } = useLanguage();
+const compactHomeCopy: Record<Language, { cta: string; bottom: string }> = {
+  ru: { cta: "Смотреть все квартиры", bottom: "Квартиры посуточно в Кишинёве" },
+  ro: { cta: "Vezi toate apartamentele", bottom: "Apartamente în chirie pe zi în Chișinău" },
+  en: { cta: "View all apartments", bottom: "Daily apartments in Chisinau" },
+  uk: { cta: "Дивитися всі квартири", bottom: "Квартири подобово в Кишиневі" },
+  cs: { cta: "Zobrazit všechny apartmány", bottom: "Apartmány na den v Kišiněvě" },
+};
+
+export default function Footer({ compactHome = false }: { compactHome?: boolean }) {
+  const { t, language } = useLanguage();
 
   return (
     <footer className="bg-gradient-to-b from-[#0b1628] to-[#07111f] text-white">
-      <MobileFooter t={t} />
+      {compactHome ? <CompactHomeFooter t={t} language={language} /> : <MobileFooter t={t} />}
       <DesktopFooter t={t} />
     </footer>
+  );
+}
+
+function CompactHomeFooter({
+  t,
+  language,
+}: {
+  t: FooterTranslation;
+  language: Language;
+}) {
+  const copy = compactHomeCopy[language];
+
+  return (
+    <div className="px-4 py-6 lg:hidden">
+      <div className="mx-auto max-w-md">
+        <div className="flex items-start justify-between gap-3">
+          <Link href="/" className="min-w-0 pt-1" aria-label="RentPlace">
+            <BrandLogo size="mobile" />
+          </Link>
+
+          <div className="shrink-0 text-right">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#ffd21f]">
+              {t.footer.contacts}
+            </p>
+            <div className="mt-1 space-y-0.5 text-[13px] font-black leading-tight">
+              <a href="tel:+37369990190" className="block min-h-5">+373 69 990 190</a>
+              <a href="tel:+37379990190" className="block min-h-5">+373 79 990 190</a>
+            </div>
+            <div className="mt-1.5 flex justify-end gap-1">
+              <CompactSocialLink href="https://wa.me/37369990190" label="WhatsApp" tone="bg-[#25D366]">
+                <WhatsAppIcon />
+              </CompactSocialLink>
+              <CompactSocialLink href="viber://chat?number=%2B37369990190" label="Viber" tone="bg-[#7360F2]">
+                <ViberIcon />
+              </CompactSocialLink>
+              <CompactSocialLink href="https://t.me/rentplacemd" label="Telegram" tone="bg-[#229ED9]">
+                <TelegramIcon />
+              </CompactSocialLink>
+            </div>
+          </div>
+        </div>
+
+        <Link
+          href="/apartments"
+          className="mt-5 flex min-h-12 items-center justify-center rounded-2xl bg-[#ffd21f] px-5 text-center text-[14px] font-black text-[#07111f] shadow-lg shadow-yellow-400/10 transition active:scale-[0.98]"
+        >
+          {copy.cta}
+        </Link>
+
+        <div className="mt-5 border-t border-white/10 pt-4 text-center">
+          <p className="text-[12px] font-bold text-white/68">{t.footer.copyright}</p>
+          <p className="mt-1 text-[11px] font-semibold text-white/42">{copy.bottom}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CompactSocialLink({
+  href,
+  label,
+  tone,
+  children,
+}: {
+  href: string;
+  label: string;
+  tone: string;
+  children: React.ReactNode;
+}) {
+  const external = href.startsWith("http");
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="flex h-9 w-9 items-center justify-center"
+      aria-label={label}
+    >
+      <span className={`flex h-7 w-7 items-center justify-center rounded-lg text-white shadow-md ring-1 ring-white/10 ${tone}`}>
+        {children}
+      </span>
+    </a>
   );
 }
 
