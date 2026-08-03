@@ -68,7 +68,7 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
           }}
           placeholder="76"
           aria-label={t.hero.idTitle}
-          className="h-9 w-10 rounded-lg border border-white/15 bg-white px-0.5 text-center text-[13px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] min-[390px]:w-11 min-[390px]:text-[14px] lg:h-8 lg:min-w-0 lg:flex-1 lg:text-[14px]"
+          className="h-9 w-14 rounded-lg border border-white/15 bg-white px-0.5 text-center text-[13px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] min-[390px]:w-16 min-[390px]:text-[14px] min-[430px]:w-[68px] lg:h-8 lg:min-w-0 lg:flex-1 lg:text-[14px]"
         />
 
         <button

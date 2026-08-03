@@ -14,5 +14,6 @@ The local WebP files in this directory are resized and compressed derivatives of
 | `wineries.webp` | *Vineyard at Cricova — Moldova* — David Stanley | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Vineyard_at_Cricova_-_Moldova_(by_David_Stanley).jpg) |
 | `attractions.webp` | *Chisinau cathedral at night* — Gikü | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chisinau_cathedral_at_night.jpg) |
 | `restaurants.webp` | *Hominy on a spoon and various vegetarian dishes* — Orhan Pergel | [Pexels License](https://www.pexels.com/license/) | [Pexels](https://www.pexels.com/photo/hominy-on-a-spoon-and-various-vegetarian-dishes-15793780/) |
+| `chisinau-cathedral-day.webp` | *The Metropolitan Cathedral, Chișinău* — Dorin Seremet | [Unsplash License](https://unsplash.com/license) | [Unsplash](https://unsplash.com/photos/white-and-green-dome-building-under-blue-sky-during-daytime-Qhy0SX5vv8w) |
 
 Changes made to all derivatives: orientation normalization, editorial crop, resize without artificial enlargement, and WebP compression. The files remain available under the source licenses shown above.

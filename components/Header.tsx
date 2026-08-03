@@ -260,7 +260,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
 
   return (
     <div className="lg:hidden bg-[#07111f] text-white shadow-2xl">
-      <div className="border-b border-white/10 bg-[#050b14] px-3 py-1.5">
+      <div className="border-b border-white/10 bg-[#050b14] px-3 py-1">
         <div className="flex items-center justify-between gap-2">
           <div className="flex min-w-0 items-center gap-2">
             {languages.map((lang) => (
@@ -287,7 +287,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
         </div>
       </div>
 
-      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-2">
+      <div className="bg-gradient-to-b from-[#07111f] to-[#0b1628] px-3 py-1">
         <div className="flex items-start justify-between gap-2">
           <Link
             href="/"
@@ -317,7 +317,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
           </div>
         </div>
 
-        <div className="mt-2 flex min-w-0 items-center justify-between gap-2">
+        <div className="mt-1 flex min-w-0 items-center justify-between gap-2">
           <ApartmentIdSearch variant="header" />
           <div className="ml-auto flex shrink-0 items-center gap-1.5">
             <a
