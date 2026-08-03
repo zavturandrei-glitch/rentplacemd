@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -7,83 +8,80 @@ import { ownersPath } from "@/lib/ownersContent";
 import type { Language } from "@/locales/translations";
 
 type CardKey = "quick" | "catalog" | "about" | "owners" | "guide" | "events" | "rules" | "transfer";
+type CardCopy = { title: string; text: string; alt: string };
 
 const copyByLanguage: Record<
   Language,
-  {
-    title: string;
-    close: string;
-    cards: Record<CardKey, { title: string; text: string; icon: string }>;
-  }
+  { title: string; close: string; cards: Record<CardKey, CardCopy> }
 > = {
   ru: {
     title: "Всё нужное — в одном месте",
     close: "Закрыть",
     cards: {
-      quick: { title: "Подобрать квартиру в один клик", text: "Напишите даты и число гостей", icon: "↗" },
-      catalog: { title: "Все квартиры", text: "Открыть полный каталог", icon: "⌂" },
-      about: { title: "О нас", text: "Как работает RentPlaceMD", icon: "i" },
-      owners: { title: "Передать квартиру в управление", text: "Для владельцев квартир", icon: "◇" },
-      guide: { title: "Гид по Кишинёву", text: "Места и идеи для поездки", icon: "◎" },
-      events: { title: "Календарь событий", text: "Концерты и фестивали", icon: "◫" },
-      rules: { title: "Правила заселения", text: "До приезда и при выезде", icon: "✓" },
-      transfer: { title: "Трансфер", text: "Из аэропорта до квартиры", icon: "→" },
+      quick: { title: "Подобрать квартиру в один клик", text: "Напишите даты и число гостей", alt: "Современная спальня в квартире RentPlace" },
+      catalog: { title: "Все квартиры", text: "Открыть полный каталог", alt: "Современная кухня в квартире RentPlace" },
+      about: { title: "О нас", text: "Кто мы, что такое RentPlace и как мы работаем", alt: "Светлая спальня в квартире RentPlace" },
+      owners: { title: "Передать квартиру в управление", text: "Для владельцев квартир · управление и сотрудничество", alt: "Премиальный интерьер квартиры RentPlace" },
+      guide: { title: "Гид по Кишинёву", text: "Места и идеи для поездки", alt: "Кафедральный собор в центре Кишинёва" },
+      events: { title: "Календарь событий", text: "Концерты, фестивали и главные события города", alt: "Площадь Великого национального собрания в Кишинёве" },
+      rules: { title: "Правила заселения", text: "Всё важное до приезда, при заселении и выезде", alt: "Подготовленная к заселению спальня" },
+      transfer: { title: "Трансфер", text: "Комфортный трансфер из аэропорта до квартиры", alt: "Peugeot 3008 для трансфера RentPlace" },
     },
   },
   ro: {
     title: "Tot ce ai nevoie, într-un singur loc",
     close: "Închide",
     cards: {
-      quick: { title: "Găsește apartamentul dintr-un click", text: "Trimite datele și numărul de oaspeți", icon: "↗" },
-      catalog: { title: "Toate apartamentele", text: "Deschide catalogul complet", icon: "⌂" },
-      about: { title: "Despre noi", text: "Cum funcționează RentPlaceMD", icon: "i" },
-      owners: { title: "Încredințează apartamentul spre administrare", text: "Pentru proprietari", icon: "◇" },
-      guide: { title: "Ghidul Chișinăului", text: "Locuri și idei de călătorie", icon: "◎" },
-      events: { title: "Calendar de evenimente", text: "Concerte și festivaluri", icon: "◫" },
-      rules: { title: "Reguli de cazare", text: "Înainte de sosire și plecare", icon: "✓" },
-      transfer: { title: "Transfer", text: "De la aeroport la apartament", icon: "→" },
+      quick: { title: "Găsește apartamentul dintr-un click", text: "Trimite datele și numărul de oaspeți", alt: "Dormitor modern într-un apartament RentPlace" },
+      catalog: { title: "Toate apartamentele", text: "Deschide catalogul complet", alt: "Bucătărie modernă într-un apartament RentPlace" },
+      about: { title: "Despre noi", text: "Cine suntem, ce este RentPlace și cum lucrăm", alt: "Dormitor luminos într-un apartament RentPlace" },
+      owners: { title: "Încredințează apartamentul spre administrare", text: "Administrare și colaborare pentru proprietari", alt: "Interior premium într-un apartament RentPlace" },
+      guide: { title: "Ghidul Chișinăului", text: "Locuri și idei pentru călătorie", alt: "Catedrala din centrul Chișinăului" },
+      events: { title: "Calendar de evenimente", text: "Concerte, festivaluri și evenimentele importante ale orașului", alt: "Piața Marii Adunări Naționale din Chișinău" },
+      rules: { title: "Reguli de cazare", text: "Tot ce contează înainte de sosire, la cazare și plecare", alt: "Dormitor pregătit pentru sosirea oaspeților" },
+      transfer: { title: "Transfer", text: "Transfer confortabil de la aeroport la apartament", alt: "Peugeot 3008 pentru transferul RentPlace" },
     },
   },
   en: {
     title: "Everything you need, in one place",
     close: "Close",
     cards: {
-      quick: { title: "Find an apartment in one click", text: "Send your dates and guest count", icon: "↗" },
-      catalog: { title: "All apartments", text: "Open the full catalogue", icon: "⌂" },
-      about: { title: "About us", text: "How RentPlaceMD works", icon: "i" },
-      owners: { title: "Put your apartment under management", text: "For apartment owners", icon: "◇" },
-      guide: { title: "Chișinău guide", text: "Places and trip ideas", icon: "◎" },
-      events: { title: "Events calendar", text: "Concerts and festivals", icon: "◫" },
-      rules: { title: "Check-in rules", text: "Before arrival and departure", icon: "✓" },
-      transfer: { title: "Transfer", text: "Airport to apartment", icon: "→" },
+      quick: { title: "Find an apartment in one click", text: "Send your dates and guest count", alt: "Modern bedroom in a RentPlace apartment" },
+      catalog: { title: "All apartments", text: "Open the full catalogue", alt: "Modern kitchen in a RentPlace apartment" },
+      about: { title: "About us", text: "Who we are, what RentPlace is and how we work", alt: "Bright bedroom in a RentPlace apartment" },
+      owners: { title: "Put your apartment under management", text: "Management and partnership for apartment owners", alt: "Premium RentPlace apartment interior" },
+      guide: { title: "Chișinău guide", text: "Places and ideas for your trip", alt: "Cathedral in central Chișinău" },
+      events: { title: "Events calendar", text: "Concerts, festivals and the city's main events", alt: "Great National Assembly Square in Chișinău" },
+      rules: { title: "Check-in rules", text: "What matters before arrival, at check-in and departure", alt: "Bedroom prepared for guest check-in" },
+      transfer: { title: "Transfer", text: "Comfortable airport-to-apartment transfer", alt: "Peugeot 3008 used for RentPlace transfers" },
     },
   },
   uk: {
     title: "Усе потрібне — в одному місці",
     close: "Закрити",
     cards: {
-      quick: { title: "Підібрати квартиру в один клік", text: "Надішліть дати та кількість гостей", icon: "↗" },
-      catalog: { title: "Усі квартири", text: "Відкрити повний каталог", icon: "⌂" },
-      about: { title: "Про нас", text: "Як працює RentPlaceMD", icon: "i" },
-      owners: { title: "Передати квартиру в управління", text: "Для власників квартир", icon: "◇" },
-      guide: { title: "Гід по Кишиневу", text: "Місця та ідеї для подорожі", icon: "◎" },
-      events: { title: "Календар подій", text: "Концерти та фестивалі", icon: "◫" },
-      rules: { title: "Правила заселення", text: "До приїзду та під час виїзду", icon: "✓" },
-      transfer: { title: "Трансфер", text: "З аеропорту до квартири", icon: "→" },
+      quick: { title: "Підібрати квартиру в один клік", text: "Надішліть дати та кількість гостей", alt: "Сучасна спальня у квартирі RentPlace" },
+      catalog: { title: "Усі квартири", text: "Відкрити повний каталог", alt: "Сучасна кухня у квартирі RentPlace" },
+      about: { title: "Про нас", text: "Хто ми, що таке RentPlace і як ми працюємо", alt: "Світла спальня у квартирі RentPlace" },
+      owners: { title: "Передати квартиру в управління", text: "Управління та співпраця для власників", alt: "Преміальний інтер’єр квартири RentPlace" },
+      guide: { title: "Гід по Кишиневу", text: "Місця та ідеї для подорожі", alt: "Кафедральний собор у центрі Кишинева" },
+      events: { title: "Календар подій", text: "Концерти, фестивалі та головні події міста", alt: "Площа Великих Національних Зборів у Кишиневі" },
+      rules: { title: "Правила заселення", text: "Усе важливе до приїзду, під час заселення та виїзду", alt: "Підготовлена до заселення спальня" },
+      transfer: { title: "Трансфер", text: "Комфортний трансфер з аеропорту до квартири", alt: "Peugeot 3008 для трансферу RentPlace" },
     },
   },
   cs: {
     title: "Vše potřebné na jednom místě",
     close: "Zavřít",
     cards: {
-      quick: { title: "Vybrat apartmán jedním kliknutím", text: "Pošlete termín a počet hostů", icon: "↗" },
-      catalog: { title: "Všechny apartmány", text: "Otevřít celý katalog", icon: "⌂" },
-      about: { title: "O nás", text: "Jak funguje RentPlaceMD", icon: "i" },
-      owners: { title: "Svěřit apartmán do správy", text: "Pro majitele apartmánů", icon: "◇" },
-      guide: { title: "Průvodce Kišiněvem", text: "Místa a tipy na cestu", icon: "◎" },
-      events: { title: "Kalendář akcí", text: "Koncerty a festivaly", icon: "◫" },
-      rules: { title: "Pravidla ubytování", text: "Před příjezdem a odjezdem", icon: "✓" },
-      transfer: { title: "Transfer", text: "Z letiště k apartmánu", icon: "→" },
+      quick: { title: "Vybrat apartmán jedním kliknutím", text: "Pošlete termín a počet hostů", alt: "Moderní ložnice v apartmánu RentPlace" },
+      catalog: { title: "Všechny apartmány", text: "Otevřít celý katalog", alt: "Moderní kuchyně v apartmánu RentPlace" },
+      about: { title: "O nás", text: "Kdo jsme, co je RentPlace a jak pracujeme", alt: "Světlá ložnice v apartmánu RentPlace" },
+      owners: { title: "Svěřit apartmán do správy", text: "Správa a spolupráce pro majitele apartmánů", alt: "Prémiový interiér apartmánu RentPlace" },
+      guide: { title: "Průvodce Kišiněvem", text: "Místa a tipy na cestu", alt: "Katedrála v centru Kišiněva" },
+      events: { title: "Kalendář akcí", text: "Koncerty, festivaly a hlavní akce ve městě", alt: "Náměstí Velkého národního shromáždění v Kišiněvě" },
+      rules: { title: "Pravidla ubytování", text: "Vše důležité před příjezdem, při ubytování a odjezdu", alt: "Ložnice připravená pro příjezd hostů" },
+      transfer: { title: "Transfer", text: "Pohodlný transfer z letiště k apartmánu", alt: "Peugeot 3008 pro transfer RentPlace" },
     },
   },
 };
@@ -91,17 +89,19 @@ const copyByLanguage: Record<
 const cardDefinitions: Array<{
   key: CardKey;
   href?: string;
+  image: string;
+  position?: string;
   tone: string;
   textTone: string;
 }> = [
-  { key: "quick", tone: "border-[#ff4fa3]/50 bg-[#d4146f]", textTone: "text-white" },
-  { key: "catalog", href: "/apartments", tone: "border-[#ffe670]/60 bg-[#ffd21f]", textTone: "text-[#07111f]" },
-  { key: "about", href: "/about", tone: "border-[#57e68b]/50 bg-[#25a95b]", textTone: "text-white" },
-  { key: "owners", href: ownersPath, tone: "border-[#9d8cff]/55 bg-[#6554d9]", textTone: "text-white" },
-  { key: "guide", href: "/chisinau-guide", tone: "border-[#61cfff]/50 bg-[#167eb2]", textTone: "text-white" },
-  { key: "events", href: "/events", tone: "border-[#75d7ff]/45 bg-[#126b9a]", textTone: "text-white" },
-  { key: "rules", href: "/check-in-rules", tone: "border-white/18 bg-[#111e31]", textTone: "text-white" },
-  { key: "transfer", href: "/transfer", tone: "border-white/18 bg-[#111e31]", textTone: "text-white" },
+  { key: "quick", image: "/apartments/coca-15-204/1.jpg", position: "center 57%", tone: "border-[#F3549C]/55 bg-[#D4146F]", textTone: "text-white" },
+  { key: "catalog", href: "/apartments", image: "/apartments/mihai-eminescu-76-me-76/1.jpg", tone: "border-[#FFE46C]/70 bg-[#FFD21F]", textTone: "text-[#07111F]" },
+  { key: "about", href: "/about", image: "/service-pages/about-apartment.webp", tone: "border-[#64E590]/55 bg-[#25D366]", textTone: "text-[#062514]" },
+  { key: "owners", href: ownersPath, image: "/apartments/coca-15-203/1.jpg", tone: "border-[#A99BFF]/55 bg-[#7360F2]", textTone: "text-white" },
+  { key: "guide", href: "/chisinau-guide", image: "/guide/attractions.webp", tone: "border-[#4FC4CF]/45 bg-[#137C8B]", textTone: "text-white" },
+  { key: "events", href: "/events", image: "/guide/events.webp", tone: "border-[#7198D1]/50 bg-[#315C9C]", textTone: "text-white" },
+  { key: "rules", href: "/check-in-rules", image: "/service-pages/check-in-ready.webp", tone: "border-[#D47E69]/45 bg-[#A24F3D]", textTone: "text-white" },
+  { key: "transfer", href: "/transfer", image: "/service-pages/transfer-city.webp", tone: "border-[#AE9761]/45 bg-[#75613A]", textTone: "text-white" },
 ];
 
 export default function HomeNavigation() {
@@ -124,18 +124,28 @@ export default function HomeNavigation() {
             const cardCopy = copy.cards[card.key];
             const content = (
               <>
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-current/15 bg-black/10 text-xl font-black" aria-hidden="true">
-                  {cardCopy.icon}
+                <span className="relative block h-[76px] shrink-0 overflow-hidden sm:h-[90px]">
+                  <Image
+                    src={card.image}
+                    alt={cardCopy.alt}
+                    fill
+                    sizes="(min-width: 1024px) 276px, (min-width: 640px) 47vw, 46vw"
+                    className="object-cover transition duration-500 group-hover:scale-[1.035]"
+                    style={{ objectPosition: card.position ?? "center" }}
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/5" />
                 </span>
-                <strong className="mt-auto text-[15px] font-black leading-[1.08] tracking-[-0.02em] sm:text-lg">
-                  {cardCopy.title}
-                </strong>
-                <span className="mt-1.5 line-clamp-2 text-[11px] font-semibold leading-4 opacity-75 sm:text-xs">
-                  {cardCopy.text}
+                <span className="flex min-h-0 flex-1 flex-col px-3.5 py-3 sm:px-4 sm:py-3.5">
+                  <strong className="text-[14px] font-black leading-[1.08] tracking-[-0.02em] sm:text-[17px]">
+                    {cardCopy.title}
+                  </strong>
+                  <span className="mt-1.5 line-clamp-3 text-[10.5px] font-semibold leading-[1.28] opacity-80 sm:text-xs">
+                    {cardCopy.text}
+                  </span>
                 </span>
               </>
             );
-            const classes = `flex h-[148px] min-w-0 flex-col rounded-[20px] border p-3.5 shadow-[0_12px_32px_rgba(0,0,0,.18)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[.985] sm:h-[170px] sm:p-5 ${card.tone} ${card.textTone}`;
+            const classes = `group flex h-[210px] min-w-0 flex-col overflow-hidden rounded-[20px] border shadow-[0_12px_32px_rgba(0,0,0,.2)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[.985] sm:h-[230px] ${card.tone} ${card.textTone}`;
 
             return card.key === "quick" ? (
               <button key={card.key} type="button" onClick={() => setShowRequest(true)} className={`${classes} text-left`}>
@@ -151,9 +161,13 @@ export default function HomeNavigation() {
       </div>
 
       {showRequest ? (
-        <div className="fixed inset-0 z-[90] flex items-end justify-center bg-[#020611]/75 p-3 backdrop-blur-sm sm:items-center" role="presentation" onMouseDown={(event) => {
-          if (event.target === event.currentTarget) setShowRequest(false);
-        }}>
+        <div
+          className="fixed inset-0 z-[90] flex items-end justify-center bg-[#020611]/75 p-3 backdrop-blur-sm sm:items-center"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowRequest(false);
+          }}
+        >
           <section role="dialog" aria-modal="true" aria-labelledby="quick-request-title" className="w-full max-w-xl rounded-[24px] border border-white/15 bg-[#101c2f] p-5 text-white shadow-2xl sm:p-7">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#ff83b9]">{t.hero.requestLabel}</p>
             <h2 id="quick-request-title" className="mt-2 text-2xl font-black">{t.hero.requestTitle}</h2>

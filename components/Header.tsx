@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ApartmentIdSearch from "@/components/ApartmentIdSearch";
+import BrandLogo from "@/components/BrandLogo";
 import { formatApartmentCountText } from "@/lib/apartments";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
@@ -201,8 +202,8 @@ function ApartmentCompactHeader({
       inert={!isVisible}
     >
       <div className="mx-auto flex min-h-11 max-w-md items-center justify-between gap-3">
-        <Link href="/" className="text-[17px] font-black tracking-tight">
-          RentPlace<span className="text-[#d4146f]">MD</span>
+        <Link href="/" aria-label="RentPlace">
+          <BrandLogo size="compact" />
         </Link>
         <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black">
           ID {apartmentId}
@@ -295,31 +296,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
               apartmentMode ? "gap-1.5" : "gap-1.5 min-[360px]:gap-2",
             ].join(" ")}
           >
-            <LogoIcon size={apartmentMode ? "mobileCompact" : "mobile"} />
-
-            <div className="min-w-0">
-              <div
-                className={[
-                  "font-black leading-none tracking-tight text-white",
-                  apartmentMode
-                    ? "text-[18px]"
-                    : "truncate text-[15px] min-[360px]:text-[20px]",
-                ].join(" ")}
-              >
-                RentPlace<span className="text-[#d4146f]">MD</span>
-                <sup className="ml-0.5 align-super text-[8px] font-bold text-white/80">
-                  ™
-                </sup>
-              </div>
-              <p
-                className={[
-                  "mt-1 hidden whitespace-nowrap text-[9px] font-semibold leading-none text-white/65 min-[360px]:block",
-                  apartmentMode ? "min-[360px]:hidden min-[390px]:block" : "",
-                ].join(" ")}
-              >
-                {text.tagline}
-              </p>
-            </div>
+            <BrandLogo size={apartmentMode ? "compact" : "mobile"} />
           </Link>
 
           <div className="shrink-0 text-right">
@@ -340,19 +317,20 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
           </div>
         </div>
 
-        <div className="mt-2 flex min-w-0 items-center gap-1.5">
+        <div className="mt-2 flex min-w-0 items-center gap-1">
+          <ApartmentIdSearch variant="header" />
           <a
             href="https://wa.me/37369990190"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition active:scale-95"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-10 min-[390px]:w-10 min-[390px]:rounded-xl"
             aria-label="WhatsApp"
           >
             <WhatsAppIcon />
           </a>
           <a
             href="viber://chat?number=%2B37369990190"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition active:scale-95"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-10 min-[390px]:w-10 min-[390px]:rounded-xl"
             aria-label="Viber"
           >
             <ViberIcon />
@@ -361,12 +339,11 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
             href="https://t.me/rentplacemd"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition active:scale-95"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-10 min-[390px]:w-10 min-[390px]:rounded-xl"
             aria-label="Telegram"
           >
             <TelegramIcon />
           </a>
-          <ApartmentIdSearch variant="header" />
         </div>
       </div>
     </div>
@@ -391,19 +368,7 @@ function DesktopHeader() {
           href="/"
           className="group flex shrink-0 items-center gap-2.5 transition duration-200 hover:scale-[1.015] xl:gap-3.5"
         >
-          <LogoIcon size="desktop" />
-
-          <div>
-            <div className="text-[26px] font-black leading-none tracking-tight xl:text-[31px]">
-              RentPlace<span className="text-[#d4146f]">MD</span>
-              <sup className="ml-0.5 align-super text-[9px] font-bold text-white/80">
-                ™
-              </sup>
-            </div>
-            <p className="mt-1.5 text-[11px] font-semibold text-white/65 xl:text-[12px]">
-              {text.tagline}
-            </p>
-          </div>
+          <BrandLogo size="desktop" />
         </Link>
 
         <div className="flex flex-1 items-center justify-center">
@@ -521,74 +486,6 @@ function DesktopHeader() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function LogoIcon({
-  size,
-}: {
-  size: "mobile" | "mobileCompact" | "desktop";
-}) {
-  const boxClass =
-    size === "mobile" || size === "mobileCompact"
-      ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-black/30 min-[360px]:h-[48px] min-[360px]:w-[48px] min-[360px]:rounded-2xl"
-      : "flex h-[64px] w-[64px] shrink-0 items-center justify-center";
-
-  const compactBoxClass =
-    size === "mobileCompact"
-      ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-black/30"
-      : boxClass;
-
-  const svgClass =
-    size === "mobile"
-      ? "h-9 w-9 min-[360px]:h-10 min-[360px]:w-10"
-      : size === "mobileCompact"
-        ? "h-9 w-9"
-        : "h-[64px] w-[64px]";
-
-  const mainColor = size === "desktop" ? "white" : "#07111f";
-
-  return (
-    <div className={compactBoxClass}>
-      <svg viewBox="0 0 96 96" className={svgClass} fill="none">
-        <path
-          d="M12 76C28 70 68 70 84 76"
-          stroke={mainColor}
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <path
-          d="M18 70V38L36 28V70"
-          stroke={mainColor}
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M36 70V18L56 8V70"
-          stroke={mainColor}
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M56 70V32L76 42V70"
-          stroke="#d4146f"
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M27 70V48"
-          stroke={mainColor}
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <path
-          d="M66 70V52"
-          stroke="#d4146f"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-      </svg>
     </div>
   );
 }

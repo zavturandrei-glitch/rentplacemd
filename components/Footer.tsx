@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatApartmentCountText } from "@/lib/apartments";
 
@@ -22,20 +23,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
     <div className="lg:hidden px-4 pt-8 pb-28">
       <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/25">
         <Link href="/" className="flex items-center gap-3">
-          <LogoIcon size="mobile" />
-
-          <div className="min-w-0">
-            <div className="truncate text-[28px] font-black leading-none tracking-tight text-white">
-              RentPlace<span className="text-[#d4146f]">MD</span>
-              <sup className="ml-0.5 align-super text-[8px] font-bold text-white/80">
-                ™
-              </sup>
-            </div>
-
-            <p className="mt-1.5 text-[13px] font-semibold leading-tight text-white/65">
-              {t.common.brandSubtitle}
-            </p>
-          </div>
+          <BrandLogo size="mobile" />
         </Link>
 
         <div className="mt-6 grid grid-cols-2 gap-2.5">
@@ -133,20 +121,7 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
               href="/"
               className="group flex items-center gap-5 transition duration-200 hover:scale-[1.01]"
             >
-              <LogoIcon size="desktop" />
-
-              <div>
-                <div className="text-[39px] font-black leading-none tracking-tight text-white">
-                  RentPlace<span className="text-[#d4146f]">MD</span>
-                  <sup className="ml-0.5 align-super text-[9px] font-bold text-white/80">
-                    ™
-                  </sup>
-                </div>
-
-                <p className="mt-2 text-[15px] font-semibold text-white/70">
-                  {t.common.brandSubtitle}
-                </p>
-              </div>
+              <BrandLogo size="desktop" />
             </Link>
 
             <div className="mt-6 grid max-w-xl grid-cols-2 gap-3">
@@ -256,58 +231,6 @@ function BenefitItem({ icon, text }: { icon: React.ReactNode; text: string }) {
         {icon}
       </span>
       <span className="leading-tight">{text}</span>
-    </div>
-  );
-}
-
-function LogoIcon({ size }: { size: "mobile" | "desktop" }) {
-  const boxClass =
-    size === "mobile"
-      ? "flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[22px] bg-white shadow-lg shadow-black/30"
-      : "flex h-[80px] w-[80px] shrink-0 items-center justify-center rounded-[28px] bg-white shadow-lg shadow-black/25";
-
-  const svgClass = size === "mobile" ? "h-[46px] w-[46px]" : "h-[64px] w-[64px]";
-
-  return (
-    <div className={boxClass}>
-      <svg viewBox="0 0 96 96" className={svgClass} fill="none">
-        <path
-          d="M12 76C28 70 68 70 84 76"
-          stroke="#07111f"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <path
-          d="M18 70V38L36 28V70"
-          stroke="#07111f"
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M36 70V18L56 8V70"
-          stroke="#07111f"
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M56 70V32L76 42V70"
-          stroke="#d4146f"
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M27 70V48"
-          stroke="#07111f"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <path
-          d="M66 70V52"
-          stroke="#d4146f"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-      </svg>
     </div>
   );
 }
