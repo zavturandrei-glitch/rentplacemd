@@ -52,9 +52,9 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
   }
 
   return (
-    <div className="min-w-0 flex-1 text-white lg:w-[210px] lg:flex-none lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.05] lg:px-2 lg:py-1.5 lg:shadow-inner xl:w-[255px]">
+    <div className="flex-none text-white lg:w-[210px] lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.05] lg:px-2 lg:py-1.5 lg:shadow-inner xl:w-[255px]">
       <div className="flex min-w-0 items-center gap-1">
-        <h2 className="w-[39px] shrink-0 text-[7px] font-black uppercase leading-[1.05] tracking-[0.02em] text-white/90 min-[390px]:w-[44px] min-[390px]:text-[7.5px] lg:min-w-[68px] lg:max-w-[86px] lg:w-auto lg:shrink lg:text-[9px] lg:leading-tight lg:tracking-[0.06em] xl:min-w-[82px] xl:max-w-[112px] xl:text-[11px]">
+        <h2 className="shrink-0 whitespace-nowrap text-[7px] font-black uppercase leading-none tracking-[0.015em] text-white/90 min-[390px]:text-[7.5px] lg:min-w-[68px] lg:max-w-[86px] lg:whitespace-normal lg:text-[9px] lg:leading-tight lg:tracking-[0.06em] xl:min-w-[82px] xl:max-w-[112px] xl:text-[11px]">
           {t.hero.idTitle}
         </h2>
 
@@ -68,13 +68,13 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
           }}
           placeholder="76"
           aria-label={t.hero.idTitle}
-          className="h-9 w-[32px] min-w-0 flex-1 rounded-lg border border-white/15 bg-white px-0.5 text-center text-[13px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] min-[390px]:w-[38px] min-[390px]:text-[14px] lg:h-8 lg:text-[14px]"
+          className="h-9 w-10 rounded-lg border border-white/15 bg-white px-0.5 text-center text-[13px] font-black leading-none text-[#07111f] outline-none placeholder:text-slate-400 focus:border-[#ffd21f] min-[390px]:w-11 min-[390px]:text-[14px] lg:h-8 lg:min-w-0 lg:flex-1 lg:text-[14px]"
         />
 
         <button
           type="button"
           onClick={openApartmentById}
-          className="h-9 shrink-0 rounded-lg bg-[#ffd21f] px-1.5 text-[9px] font-black leading-none text-[#07111f] shadow-sm transition active:scale-95 min-[390px]:px-2 min-[390px]:text-[10px] lg:h-8 lg:px-3.5 lg:text-[12px] lg:hover:bg-white"
+          className="h-9 shrink-0 rounded-lg bg-[#ffd21f] px-2 text-[9px] font-black leading-none text-[#07111f] shadow-sm transition active:scale-95 min-[390px]:px-2.5 min-[390px]:text-[10px] lg:h-8 lg:px-3.5 lg:text-[12px] lg:hover:bg-white"
         >
           {t.hero.find}
         </button>

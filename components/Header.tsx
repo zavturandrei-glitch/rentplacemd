@@ -317,33 +317,35 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
           </div>
         </div>
 
-        <div className="mt-2 flex min-w-0 items-center gap-1">
+        <div className="mt-2 flex min-w-0 items-center justify-between gap-2">
           <ApartmentIdSearch variant="header" />
-          <a
-            href="https://wa.me/37369990190"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-10 min-[390px]:w-10 min-[390px]:rounded-xl"
-            aria-label="WhatsApp"
-          >
-            <WhatsAppIcon />
-          </a>
-          <a
-            href="viber://chat?number=%2B37369990190"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-10 min-[390px]:w-10 min-[390px]:rounded-xl"
-            aria-label="Viber"
-          >
-            <ViberIcon />
-          </a>
-          <a
-            href="https://t.me/rentplacemd"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-10 min-[390px]:w-10 min-[390px]:rounded-xl"
-            aria-label="Telegram"
-          >
-            <TelegramIcon />
-          </a>
+          <div className="ml-auto flex shrink-0 items-center gap-1.5">
+            <a
+              href="https://wa.me/37369990190"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-md shadow-emerald-500/15 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-8 min-[390px]:w-8"
+              aria-label="WhatsApp"
+            >
+              <WhatsAppIcon />
+            </a>
+            <a
+              href="viber://chat?number=%2B37369990190"
+              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[#7360F2] text-white shadow-md shadow-violet-500/15 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-8 min-[390px]:w-8"
+              aria-label="Viber"
+            >
+              <ViberIcon />
+            </a>
+            <a
+              href="https://t.me/rentplacemd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[#229ED9] text-white shadow-md shadow-sky-500/15 ring-1 ring-white/10 transition active:scale-95 min-[390px]:h-8 min-[390px]:w-8"
+              aria-label="Telegram"
+            >
+              <TelegramIcon />
+            </a>
+          </div>
         </div>
       </div>
     </div>
