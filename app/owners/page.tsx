@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import JsonLdScript from "@/components/JsonLdScript";
 import OwnersPage from "@/components/OwnersPage";
@@ -16,9 +17,10 @@ export default async function OwnersRoute({ searchParams }: PageProps) {
   const language = first((await searchParams).lang);
 
   return (
-    <main className="mobile-dark-page min-h-screen bg-[#fffaf0]">
+    <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id="owners-jsonld" data={buildOwnersJsonLd(language)} />
-      <Header showBack preserveDesktopBack />
+      <Header />
+      <BackButton />
       <OwnersPage />
       <Footer />
     </main>

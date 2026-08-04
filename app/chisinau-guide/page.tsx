@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import GuideHub from "@/components/GuideHub";
 import JsonLdScript from "@/components/JsonLdScript";
@@ -21,9 +22,10 @@ export default async function ChisinauGuidePage({ searchParams }: PageProps) {
   const language = first(query.lang);
 
   return (
-    <main className="mobile-dark-page min-h-screen bg-[#fffaf0]">
+    <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id="guide-jsonld" data={buildGuideHubJsonLd(language)} />
-      <Header showBack preserveDesktopBack />
+      <Header />
+      <BackButton />
       <GuideHub />
       <Footer />
     </main>

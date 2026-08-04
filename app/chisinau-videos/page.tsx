@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackButton from "@/components/BackButton";
 import CityVideoLibrary from "@/components/CityVideoLibrary";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -22,9 +23,10 @@ export default async function ChisinauVideosPage({ searchParams }: PageProps) {
   const videos = await readPublishedCityVideos();
 
   return (
-    <main className="mobile-dark-page min-h-screen bg-[#fffaf0]">
+    <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id="city-videos-jsonld" data={buildCityVideoPageJsonLd(language)} />
-      <Header showBack preserveDesktopBack />
+      <Header />
+      <BackButton />
       <CityVideoLibrary videos={videos} />
       <Footer />
     </main>

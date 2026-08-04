@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="mobile-dark-page flex min-h-screen flex-col bg-[#fffaf0]">
-      <Header showBack />
+    <main className="flex min-h-screen flex-col bg-[#fffaf0]">
+      <Header />
       <section className="flex flex-1 items-center justify-center px-4 py-16 sm:px-6">
         <div className="w-full max-w-xl rounded-[26px] border border-[#f0dfbf] bg-white p-7 text-center shadow-[0_18px_54px_rgba(15,23,42,0.08)] sm:p-10">
           <p className="text-sm font-black uppercase tracking-[0.22em] text-[#d4146f]">Ошибка 404</p>

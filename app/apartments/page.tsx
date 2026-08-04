@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import ApartmentCategoryMenu from "@/components/ApartmentCategoryMenu";
 import ApartmentCategoryContent from "@/components/ApartmentCategoryContent";
-import HomeCategoryLinks from "@/components/HomeCategoryLinks";
 import Footer from "@/components/Footer";
 import JsonLdScript from "@/components/JsonLdScript";
 import {
@@ -24,16 +23,13 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
   const jsonLd = getApartmentCategoryMenuJsonLd(typeof lang === "string" ? lang : undefined);
 
   return (
-    <main className="mobile-dark-page min-h-screen bg-[#efeee9]">
+    <main className="min-h-screen bg-[#efeee9]">
       <JsonLdScript
         id="apartment-categories-jsonld"
         data={jsonLd}
       />
-      <Header showBack />
+      <Header />
       <ApartmentCategoryMenu />
-      <div className="lg:hidden">
-        <HomeCategoryLinks />
-      </div>
       <ApartmentCategoryContent />
       <Footer />
     </main>

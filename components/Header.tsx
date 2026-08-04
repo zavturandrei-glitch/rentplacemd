@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ApartmentIdSearch from "@/components/ApartmentIdSearch";
-import BackButton from "@/components/BackButton";
 import BrandLogo from "@/components/BrandLogo";
 import { formatApartmentCountText } from "@/lib/apartments";
 
@@ -152,37 +151,23 @@ function useRentPlaceLanguage() {
 
 export default function Header({
   apartmentId,
-  showBack = false,
-  preserveDesktopBack = false,
 }: {
   apartmentId?: string | number;
-  showBack?: boolean;
-  preserveDesktopBack?: boolean;
 }) {
   return (
-    <>
-      <header
-        className={
-          apartmentId === undefined
-            ? "sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:static lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
-            : "relative z-40 bg-white text-slate-950 shadow-xl lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
-        }
-      >
-        <MobileHeader
-          apartmentMode={apartmentId !== undefined}
-          showBack={showBack}
-        />
-        <DesktopHeader />
-        {apartmentId !== undefined ? (
-          <ApartmentCompactHeader apartmentId={apartmentId} />
-        ) : null}
-      </header>
-      {preserveDesktopBack ? (
-        <div className="hidden lg:block">
-          <BackButton />
-        </div>
+    <header
+      className={
+        apartmentId === undefined
+          ? "sticky top-0 z-50 bg-white text-slate-950 shadow-xl lg:static lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
+          : "relative z-40 bg-white text-slate-950 shadow-xl lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
+      }
+    >
+      <MobileHeader apartmentMode={apartmentId !== undefined} />
+      <DesktopHeader />
+      {apartmentId !== undefined ? (
+        <ApartmentCompactHeader apartmentId={apartmentId} />
       ) : null}
-    </>
+    </header>
   );
 }
 
@@ -262,13 +247,7 @@ function ApartmentCompactHeader({
   );
 }
 
-function MobileHeader({
-  apartmentMode,
-  showBack,
-}: {
-  apartmentMode: boolean;
-  showBack: boolean;
-}) {
+function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
@@ -338,15 +317,9 @@ function MobileHeader({
           </div>
         </div>
 
-        {showBack ? (
-          <div className="flex min-w-0 items-center justify-between gap-2">
-            <BackButton variant="header" />
-            <ApartmentIdSearch variant="header" />
-          </div>
-        ) : (
-          <div className="flex min-w-0 items-center justify-between gap-2">
-            <ApartmentIdSearch variant="header" />
-            <div className="ml-auto flex shrink-0 items-center gap-1.5">
+        <div className="flex min-w-0 items-center justify-between gap-2">
+          <ApartmentIdSearch variant="header" />
+          <div className="ml-auto flex shrink-0 items-center gap-1.5">
             <a
               href="https://wa.me/37369990190"
               target="_blank"
@@ -372,9 +345,8 @@ function MobileHeader({
             >
               <TelegramIcon />
             </a>
-            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

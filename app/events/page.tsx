@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackButton from "@/components/BackButton";
 import EventsCalendar from "@/components/EventsCalendar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -50,9 +51,10 @@ export default async function EventsPage({ searchParams }: PageProps) {
     .filter((video) => video.date < getChisinauDateKey());
 
   return (
-    <main className="mobile-dark-page min-h-screen bg-[#fffaf0]">
+    <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id="events-jsonld" data={jsonLd} />
-      <Header showBack preserveDesktopBack />
+      <Header />
+      <BackButton />
       <EventsCalendar />
       <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
         <CityVideoRail videos={pastEventVideos} placement="events" />
