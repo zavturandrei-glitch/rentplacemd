@@ -867,7 +867,7 @@ const secondaryButton = "inline-flex min-h-12 items-center justify-center rounde
 function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusinessCopy }) {
   return (
     <article className="bg-[#faf9f6] text-[#07111f]">
-      <header className="mx-auto grid max-w-7xl gap-7 px-4 pb-8 pt-8 sm:gap-10 sm:px-6 sm:pb-16 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-8">
+      <header className="mx-auto grid max-w-7xl gap-10 px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-8">
         <div>
           <h1 className="max-w-5xl text-[2.25rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
             {business.title}
@@ -875,7 +875,7 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
             {business.lead}
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/apartments" className={primaryButton}>{business.chooseApartment}</Link>
             <Link href="#owners" className={secondaryButton}>{business.manageApartment}</Link>
           </div>
@@ -893,7 +893,7 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
       </header>
 
       <section className="border-y border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:px-6 sm:py-20 md:grid-cols-[0.34fr_0.66fr] md:gap-14 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-[0.34fr_0.66fr] md:gap-14 lg:px-8">
           <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.whoTitle}</h2>
           <div className="space-y-5 text-lg leading-8 text-slate-600">
             {business.who.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -901,9 +901,9 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{business.guestsTitle}</h2>
-        <ul className="mt-6 grid gap-px overflow-hidden rounded-[24px] border border-slate-200 bg-slate-200 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid gap-px overflow-hidden rounded-[24px] border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
           {business.guestItems.map((item) => (
             <li key={item} className="bg-white p-5 text-base font-medium leading-7 text-slate-700 sm:p-6">{item}</li>
           ))}
@@ -911,7 +911,7 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
       </section>
 
       <section id="owners" className="scroll-mt-[210px] bg-[#07111f] text-white lg:scroll-mt-8">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
           <div>
             <h2 className="text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-4xl">{business.ownersTitle}</h2>
             <p className="mt-5 text-lg leading-8 text-white/70">{business.ownersText}</p>
@@ -924,7 +924,7 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:gap-12 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-8">
+      <section className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-8">
         <div>
           <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.suitableTitle}</h2>
           <ul className="mt-7 divide-y divide-slate-300 border-y border-slate-300">
@@ -944,7 +944,7 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
         </div>
       </section>
 
-      <section className="border-t border-slate-200 bg-white px-4 py-10 sm:px-6 sm:py-18 lg:px-8">
+      <section className="border-t border-slate-200 bg-white px-4 py-14 sm:px-6 sm:py-18 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-3xl font-semibold tracking-[-0.03em]">{business.ownerCtaTitle}</h2>
           <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{business.ownerCtaText}</p>
@@ -964,7 +964,7 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
 function RulesPage({ copy }: { copy: RulesCopy }) {
   return (
     <article className="bg-[#faf9f6] text-[#07111f]">
-      <header className="mx-auto grid max-w-7xl gap-7 px-4 pb-8 pt-8 sm:gap-10 sm:px-6 sm:pb-14 sm:pt-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-16 lg:px-8">
+      <header className="mx-auto grid max-w-7xl gap-10 px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-16 lg:px-8">
         <div>
           <h1 className="text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-6xl">{copy.title}</h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">{copy.lead}</p>
@@ -982,9 +982,9 @@ function RulesPage({ copy }: { copy: RulesCopy }) {
         </div>
       </header>
 
-      <ol className="mx-auto max-w-5xl px-4 pb-10 sm:px-6 sm:pb-24 lg:px-8">
+      <ol className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-24 lg:px-8">
         {copy.steps.map((step, index) => (
-          <li key={step.title} className="grid gap-4 border-t border-slate-300 py-7 sm:grid-cols-[80px_1fr] sm:gap-8 sm:py-12">
+          <li key={step.title} className="grid gap-4 border-t border-slate-300 py-10 sm:grid-cols-[80px_1fr] sm:gap-8 sm:py-12">
             <span className="text-5xl font-light leading-none text-slate-300" aria-hidden="true">{index + 1}</span>
             <div>
               <h2 className="text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">{step.title}</h2>
@@ -1008,7 +1008,7 @@ function RulesPage({ copy }: { copy: RulesCopy }) {
 function TransferPage({ copy }: { copy: TransferCopy }) {
   return (
     <article className="bg-[#faf9f6] text-[#07111f]">
-      <header className="mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pb-12 sm:pt-12 lg:px-8">
+      <header className="mx-auto max-w-7xl px-4 pb-12 pt-8 sm:px-6 sm:pt-12 lg:px-8">
         <div className="grid gap-7 lg:grid-cols-[1fr_0.55fr] lg:items-end">
           <div>
             <h1 className="max-w-4xl text-[2.25rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-6xl">{copy.title}</h1>
@@ -1034,9 +1034,9 @@ function TransferPage({ copy }: { copy: TransferCopy }) {
         </div>
       </div>
 
-      <ol className="mx-auto grid max-w-7xl gap-0 px-4 py-10 sm:px-6 sm:py-24 lg:grid-cols-3 lg:px-8">
+      <ol className="mx-auto grid max-w-7xl gap-0 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-3 lg:px-8">
         {copy.sections.map((section, index) => (
-          <li key={section.title} className="border-t border-slate-300 py-7 sm:py-9 lg:border-l lg:border-t-0 lg:px-9 lg:py-0 first:lg:border-l-0 first:lg:pl-0">
+          <li key={section.title} className="border-t border-slate-300 py-9 lg:border-l lg:border-t-0 lg:px-9 lg:py-0 first:lg:border-l-0 first:lg:pl-0">
             <p className="text-sm text-slate-400">{index + 1}.</p>
             <h2 className="mt-5 text-2xl font-semibold tracking-[-0.02em]">{section.title}</h2>
             <div className="mt-4 space-y-4 text-base leading-8 text-slate-600">
@@ -1070,7 +1070,7 @@ function SimpleCta({
   secondaryLabel?: string;
 }) {
   return (
-    <section className="border-t border-white/10 bg-[#07111f] px-4 py-10 text-white sm:px-6 sm:py-18 lg:px-8">
+    <section className="border-t border-white/10 bg-[#07111f] px-4 py-14 text-white sm:px-6 sm:py-18 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
           <h2 className="max-w-3xl text-2xl font-semibold leading-tight tracking-[-0.02em] sm:text-3xl">{title}</h2>

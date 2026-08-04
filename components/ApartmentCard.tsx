@@ -92,7 +92,6 @@ export default function ApartmentCard({
     <Link
       href={getApartmentPath(apartment)}
       aria-label={copy.details + ": ID " + apartment.id + ", " + address}
-      data-apartment-card
       className="group flex h-full flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_12px_34px_rgba(15,23,42,0.1)] ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(15,23,42,0.16)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] active:scale-[0.99]"
     >
       <ResponsiveImage
@@ -108,7 +107,7 @@ export default function ApartmentCard({
         <div className="absolute left-3 top-3 z-10 rounded-full bg-[#ffd21f] px-3 py-1.5 text-xs font-black text-[#07111f] shadow">
           ID {apartment.id}
         </div>
-        <div data-apartment-class-badge className="absolute right-3 top-3 z-10 rounded-full bg-white/92 px-3 py-1.5 text-xs font-black text-[#07111f] shadow ring-1 ring-black/10 backdrop-blur">
+        <div className="absolute right-3 top-3 z-10 rounded-full bg-white/92 px-3 py-1.5 text-xs font-black text-[#07111f] shadow ring-1 ring-black/10 backdrop-blur">
           {categoryLabel[apartment.class]}
         </div>
       </ResponsiveImage>
@@ -120,7 +119,7 @@ export default function ApartmentCard({
           <p className="text-xl font-black leading-none text-[#d4146f] sm:text-2xl">
             {displayedPrice} <span className="text-xs sm:text-sm">{copy.perDay}</span>
           </p>
-          <span data-apartment-details className="shrink-0 rounded-xl bg-[#07111f] px-4 py-2.5 text-sm font-black text-white">
+          <span className="shrink-0 rounded-xl bg-[#07111f] px-4 py-2.5 text-sm font-black text-white">
             {copy.details}
           </span>
         </div>

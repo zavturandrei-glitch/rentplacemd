@@ -34,10 +34,10 @@ export default function BackButton({
       <button
         type="button"
         onClick={goBack}
-        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/12 bg-white/[0.06] text-base font-black leading-none text-white shadow-sm transition active:scale-95"
+        className="inline-flex min-h-9 shrink-0 items-center justify-center rounded-lg border border-white/12 bg-white/[0.06] px-2.5 text-[10px] font-black text-white shadow-sm transition active:scale-95"
         aria-label={labels[language]}
       >
-        <span aria-hidden="true">←</span>
+        {labels[language]}
       </button>
     );
   }

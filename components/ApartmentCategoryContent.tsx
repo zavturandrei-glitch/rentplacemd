@@ -290,7 +290,7 @@ export default function ApartmentCategoryContent({
     <section
       data-category-content={category ?? "all"}
       style={themeStyle}
-      className="relative overflow-hidden bg-[var(--category-background)] px-5 py-10 text-[var(--category-ink)] sm:px-8 sm:py-20 lg:px-10 lg:py-28"
+      className="relative overflow-hidden bg-[var(--category-background)] px-5 py-16 text-[var(--category-ink)] sm:px-8 sm:py-20 lg:px-10 lg:py-28"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_top_right,var(--category-glow),transparent_58%)]"
@@ -348,9 +348,9 @@ export default function ApartmentCategoryContent({
           </div>
         </dl>
 
-        <section className="relative mt-10 overflow-hidden rounded-[1.75rem] bg-[var(--category-panel)] px-6 py-7 text-white shadow-[0_28px_80px_rgba(7,17,31,0.16)] sm:mt-20 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
+        <section className="relative mt-14 overflow-hidden rounded-[1.75rem] bg-[var(--category-panel)] px-6 py-8 text-white shadow-[0_28px_80px_rgba(7,17,31,0.16)] sm:mt-20 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
           <div
-            className="pointer-events-none absolute -right-8 -top-20 hidden text-[13rem] font-black leading-none tracking-[-0.08em] text-white/[0.045] sm:right-4 sm:block sm:text-[18rem]"
+            className="pointer-events-none absolute -right-8 -top-20 text-[13rem] font-black leading-none tracking-[-0.08em] text-white/[0.045] sm:right-4 sm:text-[18rem]"
             aria-hidden="true"
           >
             {theme.code}
@@ -387,7 +387,7 @@ export default function ApartmentCategoryContent({
           </div>
         </section>
 
-        <section className="mt-12 min-w-0 sm:mt-20 lg:mt-28">
+        <section className="mt-20 min-w-0 lg:mt-28">
           <div className="max-w-2xl">
             <p className="text-[0.68rem] font-black uppercase tracking-[0.22em] text-[var(--category-accent)]">
               RentPlace
@@ -416,7 +416,7 @@ export default function ApartmentCategoryContent({
           ) : null}
         </section>
 
-        <section className="mt-12 border-t border-[var(--category-line)] pt-8 sm:mt-20 sm:pt-10 lg:mt-28 lg:grid lg:grid-cols-[0.7fr_1.3fr] lg:gap-24 lg:pt-14">
+        <section className="mt-20 border-t border-[var(--category-line)] pt-10 lg:mt-28 lg:grid lg:grid-cols-[0.7fr_1.3fr] lg:gap-24 lg:pt-14">
           <div>
             <p className="text-[0.68rem] font-black uppercase tracking-[0.22em] text-[var(--category-accent)]">
               03 · FAQ

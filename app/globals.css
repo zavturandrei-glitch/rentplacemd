@@ -241,30 +241,6 @@ canvas {
   .mobile-dark-page :where(input, select, textarea) {
     color: #07111f;
   }
-
-  .mobile-dark-page [data-apartment-card] {
-    background-color: #101c2f !important;
-    color: #f8fafc !important;
-    --tw-ring-color: rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24) !important;
-  }
-
-  .mobile-dark-page [data-apartment-card] h3 {
-    color: #f8fafc !important;
-  }
-
-  .mobile-dark-page [data-apartment-card] p:not([class*="text-[#d4146f]"]) {
-    color: #cbd5e1 !important;
-  }
-
-  .mobile-dark-page [data-apartment-card] [data-apartment-class-badge] {
-    color: #07111f !important;
-  }
-
-  .mobile-dark-page [data-apartment-card] [data-apartment-details] {
-    background-color: #ffd21f !important;
-    color: #07111f !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
