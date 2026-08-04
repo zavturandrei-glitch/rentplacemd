@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import JsonLdScript from "@/components/JsonLdScript";
@@ -16,10 +15,9 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 export default async function OrheiulVechiPage({ searchParams }: PageProps) {
   const language = first((await searchParams).lang);
   return (
-    <main className="min-h-screen bg-[#f5f1e8]">
+    <main className="mobile-dark-page min-h-screen bg-[#f5f1e8]">
       <JsonLdScript id="destination-orheiul-vechi-jsonld" data={buildDestinationJsonLd("orheiul-vechi", language)} />
-      <Header />
-      <BackButton />
+      <Header showBack preserveDesktopBack />
       <MoldovaDestinationPage slug="orheiul-vechi" />
       <Footer />
     </main>

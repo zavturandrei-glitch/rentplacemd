@@ -51,7 +51,7 @@ export default function HomeCategoryLinks() {
                   className="object-cover transition duration-500 group-hover:scale-[1.035]"
                 />
                 <span className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(4,10,20,.92)_100%)]" />
-                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3.5 text-white sm:p-5">
+                <span className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1 p-3.5 text-white sm:flex-row sm:items-end sm:justify-between sm:gap-2 sm:p-5">
                   <strong className="min-w-0 text-[15px] font-black leading-none sm:text-xl">
                     {apartmentClassLabels[category]}
                   </strong>

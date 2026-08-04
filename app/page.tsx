@@ -34,7 +34,7 @@ export default async function Home() {
       <HomeLatestApartments />
       <CityVideoRail videos={homeVideos} placement="home" />
       <LocationMap />
-      <Footer compactHome />
+      <Footer />
     </main>
   );
 }

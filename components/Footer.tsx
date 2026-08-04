@@ -8,20 +8,20 @@ import type { Language } from "@/locales/translations";
 
 type FooterTranslation = ReturnType<typeof useLanguage>["t"];
 
-const compactHomeCopy: Record<Language, { cta: string; bottom: string }> = {
-  ru: { cta: "Смотреть все квартиры", bottom: "Квартиры посуточно в Кишинёве" },
-  ro: { cta: "Vezi toate apartamentele", bottom: "Apartamente în chirie pe zi în Chișinău" },
-  en: { cta: "View all apartments", bottom: "Daily apartments in Chisinau" },
-  uk: { cta: "Дивитися всі квартири", bottom: "Квартири подобово в Кишиневі" },
-  cs: { cta: "Zobrazit všechny apartmány", bottom: "Apartmány na den v Kišiněvě" },
+const compactFooterCopy: Record<Language, { cta: string; copyright: string; bottom: string }> = {
+  ru: { cta: "Смотреть все квартиры", copyright: "© 2026 RentPlace MD™. Все права защищены.", bottom: "Квартиры посуточно в Кишинёве." },
+  ro: { cta: "Vezi toate apartamentele", copyright: "© 2026 RentPlace MD™. Toate drepturile rezervate.", bottom: "Apartamente în chirie pe zi în Chișinău." },
+  en: { cta: "View all apartments", copyright: "© 2026 RentPlace MD™. All rights reserved.", bottom: "Daily apartments in Chisinau." },
+  uk: { cta: "Дивитися всі квартири", copyright: "© 2026 RentPlace MD™. Усі права захищені.", bottom: "Квартири подобово в Кишиневі." },
+  cs: { cta: "Zobrazit všechny apartmány", copyright: "© 2026 RentPlace MD™. Všechna práva vyhrazena.", bottom: "Apartmány na den v Kišiněvě." },
 };
 
-export default function Footer({ compactHome = false }: { compactHome?: boolean }) {
+export default function Footer() {
   const { t, language } = useLanguage();
 
   return (
     <footer className="bg-gradient-to-b from-[#0b1628] to-[#07111f] text-white">
-      {compactHome ? <CompactHomeFooter t={t} language={language} /> : <MobileFooter t={t} />}
+      <CompactHomeFooter t={t} language={language} />
       <DesktopFooter t={t} />
     </footer>
   );
@@ -34,7 +34,7 @@ function CompactHomeFooter({
   t: FooterTranslation;
   language: Language;
 }) {
-  const copy = compactHomeCopy[language];
+  const copy = compactFooterCopy[language];
 
   return (
     <div className="px-4 py-6 lg:hidden">
@@ -74,7 +74,7 @@ function CompactHomeFooter({
         </Link>
 
         <div className="mt-5 border-t border-white/10 pt-4 text-center">
-          <p className="text-[12px] font-bold text-white/68">{t.footer.copyright}</p>
+          <p className="text-[12px] font-bold text-white/68">{copy.copyright}</p>
           <p className="mt-1 text-[11px] font-semibold text-white/42">{copy.bottom}</p>
         </div>
       </div>
@@ -105,99 +105,6 @@ function CompactSocialLink({
         {children}
       </span>
     </a>
-  );
-}
-
-function MobileFooter({ t }: { t: FooterTranslation }) {
-  return (
-    <div className="lg:hidden px-4 pt-8 pb-28">
-      <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/25">
-        <Link href="/" className="flex items-center gap-3">
-          <BrandLogo size="mobile" />
-        </Link>
-
-        <div className="mt-6 grid grid-cols-2 gap-2.5">
-          <BenefitItem icon={<LocationIcon />} text={t.footer.centerChisinau} />
-          <BenefitItem icon={<HomeIcon />} text={formatApartmentCountText(t.footer.moreThan12Apartments)} />
-          <BenefitItem icon={<ClockIcon />} text={t.footer.checkin247} />
-          <BenefitItem icon={<ShieldIcon />} text={t.footer.noMiddlemen} />
-        </div>
-
-        <div className="mt-6 rounded-3xl border border-white/10 bg-[#050b14]/55 p-4">
-          <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[#ffd21f]">
-            {t.footer.contacts}
-          </p>
-
-          <div className="mt-4 space-y-2.5">
-            <a
-              href="tel:+37369990190"
-              className="flex items-center justify-between rounded-2xl bg-white/[0.06] px-4 py-3 text-[18px] font-black text-white transition active:scale-[0.98]"
-            >
-              <span>+373 69 990 190</span>
-              <PhoneIcon />
-            </a>
-
-            <a
-              href="tel:+37379990190"
-              className="flex items-center justify-between rounded-2xl bg-white/[0.06] px-4 py-3 text-[18px] font-black text-white transition active:scale-[0.98]"
-            >
-              <span>+373 79 990 190</span>
-              <PhoneIcon />
-            </a>
-          </div>
-
-          <div className="mt-4 grid grid-cols-3 gap-2.5">
-            <a
-              href="https://wa.me/37369990190"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-12 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 transition active:scale-95"
-              aria-label="WhatsApp"
-            >
-              <WhatsAppIcon />
-            </a>
-
-            <a
-              href="viber://chat?number=%2B37369990190"
-              className="flex h-12 items-center justify-center rounded-2xl bg-[#7360F2] text-white shadow-lg shadow-violet-500/20 transition active:scale-95"
-              aria-label="Viber"
-            >
-              <ViberIcon />
-            </a>
-
-            <a
-              href="https://t.me/rentplacemd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-12 items-center justify-center rounded-2xl bg-[#229ED9] text-white shadow-lg shadow-sky-500/20 transition active:scale-95"
-              aria-label="Telegram"
-            >
-              <TelegramIcon />
-            </a>
-          </div>
-
-          <p className="mt-4 text-center text-[12px] font-black uppercase tracking-[0.22em] text-[#ffd21f]">
-            {t.footer.availableToday}
-          </p>
-
-          <Link
-            href="/apartments"
-            className="mt-3 flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-[14px] font-black text-[#07111f] shadow-lg shadow-white/10 transition active:scale-[0.98]"
-          >
-            {t.footer.viewApartments}
-          </Link>
-        </div>
-
-        <div className="mt-5 border-t border-white/10 pt-5 text-center">
-          <p className="text-[13px] font-bold leading-relaxed text-white/70">
-            {t.footer.copyright}
-          </p>
-          <p className="mt-2 text-[12px] font-semibold leading-relaxed text-white/45">
-            {t.footer.bottomText}
-          </p>
-        </div>
-      </div>
-    </div>
   );
 }
 

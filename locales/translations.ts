@@ -476,7 +476,7 @@ export const translations = {
       catalogText: "Fotky, ceny, popis a ID každé varianty.",
       openCatalog: "Otevřít katalog",
       idLabel: "Rychlý přechod",
-      idTitle: "Vyhledávání podle ID",
+      idTitle: "HLEDAT ID",
       idText: "Zadejte číslo apartmánu, které jste dostali po telefonu.",
       find: "Najít",
       availableIds:

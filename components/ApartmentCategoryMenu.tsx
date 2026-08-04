@@ -105,7 +105,7 @@ export default function ApartmentCategoryMenu() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 md:grid-cols-4">
+        <div className="hidden grid-cols-2 gap-2.5 sm:gap-4 lg:grid lg:grid-cols-4">
           {apartmentCategoryOrder.map((category) => {
             const categoryTitle = text.categories[category];
             const categoryApartments = getCategoryApartments(category);

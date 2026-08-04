@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import BackButton from "@/components/BackButton";
 import EventMonthPage from "@/components/EventMonthPage";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -42,10 +41,9 @@ export default async function MonthlyEventsPage({ params, searchParams }: PagePr
   const language = first(query.lang);
 
   return (
-    <main className="min-h-screen bg-[#fffaf0]">
+    <main className="mobile-dark-page min-h-screen bg-[#fffaf0]">
       <JsonLdScript id={`events-${month}-jsonld`} data={buildEventMonthJsonLd(monthKey, language)} />
-      <Header />
-      <BackButton />
+      <Header showBack preserveDesktopBack />
       <EventMonthPage monthKey={monthKey} />
       <Footer />
     </main>

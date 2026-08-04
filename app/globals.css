@@ -149,6 +149,100 @@ canvas {
   }
 }
 
+@media (max-width: 1023px) {
+  main.mobile-dark-page {
+    background: #07111f !important;
+    color: #f8fafc !important;
+  }
+
+  .mobile-dark-page [data-category-content] {
+    --category-background: #07111f !important;
+    --category-ink: #f8fafc !important;
+    --category-line: rgba(255, 255, 255, 0.12) !important;
+    background-color: #07111f !important;
+    color: #f8fafc !important;
+  }
+
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#fffaf0]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#faf9f6]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#f5f1e8]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#efeee9]"] {
+    background-color: #07111f !important;
+    color: #f8fafc !important;
+  }
+
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class~="bg-white"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-white/"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#fffefb]"] {
+    background-color: #101c2f !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#f4f1eb]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#f4f1ee]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#f7f3ed]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#f7efe3]"] {
+    background-color: #132238 !important;
+    color: #f8fafc !important;
+  }
+
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#fff4b9]"],
+  .mobile-dark-page
+    :where(section, article, div, li, aside)[class*="bg-[#f3d5a5]"] {
+    background-color: rgba(255, 210, 31, 0.14) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 210, 31, 0.22) !important;
+  }
+
+  .mobile-dark-page [class*="text-[#07111f]"],
+  .mobile-dark-page [class*="text-[#15231d]"],
+  .mobile-dark-page [class*="text-slate-950"],
+  .mobile-dark-page [class*="text-slate-800"],
+  .mobile-dark-page [class*="text-slate-700"] {
+    color: #f8fafc !important;
+  }
+
+  .mobile-dark-page [class*="text-slate-600"],
+  .mobile-dark-page [class*="text-slate-500"],
+  .mobile-dark-page [class*="text-slate-400"] {
+    color: rgba(226, 232, 240, 0.74) !important;
+  }
+
+  .mobile-dark-page [class*="border-[#f0"],
+  .mobile-dark-page [class*="border-[#ea"],
+  .mobile-dark-page [class*="border-[#f1"],
+  .mobile-dark-page [class*="border-slate-"],
+  .mobile-dark-page [class*="ring-black/"] {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    --tw-ring-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .mobile-dark-page
+    :where(a, button)[class~="bg-white"],
+  .mobile-dark-page
+    :where(input, select, textarea)[class~="bg-white"],
+  .mobile-dark-page [class*="bg-[#ffd21f]"] {
+    color: #07111f !important;
+  }
+
+  .mobile-dark-page :where(input, select, textarea) {
+    color: #07111f;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

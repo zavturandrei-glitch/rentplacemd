@@ -12,7 +12,11 @@ const labels: Record<Language, string> = {
   cs: "← Zpět",
 };
 
-export default function BackButton() {
+export default function BackButton({
+  variant = "content",
+}: {
+  variant?: "content" | "header";
+}) {
   const router = useRouter();
   const { language } = useLanguage();
 
@@ -23,6 +27,19 @@ export default function BackButton() {
     }
 
     router.push("/");
+  }
+
+  if (variant === "header") {
+    return (
+      <button
+        type="button"
+        onClick={goBack}
+        className="inline-flex min-h-9 shrink-0 items-center justify-center rounded-lg border border-white/12 bg-white/[0.06] px-2.5 text-[10px] font-black text-white shadow-sm transition active:scale-95"
+        aria-label={labels[language]}
+      >
+        {labels[language]}
+      </button>
+    );
   }
 
   return (

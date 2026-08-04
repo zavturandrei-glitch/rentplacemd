@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import GuideArticle from "@/components/GuideArticle";
 import Header from "@/components/Header";
@@ -37,10 +36,9 @@ export default async function GuidePage({ params, searchParams }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-[#fffaf0]">
+    <main className="mobile-dark-page min-h-screen bg-[#fffaf0]">
       <JsonLdScript id={`guide-${slug}-jsonld`} data={buildGuideJsonLd(slug, language)} />
-      <Header />
-      <BackButton />
+      <Header showBack preserveDesktopBack />
       {slug === "wineries" ? <WineriesHub /> : <GuideArticle slug={slug} />}
       <Footer />
     </main>

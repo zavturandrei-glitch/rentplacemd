@@ -5,7 +5,6 @@ import Link from "next/link";
 import ApartmentGallery from "@/components/ApartmentGallery";
 import ApartmentReviews from "@/components/ApartmentReviews";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
-import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ResponsiveImage from "@/components/ResponsiveImage";
@@ -526,9 +525,8 @@ export default function ApartmentDetails({
   }, [apartment.id, language, localizedSeo]);
 
   return (
-    <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
-      <Header apartmentId={apartment.id} />
-      <BackButton />
+    <main className="mobile-dark-page min-h-screen bg-[#fffaf0] text-[#07111f]">
+      <Header apartmentId={apartment.id} showBack preserveDesktopBack />
 
       <div className="mx-auto max-w-[1180px] px-3 pb-28 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pb-16">
         <nav

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import JsonLdScript from "@/components/JsonLdScript";
@@ -29,10 +28,9 @@ export default async function WineryPage({ params, searchParams }: PageProps) {
   const language = first(query.lang);
 
   return (
-    <main className="min-h-screen bg-[#f5f1e8]">
+    <main className="mobile-dark-page min-h-screen bg-[#f5f1e8]">
       <JsonLdScript id={`destination-${slug}-jsonld`} data={buildDestinationJsonLd(slug, language)} />
-      <Header />
-      <BackButton />
+      <Header showBack preserveDesktopBack />
       <MoldovaDestinationPage slug={slug} />
       <Footer />
     </main>
