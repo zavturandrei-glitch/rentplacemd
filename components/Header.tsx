@@ -339,9 +339,9 @@ function MobileHeader({
         </div>
 
         {showBack ? (
-          <div className="flex min-w-0 items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-1.5">
             <BackButton variant="header" />
-            <ApartmentIdSearch variant="header" />
+            <ApartmentIdSearch variant="header" compactMobile />
           </div>
         ) : (
           <div className="flex min-w-0 items-center justify-between gap-2">

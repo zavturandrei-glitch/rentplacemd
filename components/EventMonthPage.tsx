@@ -149,14 +149,14 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
   }, [seo.title]);
 
   return (
-    <article className="mx-auto max-w-7xl px-4 pb-20 pt-4 sm:px-6 sm:pt-8 lg:px-8">
+    <article className="mx-auto max-w-7xl px-4 pb-12 pt-4 sm:px-6 sm:pt-8 lg:px-8 lg:pb-20">
       <nav aria-label="Breadcrumb">
-        <Link href="/events" className="inline-flex min-h-11 items-center rounded-full bg-white px-4 text-sm font-semibold text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
+        <Link href="/events" className="hidden min-h-11 items-center rounded-full bg-white px-4 text-sm font-semibold text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f] lg:inline-flex">
           ← {ui.back}
         </Link>
       </nav>
 
-      <header className="mt-4 rounded-[28px] bg-[#07111f] px-5 py-10 text-white shadow-[0_24px_70px_rgba(7,17,31,0.2)] sm:px-10 sm:py-14 lg:px-14">
+      <header className="mt-4 rounded-[28px] bg-[#07111f] px-5 py-7 text-white shadow-[0_24px_70px_rgba(7,17,31,0.2)] sm:px-10 sm:py-14 lg:px-14">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#ffd21f]">{ui.eyebrow}</p>
         <h1 className="mt-4 max-w-5xl text-4xl font-semibold capitalize leading-tight tracking-[-0.04em] sm:text-6xl">{seo.title}</h1>
         <p className="mt-5 max-w-3xl text-base leading-7 text-white/75 sm:text-lg">{seo.intro}</p>

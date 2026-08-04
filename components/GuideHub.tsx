@@ -31,9 +31,9 @@ export default function GuideHub() {
   const href = (path: string) => `${path}?lang=${language}`;
 
   return (
-    <section className="bg-[#f5f1e8] px-4 pb-20 pt-8 text-[#15231d] sm:px-6 lg:px-8">
+    <section className="bg-[#f5f1e8] px-4 pb-12 pt-8 text-[#15231d] sm:px-6 lg:px-8 lg:pb-20">
       <div className="mx-auto max-w-7xl">
-        <header className="grid gap-8 border-b border-[#15231d]/20 pb-12 lg:grid-cols-[1fr_0.55fr] lg:items-end">
+        <header className="grid gap-8 border-b border-[#15231d]/20 pb-8 lg:grid-cols-[1fr_0.55fr] lg:items-end lg:pb-12">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8b3e2f]">RentPlaceMD · travel journal</p>
             <h1 className="mt-4 text-balance font-serif text-5xl leading-[0.98] tracking-[-0.04em] sm:text-7xl">{guideUi.hubTitle[language]}</h1>
@@ -41,7 +41,7 @@ export default function GuideHub() {
           <p className="max-w-xl text-lg leading-8 text-[#526158]">{guideUi.hubIntro[language]}</p>
         </header>
 
-        <div className="mt-10 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-12">
+        <div className="mt-8 grid gap-x-6 gap-y-8 md:grid-cols-2 lg:mt-10 lg:grid-cols-12 lg:gap-y-12">
           {themes.map((theme, index) => {
             const page = guidePages[theme.guide];
             const title = theme.key === "trips" ? destinations["orheiul-vechi"].title[language] : page.title[language];
@@ -61,7 +61,7 @@ export default function GuideHub() {
           })}
         </div>
 
-        <nav className="mt-16 border-t border-[#15231d]/20 pt-8" aria-label={guideUi.hubTitle[language]}>
+        <nav className="mt-10 border-t border-[#15231d]/20 pt-8 lg:mt-16" aria-label={guideUi.hubTitle[language]}>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {(["restaurants", "monasteries", "dental-tourism", "transnistria"] as const).map((slug) => (
               <Link key={slug} href={href(`/guide/${slug}`)} className="border-b border-[#15231d]/15 py-4 font-serif text-xl transition hover:text-[#8b3e2f]">

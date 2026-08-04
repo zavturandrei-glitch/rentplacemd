@@ -58,10 +58,10 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
   }
 
   return (
-    <article className="mx-auto max-w-6xl px-4 pb-20 pt-4 sm:px-6 sm:pt-8 lg:px-8">
+    <article className="mx-auto max-w-6xl px-4 pb-12 pt-4 sm:px-6 sm:pt-8 lg:px-8 lg:pb-20">
       <Link
         href="/chisinau-guide"
-        className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]"
+        className="hidden min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] lg:inline-flex"
       >
         <span aria-hidden="true">←</span> {guideUi.back[language]}
       </Link>
