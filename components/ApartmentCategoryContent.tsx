@@ -277,13 +277,15 @@ export default function ApartmentCategoryContent({
         .map((item) => activeApartments.find((apartment) => apartment.class === item))
         .filter((apartment) => apartment !== undefined);
   const theme = categoryThemes[category ?? "all"];
+  const displayCategory = (item: ApartmentClass) =>
+    item === "standardPlus" && language === "ru" ? "Комфорт" : apartmentClassLabels[item];
   const themeStyle = {
     "--category-accent": theme.accent,
-    "--category-background": theme.background,
+    "--category-background": "#111b2a",
     "--category-glow": theme.glow,
-    "--category-ink": theme.ink,
-    "--category-line": theme.line,
-    "--category-panel": theme.panel,
+    "--category-ink": "#f8fafc",
+    "--category-line": "rgba(255,255,255,0.14)",
+    "--category-panel": "#07111f",
   } as CSSProperties;
 
   return (
@@ -302,10 +304,10 @@ export default function ApartmentCategoryContent({
           <div className="min-w-0">
             <div className="flex items-center gap-3 text-[0.68rem] font-black uppercase tracking-[0.24em] text-[var(--category-accent)]">
               <span className="h-2 w-2 rounded-full bg-[var(--category-accent)]" aria-hidden="true" />
-              RentPlace · {category ? apartmentClassLabels[category] : "Chisinau"}
+              RentPlace · {category ? displayCategory(category) : "Chisinau"}
             </div>
             <h2 className="mt-6 max-w-[17ch] text-balance text-[2.35rem] font-black leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.25rem]">
-              {category ? text.categoryTitle(apartmentClassLabels[category]) : text.allTitle}
+              {category ? text.categoryTitle(displayCategory(category)) : text.allTitle}
             </h2>
           </div>
           <p className="max-w-[34rem] text-pretty text-[1.03rem] font-medium leading-7 text-[color:color-mix(in_srgb,var(--category-ink)_68%,transparent)] sm:text-lg sm:leading-8">
@@ -378,7 +380,7 @@ export default function ApartmentCategoryContent({
                     <span className="font-black text-[var(--category-accent)]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <strong className="text-white">{apartmentClassLabels[item]}</strong>
+                    <strong className="text-white">{displayCategory(item)}</strong>
                     <span>{text.fit[item]}</span>
                   </p>
                 ))}

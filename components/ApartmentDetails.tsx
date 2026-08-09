@@ -1,17 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import ApartmentGallery from "@/components/ApartmentGallery";
-import ApartmentReviews from "@/components/ApartmentReviews";
+import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
-import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentBookedDates } from "@/lib/availability";
-import { apartmentFaqByLanguage } from "@/lib/apartmentFaq";
 import {
   formatLocalizedImageAlt,
   getApartmentDisplayAddress,
@@ -24,7 +22,6 @@ import {
   getApartmentPath,
   type ApartmentClass,
 } from "@/lib/apartments";
-import { getApartmentReviews } from "@/lib/apartmentReviews";
 import { localizeAmenity } from "@/lib/amenityLocalization";
 import type { Language } from "@/locales/translations";
 
@@ -361,11 +358,12 @@ export default function ApartmentDetails({
     language,
   );
   const displayedPrice = getApartmentCatalogPrice(apartment);
+  const compactLocationTitle = locationTitle.replace(/,\s*/g, " ");
   const categoryLabel =
     apartment.class === "premium"
       ? "Premium"
       : apartment.class === "standardPlus"
-        ? "Standard+"
+        ? language === "ru" ? "Комфорт" : "Comfort"
         : apartment.class === "standard"
           ? "Standard"
           : "Economy";
@@ -407,32 +405,6 @@ export default function ApartmentDetails({
         ]
       : []),
   ];
-  const intro = localizedApartment?.shortDescription
-    ? localizedApartment.shortDescription
-    : language === "ru"
-      ? apartment.intro ?? apartment.descriptionParagraphs?.[0] ?? ""
-      : format(text.fallbackIntro, {
-          kind: kindLabel,
-          address: locationTitle,
-        });
-  const aboutHeading = localizedApartment?.aboutTitle
-    ? localizedApartment.aboutTitle
-    : language === "ru"
-      ? apartment.aboutTitle ?? locationTitle
-      : format(text.fallbackAboutTitle, {
-          kind: kindLabel,
-          address: locationTitle,
-        });
-  const descriptionParagraphs =
-    localizedApartment?.descriptionParagraphs?.length
-      ? localizedApartment.descriptionParagraphs
-      : language === "ru" && apartment.descriptionParagraphs?.length
-      ? apartment.descriptionParagraphs
-      : [
-          format(text.fallbackDescription, {
-            id: apartment.id,
-          }),
-        ];
   const allAmenities = Array.from(
     new Set(
       (
@@ -451,18 +423,10 @@ export default function ApartmentDetails({
       ...allAmenities,
     ]),
   ).slice(0, 7);
-  const audienceItems = localizedApartment?.audienceItems?.slice(0, 3) ?? [];
   const nearbyItems = localizedApartment?.nearbyItems?.slice(0, 4) ?? [];
-  const faq = (
-    localizedApartment?.faq ?? apartmentFaqByLanguage[language]
-  ).map((item) => ({ ...item }));
   const relatedApartments = useMemo(
     () => getRelatedApartments(apartment),
     [apartment],
-  );
-  const reviews = useMemo(
-    () => getApartmentReviews(apartment.id),
-    [apartment.id],
   );
   const bookedDates = getApartmentBookedDates(apartment.id);
   const apartmentPath =
@@ -472,7 +436,6 @@ export default function ApartmentDetails({
         )
       : "/apartments";
   const categoryPath = getApartmentCategoryPath(apartment.class);
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const whatsappText = format(
     language === "ru"
       ? "Здравствуйте! Интересует квартира ID {id}, {address}. Ссылка: {url}"
@@ -526,11 +489,11 @@ export default function ApartmentDetails({
   }, [apartment.id, language, localizedSeo]);
 
   return (
-    <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
+    <main className="min-h-screen bg-[#111b2a] text-[#07111f]">
       <Header apartmentId={apartment.id} />
-      <BackButton />
+      <ApartmentCategoryNav currentClass={apartment.class} />
 
-      <div className="mx-auto max-w-[1180px] px-3 pb-28 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pb-16">
+      <div className="mx-auto mt-3 max-w-[1180px] rounded-t-[24px] bg-[#f7f4ee] px-3 pb-28 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pb-16">
         <nav
           aria-label="Breadcrumb"
           className="mb-4 hidden items-center gap-2 text-sm font-bold text-slate-500 md:flex"
@@ -548,37 +511,15 @@ export default function ApartmentDetails({
           </span>
         </nav>
 
-        <article className="rounded-2xl border border-[#07111f]/10 bg-white px-4 py-4 sm:px-6 sm:py-5">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2 text-[11px] font-black uppercase tracking-[0.12em]">
-                <span className="text-[#d4146f]">ID {apartment.id}</span>
-                <span className="text-slate-300" aria-hidden="true">•</span>
-                <span className="text-slate-500">{categoryLabel}</span>
-              </div>
-              <h1
-                className={[
-                  "mt-2 font-black leading-[1.08] tracking-tight sm:text-4xl",
-                  locationTitle.length > 28 ? "text-[22px]" : "text-[26px]",
-                ].join(" ")}
-              >
-                {locationTitle}
-              </h1>
-              <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold text-slate-600">
-                <span>{kindLabel}</span>
-                {apartment.guests !== null ? (
-                  <span>{text.guests[apartment.guests]}</span>
-                ) : null}
-              </div>
-            </div>
-            <div className="shrink-0 text-right">
-              <p className="text-2xl font-black leading-none text-[#d4146f] sm:text-3xl">
-                {displayedPrice}
-              </p>
-              <p className="mt-1 text-[10px] font-black uppercase tracking-[0.08em] text-slate-500">
-                {text.priceSuffix}
-              </p>
-            </div>
+        <article className="rounded-2xl border border-[#07111f]/10 bg-white px-3 py-3 sm:px-6 sm:py-5">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-4">
+            <strong className="shrink-0 text-sm font-black text-[#07111f] sm:text-lg">ID {apartment.id}</strong>
+            <h1 className="min-w-0 flex-1 truncate text-sm font-black leading-tight tracking-tight sm:text-3xl">
+              {compactLocationTitle}
+            </h1>
+            <p className="shrink-0 text-base font-black leading-none text-[#d4146f] sm:text-3xl">
+              {displayedPrice} <span className="text-xs sm:text-sm">MDL</span>
+            </p>
           </div>
         </article>
 
@@ -597,14 +538,7 @@ export default function ApartmentDetails({
         </div>
 
         <section className="mt-3 rounded-2xl bg-[#07111f] p-4 text-white shadow-[0_12px_35px_rgba(7,17,31,0.12)] sm:flex sm:items-center sm:justify-between sm:gap-5 sm:p-5">
-          <div>
-            <p className="text-sm font-black text-[#ffd21f]">
-              {displayedPrice} {text.priceSuffix}
-            </p>
-            <p className="mt-1 text-xs font-medium leading-5 text-white/65">
-              {text.actionHint}
-            </p>
-          </div>
+          <p className="text-xs font-medium leading-5 text-white/65">{text.actionHint}</p>
           <a
             href="#availability"
             className="mt-3 flex min-h-12 items-center justify-center rounded-xl bg-[#ffd21f] px-5 text-sm font-black text-[#07111f] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:mt-0 sm:min-w-48"
@@ -614,20 +548,16 @@ export default function ApartmentDetails({
         </section>
 
         {primaryDetails.length > 0 ? (
-          <section className="border-b border-[#07111f]/10 py-6 sm:py-8">
+          <section className="border-b border-[#07111f]/10 py-5 sm:py-7">
             <h2 className="text-xl font-black tracking-tight sm:text-2xl">
               {text.keyDetails}
             </h2>
-            <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3 lg:grid-cols-4">
+            <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 sm:grid-cols-3 lg:grid-cols-4">
               {primaryDetails.map((item) => (
                 <li
                   key={item}
-                  className="flex min-h-11 items-center gap-2 border-b border-[#07111f]/8 pb-2 text-sm font-bold"
+                  className="min-h-9 border-b border-[#07111f]/8 py-2 text-sm font-bold"
                 >
-                  <span
-                    className="h-2 w-2 shrink-0 rounded-full bg-[#d4146f]"
-                    aria-hidden="true"
-                  />
                   {item}
                 </li>
               ))}
@@ -645,81 +575,8 @@ export default function ApartmentDetails({
           />
         </div>
 
-        <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
-          <article className="border-t border-[#07111f]/10 py-7 sm:py-9">
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#d4146f]">
-              {text.about}
-            </p>
-            <h2 className="mt-1 text-2xl font-black tracking-tight sm:text-3xl">
-              {aboutHeading}
-            </h2>
-            {intro ? (
-              <p className="mt-4 text-[15px] font-medium leading-7 text-slate-700">
-                {intro}
-              </p>
-            ) : null}
-            {descriptionParagraphs.slice(0, 2).map((paragraph) => (
-              <p
-                key={paragraph}
-                className="mt-3 text-[15px] font-medium leading-7 text-slate-600"
-              >
-                {paragraph}
-              </p>
-            ))}
-            {descriptionParagraphs.length > 2 ? (
-              <details className="group mt-3">
-                <summary className="min-h-11 cursor-pointer list-none py-3 text-sm font-black text-[#d4146f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f]">
-                  {text.moreDescription}
-                </summary>
-                <div className="grid gap-3">
-                  {descriptionParagraphs.slice(2).map((paragraph) => (
-                    <p
-                      key={paragraph}
-                      className="text-[15px] font-medium leading-7 text-slate-600"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </details>
-            ) : null}
-            {audienceItems.length > 0 ? (
-              <div className="mt-5">
-                <h3 className="text-base font-black">{text.suitableFor}</h3>
-                <ul className="mt-2 grid gap-2 text-sm font-medium leading-6 text-slate-600">
-                  {audienceItems.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="font-black text-[#d4146f]">—</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </article>
-
-          {allAmenities.length > 0 ? (
-            <section className="border-t border-[#07111f]/10 py-7 sm:py-9">
-              <details className="group rounded-2xl border border-[#07111f]/10 bg-white">
-                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-4 text-lg font-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:px-5">
-                  {text.allAmenities}
-                  <span className="text-2xl font-light transition group-open:rotate-45" aria-hidden="true">+</span>
-                </summary>
-                <ul className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-[#07111f]/10 px-4 py-5 text-sm font-bold sm:px-5">
-                  {allAmenities.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="text-[#d4146f]" aria-hidden="true">✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </section>
-          ) : null}
-        </div>
-
-        <section className="border-t border-[#07111f]/10 py-7 sm:py-9">
-          <div className="grid gap-5 rounded-2xl bg-[#07111f] p-5 text-white sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+        <section className="border-t border-[#07111f]/10 py-5 sm:py-7">
+          <div className="grid gap-3 rounded-2xl bg-[#07111f] p-4 text-white sm:p-5 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#ffd21f]">
                 {text.location}
@@ -728,7 +585,7 @@ export default function ApartmentDetails({
                 {locationTitle}
               </h2>
               {nearbyItems.length > 0 ? (
-                <ul className="mt-4 grid gap-2 text-sm font-medium leading-6 text-white/75 sm:grid-cols-2">
+                <ul className="mt-3 grid gap-1 text-sm font-medium leading-5 text-white/75 sm:grid-cols-2">
                   {nearbyItems.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="text-[#ffd21f]" aria-hidden="true">•</span>
@@ -752,8 +609,6 @@ export default function ApartmentDetails({
             </a>
           </div>
         </section>
-
-        <ApartmentReviews reviews={reviews} />
 
         <section className="border-t border-[#07111f]/10 py-7 sm:py-9">
           <div className="flex items-end justify-between gap-4">
@@ -794,35 +649,6 @@ export default function ApartmentDetails({
             </div>
           </details>
         </section>
-
-        {faq.length > 0 ? (
-          <section className="border-t border-[#07111f]/10 py-7 sm:py-9">
-            <h2 className="text-2xl font-black tracking-tight">{text.faq}</h2>
-            <div className="mt-4 divide-y divide-[#07111f]/10 border-y border-[#07111f]/10">
-              {faq.map((item, index) => {
-                const isOpen = openFaqIndex === index;
-                const answerId = `faq-${apartment.id}-${index}`;
-                return (
-                  <div key={item.question}>
-                    <button
-                      type="button"
-                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                      className="flex min-h-14 w-full items-center justify-between gap-4 py-3 text-left text-sm font-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d4146f] sm:text-base"
-                      aria-expanded={isOpen}
-                      aria-controls={answerId}
-                    >
-                      {item.question}
-                      <span className={["shrink-0 text-2xl font-light transition", isOpen ? "rotate-45" : ""].join(" ")} aria-hidden="true">+</span>
-                    </button>
-                    <div id={answerId} hidden={!isOpen} className="pb-4 pr-9 text-sm font-medium leading-6 text-slate-600">
-                      {item.answer}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        ) : null}
 
         {relatedApartments.length > 0 ? (
           <section className="border-t border-[#07111f]/10 py-7 sm:py-9" aria-labelledby="related-apartments-title">

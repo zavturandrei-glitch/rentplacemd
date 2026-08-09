@@ -306,12 +306,12 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
                 apartmentMode ? "text-[10.5px] min-[390px]:text-[13px]" : "text-[10.5px] min-[360px]:text-[13px]",
               ].join(" ")}
             >
-              <a href="tel:+37379990190" className="flex min-h-5 items-center justify-end">
-                +373 79 990 190
-              </a>
               <a href="tel:+37369990190" className="flex min-h-5 items-center justify-end">
                 +373 69 990 190
               </a>
+              <span className="flex min-h-5 items-center justify-end">
+                +373 69 560 967
+              </span>
             </div>
 
           </div>
@@ -403,17 +403,14 @@ function DesktopHeader() {
 
             <div className="space-y-0.5 text-[17px] font-black leading-[1.03] xl:text-[22px]">
               <a
-                href="tel:+37379990190"
-                className="block transition hover:text-[#ff4fa3]"
-              >
-                +373 79 990 190
-              </a>
-              <a
                 href="tel:+37369990190"
                 className="block transition hover:text-[#ff4fa3]"
               >
                 +373 69 990 190
               </a>
+              <span className="block text-white/85">
+                +373 69 560 967
+              </span>
             </div>
 
             <div className="mt-2 flex items-center justify-end gap-1.5 xl:gap-2">

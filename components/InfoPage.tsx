@@ -952,9 +952,9 @@ function AboutPage({ copy, business }: { copy: AboutCopy; business: AboutBusines
             <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className={primaryButton}>{business.whatsapp}</a>
             <a href="viber://chat?number=%2B37369990190" className={secondaryButton}>{business.viber}</a>
             <a href="https://t.me/rentplacemd" target="_blank" rel="noopener noreferrer" className={secondaryButton}>{business.telegram}</a>
-            <a href="tel:+37379990190" className={secondaryButton}>{business.call}</a>
+            <a href="tel:+37369990190" className={secondaryButton}>{business.call}</a>
           </div>
-          <p className="mt-6 text-sm font-medium text-slate-500">+373 79 990 190 · +373 69 990 190</p>
+          <p className="mt-6 text-sm font-medium text-slate-500">+373 69 990 190 · +373 69 560 967</p>
         </div>
       </section>
     </article>

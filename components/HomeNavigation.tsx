@@ -15,7 +15,7 @@ const copyByLanguage: Record<
   { title: string; close: string; cards: Record<CardKey, CardCopy> }
 > = {
   ru: {
-    title: "Всё нужное — в одном месте",
+    title: "Навигация по сайту",
     close: "Закрыть",
     cards: {
       quick: { title: "Подобрать квартиру в один клик", text: "Напишите даты и число гостей", alt: "Современная спальня в квартире RentPlace" },
@@ -29,7 +29,7 @@ const copyByLanguage: Record<
     },
   },
   ro: {
-    title: "Tot ce ai nevoie, într-un singur loc",
+    title: "Navigare pe site",
     close: "Închide",
     cards: {
       quick: { title: "Găsește apartamentul dintr-un click", text: "Trimite datele și numărul de oaspeți", alt: "Dormitor modern într-un apartament RentPlace" },
@@ -43,7 +43,7 @@ const copyByLanguage: Record<
     },
   },
   en: {
-    title: "Everything you need, in one place",
+    title: "Site navigation",
     close: "Close",
     cards: {
       quick: { title: "Find an apartment in one click", text: "Send your dates and guest count", alt: "Modern bedroom in a RentPlace apartment" },
@@ -57,7 +57,7 @@ const copyByLanguage: Record<
     },
   },
   uk: {
-    title: "Усе потрібне — в одному місці",
+    title: "Навігація сайтом",
     close: "Закрити",
     cards: {
       quick: { title: "Підібрати квартиру в один клік", text: "Надішліть дати та кількість гостей", alt: "Сучасна спальня у квартирі RentPlace" },
@@ -71,7 +71,7 @@ const copyByLanguage: Record<
     },
   },
   cs: {
-    title: "Vše potřebné na jednom místě",
+    title: "Navigace na webu",
     close: "Zavřít",
     cards: {
       quick: { title: "Vybrat apartmán jedním kliknutím", text: "Pošlete termín a počet hostů", alt: "Moderní ložnice v apartmánu RentPlace" },

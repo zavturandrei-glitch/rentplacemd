@@ -55,10 +55,10 @@ const sectionText: Record<
         badge: "Standard",
       },
       standardPlus: {
-        title: "Standard+",
+        title: "Комфорт",
         description:
           "Новые квартиры RentPlaceMD с современным ремонтом, светлым интерьером и повышенным уровнем комфорта.",
-        badge: "Standard+",
+        badge: "Комфорт",
         highlightBadge: "Новые квартиры",
       },
       economy: {
@@ -91,10 +91,10 @@ const sectionText: Record<
         badge: "Standard",
       },
       standardPlus: {
-        title: "Standard+",
+        title: "Comfort",
         description:
           "Apartamente noi RentPlaceMD, cu renovare modernă, interior luminos și un nivel mai ridicat de confort.",
-        badge: "Standard+",
+        badge: "Comfort",
         highlightBadge: "Apartamente noi",
       },
       economy: {
@@ -127,10 +127,10 @@ const sectionText: Record<
         badge: "Standard",
       },
       standardPlus: {
-        title: "Standard+",
+        title: "Comfort",
         description:
           "New RentPlaceMD apartments with modern finishes, bright interiors, and an upgraded level of comfort.",
-        badge: "Standard+",
+        badge: "Comfort",
         highlightBadge: "New apartments",
       },
       economy: {
@@ -163,10 +163,10 @@ const sectionText: Record<
         badge: "Standard",
       },
       standardPlus: {
-        title: "Standard+",
+        title: "Comfort",
         description:
           "Nové apartmány RentPlaceMD s moderní rekonstrukcí, světlým interiérem a vyšší úrovní komfortu.",
-        badge: "Standard+",
+        badge: "Comfort",
         highlightBadge: "Nové apartmány",
       },
       economy: {
@@ -199,10 +199,10 @@ const sectionText: Record<
         badge: "Standard",
       },
       standardPlus: {
-        title: "Standard+",
+        title: "Comfort",
         description:
           "Нові квартири RentPlaceMD із сучасним ремонтом, світлим інтер'єром і підвищеним рівнем комфорту.",
-        badge: "Standard+",
+        badge: "Comfort",
         highlightBadge: "Нові квартири",
       },
       economy: {
@@ -232,14 +232,14 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
   return (
     <section
       id="today-free"
-      className="scroll-mt-32 bg-[#fffaf0] px-4 pb-12 pt-5 sm:px-6 sm:pb-16 sm:pt-8 lg:scroll-mt-[260px]"
+      className="scroll-mt-32 bg-[#111b2a] px-4 pb-12 pt-5 sm:px-6 sm:pb-16 sm:pt-8 lg:scroll-mt-[260px]"
     >
       <span id="apartments" className="block scroll-mt-32 lg:scroll-mt-[260px]" aria-hidden="true" />
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             {selectedClass ? (
-              <h1 className="text-3xl font-black leading-tight text-[#07111f] sm:text-5xl">
+              <h1 className="text-3xl font-black leading-tight text-white sm:text-5xl">
                 {selectedCategoryText?.title ?? text.title}
               </h1>
             ) : (
@@ -247,7 +247,7 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                 {text.title}
               </h2>
             )}
-            <p className="mt-2 max-w-3xl text-sm font-bold leading-6 text-gray-700 sm:text-lg">
+            <p className="mt-2 max-w-3xl text-sm font-bold leading-6 text-white/70 sm:text-lg">
               {selectedClass
                 ? selectedCount + " " + text.countLabel + " · " + selectedMinimumPrice + " MDL"
                 : text.description}
@@ -271,9 +271,9 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
               discount?: string;
               highlightBadge?: string;
             } = {
-              title: category === "standardPlus" ? "Standard+" : category,
+              title: category === "standardPlus" ? "Comfort" : category,
               description: "",
-              badge: category === "standardPlus" ? "Standard+" : category,
+              badge: category === "standardPlus" ? "Comfort" : category,
             };
             const categoryText = text.categories[category] ?? fallbackCategoryText;
             const categoryApartments = getApartmentsByClass(category);
@@ -293,7 +293,7 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                     <div className="flex flex-wrap items-center gap-2">
                       <h3
                         id={category + "-apartments-title"}
-                        className="text-2xl font-black leading-tight text-[#061024] sm:text-3xl"
+                        className="text-2xl font-black leading-tight text-white sm:text-3xl"
                       >
                         {categoryText.title}
                       </h3>
@@ -303,7 +303,7 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
                         </span>
                       ) : null}
                     </div>
-                    {!selectedClass ? <p className="mt-1 max-w-3xl text-sm font-bold leading-6 text-gray-600">
+                    {!selectedClass ? <p className="mt-1 max-w-3xl text-sm font-bold leading-6 text-white/65">
                       {categoryText.description}
                     </p> : null}
                   </div>

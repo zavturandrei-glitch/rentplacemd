@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import HomeCategoryLinks from "@/components/HomeCategoryLinks";
 import HomeLatestApartments from "@/components/HomeLatestApartments";
 import HomeNavigation from "@/components/HomeNavigation";
 import LocationMap from "@/components/LocationMap";
@@ -30,7 +29,6 @@ export default async function Home() {
       <Header />
       <Hero />
       <HomeNavigation />
-      <HomeCategoryLinks />
       <HomeLatestApartments />
       <CityVideoRail videos={homeVideos} placement="home" />
       <LocationMap />

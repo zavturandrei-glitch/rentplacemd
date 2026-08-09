@@ -6,7 +6,7 @@ type LocalizedApartmentKind = "studio" | "oneBedroom";
 
 type ApartmentLocalizationDefinition = {
   address: Record<Language, string>;
-  category: "Standard" | "Standard+" | "Premium";
+  category: "Standard" | "Comfort" | "Premium";
   kind: LocalizedApartmentKind;
   price: number;
 };
@@ -185,10 +185,10 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
 };
 
 const localizationDefinitions: Record<string, ApartmentLocalizationDefinition> = {
-  "25": { address: ismail88, category: "Standard+", kind: "oneBedroom", price: 1000 },
-  "30": { address: ismail88, category: "Standard+", kind: "oneBedroom", price: 1000 },
-  "67": { address: grigoreUreche67, category: "Standard+", kind: "oneBedroom", price: 1000 },
-  "301": { address: ismail88, category: "Standard+", kind: "oneBedroom", price: 1000 },
+  "25": { address: ismail88, category: "Comfort", kind: "oneBedroom", price: 1000 },
+  "30": { address: ismail88, category: "Comfort", kind: "oneBedroom", price: 1000 },
+  "67": { address: grigoreUreche67, category: "Comfort", kind: "oneBedroom", price: 1000 },
+  "301": { address: ismail88, category: "Comfort", kind: "oneBedroom", price: 1000 },
   "461": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
   "463": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
   "464": { address: ismail88, category: "Standard", kind: "studio", price: 800 },

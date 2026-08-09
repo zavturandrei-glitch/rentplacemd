@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
-import { apartmentFaqByLanguage } from "@/lib/apartmentFaq";
 import {
   formatLocalizedImageAlt,
   getApartmentDisplayAddress,
@@ -51,7 +50,7 @@ export const address = {
   addressCountry: "MD",
 };
 
-export const phoneNumbers = ["+37369990190", "+37379990190"];
+export const phoneNumbers = ["+37369990190", "+37369560967"];
 export const sameAs = ["https://t.me/rentplacemd", "https://wa.me/37369990190"];
 
 export const siteTitle = "RentPlace.md — квартиры посуточно в Кишинёве";
@@ -171,9 +170,9 @@ export const apartmentCategorySeo: Record<
       "Комфортные квартиры для повседневного проживания, короткого отдыха и рабочих поездок в центральной части Кишинёва.",
   },
   standardPlus: {
-    title: "Standard+ квартиры RentPlaceMD в Кишинёве",
+    title: "Квартиры Комфорт RentPlaceMD в Кишинёве",
     description:
-      "Квартиры Standard+ RentPlaceMD в Кишинёве: более свежие и улучшенные варианты повышенного комфорта с реальными фото.",
+      "Квартиры Комфорт RentPlaceMD в Кишинёве: более свежие и улучшенные варианты повышенного комфорта с реальными фото.",
     intro:
       "Более свежие или улучшенные варианты для гостей, которые хотят повышенный комфорт и аккуратный визуальный уровень.",
   },
@@ -200,11 +199,11 @@ const categorySeoLanguage: Record<Language, {
 };
 
 const apartmentsPageSeo: Record<Language, { title: string; description: string }> = {
-  ru: { title: "Выбор класса квартиры RentPlaceMD", description: "Выберите квартиру RentPlaceMD в Кишинёве: Economy, Standard, Standard+ или Premium. Реальные фотографии, минимальные цены и доступные варианты." },
-  ro: { title: "Alege clasa apartamentului RentPlaceMD", description: "Alege un apartament RentPlaceMD în Chișinău: Economy, Standard, Standard+ sau Premium. Fotografii reale, prețuri minime și opțiuni disponibile." },
-  en: { title: "Choose a RentPlaceMD apartment class", description: "Choose a RentPlaceMD apartment in Chisinau: Economy, Standard, Standard+ or Premium. Real photos, minimum prices and available options." },
-  uk: { title: "Оберіть клас квартири RentPlaceMD", description: "Оберіть квартиру RentPlaceMD у Кишиневі: Economy, Standard, Standard+ або Premium. Реальні фотографії, мінімальні ціни та доступні варіанти." },
-  cs: { title: "Vyberte třídu apartmánu RentPlaceMD", description: "Vyberte si apartmán RentPlaceMD v Kišiněvě: Economy, Standard, Standard+ nebo Premium. Reálné fotografie, minimální ceny a dostupné možnosti." },
+  ru: { title: "Выбор класса квартиры RentPlaceMD", description: "Выберите квартиру RentPlaceMD в Кишинёве: Economy, Standard, Комфорт или Premium. Реальные фотографии, минимальные цены и доступные варианты." },
+  ro: { title: "Alege clasa apartamentului RentPlaceMD", description: "Alege un apartament RentPlaceMD în Chișinău: Economy, Standard, Comfort sau Premium. Fotografii reale, prețuri minime și opțiuni disponibile." },
+  en: { title: "Choose a RentPlaceMD apartment class", description: "Choose a RentPlaceMD apartment in Chisinau: Economy, Standard, Comfort or Premium. Real photos, minimum prices and available options." },
+  uk: { title: "Оберіть клас квартири RentPlaceMD", description: "Оберіть квартиру RentPlaceMD у Кишиневі: Economy, Standard, Comfort або Premium. Реальні фотографії, мінімальні ціни та доступні варіанти." },
+  cs: { title: "Vyberte třídu apartmánu RentPlaceMD", description: "Vyberte si apartmán RentPlaceMD v Kišiněvě: Economy, Standard, Comfort nebo Premium. Reálné fotografie, minimální ceny a dostupné možnosti." },
 };
 
 export function getApartmentsPageMetadata(languageInput?: string): Metadata {
@@ -236,7 +235,9 @@ export function getApartmentsPageMetadata(languageInput?: string): Metadata {
 }
 
 function getLocalizedCategorySeo(category: ApartmentClass, language: Language) {
-  const label = apartmentClassLabels[category];
+  const label = category === "standardPlus" && language === "ru"
+    ? "Комфорт"
+    : apartmentClassLabels[category];
   const text = categorySeoLanguage[language];
   return {
     title: text.title(label),
@@ -487,13 +488,13 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
     language === "ru" && id === 3
       ? "Студия Standard Plus в центре Кишинёва — ID 3 | RentPlaceMD"
       : language === "ru" && id === 5
-        ? "Студия Standard+ — ID 5 | RentPlaceMD"
+        ? "Студия Комфорт — ID 5 | RentPlaceMD"
       : buildApartmentTitle(id, language);
   const description =
     language === "ru" && id === 3
       ? "Современная студия категории Standard Plus. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 900 MDL."
       : language === "ru" && id === 5
-        ? "Современная студия категории Standard+ в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
+        ? "Современная студия категории Комфорт в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
       : buildApartmentDescription(id, language);
   const alternates = apartmentAlternates(id, languageInput);
   const url = String(alternates.canonical);
@@ -647,7 +648,7 @@ export function getApartmentJsonLd(
   const displayAddress = getApartmentDisplayAddress(id, apartment.title, language);
   const name = localized?.schemaName ?? "RentPlaceMD ID " + id + " - " + kindTitle[apartment.kind];
   const categoryPath = getApartmentCategoryPath(apartment.class);
-  const categoryName = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? "Standard+" : apartment.class === "standard" ? "Standard" : "Economy";
+  const categoryName = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? language === "ru" ? "Комфорт" : "Comfort" : apartment.class === "standard" ? "Standard" : "Economy";
   const isCuzaVoda = String(id) === "6";
 
   return [
@@ -729,19 +730,6 @@ export function getApartmentJsonLd(
           item: url,
         },
       ],
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      inLanguage: language,
-      mainEntity: (localized?.faq ?? apartmentFaqByLanguage[language]).map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
     },
   ];
 }

@@ -50,7 +50,7 @@ function CompactHomeFooter({
             </p>
             <div className="mt-1 space-y-0.5 text-[13px] font-black leading-tight">
               <a href="tel:+37369990190" className="block min-h-5">+373 69 990 190</a>
-              <a href="tel:+37379990190" className="block min-h-5">+373 79 990 190</a>
+              <span className="block min-h-5">+373 69 560 967</span>
             </div>
             <div className="mt-1.5 flex justify-end gap-1">
               <CompactSocialLink href="https://wa.me/37369990190" label="WhatsApp" tone="bg-[#25D366]">
@@ -137,13 +137,9 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
               <PhoneIcon />
             </a>
 
-            <a
-              href="tel:+37379990190"
-              className="flex items-center justify-between rounded-2xl bg-white/[0.06] px-4 py-3 text-[18px] font-black text-white transition active:scale-[0.98]"
-            >
-              <span>+373 79 990 190</span>
-              <PhoneIcon />
-            </a>
+            <div className="flex items-center justify-between rounded-2xl bg-white/[0.06] px-4 py-3 text-[18px] font-black text-white/85">
+              <span>+373 69 560 967</span>
+            </div>
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-2.5">
@@ -241,18 +237,15 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
                 </span>
               </a>
 
-              <a
-                href="tel:+37379990190"
-                className="group block rounded-2xl px-1 py-1 transition hover:text-[#ff4fa3]"
-              >
+              <div className="block rounded-2xl px-1 py-1 text-white/85">
                 <span className="mb-1 block text-[11px] font-black uppercase tracking-[0.22em] text-white/35 group-hover:text-[#ffd21f]">
-                  {t.footer.callTelegram}
+                  {t.footer.contacts}
                 </span>
                 <span className="flex items-center gap-3 text-[23px] font-black text-white transition group-hover:text-[#ff4fa3]">
                   <PhoneIcon />
-                  +373 79 990 190
+                  +373 69 560 967
                 </span>
-              </a>
+              </div>
             </div>
           </div>
 

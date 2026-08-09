@@ -46,7 +46,7 @@ export default function ApartmentGallery({
   const activePhoto = photos[activeIndex] ?? photos[0];
   const activeLightboxIndex = lightboxIndex ?? 0;
   const activeLightboxPhoto = photos[activeLightboxIndex] ?? photos[0];
-  const thumbnailPhotos = photos.slice(0, 4);
+  const thumbnailPhotos = photos;
 
   const showPrevious = useCallback(() => {
     setActiveIndex((current) => (current - 1 + photos.length) % photos.length);
@@ -287,7 +287,7 @@ export default function ApartmentGallery({
         </div>
 
         {thumbnailPhotos.length > 1 ? (
-          <div className="mt-2.5 hidden grid-cols-4 gap-2 sm:grid">
+          <div className="mt-2.5 flex snap-x gap-2 overflow-x-auto pb-1 sm:grid sm:grid-cols-4 sm:overflow-visible">
             {thumbnailPhotos.map((photo, index) => (
               <button
                 key={photo.src}
@@ -296,7 +296,7 @@ export default function ApartmentGallery({
                 aria-label={photo.alt}
                 aria-current={activeIndex === index ? "true" : undefined}
                 className={[
-                  "overflow-hidden rounded-xl border-2 bg-white p-0.5 transition",
+                  "w-[72px] shrink-0 snap-start overflow-hidden rounded-xl border-2 bg-white p-0.5 transition sm:w-auto",
                   activeIndex === index
                     ? "border-[#d4146f]"
                     : "border-transparent opacity-80 hover:opacity-100",
@@ -307,7 +307,7 @@ export default function ApartmentGallery({
                   alt=""
                   className="aspect-[4/3] rounded-[9px]"
                   imgClassName="object-cover"
-                  sizes="(min-width: 1024px) 280px, 25vw"
+                  sizes="(min-width: 1024px) 280px, (min-width: 640px) 25vw, 72px"
                   loading="lazy"
                 />
               </button>

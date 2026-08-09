@@ -34,7 +34,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Цена по запросу",
     priceFrom: (price) => "от " + price + " лей",
     count: (count) => count + " " + (count % 10 === 1 && count % 100 !== 11 ? "вариант" : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14) ? "варианта" : "вариантов"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Комфорт", premium: "Premium" },
   },
   ro: {
     eyebrow: "Toate apartamentele",
@@ -45,7 +45,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Preț la cerere",
     priceFrom: (price) => "de la " + price + " lei",
     count: (count) => count + " " + (count === 1 ? "opțiune" : "opțiuni"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
   en: {
     eyebrow: "All apartments",
@@ -56,7 +56,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Price on request",
     priceFrom: (price) => "from " + price + " MDL",
     count: (count) => count + " " + (count === 1 ? "option" : "options"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
   uk: {
     eyebrow: "Усі квартири",
@@ -67,7 +67,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Ціна за запитом",
     priceFrom: (price) => "від " + price + " леїв",
     count: (count) => count + " " + (count % 10 === 1 && count % 100 !== 11 ? "варіант" : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14) ? "варіанти" : "варіантів"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
   cs: {
     eyebrow: "Všechny apartmány",
@@ -78,7 +78,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Cena na vyžádání",
     priceFrom: (price) => "od " + price + " MDL",
     count: (count) => count + " " + (count === 1 ? "možnost" : count >= 2 && count <= 4 ? "možnosti" : "možností"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
 };
 

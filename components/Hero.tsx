@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
-import { formatApartmentCountText } from "@/lib/apartments";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -26,9 +25,6 @@ export default function Hero() {
             {t.hero.title}
           </h1>
 
-          <p className="mx-auto mt-1.5 max-w-[350px] text-[14px] font-bold leading-5 text-white/90 sm:mt-3 sm:max-w-4xl sm:text-2xl sm:leading-8">
-            {formatApartmentCountText(t.hero.subtitle)}
-          </p>
         </div>
       </div>
     </section>

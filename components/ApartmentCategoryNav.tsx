@@ -27,7 +27,7 @@ const textByLanguage: Record<
     allCategories: "Все категории",
     category: "Категория",
     back: "Назад",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Комфорт", premium: "Premium" },
   },
   ro: {
     home: "Acasă",
@@ -35,7 +35,7 @@ const textByLanguage: Record<
     allCategories: "Toate categoriile",
     category: "Categorie",
     back: "Înapoi",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
   en: {
     home: "Home",
@@ -43,7 +43,7 @@ const textByLanguage: Record<
     allCategories: "All categories",
     category: "Category",
     back: "Back",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
   uk: {
     home: "Головна",
@@ -51,7 +51,7 @@ const textByLanguage: Record<
     allCategories: "Усі категорії",
     category: "Категорія",
     back: "Назад",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
   cs: {
     home: "Domů",
@@ -59,26 +59,32 @@ const textByLanguage: Record<
     allCategories: "Všechny kategorie",
     category: "Kategorie",
     back: "Zpět",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Standard+", premium: "Premium" },
+    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
   },
 };
 
-export default function ApartmentCategoryNav({ currentClass }: { currentClass: ApartmentClass }) {
+export default function ApartmentCategoryNav({
+  currentClass,
+  backHref = "/apartments",
+}: {
+  currentClass?: ApartmentClass;
+  backHref?: string;
+}) {
   const { language } = useLanguage();
   const text = textByLanguage[language];
   const router = useRouter();
 
   return (
-    <section className="bg-[#fffaf0] px-4 pt-4 sm:px-6 sm:pt-6 lg:px-8">
+    <section className="bg-[#111b2a] px-4 pt-4 text-white sm:px-6 sm:pt-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/apartments" className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
-            ← {text.back}
+          <Link href={backHref} className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-white/10 transition hover:text-[#d4146f]">
+            {text.back}
           </Link>
           <label className="flex min-h-11 min-w-0 items-center gap-2 rounded-xl bg-white px-3 shadow-sm ring-1 ring-black/5">
             <span className="hidden text-xs font-black text-slate-500 sm:inline">{text.category}:</span>
             <select
-              value={currentClass}
+              value={currentClass ?? "all"}
               onChange={(event) => {
                 const category = event.target.value as ApartmentClass | "all";
                 router.push(category === "all" ? "/apartments" : getApartmentCategoryPath(category));

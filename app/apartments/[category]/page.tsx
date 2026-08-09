@@ -56,7 +56,7 @@ export default async function ApartmentCategoryPage({ params, searchParams }: Ca
   const jsonLd = getApartmentCategoryJsonLd(apartmentClass, typeof lang === "string" ? lang : undefined);
 
   return (
-    <main className="min-h-screen bg-[#fffaf0]">
+    <main className="min-h-screen bg-[#111b2a]">
       <JsonLdScript
         id={"apartment-category-" + categorySlug + "-jsonld"}
         data={jsonLd}

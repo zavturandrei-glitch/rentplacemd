@@ -376,7 +376,7 @@ export default function AvailabilityCalendar({
 
   return (
     <section
-      className="rounded-2xl border border-[#07111f]/10 bg-white p-4 shadow-[0_12px_35px_rgba(7,17,31,0.07)] sm:p-6"
+      className="rounded-2xl border border-[#07111f]/10 bg-white p-3 shadow-[0_12px_35px_rgba(7,17,31,0.07)] sm:p-5"
       aria-labelledby={headingId}
     >
       <div className="flex items-start justify-between gap-4">
@@ -386,23 +386,23 @@ export default function AvailabilityCalendar({
           </p>
           <h2
             id={headingId}
-            className="mt-1 text-2xl font-black tracking-tight sm:text-3xl"
+            className="mt-0.5 text-xl font-black tracking-tight sm:text-3xl"
           >
             {text.title}
           </h2>
-          <p className="mt-1 text-sm font-medium text-slate-600">
+          <p className="mt-0.5 text-xs font-medium text-slate-600 sm:text-sm">
             {isRefreshing ? text.refreshing : text.description}
           </p>
         </div>
       </div>
 
-      <div className="mt-5 rounded-2xl border border-[#07111f]/10 p-2.5 sm:p-4">
+      <div className="mt-3 overflow-hidden rounded-xl border border-[#07111f]/15 p-2 sm:p-3">
         <div className="flex items-center justify-between gap-2 px-1">
           <button
             type="button"
             onClick={() => setVisibleMonth((month) => addMonths(month, -1))}
             disabled={!canGoPrevious}
-            className="flex h-11 w-11 items-center justify-center rounded-xl text-2xl font-black transition hover:bg-[#fffaf0] disabled:cursor-not-allowed disabled:opacity-25"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-xl font-black transition hover:bg-[#fffaf0] disabled:cursor-not-allowed disabled:opacity-25"
             aria-label={text.previousMonth}
           >
             ‹
@@ -413,22 +413,22 @@ export default function AvailabilityCalendar({
           <button
             type="button"
             onClick={() => setVisibleMonth((month) => addMonths(month, 1))}
-            className="flex h-11 w-11 items-center justify-center rounded-xl text-2xl font-black transition hover:bg-[#fffaf0]"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-xl font-black transition hover:bg-[#fffaf0]"
             aria-label={text.nextMonth}
           >
             ›
           </button>
         </div>
 
-        <div className="mt-2 grid grid-cols-7 text-center text-[10px] font-black uppercase tracking-[0.08em] text-slate-400 sm:text-xs">
+        <div className="mt-1 grid grid-cols-7 text-center text-[9px] font-black uppercase tracking-[0.05em] text-slate-400 sm:text-xs">
           {text.weekdays.map((day) => (
-            <div key={day} className="py-2">
+            <div key={day} className="py-1.5">
               {day}
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-7 gap-y-1">
+        <div className="grid grid-cols-7 overflow-hidden rounded-lg border-l border-t border-[#07111f]/12">
           {calendarDays.map((day) => {
             const dateKey = formatDate(day);
             const isCurrentMonth = day.getMonth() === visibleMonth.getMonth();
@@ -453,7 +453,7 @@ export default function AvailabilityCalendar({
                 aria-label={label}
                 aria-pressed={isSelected}
                 className={[
-                  "relative flex min-h-11 items-center justify-center text-sm font-black transition focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#d4146f]",
+                  "relative flex min-h-9 items-center justify-center border-b border-r border-[#07111f]/12 text-xs font-black transition focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#d4146f] sm:min-h-11 sm:text-sm",
                   isCurrentMonth ? "" : "opacity-35",
                   isPast
                     ? "cursor-not-allowed text-slate-300"
@@ -476,14 +476,14 @@ export default function AvailabilityCalendar({
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold text-slate-500">
+      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-bold text-slate-500">
         <LegendItem color="border border-[#07111f]/20 bg-white" label={text.free} />
         <LegendItem color="bg-slate-200" label={text.booked} strike />
         <LegendItem color="bg-[#07111f]" label={text.selected} />
         <LegendItem color="border-2 border-[#d4146f] bg-white" label={text.today} />
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-2">
+      <div className="mt-3 grid grid-cols-2 gap-2">
         <div className="rounded-xl bg-[#f7f3ed] px-3 py-3">
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
             {text.checkIn}
