@@ -1,10 +1,15 @@
 import type { Language } from "@/locales/translations";
+import { localizeAmenity } from "@/lib/amenityLocalization";
 import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
-import type { ApartmentClass } from "@/lib/apartments";
+import {
+  getActiveApartmentById,
+  type Apartment,
+  type ApartmentClass,
+} from "@/lib/apartments";
 import { normalizeApartmentId } from "@/lib/apartmentId";
 import { newApartmentLocalizations } from "@/lib/newApartmentLocalization";
 
-type LocalizedApartmentKind = "studio" | "oneBedroom";
+type LocalizedApartmentKind = Apartment["kind"];
 
 type ApartmentLocalizationDefinition = {
   address: Record<Language, string>;
@@ -201,6 +206,11 @@ const localizationDefinitions: Record<string, ApartmentLocalizationDefinition> =
   "78": { address: levTolstoi63, category: "Premium", kind: "oneBedroom", price: 1100 },
 };
 
+const completedLegacyApartmentIds = new Set([
+  "1", "2", "3", "4", "5", "7", "8", "9", "10", "11", "12", "13",
+  "14", "20", "21", "22", "23", "37", "38", "42", "110", "111", "112", "371",
+]);
+
 type LocalizationText = {
   type: Record<LocalizedApartmentKind, string>;
   short: Record<LocalizedApartmentKind, string>;
@@ -215,9 +225,9 @@ type LocalizationText = {
 
 const localizationText: Record<Language, LocalizationText> = {
   ru: {
-    type: { studio: "Студия", oneBedroom: "Квартира 1+1" },
-    short: { studio: "Уютная студия для посуточного проживания.", oneBedroom: "Квартира с отдельной спальней и гостиной." },
-    layout: { studio: "Единое жилое пространство со спальной зоной.", oneBedroom: "Отдельная спальня и гостиная." },
+    type: { studio: "Студия", oneBedroom: "Квартира 1+1", twoBedroom: "Квартира с двумя спальнями", twoBedroomPlus: "Квартира 2+1" },
+    short: { studio: "Уютная студия для посуточного проживания.", oneBedroom: "Квартира с отдельной спальней и гостиной.", twoBedroom: "Квартира с двумя спальнями.", twoBedroomPlus: "Просторная квартира планировки 2+1." },
+    layout: { studio: "Единое жилое пространство со спальной зоной.", oneBedroom: "Отдельная спальня и гостиная.", twoBedroom: "Две отдельные спальни.", twoBedroomPlus: "Планировка 2+1: две спальни и гостиная зона." },
     about: (type, address) => type + " по адресу " + address,
     title: (type, address, id) => type + " на " + address + " — ID " + id,
     description: (type, address, id, category, price) => type + " " + category + " ID " + id + " по адресу " + address + ". Цена " + price + " MDL за сутки, реальные фотографии и прямое бронирование RentPlaceMD.",
@@ -226,9 +236,9 @@ const localizationText: Record<Language, LocalizationText> = {
     features: (kind, category) => kind === "studio" ? [category, "Студия", "Спальная зона"] : [category, "Отдельная спальня", "Гостиная"],
   },
   ro: {
-    type: { studio: "Garsonieră", oneBedroom: "Apartament 1+1" },
-    short: { studio: "Garsonieră confortabilă pentru închiriere zilnică.", oneBedroom: "Apartament cu dormitor separat și living." },
-    layout: { studio: "Spațiu locativ unic cu zonă de dormit.", oneBedroom: "Dormitor separat și living." },
+    type: { studio: "Garsonieră", oneBedroom: "Apartament 1+1", twoBedroom: "Apartament cu două dormitoare", twoBedroomPlus: "Apartament 2+1" },
+    short: { studio: "Garsonieră confortabilă pentru închiriere zilnică.", oneBedroom: "Apartament cu dormitor separat și living.", twoBedroom: "Apartament cu două dormitoare.", twoBedroomPlus: "Apartament spațios cu planificare 2+1." },
+    layout: { studio: "Spațiu locativ unic cu zonă de dormit.", oneBedroom: "Dormitor separat și living.", twoBedroom: "Două dormitoare separate.", twoBedroomPlus: "Planificare 2+1: două dormitoare și zonă de living." },
     about: (type, address) => type + " pe " + address,
     title: (type, address, id) => type + " pe " + address + " — ID " + id,
     description: (type, address, id, category, price) => type + " " + category + " ID " + id + " pe " + address + ". Preț " + price + " MDL pe noapte, fotografii reale și rezervare directă RentPlaceMD.",
@@ -237,9 +247,9 @@ const localizationText: Record<Language, LocalizationText> = {
     features: (kind, category) => kind === "studio" ? [category, "Garsonieră", "Zonă de dormit"] : [category, "Dormitor separat", "Living"],
   },
   en: {
-    type: { studio: "Studio apartment", oneBedroom: "1+1 apartment" },
-    short: { studio: "Comfortable studio for daily rental.", oneBedroom: "Apartment with a separate bedroom and living room." },
-    layout: { studio: "Open-plan living space with a sleeping area.", oneBedroom: "Separate bedroom and living room." },
+    type: { studio: "Studio apartment", oneBedroom: "1+1 apartment", twoBedroom: "Two-bedroom apartment", twoBedroomPlus: "2+1 apartment" },
+    short: { studio: "Comfortable studio for daily rental.", oneBedroom: "Apartment with a separate bedroom and living room.", twoBedroom: "Apartment with two bedrooms.", twoBedroomPlus: "Spacious apartment with a 2+1 layout." },
+    layout: { studio: "Open-plan living space with a sleeping area.", oneBedroom: "Separate bedroom and living room.", twoBedroom: "Two separate bedrooms.", twoBedroomPlus: "2+1 layout with two bedrooms and a living area." },
     about: (type, address) => type + " at " + address,
     title: (type, address, id) => type + " at " + address + " — ID " + id,
     description: (type, address, id, category, price) => category + " " + type.toLowerCase() + " ID " + id + " at " + address + ". " + price + " MDL per night, real photos and direct booking with RentPlaceMD.",
@@ -248,9 +258,9 @@ const localizationText: Record<Language, LocalizationText> = {
     features: (kind, category) => kind === "studio" ? [category, "Studio", "Sleeping area"] : [category, "Separate bedroom", "Living room"],
   },
   uk: {
-    type: { studio: "Студія", oneBedroom: "Квартира 1+1" },
-    short: { studio: "Затишна студія для подобової оренди.", oneBedroom: "Квартира з окремою спальнею та вітальнею." },
-    layout: { studio: "Єдиний житловий простір зі спальним місцем.", oneBedroom: "Окрема спальня та вітальня." },
+    type: { studio: "Студія", oneBedroom: "Квартира 1+1", twoBedroom: "Квартира з двома спальнями", twoBedroomPlus: "Квартира 2+1" },
+    short: { studio: "Затишна студія для подобової оренди.", oneBedroom: "Квартира з окремою спальнею та вітальнею.", twoBedroom: "Квартира з двома спальнями.", twoBedroomPlus: "Простора квартира планування 2+1." },
+    layout: { studio: "Єдиний житловий простір зі спальним місцем.", oneBedroom: "Окрема спальня та вітальня.", twoBedroom: "Дві окремі спальні.", twoBedroomPlus: "Планування 2+1: дві спальні та вітальня зона." },
     about: (type, address) => type + " за адресою " + address,
     title: (type, address, id) => type + " на " + address + " — ID " + id,
     description: (type, address, id, category, price) => type + " " + category + " ID " + id + " за адресою " + address + ". Ціна " + price + " MDL за добу, реальні фотографії та пряме бронювання RentPlaceMD.",
@@ -259,9 +269,9 @@ const localizationText: Record<Language, LocalizationText> = {
     features: (kind, category) => kind === "studio" ? [category, "Студія", "Спальна зона"] : [category, "Окрема спальня", "Вітальня"],
   },
   cs: {
-    type: { studio: "Studio", oneBedroom: "Apartmán 1+1" },
-    short: { studio: "Pohodlné studio pro denní pronájem.", oneBedroom: "Apartmán s oddělenou ložnicí a obývacím pokojem." },
-    layout: { studio: "Otevřený obytný prostor se spací zónou.", oneBedroom: "Oddělená ložnice a obývací pokoj." },
+    type: { studio: "Studio", oneBedroom: "Apartmán 1+1", twoBedroom: "Apartmán se dvěma ložnicemi", twoBedroomPlus: "Apartmán 2+1" },
+    short: { studio: "Pohodlné studio pro denní pronájem.", oneBedroom: "Apartmán s oddělenou ložnicí a obývacím pokojem.", twoBedroom: "Apartmán se dvěma ložnicemi.", twoBedroomPlus: "Prostorný apartmán s dispozicí 2+1." },
+    layout: { studio: "Otevřený obytný prostor se spací zónou.", oneBedroom: "Oddělená ložnice a obývací pokoj.", twoBedroom: "Dvě oddělené ložnice.", twoBedroomPlus: "Dispozice 2+1 se dvěma ložnicemi a obytnou částí." },
     about: (type, address) => type + " na adrese " + address,
     title: (type, address, id) => type + " na adrese " + address + " — ID " + id,
     description: (type, address, id, category, price) => type + " " + category + " ID " + id + " na adrese " + address + ". Cena " + price + " MDL za noc, reálné fotografie a přímá rezervace RentPlaceMD.",
@@ -271,13 +281,78 @@ const localizationText: Record<Language, LocalizationText> = {
   },
 };
 
+const capacityText: Record<Language, (guests: number) => string> = {
+  ru: (guests) => `До ${guests} гостей`,
+  ro: (guests) => `Până la ${guests} ${guests === 1 ? "oaspete" : "oaspeți"}`,
+  en: (guests) => `Up to ${guests} ${guests === 1 ? "guest" : "guests"}`,
+  uk: (guests) => `До ${guests} гостей`,
+  cs: (guests) => `Až ${guests} ${guests < 5 ? "hosté" : "hostů"}`,
+};
+
+const bedsText: Record<Language, (beds: number) => string> = {
+  ru: (beds) => `${beds} ${beds === 1 ? "спальное место" : "спальных места"}`,
+  ro: (beds) => `${beds} ${beds === 1 ? "loc de dormit" : "locuri de dormit"}`,
+  en: (beds) => `${beds} ${beds === 1 ? "sleeping place" : "sleeping places"}`,
+  uk: (beds) => `${beds} ${beds === 1 ? "спальне місце" : "спальних місця"}`,
+  cs: (beds) => `${beds} ${beds === 1 ? "místo na spaní" : "místa na spaní"}`,
+};
+
+function getCompletedLegacyLocalization(
+  apartment: Apartment,
+  language: Language,
+): LocalizedApartmentSeo {
+  const text = localizationText[language];
+  const address = ismail88[language];
+  const type = text.type[apartment.kind];
+  const category = getApartmentClassLabel(apartment.class, language);
+  const capacity = apartment.guests === null
+    ? null
+    : capacityText[language](apartment.guests);
+  const beds = apartment.beds === null ? null : bedsText[language](apartment.beds);
+  const facts = [text.layout[apartment.kind], capacity, beds].filter(Boolean).join(" ");
+
+  return {
+    displayAddress: address,
+    title: text.title(type, address, String(apartment.id)),
+    description: [
+      text.description(
+        type,
+        address,
+        String(apartment.id),
+        category,
+        apartment.price,
+      ),
+      capacity ? `${capacity}.` : null,
+    ].filter(Boolean).join(" "),
+    imageAlt: text.imageAlt(type, address, String(apartment.id), "{index}"),
+    schemaName: text.schemaName(type, address, String(apartment.id)),
+    shortDescription: [
+      text.short[apartment.kind],
+      `ID ${apartment.id} · ${category} · ${apartment.price} MDL.`,
+      capacity ? `${capacity}.` : null,
+    ].filter(Boolean).join(" "),
+    layoutDescription: facts,
+    typeLabel: type,
+    aboutTitle: `${text.about(type, address)} · ID ${apartment.id}`,
+    features: apartment.amenities.map((amenity) =>
+      localizeAmenity(amenity, language),
+    ),
+    descriptionParagraphs: [facts],
+  };
+}
+
 export function getApartmentLocalization(apartmentId: string | number, language: Language) {
   const id = normalizeApartmentId(apartmentId);
   const newApartmentLocalization = newApartmentLocalizations[id]?.[language];
   if (newApartmentLocalization) return newApartmentLocalization;
   if (id === "6") return cuzaVoda12[language];
   const definition = localizationDefinitions[id];
-  if (!definition) return null;
+  if (!definition) {
+    const apartment = completedLegacyApartmentIds.has(id)
+      ? getActiveApartmentById(id)
+      : null;
+    return apartment ? getCompletedLegacyLocalization(apartment, language) : null;
+  }
 
   const text = localizationText[language];
   const address = definition.address[language];
@@ -342,7 +417,7 @@ export function getApartmentSeoLocalization(apartmentId: string | number, langua
 
 export function hasApartmentLocalization(apartmentId: string | number) {
   const id = normalizeApartmentId(apartmentId);
-  return id === "6" || Boolean(newApartmentLocalizations[id]) || Boolean(localizationDefinitions[id]);
+  return id === "6" || completedLegacyApartmentIds.has(id) || Boolean(newApartmentLocalizations[id]) || Boolean(localizationDefinitions[id]);
 }
 
 const allLocalizedLanguages: readonly Language[] = ["ru", "ro", "en", "uk", "cs"];

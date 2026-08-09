@@ -4,6 +4,12 @@ const amenityTranslations: Record<
   string,
   Partial<Record<Exclude<Language, "ru">, string>>
 > = {
+  "TV": { ro: "Televizor", en: "Television", uk: "Телевізор", cs: "Televize" },
+  "Кухня": { ro: "Bucătărie", en: "Kitchen", uk: "Кухня", cs: "Kuchyně" },
+  "Чистое бельё": { ro: "Lenjerie curată", en: "Clean linen", uk: "Чиста білизна", cs: "Čisté prádlo" },
+  "Чистое белье": { ro: "Lenjerie curată", en: "Clean linen", uk: "Чиста білизна", cs: "Čisté prádlo" },
+  "Душ": { ro: "Duș", en: "Shower", uk: "Душ", cs: "Sprcha" },
+  "Парковка рядом": { ro: "Parcare în apropiere", en: "Parking nearby", uk: "Паркування поруч", cs: "Parkování poblíž" },
   "1 большая комната + кухня": { ro: "1 cameră mare + bucătărie", en: "1 large room + kitchen", uk: "1 велика кімната + кухня", cs: "1 velký pokoj + kuchyně" },
   "2 двуспальные кровати": { ro: "2 paturi duble", en: "2 double beds", uk: "2 двоспальні ліжка", cs: "2 manželské postele" },
   "Автономное отопление": { ro: "Încălzire autonomă", en: "Independent heating", uk: "Автономне опалення", cs: "Vlastní vytápění" },

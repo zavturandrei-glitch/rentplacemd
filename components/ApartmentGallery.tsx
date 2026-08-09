@@ -168,25 +168,6 @@ export default function ApartmentGallery({
     showPreviousLightbox,
   ]);
 
-  useEffect(() => {
-    if (lightboxIndex === null || photos.length < 2) return;
-    const indexes = [
-      (lightboxIndex - 1 + photos.length) % photos.length,
-      (lightboxIndex + 1) % photos.length,
-    ];
-    const preloaders = [...new Set(indexes)].map((index) => {
-      const preloader = new window.Image();
-      preloader.decoding = "async";
-      preloader.src = photos[index].src;
-      return preloader;
-    });
-    return () => {
-      preloaders.forEach((preloader) => {
-        preloader.src = "";
-      });
-    };
-  }, [lightboxIndex, photos]);
-
   useEffect(
     () => () => {
       if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);

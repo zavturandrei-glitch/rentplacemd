@@ -212,7 +212,6 @@ const categoryThemes: Record<
     ink: string;
     line: string;
     panel: string;
-    code: string;
   }
 > = {
   all: {
@@ -222,7 +221,6 @@ const categoryThemes: Record<
     ink: "#07111f",
     line: "rgba(7,17,31,0.14)",
     panel: "#07111f",
-    code: "00",
   },
   economy: {
     accent: "#087f6d",
@@ -231,7 +229,6 @@ const categoryThemes: Record<
     ink: "#0b2823",
     line: "rgba(11,40,35,0.15)",
     panel: "#0b2823",
-    code: "01",
   },
   standard: {
     accent: "#2667b8",
@@ -240,7 +237,6 @@ const categoryThemes: Record<
     ink: "#10243c",
     line: "rgba(16,36,60,0.15)",
     panel: "#10243c",
-    code: "02",
   },
   standardPlus: {
     accent: "#c21868",
@@ -249,7 +245,6 @@ const categoryThemes: Record<
     ink: "#321326",
     line: "rgba(50,19,38,0.15)",
     panel: "#321326",
-    code: "03",
   },
   premium: {
     accent: "#a86f18",
@@ -258,7 +253,6 @@ const categoryThemes: Record<
     ink: "#171c25",
     line: "rgba(23,28,37,0.15)",
     panel: "#171c25",
-    code: "04",
   },
 };
 
@@ -388,12 +382,6 @@ export default function ApartmentCategoryContent({
         </dl>
 
         <section className="relative mt-14 overflow-hidden rounded-[1.75rem] bg-[var(--category-panel)] px-6 py-8 text-white shadow-[0_28px_80px_rgba(7,17,31,0.16)] sm:mt-20 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
-          <div
-            className="pointer-events-none absolute -right-8 -top-20 text-[13rem] font-black leading-none tracking-[-0.08em] text-white/[0.045] sm:right-4 sm:text-[18rem]"
-            aria-hidden="true"
-          >
-            {theme.code}
-          </div>
           <div className="relative grid gap-8 lg:grid-cols-[0.52fr_1.48fr] lg:gap-14">
             <div>
               <p className="text-[0.68rem] font-black uppercase tracking-[0.22em] text-[var(--category-accent)]">
@@ -448,7 +436,7 @@ export default function ApartmentCategoryContent({
           {category && apartments.length > 4 ? (
             <Link
               href="#apartments"
-              className="mt-7 inline-flex min-h-12 items-center justify-center rounded-xl bg-[var(--category-ink)] px-5 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--category-accent)]"
+              className="mt-7 inline-flex min-h-12 items-center justify-center rounded-xl bg-[var(--category-ink)] px-5 text-sm font-black text-[#07111f] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--category-accent)]"
             >
               {text.showAll}
             </Link>
