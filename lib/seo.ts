@@ -199,11 +199,11 @@ const categorySeoLanguage: Record<Language, {
 };
 
 const apartmentsPageSeo: Record<Language, { title: string; description: string }> = {
-  ru: { title: "Выбор класса квартиры RentPlaceMD", description: "Выберите квартиру RentPlaceMD в Кишинёве: Economy, Standard, Комфорт или Premium. Реальные фотографии, минимальные цены и доступные варианты." },
-  ro: { title: "Alege clasa apartamentului RentPlaceMD", description: "Alege un apartament RentPlaceMD în Chișinău: Economy, Standard, Comfort sau Premium. Fotografii reale, prețuri minime și opțiuni disponibile." },
-  en: { title: "Choose a RentPlaceMD apartment class", description: "Choose a RentPlaceMD apartment in Chisinau: Economy, Standard, Comfort or Premium. Real photos, minimum prices and available options." },
-  uk: { title: "Оберіть клас квартири RentPlaceMD", description: "Оберіть квартиру RentPlaceMD у Кишиневі: Economy, Standard, Comfort або Premium. Реальні фотографії, мінімальні ціни та доступні варіанти." },
-  cs: { title: "Vyberte třídu apartmánu RentPlaceMD", description: "Vyberte si apartmán RentPlaceMD v Kišiněvě: Economy, Standard, Comfort nebo Premium. Reálné fotografie, minimální ceny a dostupné možnosti." },
+  ru: { title: "Все квартиры RentPlaceMD в Кишинёве", description: "Каталог квартир RentPlaceMD посуточно в Кишинёве: Economy, Standard, Комфорт и Premium. Реальные фотографии, актуальные цены, адреса и вместимость." },
+  ro: { title: "Toate apartamentele RentPlaceMD din Chișinău", description: "Catalogul apartamentelor RentPlaceMD în regim hotelier în Chișinău: Economy, Standard, Comfort și Premium. Fotografii reale, prețuri actuale, adrese și capacitate." },
+  en: { title: "All RentPlaceMD apartments in Chisinau", description: "Browse RentPlaceMD short-stay apartments in Chisinau across Economy, Standard, Comfort and Premium, with real photos, current prices, addresses and guest capacity." },
+  uk: { title: "Усі квартири RentPlaceMD у Кишиневі", description: "Каталог квартир RentPlaceMD подобово в Кишиневі: Economy, Standard, Comfort і Premium. Реальні фотографії, актуальні ціни, адреси та місткість." },
+  cs: { title: "Všechny apartmány RentPlaceMD v Kišiněvě", description: "Katalog apartmánů RentPlaceMD pro krátkodobý pobyt v Kišiněvě: Economy, Standard, Comfort a Premium. Skutečné fotografie, aktuální ceny, adresy a kapacita." },
 };
 
 export function getApartmentsPageMetadata(languageInput?: string): Metadata {
@@ -286,7 +286,9 @@ export function getApartmentCategoryMetadata(category: ApartmentClass, languageI
 export function getApartmentCategoryMenuJsonLd(languageInput?: string) {
   const language = normalizeSiteLanguage(languageInput);
   const text = categorySeoLanguage[language];
+  const seo = apartmentsPageSeo[language];
   const apartmentsUrl = languageInput ? localizedUrl("/apartments", language) : baseUrl + "/apartments";
+  const apartmentListId = apartmentsUrl + "#apartments";
   return [
     {
       "@context": "https://schema.org",
@@ -308,6 +310,16 @@ export function getApartmentCategoryMenuJsonLd(languageInput?: string) {
     },
     {
       "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": apartmentsUrl + "#collection",
+      url: apartmentsUrl,
+      name: seo.title,
+      description: seo.description,
+      inLanguage: language,
+      mainEntity: { "@id": apartmentListId },
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "ItemList",
       name: text.categories,
       itemListElement: apartmentCategoryOrder.map((category, index) => ({
@@ -316,6 +328,22 @@ export function getApartmentCategoryMenuJsonLd(languageInput?: string) {
         name: getLocalizedCategorySeo(category, language).title,
         url: languageInput ? localizedUrl(getApartmentCategoryPath(category), language) : baseUrl + getApartmentCategoryPath(category),
       })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "@id": apartmentListId,
+      name: text.allApartments,
+      numberOfItems: activeApartments.length,
+      itemListElement: activeApartments.map((apartment, index) => {
+        const path = getApartmentDataPath(apartment);
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          name: `ID ${apartment.id} · ${getApartmentDisplayAddress(apartment.id, apartment.title, language)}`,
+          url: languageInput ? localizedUrl(path, language) : baseUrl + path,
+        };
+      }),
     },
   ];
 }

@@ -32,7 +32,7 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
       <Header />
       <ApartmentCategoryNav backHref="/" />
       <HomeCategoryLinks />
-      <ApartmentCategoryContent />
+      <ApartmentCategoryContent compactCatalog />
       <Footer />
     </main>
   );

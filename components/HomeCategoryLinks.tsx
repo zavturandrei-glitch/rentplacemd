@@ -27,9 +27,9 @@ export default function HomeCategoryLinks() {
   return (
     <section className="bg-[#0a1525] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <div className="mx-auto max-w-6xl min-w-0">
-        <h1 className="text-xl font-black tracking-[-0.025em] text-white sm:text-3xl">
+        <h2 className="text-xl font-black tracking-[-0.025em] text-white sm:text-3xl">
           {copy.title}
-        </h1>
+        </h2>
         <nav className="mt-4 grid min-w-0 grid-cols-2 gap-3 sm:mt-6 sm:gap-4 lg:grid-cols-4" aria-label={copy.title}>
           {apartmentCategoryOrder.map((category) => {
             const representative = getApartmentsByClass(category)[0];
@@ -46,19 +46,19 @@ export default function HomeCategoryLinks() {
                 <ResponsiveImage
                   src={representative.cardPhoto ?? representative.photos[0]}
                   alt={`${categoryLabel} · RentPlaceMD`}
-                  className="absolute inset-0"
+                  className="h-full w-full"
                   imgClassName="object-cover transition duration-500 group-hover:scale-[1.035]"
                   sizes="(min-width: 1024px) 280px, 50vw"
                   objectPosition={representative.cardImagePosition ?? "center"}
                   withWatermark
                 />
                 <span className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(4,10,20,.92)_100%)]" />
-                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3.5 text-white sm:p-5">
+                <span className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1 p-3.5 text-white sm:flex-row sm:items-end sm:justify-between sm:gap-2 sm:p-5">
                   <strong className="min-w-0 text-[15px] font-black leading-none sm:text-xl">
                     {categoryLabel}
                   </strong>
                   {minimumPrice !== null ? (
-                    <span className="shrink-0 text-right text-[11px] font-black leading-tight text-[#ffd21f] sm:text-sm">
+                    <span className="shrink-0 text-left text-[11px] font-black leading-tight text-[#ffd21f] sm:text-right sm:text-sm">
                       {copy.from} {minimumPrice} MDL
                     </span>
                   ) : null}
