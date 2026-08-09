@@ -219,8 +219,15 @@ const verifiedRoomLabel: Record<ApartmentRooms, string> = {
   "2+1": "планировка 2+1",
 };
 
+const verifiedCategoryLabel: Record<ApartmentClass, string> = {
+  economy: "Эконом",
+  standard: "Стандарт",
+  standardPlus: "Комфорт",
+  premium: "Премиум",
+};
+
 function verifiedShortDescription(input: VerifiedDescriptionInput) {
-  const category = apartmentClassLabels[input.category];
+  const category = verifiedCategoryLabel[input.category];
   const capacity = input.guests === null ? "" : ", до " + input.guests + " гостей";
 
   return "ID " + input.id + ": " + verifiedRoomLabel[input.rooms] + " " + category + capacity +
@@ -230,7 +237,7 @@ function verifiedShortDescription(input: VerifiedDescriptionInput) {
 function verifiedFullDescription(input: VerifiedDescriptionInput) {
   const facts = [
     verifiedRoomLabel[input.rooms],
-    "категория " + apartmentClassLabels[input.category],
+    "категория " + verifiedCategoryLabel[input.category],
     "адрес " + input.address,
     "цена " + input.price + " MDL за сутки",
     input.guests === null ? null : "вместимость до " + input.guests + " гостей",
@@ -315,9 +322,9 @@ export const apartments = [
     beds: 1,
     kind: "studio",
     shortDescription:
-      "Современная студия категории Standard Plus в новом доме в центре Кишинёва для двух гостей.",
+      "Современная студия категории Комфорт в новом доме в центре Кишинёва для двух гостей.",
     fullDescription:
-      "Современная студия категории Standard Plus в новом доме в центре Кишинёва.\n\nПодходит для двух гостей.\n\nВ квартире имеются большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, полный набор кухонной посуды, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nКруглосуточное заселение по предварительной договорённости.",
+      "Современная студия категории Комфорт в новом доме в центре Кишинёва.\n\nПодходит для двух гостей.\n\nВ квартире имеются большая двуспальная кровать, кондиционер, Smart TV, Wi-Fi, мини-кухня, холодильник, микроволновая печь, электрочайник, полный набор кухонной посуды, современная душевая, фен, полотенца, шампунь и гель для душа.\n\nКруглосуточное заселение по предварительной договорённости.",
     amenities: [
       "Большая двуспальная кровать",
       "Кондиционер",
@@ -1289,7 +1296,7 @@ export const apartments = [
     shortDescription:
       "Premium-студия с выразительным современным интерьером и видом в сторону Дендрария.",
     fullDescription:
-      "Студия ID 203 на Strada Coca 15 — вариант категории Premium с цельным современным интерьером и видом в сторону Дендрария. Стоимость проживания составляет 1000 MDL в сутки.\n\nДля гостей подтверждены кондиционер, Smart TV, Wi-Fi, роллеты и мини-кухня.",
+      "Студия ID 203 на Strada Coca 15 — вариант категории Премиум с цельным современным интерьером и видом в сторону Дендрария. Стоимость проживания составляет 1000 MDL в сутки.\n\nДля гостей подтверждены кондиционер, Smart TV, Wi-Fi, роллеты и мини-кухня.",
     amenities: [
       "Premium",
       "Современный евроремонт",
@@ -1323,7 +1330,7 @@ export const apartments = [
     beds: null,
     kind: "studio",
     shortDescription:
-      "Светлая студия Premium с лаконичным интерьером и видом в сторону Дендрария.",
+      "Светлая студия Премиум с лаконичным интерьером и видом в сторону Дендрария.",
     fullDescription:
       "Студия ID 204 на Strada Coca 15 сочетает спокойную светлую отделку, категорию Premium и вид в сторону Дендрария. Цена — 1000 MDL за сутки.\n\nКвартира подготовлена для посуточного проживания; подтверждены кондиционер, Smart TV, Wi-Fi, роллеты и мини-кухня.",
     amenities: [
@@ -1453,7 +1460,7 @@ export const apartmentDetailsById = Object.fromEntries(
             aboutTitle:
               apartment.id === 5 || apartment.id === 7
                 ? "Современная студия Комфорт для 2 гостей"
-                : "Современная студия Standard Plus для 2 гостей",
+                : "Современная студия Комфорт для 2 гостей",
             descriptionParagraphs: apartment.fullDescription.split("\n\n"),
             features: apartment.amenities,
             galleryLayout: "extended" as const,

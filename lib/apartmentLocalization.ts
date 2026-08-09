@@ -1,4 +1,6 @@
 import type { Language } from "@/locales/translations";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
+import type { ApartmentClass } from "@/lib/apartments";
 import { normalizeApartmentId } from "@/lib/apartmentId";
 import { newApartmentLocalizations } from "@/lib/newApartmentLocalization";
 
@@ -280,18 +282,24 @@ export function getApartmentLocalization(apartmentId: string | number, language:
   const text = localizationText[language];
   const address = definition.address[language];
   const type = text.type[definition.kind];
+  const categoryClass: Record<ApartmentLocalizationDefinition["category"], ApartmentClass> = {
+    Standard: "standard",
+    Comfort: "standardPlus",
+    Premium: "premium",
+  };
+  const category = getApartmentClassLabel(categoryClass[definition.category], language);
 
   return {
     displayAddress: address,
     title: text.title(type, address, id),
-    description: text.description(type, address, id, definition.category, definition.price),
+    description: text.description(type, address, id, category, definition.price),
     imageAlt: text.imageAlt(type, address, id, "{index}"),
     schemaName: text.schemaName(type, address, id),
-    shortDescription: text.short[definition.kind] + " ID " + id + " · " + definition.category + " · " + definition.price + " MDL.",
+    shortDescription: text.short[definition.kind] + " ID " + id + " · " + category + " · " + definition.price + " MDL.",
     layoutDescription: text.layout[definition.kind],
     typeLabel: type,
     aboutTitle: text.about(type, address) + " · ID " + id,
-    features: text.features(definition.kind, definition.category),
+    features: text.features(definition.kind, category),
     descriptionParagraphs: [text.layout[definition.kind]],
   } satisfies LocalizedApartmentSeo;
 }

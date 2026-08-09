@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   formatLocalizedImageAlt,
   getApartmentDisplayAddress,
@@ -9,7 +10,6 @@ import {
 } from "@/lib/apartmentLocalization";
 import {
   apartmentCategoryOrder,
-  apartmentClassLabels,
   apartmentDetailsById,
   activeApartments,
   getApartmentById,
@@ -156,16 +156,16 @@ export const apartmentCategorySeo: Record<
   { title: string; description: string; intro: string }
 > = {
   economy: {
-    title: "Economy квартиры RentPlaceMD в Кишинёве",
+    title: "Квартиры Эконом RentPlaceMD в Кишинёве",
     description:
-      "Практичные квартиры Economy RentPlaceMD в центре Кишинёва. Реальные фото, ID, цены и быстрый контакт для проверки свободных дат.",
+      "Практичные квартиры Эконом RentPlaceMD в центре Кишинёва. Реальные фото, ID, цены и быстрый контакт для проверки свободных дат.",
     intro:
       "Практичные квартиры по доступной цене для гостей, которым важны центр города, понятная стоимость и быстрый контакт.",
   },
   standard: {
-    title: "Standard квартиры RentPlaceMD в Кишинёве",
+    title: "Квартиры Стандарт RentPlaceMD в Кишинёве",
     description:
-      "Квартиры Standard RentPlaceMD в Кишинёве для посуточного проживания, отдыха и командировок. Фото, цены и прямой контакт.",
+      "Квартиры Стандарт RentPlaceMD в Кишинёве для посуточного проживания, отдыха и командировок. Фото, цены и прямой контакт.",
     intro:
       "Комфортные квартиры для повседневного проживания, короткого отдыха и рабочих поездок в центральной части Кишинёва.",
   },
@@ -177,9 +177,9 @@ export const apartmentCategorySeo: Record<
       "Более свежие или улучшенные варианты для гостей, которые хотят повышенный комфорт и аккуратный визуальный уровень.",
   },
   premium: {
-    title: "Premium квартиры RentPlaceMD в Кишинёве",
+    title: "Квартиры Премиум RentPlaceMD в Кишинёве",
     description:
-      "Квартиры Premium RentPlaceMD в Кишинёве с отдельной спальней и гостиной, реальными фото и прямым бронированием.",
+      "Квартиры Премиум RentPlaceMD в Кишинёве с отдельной спальней и гостиной, реальными фото и прямым бронированием.",
     intro:
       "Премиальные квартиры с отдельной спальней и гостиной для комфортного проживания в центре Кишинёва.",
   },
@@ -199,11 +199,11 @@ const categorySeoLanguage: Record<Language, {
 };
 
 const apartmentsPageSeo: Record<Language, { title: string; description: string }> = {
-  ru: { title: "Все квартиры RentPlaceMD в Кишинёве", description: "Каталог квартир RentPlaceMD посуточно в Кишинёве: Economy, Standard, Комфорт и Premium. Реальные фотографии, актуальные цены, адреса и вместимость." },
-  ro: { title: "Toate apartamentele RentPlaceMD din Chișinău", description: "Catalogul apartamentelor RentPlaceMD în regim hotelier în Chișinău: Economy, Standard, Comfort și Premium. Fotografii reale, prețuri actuale, adrese și capacitate." },
+  ru: { title: "Все квартиры RentPlaceMD в Кишинёве", description: "Каталог квартир RentPlaceMD посуточно в Кишинёве: Эконом, Стандарт, Комфорт и Премиум. Реальные фотографии, актуальные цены, адреса и вместимость." },
+  ro: { title: "Toate apartamentele RentPlaceMD din Chișinău", description: "Catalogul apartamentelor RentPlaceMD în regim hotelier în Chișinău: Economic, Standard, Confort și Premium. Fotografii reale, prețuri actuale, adrese și capacitate." },
   en: { title: "All RentPlaceMD apartments in Chisinau", description: "Browse RentPlaceMD short-stay apartments in Chisinau across Economy, Standard, Comfort and Premium, with real photos, current prices, addresses and guest capacity." },
-  uk: { title: "Усі квартири RentPlaceMD у Кишиневі", description: "Каталог квартир RentPlaceMD подобово в Кишиневі: Economy, Standard, Comfort і Premium. Реальні фотографії, актуальні ціни, адреси та місткість." },
-  cs: { title: "Všechny apartmány RentPlaceMD v Kišiněvě", description: "Katalog apartmánů RentPlaceMD pro krátkodobý pobyt v Kišiněvě: Economy, Standard, Comfort a Premium. Skutečné fotografie, aktuální ceny, adresy a kapacita." },
+  uk: { title: "Усі квартири RentPlaceMD у Кишиневі", description: "Каталог квартир RentPlaceMD подобово в Кишиневі: Економ, Стандарт, Комфорт і Преміум. Реальні фотографії, актуальні ціни, адреси та місткість." },
+  cs: { title: "Všechny apartmány RentPlaceMD v Kišiněvě", description: "Katalog apartmánů RentPlaceMD pro krátkodobý pobyt v Kišiněvě: Ekonomická, Standardní, Komfortní a Prémiová. Skutečné fotografie, aktuální ceny, adresy a kapacita." },
 };
 
 export function getApartmentsPageMetadata(languageInput?: string): Metadata {
@@ -235,9 +235,7 @@ export function getApartmentsPageMetadata(languageInput?: string): Metadata {
 }
 
 function getLocalizedCategorySeo(category: ApartmentClass, language: Language) {
-  const label = category === "standardPlus" && language === "ru"
-    ? "Комфорт"
-    : apartmentClassLabels[category];
+  const label = getApartmentClassLabel(category, language);
   const text = categorySeoLanguage[language];
   return {
     title: text.title(label),
@@ -514,13 +512,13 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
   const language = getApartmentSeoLanguage(id, languageInput);
   const title =
     language === "ru" && id === 3
-      ? "Студия Standard Plus в центре Кишинёва — ID 3 | RentPlaceMD"
+      ? "Студия Комфорт в центре Кишинёва — ID 3 | RentPlaceMD"
       : language === "ru" && id === 5
         ? "Студия Комфорт — ID 5 | RentPlaceMD"
       : buildApartmentTitle(id, language);
   const description =
     language === "ru" && id === 3
-      ? "Современная студия категории Standard Plus. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 900 MDL."
+      ? "Современная студия категории Комфорт. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 900 MDL."
       : language === "ru" && id === 5
         ? "Современная студия категории Комфорт в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
       : buildApartmentDescription(id, language);
@@ -676,7 +674,7 @@ export function getApartmentJsonLd(
   const displayAddress = getApartmentDisplayAddress(id, apartment.title, language);
   const name = localized?.schemaName ?? "RentPlaceMD ID " + id + " - " + kindTitle[apartment.kind];
   const categoryPath = getApartmentCategoryPath(apartment.class);
-  const categoryName = apartment.class === "premium" ? "Premium" : apartment.class === "standardPlus" ? language === "ru" ? "Комфорт" : "Comfort" : apartment.class === "standard" ? "Standard" : "Economy";
+  const categoryName = getApartmentClassLabel(apartment.class, language);
   const isCuzaVoda = String(id) === "6";
 
   return [

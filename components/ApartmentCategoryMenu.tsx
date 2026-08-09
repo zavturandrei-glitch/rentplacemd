@@ -34,7 +34,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Цена по запросу",
     priceFrom: (price) => "от " + price + " лей",
     count: (count) => count + " " + (count % 10 === 1 && count % 100 !== 11 ? "вариант" : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14) ? "варианта" : "вариантов"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Комфорт", premium: "Premium" },
+    categories: { economy: "Эконом", standard: "Стандарт", standardPlus: "Комфорт", premium: "Премиум" },
   },
   ro: {
     eyebrow: "Toate apartamentele",
@@ -45,7 +45,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Preț la cerere",
     priceFrom: (price) => "de la " + price + " lei",
     count: (count) => count + " " + (count === 1 ? "opțiune" : "opțiuni"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
+    categories: { economy: "Economic", standard: "Standard", standardPlus: "Confort", premium: "Premium" },
   },
   en: {
     eyebrow: "All apartments",
@@ -67,7 +67,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Ціна за запитом",
     priceFrom: (price) => "від " + price + " леїв",
     count: (count) => count + " " + (count % 10 === 1 && count % 100 !== 11 ? "варіант" : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14) ? "варіанти" : "варіантів"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
+    categories: { economy: "Економ", standard: "Стандарт", standardPlus: "Комфорт", premium: "Преміум" },
   },
   cs: {
     eyebrow: "Všechny apartmány",
@@ -78,7 +78,7 @@ const textByLanguage: Record<Language, CategoryText> = {
     emptyPrice: "Cena na vyžádání",
     priceFrom: (price) => "od " + price + " MDL",
     count: (count) => count + " " + (count === 1 ? "možnost" : count >= 2 && count <= 4 ? "možnosti" : "možností"),
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
+    categories: { economy: "Ekonomická", standard: "Standardní", standardPlus: "Komfortní", premium: "Prémiová" },
   },
 };
 

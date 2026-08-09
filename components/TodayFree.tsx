@@ -2,6 +2,7 @@
 
 import ApartmentCard from "@/components/ApartmentCard";
 import { useLanguage } from "@/context/LanguageContext";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   activeApartments,
   apartmentCategoryOrder,
@@ -44,15 +45,15 @@ const sectionText: Record<
     countLabel: "вариантов",
     categories: {
       premium: {
-        title: "Premium",
-        description: "Квартиры Premium с современным интерьером и реальными фотографиями.",
-        badge: "Premium",
+        title: "Премиум",
+        description: "Квартиры Премиум с современным интерьером и реальными фотографиями.",
+        badge: "Премиум",
       },
       standard: {
-        title: "Standard",
+        title: "Стандарт",
         description:
           "Более комфортные квартиры с современным интерьером. Отличный выбор для отдыха, командировок и проживания в центре Кишинёва.",
-        badge: "Standard",
+        badge: "Стандарт",
       },
       standardPlus: {
         title: "Комфорт",
@@ -62,10 +63,10 @@ const sectionText: Record<
         highlightBadge: "Новые квартиры",
       },
       economy: {
-        title: "Economy",
+        title: "Эконом",
         description:
           "Практичные квартиры по более доступной цене. Хороший вариант для гостей, которым важно удобное расположение и разумная стоимость проживания.",
-        badge: "Economy · −100 MDL",
+        badge: "Эконом · −100 MDL",
         discount: "Скидка 100 MDL",
       },
     },
@@ -91,17 +92,17 @@ const sectionText: Record<
         badge: "Standard",
       },
       standardPlus: {
-        title: "Comfort",
+        title: "Confort",
         description:
           "Apartamente noi RentPlaceMD, cu renovare modernă, interior luminos și un nivel mai ridicat de confort.",
-        badge: "Comfort",
+        badge: "Confort",
         highlightBadge: "Apartamente noi",
       },
       economy: {
-        title: "Economy",
+        title: "Economic",
         description:
           "Apartamente practice, la un preț mai accesibil. O variantă bună pentru oaspeții care apreciază amplasarea comodă și costul rezonabil al șederii.",
-        badge: "Economy · −100 MDL",
+        badge: "Economic · −100 MDL",
         discount: "Reducere 100 MDL",
       },
     },
@@ -152,28 +153,28 @@ const sectionText: Record<
     countLabel: "možností",
     categories: {
       premium: {
-        title: "Premium",
-        description: "Apartmány Premium s moderním interiérem a skutečnými fotografiemi.",
-        badge: "Premium",
+        title: "Prémiová",
+        description: "Prémiové apartmány s moderním interiérem a skutečnými fotografiemi.",
+        badge: "Prémiová",
       },
       standard: {
-        title: "Standard",
+        title: "Standardní",
         description:
           "Komfortnější apartmány s moderním interiérem. Skvělá volba pro odpočinek, pracovní cesty i pobyt v centru Kišiněva.",
-        badge: "Standard",
+        badge: "Standardní",
       },
       standardPlus: {
-        title: "Comfort",
+        title: "Komfortní",
         description:
           "Nové apartmány RentPlaceMD s moderní rekonstrukcí, světlým interiérem a vyšší úrovní komfortu.",
-        badge: "Comfort",
+        badge: "Komfortní",
         highlightBadge: "Nové apartmány",
       },
       economy: {
-        title: "Economy",
+        title: "Ekonomická",
         description:
           "Praktické apartmány za dostupnější cenu. Dobrá varianta pro hosty, kteří ocení pohodlnou polohu a rozumnou cenu pobytu.",
-        badge: "Economy · −100 MDL",
+        badge: "Ekonomická · −100 MDL",
         discount: "Sleva 100 MDL",
       },
     },
@@ -188,28 +189,28 @@ const sectionText: Record<
     countLabel: "варіантів",
     categories: {
       premium: {
-        title: "Premium",
-        description: "Квартири Premium із сучасним інтер’єром і реальними фотографіями.",
-        badge: "Premium",
+        title: "Преміум",
+        description: "Квартири Преміум із сучасним інтер’єром і реальними фотографіями.",
+        badge: "Преміум",
       },
       standard: {
-        title: "Standard",
+        title: "Стандарт",
         description:
           "Більш комфортні квартири із сучасним інтер'єром. Чудовий вибір для відпочинку, відряджень і проживання в центрі Кишинева.",
-        badge: "Standard",
+        badge: "Стандарт",
       },
       standardPlus: {
-        title: "Comfort",
+        title: "Комфорт",
         description:
           "Нові квартири RentPlaceMD із сучасним ремонтом, світлим інтер'єром і підвищеним рівнем комфорту.",
-        badge: "Comfort",
+        badge: "Комфорт",
         highlightBadge: "Нові квартири",
       },
       economy: {
-        title: "Economy",
+        title: "Економ",
         description:
           "Практичні квартири за доступнішою ціною. Хороший варіант для гостей, яким важливі зручне розташування і розумна вартість проживання.",
-        badge: "Economy · −100 MDL",
+        badge: "Економ · −100 MDL",
         discount: "Знижка 100 MDL",
       },
     },
@@ -271,9 +272,9 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
               discount?: string;
               highlightBadge?: string;
             } = {
-              title: category === "standardPlus" ? "Comfort" : category,
+              title: getApartmentClassLabel(category, currentLanguage),
               description: "",
-              badge: category === "standardPlus" ? "Comfort" : category,
+              badge: getApartmentClassLabel(category, currentLanguage),
             };
             const categoryText = text.categories[category] ?? fallbackCategoryText;
             const categoryApartments = getApartmentsByClass(category);

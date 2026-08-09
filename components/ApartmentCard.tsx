@@ -4,6 +4,7 @@ import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentDisplayAddress, getApartmentLocalization } from "@/lib/apartmentLocalization";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import { getApartmentCatalogPrice, getApartmentPath, type Apartment } from "@/lib/apartments";
 import type { Language } from "@/locales/translations";
 
@@ -49,14 +50,6 @@ const text: Record<Language, {
     alt: (id, address) => "Apartmán ID " + id + " · " + address,
   },
 };
-
-const categoryLabel = {
-  ru: { economy: "Economy", standard: "Standard", standardPlus: "Комфорт", premium: "Premium" },
-  ro: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
-  en: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
-  uk: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
-  cs: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
-} as const;
 
 export default function ApartmentCard({
   apartment,
@@ -109,7 +102,7 @@ export default function ApartmentCard({
           ID {apartment.id}
         </div>
         <div className="absolute right-3 top-3 z-10 rounded-full bg-white/92 px-3 py-1.5 text-xs font-black text-[#07111f] shadow ring-1 ring-black/10 backdrop-blur">
-          {categoryLabel[language][apartment.class]}
+          {getApartmentClassLabel(apartment.class, language)}
         </div>
       </ResponsiveImage>
 

@@ -3,21 +3,21 @@
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   apartmentCategoryOrder,
-  apartmentClassLabels,
   getApartmentsByClass,
   getApartmentCategoryMinimumPrice,
   getApartmentCategoryPath,
 } from "@/lib/apartments";
 import type { Language } from "@/locales/translations";
 
-const text: Record<Language, { title: string; from: string; comfort: string }> = {
-  ru: { title: "Квартиры по классу", from: "от", comfort: "Комфорт" },
-  ro: { title: "Apartamente după clasă", from: "de la", comfort: "Comfort" },
-  en: { title: "Apartments by class", from: "from", comfort: "Comfort" },
-  uk: { title: "Квартири за класом", from: "від", comfort: "Comfort" },
-  cs: { title: "Apartmány podle třídy", from: "od", comfort: "Comfort" },
+const text: Record<Language, { title: string; from: string }> = {
+  ru: { title: "Квартиры по классу", from: "от" },
+  ro: { title: "Apartamente după clasă", from: "de la" },
+  en: { title: "Apartments by class", from: "from" },
+  uk: { title: "Квартири за класом", from: "від" },
+  cs: { title: "Apartmány podle třídy", from: "od" },
 };
 
 export default function HomeCategoryLinks() {
@@ -34,7 +34,7 @@ export default function HomeCategoryLinks() {
           {apartmentCategoryOrder.map((category) => {
             const representative = getApartmentsByClass(category)[0];
             const minimumPrice = getApartmentCategoryMinimumPrice(category);
-            const categoryLabel = category === "standardPlus" ? copy.comfort : apartmentClassLabels[category];
+            const categoryLabel = getApartmentClassLabel(category, language);
             if (!representative) return null;
 
             return (

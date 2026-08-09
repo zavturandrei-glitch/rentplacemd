@@ -15,6 +15,7 @@ import {
   getApartmentDisplayAddress,
   getApartmentLocalization,
 } from "@/lib/apartmentLocalization";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   activeApartments,
   getApartmentCatalogPrice,
@@ -359,14 +360,7 @@ export default function ApartmentDetails({
   );
   const displayedPrice = getApartmentCatalogPrice(apartment);
   const compactLocationTitle = locationTitle.replace(/,\s*/g, " ");
-  const categoryLabel =
-    apartment.class === "premium"
-      ? "Premium"
-      : apartment.class === "standardPlus"
-        ? language === "ru" ? "Комфорт" : "Comfort"
-        : apartment.class === "standard"
-          ? "Standard"
-          : "Economy";
+  const categoryLabel = getApartmentClassLabel(apartment.class, language);
   const rawKindLabel =
     localizedApartment?.typeLabel ??
     apartment.displayKind ??

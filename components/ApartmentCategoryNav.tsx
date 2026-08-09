@@ -27,7 +27,7 @@ const textByLanguage: Record<
     allCategories: "Все категории",
     category: "Категория",
     back: "Назад",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Комфорт", premium: "Premium" },
+    categories: { economy: "Эконом", standard: "Стандарт", standardPlus: "Комфорт", premium: "Премиум" },
   },
   ro: {
     home: "Acasă",
@@ -35,7 +35,7 @@ const textByLanguage: Record<
     allCategories: "Toate categoriile",
     category: "Categorie",
     back: "Înapoi",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
+    categories: { economy: "Economic", standard: "Standard", standardPlus: "Confort", premium: "Premium" },
   },
   en: {
     home: "Home",
@@ -51,7 +51,7 @@ const textByLanguage: Record<
     allCategories: "Усі категорії",
     category: "Категорія",
     back: "Назад",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
+    categories: { economy: "Економ", standard: "Стандарт", standardPlus: "Комфорт", premium: "Преміум" },
   },
   cs: {
     home: "Domů",
@@ -59,7 +59,7 @@ const textByLanguage: Record<
     allCategories: "Všechny kategorie",
     category: "Kategorie",
     back: "Zpět",
-    categories: { economy: "Economy", standard: "Standard", standardPlus: "Comfort", premium: "Premium" },
+    categories: { economy: "Ekonomická", standard: "Standardní", standardPlus: "Komfortní", premium: "Prémiová" },
   },
 };
 

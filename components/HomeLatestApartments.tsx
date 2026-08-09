@@ -4,9 +4,9 @@ import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentDisplayAddress } from "@/lib/apartmentLocalization";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   activeApartments,
-  apartmentClassLabels,
   getApartmentCatalogPrice,
   getApartmentPath,
 } from "@/lib/apartments";
@@ -67,7 +67,7 @@ export default function HomeLatestApartments() {
                 </ResponsiveImage>
                 <span className="block p-4">
                   <span className="block text-[11px] font-black uppercase tracking-[0.13em] text-[#ff83b9]">
-                    {apartmentClassLabels[apartment.class]}
+                    {getApartmentClassLabel(apartment.class, language)}
                   </span>
                   <strong className="mt-1.5 block truncate text-base font-black">{address}</strong>
                   <span className="mt-3 flex items-end justify-between gap-3">

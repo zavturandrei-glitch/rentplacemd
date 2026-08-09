@@ -4,10 +4,10 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import ApartmentCard from "@/components/ApartmentCard";
 import { useLanguage } from "@/context/LanguageContext";
+import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   activeApartments,
   apartmentCategoryOrder,
-  apartmentClassLabels,
   getApartmentCatalogPrice,
   type ApartmentClass,
   type ApartmentRooms,
@@ -43,7 +43,7 @@ type ContentText = {
 const contentByLanguage: Record<Language, ContentText> = {
   ru: {
     catalogTitle: "Все квартиры",
-    catalogSummary: (count) => `В каталоге RentPlace.md представлены ${count} квартир посуточно в Кишинёве категорий Economy, Standard, Комфорт и Premium. Сравнивайте реальные фотографии, актуальные цены, адреса и вместимость, затем открывайте подходящий вариант для проверки свободных дат.`,
+    catalogSummary: (count) => `В каталоге RentPlace.md представлены ${count} квартир посуточно в Кишинёве категорий Эконом, Стандарт, Комфорт и Премиум. Сравнивайте реальные фотографии, актуальные цены, адреса и вместимость, затем открывайте подходящий вариант для проверки свободных дат.`,
     allTitle: "Квартиры посуточно в Кишинёве: как выбрать",
     categoryTitle: (category) => "Квартиры " + category + " посуточно в Кишинёве",
     intro: "Сравнивайте только опубликованные варианты: цену каталога, планировку, указанную вместимость и реальные фотографии каждой квартиры.",
@@ -75,7 +75,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   },
   ro: {
     catalogTitle: "Toate apartamentele",
-    catalogSummary: (count) => `Catalogul RentPlace.md include ${count} de apartamente în regim hotelier în Chișinău, din categoriile Economy, Standard, Comfort și Premium. Compară fotografiile reale, prețurile actuale, adresele și capacitatea, apoi deschide opțiunea potrivită pentru a verifica datele libere.`,
+    catalogSummary: (count) => `Catalogul RentPlace.md include ${count} de apartamente în regim hotelier în Chișinău, din categoriile Economic, Standard, Confort și Premium. Compară fotografiile reale, prețurile actuale, adresele și capacitatea, apoi deschide opțiunea potrivită pentru a verifica datele libere.`,
     allTitle: "Apartamente în regim hotelier în Chișinău: cum alegi",
     categoryTitle: (category) => "Apartamente " + category + " în regim hotelier în Chișinău",
     intro: "Compară opțiunile publicate după prețul din catalog, compartimentare, capacitatea indicată și fotografiile reale.",
@@ -139,7 +139,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   },
   uk: {
     catalogTitle: "Усі квартири",
-    catalogSummary: (count) => `У каталозі RentPlace.md представлено ${count} квартир подобово в Кишиневі категорій Economy, Standard, Comfort і Premium. Порівнюйте реальні фотографії, актуальні ціни, адреси та місткість, а потім відкривайте відповідний варіант для перевірки вільних дат.`,
+    catalogSummary: (count) => `У каталозі RentPlace.md представлено ${count} квартир подобово в Кишиневі категорій Економ, Стандарт, Комфорт і Преміум. Порівнюйте реальні фотографії, актуальні ціни, адреси та місткість, а потім відкривайте відповідний варіант для перевірки вільних дат.`,
     allTitle: "Квартири подобово в Кишиневі: як обрати",
     categoryTitle: (category) => "Квартири " + category + " подобово в Кишиневі",
     intro: "Порівнюйте опубліковані варіанти за ціною каталогу, плануванням, зазначеною місткістю та реальними фотографіями.",
@@ -171,7 +171,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   },
   cs: {
     catalogTitle: "Všechny apartmány",
-    catalogSummary: (count) => `Katalog RentPlace.md nabízí ${count} apartmánů pro krátkodobý pobyt v Kišiněvě v kategoriích Economy, Standard, Comfort a Premium. Porovnejte skutečné fotografie, aktuální ceny, adresy a kapacitu a poté otevřete vhodnou nabídku pro kontrolu volných termínů.`,
+    catalogSummary: (count) => `Katalog RentPlace.md nabízí ${count} apartmánů pro krátkodobý pobyt v Kišiněvě v kategoriích Ekonomická, Standardní, Komfortní a Prémiová. Porovnejte skutečné fotografie, aktuální ceny, adresy a kapacitu a poté otevřete vhodnou nabídku pro kontrolu volných termínů.`,
     allTitle: "Apartmány v Kišiněvě na denní pronájem: jak vybrat",
     categoryTitle: (category) => "Apartmány " + category + " v Kišiněvě na denní pronájem",
     intro: "Porovnejte zveřejněné nabídky podle aktuální ceny, dispozice, uvedené kapacity a skutečných fotografií.",
@@ -315,8 +315,7 @@ export default function ApartmentCategoryContent({
         .map((item) => activeApartments.find((apartment) => apartment.class === item))
         .filter((apartment) => apartment !== undefined);
   const theme = categoryThemes[category ?? "all"];
-  const displayCategory = (item: ApartmentClass) =>
-    item === "standardPlus" && language === "ru" ? "Комфорт" : apartmentClassLabels[item];
+  const displayCategory = (item: ApartmentClass) => getApartmentClassLabel(item, language);
   const themeStyle = {
     "--category-accent": theme.accent,
     "--category-background": "#111b2a",
