@@ -61,6 +61,14 @@
     "bookedDates": []
   },
   {
+    "apartmentId": "15",
+    "bookedDates": []
+  },
+  {
+    "apartmentId": "16",
+    "bookedDates": []
+  },
+  {
     "apartmentId": "20",
     "bookedDates": [
       "2026-07-05",

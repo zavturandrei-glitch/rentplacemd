@@ -16,6 +16,217 @@ type ApartmentCopy = {
   faq: Array<{ question: string; answer: string }>;
 };
 
+const apartment15And16Copy: Record<
+  Language,
+  Record<"15" | "16", ApartmentCopy>
+> = {
+  ru: {
+    "15": {
+      address: "Измаил 31 · Кишинёв",
+      title: "Однокомнатная квартира в ультрацентре — ID 15",
+      description: "Однокомнатная квартира класса Комфорт по адресу Измаил 31 в ультрацентре Кишинёва. Современный дом со стеклянным фасадом, 3 спальных места и городская инфраструктура рядом.",
+      shortDescription: "Квартира Комфорт в ультрацентре Кишинёва, в современном доме со стеклянным фасадом, для размещения до 3 гостей.",
+      aboutTitle: "Квартира Комфорт в ультрацентре · ID 15",
+      typeLabel: "Однокомнатная квартира",
+      view: "Ультрацентр",
+      features: ["Комфорт", "Однокомнатная квартира", "Ультрацентр", "Современный дом", "Стеклянный фасад", "До 3 гостей", "3 спальных места", "Отдельная кухня", "Стиральная машина"],
+      descriptionParagraphs: [
+        "ID 15 находится по адресу Измаил 31 в ультрацентре Кишинёва. Современный дом со стеклянным фасадом расположен рядом с ключевой городской инфраструктурой.",
+        "Квартира рассчитана на размещение до 3 гостей и располагает 3 спальными местами. В галерее показаны интерьер и отдельный кадр фасада здания.",
+      ],
+      audienceItems: ["Для одного–трёх гостей", "Для проживания в ультрацентре", "Для деловых и туристических поездок"],
+      nearbyItems: ["McDonald’s", "UNIC", "проспект Штефан чел Маре", "угол улицы Измаил", "центр города", "магазины, кафе и транспорт"],
+      faq: [
+        { question: "Где находится квартира ID 15?", answer: "По адресу Измаил 31, в ультрацентре Кишинёва." },
+        { question: "Сколько спальных мест в квартире?", answer: "В квартире предусмотрено 3 спальных места для размещения до 3 гостей." },
+      ],
+    },
+    "16": {
+      address: "Алба Юлия 103 · Кишинёв",
+      title: "Однокомнатная квартира в новострое — ID 16",
+      description: "Однокомнатная квартира класса Комфорт в новострое по адресу Алба Юлия 103 в Кишинёве. Удобная городская локация, 3 спальных места и оснащение для посуточного проживания.",
+      shortDescription: "Квартира Комфорт в новострое на Алба Юлия 103, в удобной городской локации, для размещения до 3 гостей.",
+      aboutTitle: "Квартира Комфорт в новострое · ID 16",
+      typeLabel: "Однокомнатная квартира",
+      view: "Удобная городская локация",
+      features: ["Комфорт", "Однокомнатная квартира", "Новострой", "До 3 гостей", "3 спальных места", "Отдельная кухня", "Телевизор", "Стиральная машина"],
+      descriptionParagraphs: [
+        "ID 16 — однокомнатная квартира в новострое по адресу Алба Юлия 103 в Кишинёве. Дом расположен в удобной городской локации.",
+        "По фотографиям подтверждены отдельная кухня, ванная комната, телевизор, стиральная машина и 3 спальных места. Квартира рассчитана на размещение до 3 гостей.",
+      ],
+      audienceItems: ["Для одного–трёх гостей", "Для кратких и более длительных поездок", "Для гостей, которым важна удобная городская локация"],
+      faq: [
+        { question: "В каком доме находится квартира ID 16?", answer: "Квартира находится в новострое по адресу Алба Юлия 103." },
+        { question: "Сколько гостей можно разместить?", answer: "До 3 гостей; предусмотрено 3 спальных места." },
+      ],
+    },
+  },
+  ro: {
+    "15": {
+      address: "Strada Ismail 31 · Chișinău",
+      title: "Apartament cu o cameră în ultracentru — ID 15",
+      description: "Apartament cu o cameră din categoria Confort, pe Strada Ismail 31, în ultracentrul Chișinăului. Clădire modernă cu fațadă din sticlă, 3 locuri de dormit și infrastructură urbană în apropiere.",
+      shortDescription: "Apartament Confort în ultracentrul Chișinăului, într-o clădire modernă cu fațadă din sticlă, pentru până la 3 oaspeți.",
+      aboutTitle: "Apartament Confort în ultracentru · ID 15",
+      typeLabel: "Apartament cu o cameră",
+      view: "Ultracentru",
+      features: ["Confort", "Apartament cu o cameră", "Ultracentru", "Clădire modernă", "Fațadă din sticlă", "Până la 3 oaspeți", "3 locuri de dormit", "Bucătărie separată", "Mașină de spălat"],
+      descriptionParagraphs: [
+        "ID 15 se află pe Strada Ismail 31, în ultracentrul Chișinăului. Clădirea modernă cu fațadă din sticlă este aproape de infrastructura importantă a orașului.",
+        "Apartamentul poate găzdui până la 3 oaspeți și oferă 3 locuri de dormit. Galeria include interioarele și o fotografie separată a fațadei.",
+      ],
+      audienceItems: ["Pentru unul până la trei oaspeți", "Pentru un sejur în ultracentru", "Pentru călătorii de afaceri și turistice"],
+      nearbyItems: ["McDonald’s", "UNIC", "bulevardul Ștefan cel Mare", "intersecția cu Strada Ismail", "centrul orașului", "magazine, cafenele și transport public"],
+      faq: [
+        { question: "Unde se află apartamentul ID 15?", answer: "Pe Strada Ismail 31, în ultracentrul Chișinăului." },
+        { question: "Câte locuri de dormit sunt disponibile?", answer: "Sunt disponibile 3 locuri de dormit pentru până la 3 oaspeți." },
+      ],
+    },
+    "16": {
+      address: "Strada Alba Iulia 103 · Chișinău",
+      title: "Apartament cu o cameră într-un bloc nou — ID 16",
+      description: "Apartament cu o cameră din categoria Confort, într-un bloc nou de pe Strada Alba Iulia 103, Chișinău. Amplasare urbană comodă, 3 locuri de dormit și dotări pentru cazare pe termen scurt.",
+      shortDescription: "Apartament Confort într-un bloc nou pe Strada Alba Iulia 103, într-o zonă urbană comodă, pentru până la 3 oaspeți.",
+      aboutTitle: "Apartament Confort într-un bloc nou · ID 16",
+      typeLabel: "Apartament cu o cameră",
+      view: "Amplasare urbană comodă",
+      features: ["Confort", "Apartament cu o cameră", "Bloc nou", "Până la 3 oaspeți", "3 locuri de dormit", "Bucătărie separată", "Televizor", "Mașină de spălat"],
+      descriptionParagraphs: [
+        "ID 16 este un apartament cu o cameră într-un bloc nou de pe Strada Alba Iulia 103 din Chișinău. Clădirea are o amplasare urbană comodă.",
+        "Fotografiile confirmă bucătăria separată, baia, televizorul, mașina de spălat și 3 locuri de dormit. Apartamentul poate găzdui până la 3 oaspeți.",
+      ],
+      audienceItems: ["Pentru unul până la trei oaspeți", "Pentru sejururi scurte sau mai lungi", "Pentru oaspeții care apreciază o amplasare urbană comodă"],
+      faq: [
+        { question: "În ce tip de clădire se află ID 16?", answer: "Apartamentul se află într-un bloc nou pe Strada Alba Iulia 103." },
+        { question: "Câți oaspeți pot fi cazați?", answer: "Până la 3 oaspeți; sunt disponibile 3 locuri de dormit." },
+      ],
+    },
+  },
+  en: {
+    "15": {
+      address: "31 Ismail Street · Chisinau",
+      title: "One-room apartment in the city centre — ID 15",
+      description: "Comfort-class one-room apartment at 31 Ismail Street in central Chisinau. Modern glass-fronted building, 3 sleeping places and city amenities nearby.",
+      shortDescription: "Comfort apartment in central Chisinau, in a modern glass-fronted building, for up to 3 guests.",
+      aboutTitle: "Comfort apartment in central Chisinau · ID 15",
+      typeLabel: "One-room apartment",
+      view: "Central Chisinau",
+      features: ["Comfort", "One-room apartment", "Central Chisinau", "Modern building", "Glass facade", "Up to 3 guests", "3 sleeping places", "Separate kitchen", "Washing machine"],
+      descriptionParagraphs: [
+        "ID 15 is located at 31 Ismail Street in central Chisinau. The modern glass-fronted building is close to key city amenities.",
+        "The apartment accommodates up to 3 guests and provides 3 sleeping places. The gallery includes the interior and a separate facade photograph.",
+      ],
+      audienceItems: ["For one to three guests", "For a stay in central Chisinau", "For business and leisure trips"],
+      nearbyItems: ["McDonald’s", "UNIC", "Stefan cel Mare Boulevard", "the corner of Ismail Street", "the city centre", "shops, cafés and public transport"],
+      faq: [
+        { question: "Where is apartment ID 15?", answer: "At 31 Ismail Street in central Chisinau." },
+        { question: "How many sleeping places are available?", answer: "There are 3 sleeping places for up to 3 guests." },
+      ],
+    },
+    "16": {
+      address: "103 Alba Iulia Street · Chisinau",
+      title: "One-room apartment in a new building — ID 16",
+      description: "Comfort-class one-room apartment in a new building at 103 Alba Iulia Street, Chisinau. Convenient urban location, 3 sleeping places and practical amenities for short stays.",
+      shortDescription: "Comfort apartment in a new building at 103 Alba Iulia Street, in a convenient urban location, for up to 3 guests.",
+      aboutTitle: "Comfort apartment in a new building · ID 16",
+      typeLabel: "One-room apartment",
+      view: "Convenient urban location",
+      features: ["Comfort", "One-room apartment", "New building", "Up to 3 guests", "3 sleeping places", "Separate kitchen", "Television", "Washing machine"],
+      descriptionParagraphs: [
+        "ID 16 is a one-room apartment in a new building at 103 Alba Iulia Street in Chisinau. The building has a convenient urban location.",
+        "The photographs confirm a separate kitchen, bathroom, television, washing machine and 3 sleeping places. The apartment accommodates up to 3 guests.",
+      ],
+      audienceItems: ["For one to three guests", "For short or longer stays", "For guests who value a convenient urban location"],
+      faq: [
+        { question: "What type of building contains ID 16?", answer: "The apartment is in a new building at 103 Alba Iulia Street." },
+        { question: "How many guests can stay?", answer: "Up to 3 guests; 3 sleeping places are available." },
+      ],
+    },
+  },
+  uk: {
+    "15": {
+      address: "вул. Ізмаїл, 31 · Кишинів",
+      title: "Однокімнатна квартира в ультрацентрі — ID 15",
+      description: "Однокімнатна квартира класу Комфорт на вул. Ізмаїл, 31 в ультрацентрі Кишинева. Сучасний будинок зі скляним фасадом, 3 спальні місця та міська інфраструктура поруч.",
+      shortDescription: "Квартира Комфорт в ультрацентрі Кишинева, у сучасному будинку зі скляним фасадом, для розміщення до 3 гостей.",
+      aboutTitle: "Квартира Комфорт в ультрацентрі · ID 15",
+      typeLabel: "Однокімнатна квартира",
+      view: "Ультрацентр",
+      features: ["Комфорт", "Однокімнатна квартира", "Ультрацентр", "Сучасний будинок", "Скляний фасад", "До 3 гостей", "3 спальні місця", "Окрема кухня", "Пральна машина"],
+      descriptionParagraphs: [
+        "ID 15 розташована на вул. Ізмаїл, 31 в ультрацентрі Кишинева. Сучасний будинок зі скляним фасадом знаходиться поруч із важливою міською інфраструктурою.",
+        "Квартира розрахована на розміщення до 3 гостей і має 3 спальні місця. У галереї показано інтер’єр та окреме фото фасаду будинку.",
+      ],
+      audienceItems: ["Для одного–трьох гостей", "Для проживання в ультрацентрі", "Для ділових і туристичних поїздок"],
+      nearbyItems: ["McDonald’s", "UNIC", "проспект Штефана чел Маре", "ріг вулиці Ізмаїл", "центр міста", "магазини, кафе та громадський транспорт"],
+      faq: [
+        { question: "Де розташована квартира ID 15?", answer: "На вул. Ізмаїл, 31 в ультрацентрі Кишинева." },
+        { question: "Скільки спальних місць доступно?", answer: "Передбачено 3 спальні місця для розміщення до 3 гостей." },
+      ],
+    },
+    "16": {
+      address: "вул. Алба-Юлія, 103 · Кишинів",
+      title: "Однокімнатна квартира в новобудові — ID 16",
+      description: "Однокімнатна квартира класу Комфорт у новобудові на вул. Алба-Юлія, 103 в Кишиневі. Зручна міська локація, 3 спальні місця та оснащення для подобового проживання.",
+      shortDescription: "Квартира Комфорт у новобудові на вул. Алба-Юлія, 103, у зручній міській локації, для розміщення до 3 гостей.",
+      aboutTitle: "Квартира Комфорт у новобудові · ID 16",
+      typeLabel: "Однокімнатна квартира",
+      view: "Зручна міська локація",
+      features: ["Комфорт", "Однокімнатна квартира", "Новобудова", "До 3 гостей", "3 спальні місця", "Окрема кухня", "Телевізор", "Пральна машина"],
+      descriptionParagraphs: [
+        "ID 16 — однокімнатна квартира в новобудові на вул. Алба-Юлія, 103 в Кишиневі. Будинок має зручне міське розташування.",
+        "Фотографії підтверджують окрему кухню, ванну кімнату, телевізор, пральну машину та 3 спальні місця. Квартира розрахована на розміщення до 3 гостей.",
+      ],
+      audienceItems: ["Для одного–трьох гостей", "Для коротких або триваліших поїздок", "Для гостей, яким важлива зручна міська локація"],
+      faq: [
+        { question: "У якому будинку розташована квартира ID 16?", answer: "Квартира розташована в новобудові на вул. Алба-Юлія, 103." },
+        { question: "Скільки гостей можна розмістити?", answer: "До 3 гостей; передбачено 3 спальні місця." },
+      ],
+    },
+  },
+  cs: {
+    "15": {
+      address: "ulice Ismail 31 · Kišiněv",
+      title: "Jednopokojový apartmán v centru — ID 15",
+      description: "Jednopokojový apartmán kategorie Komfortní v ulici Ismail 31 v centru Kišiněva. Moderní budova se skleněnou fasádou, 3 místa na spaní a městská infrastruktura v okolí.",
+      shortDescription: "Komfortní apartmán v centru Kišiněva, v moderní budově se skleněnou fasádou, až pro 3 hosty.",
+      aboutTitle: "Komfortní apartmán v centru · ID 15",
+      typeLabel: "Jednopokojový apartmán",
+      view: "Centrum Kišiněva",
+      features: ["Komfortní", "Jednopokojový apartmán", "Centrum Kišiněva", "Moderní budova", "Skleněná fasáda", "Až 3 hosté", "3 místa na spaní", "Samostatná kuchyně", "Pračka"],
+      descriptionParagraphs: [
+        "ID 15 se nachází v ulici Ismail 31 v centru Kišiněva. Moderní budova se skleněnou fasádou stojí poblíž důležité městské infrastruktury.",
+        "Apartmán ubytuje až 3 hosty a nabízí 3 místa na spaní. Galerie zahrnuje interiér a samostatnou fotografii fasády.",
+      ],
+      audienceItems: ["Pro jednoho až tři hosty", "Pro pobyt v centru", "Pro služební i turistické cesty"],
+      nearbyItems: ["McDonald’s", "UNIC", "bulvár Ștefan cel Mare", "nároží ulice Ismail", "centrum města", "obchody, kavárny a veřejná doprava"],
+      faq: [
+        { question: "Kde se apartmán ID 15 nachází?", answer: "V ulici Ismail 31 v centru Kišiněva." },
+        { question: "Kolik míst na spaní je k dispozici?", answer: "K dispozici jsou 3 místa na spaní až pro 3 hosty." },
+      ],
+    },
+    "16": {
+      address: "ulice Alba Iulia 103 · Kišiněv",
+      title: "Jednopokojový apartmán v novostavbě — ID 16",
+      description: "Jednopokojový apartmán kategorie Komfortní v novostavbě v ulici Alba Iulia 103 v Kišiněvě. Výhodná městská poloha, 3 místa na spaní a praktické vybavení pro krátkodobé pobyty.",
+      shortDescription: "Komfortní apartmán v novostavbě v ulici Alba Iulia 103, ve výhodné městské lokalitě, až pro 3 hosty.",
+      aboutTitle: "Komfortní apartmán v novostavbě · ID 16",
+      typeLabel: "Jednopokojový apartmán",
+      view: "Výhodná městská poloha",
+      features: ["Komfortní", "Jednopokojový apartmán", "Novostavba", "Až 3 hosté", "3 místa na spaní", "Samostatná kuchyně", "Televize", "Pračka"],
+      descriptionParagraphs: [
+        "ID 16 je jednopokojový apartmán v novostavbě v ulici Alba Iulia 103 v Kišiněvě. Budova má výhodnou městskou polohu.",
+        "Fotografie potvrzují samostatnou kuchyni, koupelnu, televizi, pračku a 3 místa na spaní. Apartmán ubytuje až 3 hosty.",
+      ],
+      audienceItems: ["Pro jednoho až tři hosty", "Pro krátké i delší pobyty", "Pro hosty, kteří oceňují výhodnou městskou polohu"],
+      faq: [
+        { question: "V jakém domě se ID 16 nachází?", answer: "Apartmán se nachází v novostavbě v ulici Alba Iulia 103." },
+        { question: "Kolik hostů se může ubytovat?", answer: "Až 3 hosté; k dispozici jsou 3 místa na spaní." },
+      ],
+    },
+  },
+};
+
 const photoWord: Record<Language, string> = {
   ru: "фото",
   ro: "fotografia",
@@ -26,43 +237,57 @@ const photoWord: Record<Language, string> = {
 
 const facadeAlt: Record<
   Language,
-  { coca: string; varlaam: string }
+  { coca: string; varlaam: string; izmail31: string }
 > = {
   ru: {
     coca: "Фасад здания на ул. Кока, 15 в Кишинёве",
     varlaam: "Фасад двухэтажного здания на ул. Митрополит Варлаам, 50 в Кишинёве",
+    izmail31: "Стеклянный фасад современного дома на улице Измаил 31 в Кишинёве",
   },
   ro: {
     coca: "Fațada clădirii Coca 15 din Chișinău",
     varlaam: "Fațada clădirii cu două niveluri de pe Strada Mitropolit Varlaam 50, Chișinău",
+    izmail31: "Fațada din sticlă a clădirii moderne de pe Strada Ismail 31, Chișinău",
   },
   en: {
     coca: "Facade of the Coca 15 building in Chisinau",
     varlaam: "Facade of the two-storey property at 50 Mitropolit Varlaam Street, Chisinau",
+    izmail31: "Glass facade of the modern building at 31 Ismail Street, Chisinau",
   },
   uk: {
     coca: "Фасад будівлі на вул. Кока, 15 у Кишиневі",
     varlaam: "Фасад двоповерхової будівлі на вул. Митрополит Варлаам, 50 у Кишиневі",
+    izmail31: "Скляний фасад сучасного будинку на вул. Ізмаїл, 31 у Кишиневі",
   },
   cs: {
     coca: "Fasáda budovy Coca 15 v Kišiněvě",
     varlaam: "Fasáda dvoupodlažního objektu v ulici Mitropolit Varlaam 50 v Kišiněvě",
+    izmail31: "Skleněná fasáda moderní budovy v ulici Ismail 31 v Kišiněvě",
   },
 };
+
+const facadeKeyByApartmentId = {
+  "15": "izmail31",
+  "201": "coca",
+  "202": "coca",
+  "203": "coca",
+  "204": "coca",
+  "205": "varlaam",
+} as const;
 
 function localized(
   copy: ApartmentCopy,
   id: string,
   language: Language,
 ): LocalizedApartmentSeo {
+  const facadeKey = facadeKeyByApartmentId[id as keyof typeof facadeKeyByApartmentId];
+
   return {
     displayAddress: copy.address,
     title: copy.title,
     description: copy.description,
     imageAlt: `${copy.title}, ${photoWord[language]} {index}`,
-    ...(id === "200"
-      ? {}
-      : { facadeAlt: id === "205" ? facadeAlt[language].varlaam : facadeAlt[language].coca }),
+    ...(facadeKey ? { facadeAlt: facadeAlt[language][facadeKey] } : {}),
     schemaName: copy.title,
     shortDescription: copy.shortDescription,
     layoutDescription: copy.view,
@@ -674,16 +899,24 @@ const newApartmentCopy: Record<Language, Record<string, ApartmentCopy>> = {
   },
 };
 
+const allNewApartmentCopy: Record<Language, Record<string, ApartmentCopy>> = {
+  ru: { ...apartment15And16Copy.ru, ...newApartmentCopy.ru },
+  ro: { ...apartment15And16Copy.ro, ...newApartmentCopy.ro },
+  en: { ...apartment15And16Copy.en, ...newApartmentCopy.en },
+  uk: { ...apartment15And16Copy.uk, ...newApartmentCopy.uk },
+  cs: { ...apartment15And16Copy.cs, ...newApartmentCopy.cs },
+};
+
 export const newApartmentLocalizations: Record<
   string,
   Record<Language, LocalizedApartmentSeo>
 > = Object.fromEntries(
-  ["200", "201", "202", "203", "204", "205"].map((id) => [
+  ["15", "16", "200", "201", "202", "203", "204", "205"].map((id) => [
     id,
     Object.fromEntries(
       (Object.keys(newApartmentCopy) as Language[]).map((language) => [
         language,
-        localized(newApartmentCopy[language][id], id, language),
+        localized(allNewApartmentCopy[language][id], id, language),
       ]),
     ) as Record<Language, LocalizedApartmentSeo>,
   ]),

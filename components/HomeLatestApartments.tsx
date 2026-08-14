@@ -21,7 +21,7 @@ const copyByLanguage: Record<Language, { title: string; hint: string; perDay: st
 };
 
 const recommendedApartments = activeApartments.filter((apartment) =>
-  ["202", "203", "204"].includes(String(apartment.id)),
+  ["15", "16", "202", "203", "204"].includes(String(apartment.id)),
 );
 
 export default function HomeLatestApartments() {
