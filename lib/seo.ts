@@ -13,6 +13,7 @@ import {
   apartmentDetailsById,
   activeApartments,
   getApartmentById,
+  getApartmentCatalogPrice,
   getApartmentCategoryPath,
   type ApartmentId,
   type ApartmentClass,
@@ -415,7 +416,7 @@ export function buildApartmentDescription(
   if (localized) return localized.description;
   const apartmentRecord = getApartmentById(id);
   if (apartmentRecord) {
-    return apartmentRecord.shortDescription + " Адрес: " + apartmentRecord.address + ". Цена: " + apartment.price + ".";
+    return apartmentRecord.shortDescription + " Адрес: " + apartmentRecord.address + ". Цена: " + getApartmentCatalogPrice(apartmentRecord) + ".";
   }
   return "Квартира ID " + id + " по адресу " + apartment.address + ". Цена: " + apartment.price + ".";
 }
@@ -518,9 +519,9 @@ export function getApartmentMetadata(id: ApartmentId, languageInput?: string): M
       : buildApartmentTitle(id, language);
   const description =
     language === "ru" && id === 3
-      ? "Современная студия категории Комфорт. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 900 MDL."
+      ? "Современная студия категории Комфорт. Центр Кишинёва. Новострой. Wi-Fi. Кондиционер. Кухня. Заселение 24/7. Цена от 1000 MDL."
       : language === "ru" && id === 5
-        ? "Современная студия категории Комфорт в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 900 MDL."
+        ? "Современная студия категории Комфорт в центре Кишинёва. Новострой. Wi-Fi. Кондиционер. Заселение 24/7. Цена от 1000 MDL."
       : buildApartmentDescription(id, language);
   const alternates = apartmentAlternates(id, languageInput);
   const url = String(alternates.canonical);
@@ -633,7 +634,7 @@ export function buildSiteJsonLd() {
       ),
       logo: baseUrl + "/brand/rentplace-icon-gold-v3-512.png",
       telephone: phoneNumbers,
-      priceRange: "800-1400 MDL",
+      priceRange: "800-1500 MDL",
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -669,6 +670,7 @@ export function getApartmentJsonLd(
   useLocalizedUrl = false,
 ) {
   const apartment = apartmentDetailsById[String(id)];
+  const displayedPrice = getApartmentCatalogPrice(apartment);
   const url = useLocalizedUrl ? localizedUrl(apartmentPath(id), language) : getApartmentUrl(id);
   const localized = getApartmentSeoLocalization(id, language);
   const displayAddress = getApartmentDisplayAddress(id, apartment.title, language);
@@ -706,7 +708,7 @@ export function getApartmentJsonLd(
       } : {}),
       description: buildApartmentDescription(id, language),
       telephone: phoneNumbers[0],
-      priceRange: apartment.price + " MDL",
+      priceRange: displayedPrice + " MDL",
       numberOfRooms: apartment.kind === "studio" ? 1 : apartment.kind === "oneBedroom" ? 2 : 3,
       ...(apartment.guests !== null ? {
         occupancy: {
@@ -722,7 +724,7 @@ export function getApartmentJsonLd(
         name: amenityName,
         value: true,
       })),
-      offers: offerForApartment({ id, price: apartment.price }),
+      offers: offerForApartment({ id, price: displayedPrice }),
       provider: {
         "@id": baseUrl + "/#localbusiness",
       },

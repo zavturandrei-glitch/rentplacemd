@@ -17,6 +17,7 @@ import type { Language } from "@/locales/translations";
 type ContentText = {
   catalogTitle: string;
   catalogSummary: (count: number) => string;
+  discountNotice: string;
   allTitle: string;
   categoryTitle: (category: string) => string;
   intro: string;
@@ -44,6 +45,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   ru: {
     catalogTitle: "Все квартиры",
     catalogSummary: (count) => `В каталоге RentPlace.md представлены ${count} квартир посуточно в Кишинёве категорий Эконом, Стандарт, Комфорт и Премиум. Сравнивайте реальные фотографии, актуальные цены, адреса и вместимость, затем открывайте подходящий вариант для проверки свободных дат.`,
+    discountNotice: "Гибкая система скидок — при длительном проживании уточняйте индивидуальную цену.",
     allTitle: "Квартиры посуточно в Кишинёве: как выбрать",
     categoryTitle: (category) => "Квартиры " + category + " посуточно в Кишинёве",
     intro: "Сравнивайте только опубликованные варианты: цену каталога, планировку, указанную вместимость и реальные фотографии каждой квартиры.",
@@ -76,6 +78,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   ro: {
     catalogTitle: "Toate apartamentele",
     catalogSummary: (count) => `Catalogul RentPlace.md include ${count} de apartamente în regim hotelier în Chișinău, din categoriile Economic, Standard, Confort și Premium. Compară fotografiile reale, prețurile actuale, adresele și capacitatea, apoi deschide opțiunea potrivită pentru a verifica datele libere.`,
+    discountNotice: "Sistem flexibil de reduceri — pentru șederi mai lungi, solicitați un preț individual.",
     allTitle: "Apartamente în regim hotelier în Chișinău: cum alegi",
     categoryTitle: (category) => "Apartamente " + category + " în regim hotelier în Chișinău",
     intro: "Compară opțiunile publicate după prețul din catalog, compartimentare, capacitatea indicată și fotografiile reale.",
@@ -108,6 +111,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   en: {
     catalogTitle: "All apartments",
     catalogSummary: (count) => `The RentPlace.md catalogue includes ${count} short-stay apartments in Chisinau across Economy, Standard, Comfort and Premium. Compare real photos, current prices, addresses and guest capacity, then open an apartment to check available dates.`,
+    discountNotice: "Flexible discounts — ask for an individual price for longer stays.",
     allTitle: "Daily apartments in Chisinau: how to choose",
     categoryTitle: (category) => category + " daily apartments in Chisinau",
     intro: "Compare published options by current catalogue price, layout, stated capacity and the real photos on each apartment page.",
@@ -140,6 +144,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   uk: {
     catalogTitle: "Усі квартири",
     catalogSummary: (count) => `У каталозі RentPlace.md представлено ${count} квартир подобово в Кишиневі категорій Економ, Стандарт, Комфорт і Преміум. Порівнюйте реальні фотографії, актуальні ціни, адреси та місткість, а потім відкривайте відповідний варіант для перевірки вільних дат.`,
+    discountNotice: "Гнучка система знижок — для тривалого проживання уточнюйте індивідуальну ціну.",
     allTitle: "Квартири подобово в Кишиневі: як обрати",
     categoryTitle: (category) => "Квартири " + category + " подобово в Кишиневі",
     intro: "Порівнюйте опубліковані варіанти за ціною каталогу, плануванням, зазначеною місткістю та реальними фотографіями.",
@@ -172,6 +177,7 @@ const contentByLanguage: Record<Language, ContentText> = {
   cs: {
     catalogTitle: "Všechny apartmány",
     catalogSummary: (count) => `Katalog RentPlace.md nabízí ${count} apartmánů pro krátkodobý pobyt v Kišiněvě v kategoriích Ekonomická, Standardní, Komfortní a Prémiová. Porovnejte skutečné fotografie, aktuální ceny, adresy a kapacitu a poté otevřete vhodnou nabídku pro kontrolu volných termínů.`,
+    discountNotice: "Flexibilní systém slev — při delším pobytu si vyžádejte individuální cenu.",
     allTitle: "Apartmány v Kišiněvě na denní pronájem: jak vybrat",
     categoryTitle: (category) => "Apartmány " + category + " v Kišiněvě na denní pronájem",
     intro: "Porovnejte zveřejněné nabídky podle aktuální ceny, dispozice, uvedené kapacity a skutečných fotografií.",
@@ -276,6 +282,9 @@ export default function ApartmentCategoryContent({
           <h1 className="text-3xl font-black leading-tight tracking-[-0.035em] sm:text-4xl">
             {text.catalogTitle}
           </h1>
+          <p className="mt-4 max-w-3xl rounded-xl border border-[#ffd21f]/35 bg-[#ffd21f]/8 px-4 py-3 text-sm font-bold leading-5 text-white/85">
+            {text.discountNotice}
+          </p>
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
             {apartments.map((apartment, index) => (
               <ApartmentCard

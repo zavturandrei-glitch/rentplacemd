@@ -3,6 +3,7 @@ import { localizeAmenity } from "@/lib/amenityLocalization";
 import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   getActiveApartmentById,
+  getApartmentCatalogPrice,
   type Apartment,
   type ApartmentClass,
 } from "@/lib/apartments";
@@ -15,7 +16,6 @@ type ApartmentLocalizationDefinition = {
   address: Record<Language, string>;
   category: "Standard" | "Comfort" | "Premium";
   kind: LocalizedApartmentKind;
-  price: number;
 };
 
 export type LocalizedApartmentSeo = {
@@ -72,7 +72,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
   ru: {
     displayAddress: "бульвар Куза Водэ, 1/2 · Ботаника",
     title: "Квартира на Ботанике — бульвар Куза Водэ, 1/2",
-    description: "Снять квартиру посуточно на Ботанике по адресу Cuza Vodă 1/2. Спальня и гостиная, до 4 гостей, кофемашина, кондиционер и автономное отопление. 900 MDL.",
+    description: "Снять квартиру посуточно на Ботанике по адресу Cuza Vodă 1/2. Спальня и гостиная, до 4 гостей, кофемашина, кондиционер и автономное отопление. 1000 MDL.",
     imageAlt: "Квартира посуточно на Ботанике, бульвар Куза Водэ, 1/2, фото {index}",
     schemaName: "Квартира посуточно на Ботанике — бульвар Куза Водэ, 1/2",
     shortDescription: "Современная квартира в новострое в районе Ботаника, со спальней и гостиной для размещения до четырёх гостей.",
@@ -96,7 +96,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
   ro: {
     displayAddress: "bd. Cuza Vodă 1/2, Botanica",
     title: "Apartament în Botanica — bd. Cuza Vodă 1/2",
-    description: "Apartament de închiriat zilnic în Botanica, bd. Cuza Vodă 1/2. Dormitor și living, până la 4 oaspeți, cafetieră, aer condiționat și încălzire autonomă. 900 MDL.",
+    description: "Apartament de închiriat zilnic în Botanica, bd. Cuza Vodă 1/2. Dormitor și living, până la 4 oaspeți, cafetieră, aer condiționat și încălzire autonomă. 1000 MDL.",
     imageAlt: "Apartament de închiriat în Botanica, Cuza Vodă 1/2, fotografia {index}",
     schemaName: "Apartament de închiriat în Botanica — Cuza Vodă 1/2",
     shortDescription: "Apartament modern într-un bloc nou din Botanica, cu dormitor și living pentru până la patru oaspeți.",
@@ -120,7 +120,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
   en: {
     displayAddress: "1/2 Cuza Vodă Boulevard · Botanica",
     title: "Botanica apartment — 1/2 Cuza Vodă Boulevard",
-    description: "Daily apartment rental in Botanica at Cuza Vodă 1/2. Bedroom and living room for up to 4 guests, coffee machine, air conditioning and independent heating. 900 MDL.",
+    description: "Daily apartment rental in Botanica at Cuza Vodă 1/2. Bedroom and living room for up to 4 guests, coffee machine, air conditioning and independent heating. 1000 MDL.",
     imageAlt: "Daily rental apartment in Botanica, Cuza Vodă 1/2, photo {index}",
     schemaName: "Daily rental apartment in Botanica — Cuza Vodă 1/2",
     shortDescription: "Modern apartment in a newer Botanica building, with a bedroom and living room for up to four guests.",
@@ -144,7 +144,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
   uk: {
     displayAddress: "бульвар Куза Воде, 1/2 · Ботаніка",
     title: "Квартира на Ботаніці — бульвар Куза Воде, 1/2",
-    description: "Подобова оренда квартири на Ботаніці за адресою Cuza Vodă 1/2. Спальня і вітальня, до 4 гостей, кавоварка, кондиціонер та автономне опалення. 900 MDL.",
+    description: "Подобова оренда квартири на Ботаніці за адресою Cuza Vodă 1/2. Спальня і вітальня, до 4 гостей, кавоварка, кондиціонер та автономне опалення. 1000 MDL.",
     imageAlt: "Квартира подобово на Ботаніці, бульвар Куза Воде, 1/2, фото {index}",
     schemaName: "Квартира подобово на Ботаніці — бульвар Куза Воде, 1/2",
     shortDescription: "Сучасна квартира в новобудові на Ботаніці зі спальнею та вітальнею для розміщення до чотирьох гостей.",
@@ -168,7 +168,7 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
   cs: {
     displayAddress: "bulvár Cuza Vodă 1/2 · Botanica",
     title: "Apartmán v Botanice — bulvár Cuza Vodă 1/2",
-    description: "Krátkodobý pronájem apartmánu v Botanice na adrese Cuza Vodă 1/2. Ložnice a obývací pokoj až pro 4 hosty, kávovar, klimatizace a vlastní topení. 900 MDL.",
+    description: "Krátkodobý pronájem apartmánu v Botanice na adrese Cuza Vodă 1/2. Ložnice a obývací pokoj až pro 4 hosty, kávovar, klimatizace a vlastní topení. 1000 MDL.",
     imageAlt: "Apartmán k pronájmu v Botanice, Cuza Vodă 1/2, fotografie {index}",
     schemaName: "Apartmán k pronájmu v Botanice — Cuza Vodă 1/2",
     shortDescription: "Moderní apartmán v novější budově v Botanice s ložnicí a obývacím pokojem až pro čtyři hosty.",
@@ -192,18 +192,18 @@ const cuzaVoda12: Record<Language, LocalizedApartmentSeo> = {
 };
 
 const localizationDefinitions: Record<string, ApartmentLocalizationDefinition> = {
-  "25": { address: ismail88, category: "Comfort", kind: "oneBedroom", price: 1000 },
-  "30": { address: ismail88, category: "Comfort", kind: "oneBedroom", price: 1000 },
-  "67": { address: grigoreUreche67, category: "Comfort", kind: "oneBedroom", price: 1000 },
-  "301": { address: ismail88, category: "Comfort", kind: "oneBedroom", price: 1000 },
-  "461": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
-  "463": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
-  "464": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
-  "661": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
-  "692": { address: ismail88, category: "Standard", kind: "studio", price: 800 },
-  "76": { address: mihaiEminescu76, category: "Premium", kind: "oneBedroom", price: 1400 },
-  "77": { address: levTolstoi63, category: "Premium", kind: "oneBedroom", price: 1100 },
-  "78": { address: levTolstoi63, category: "Premium", kind: "oneBedroom", price: 1100 },
+  "25": { address: ismail88, category: "Comfort", kind: "oneBedroom" },
+  "30": { address: ismail88, category: "Comfort", kind: "oneBedroom" },
+  "67": { address: grigoreUreche67, category: "Comfort", kind: "oneBedroom" },
+  "301": { address: ismail88, category: "Comfort", kind: "oneBedroom" },
+  "461": { address: ismail88, category: "Standard", kind: "studio" },
+  "463": { address: ismail88, category: "Standard", kind: "studio" },
+  "464": { address: ismail88, category: "Standard", kind: "studio" },
+  "661": { address: ismail88, category: "Standard", kind: "studio" },
+  "692": { address: ismail88, category: "Standard", kind: "studio" },
+  "76": { address: mihaiEminescu76, category: "Premium", kind: "oneBedroom" },
+  "77": { address: levTolstoi63, category: "Premium", kind: "oneBedroom" },
+  "78": { address: levTolstoi63, category: "Premium", kind: "oneBedroom" },
 };
 
 const completedLegacyApartmentIds = new Set([
@@ -302,6 +302,7 @@ function getCompletedLegacyLocalization(
   language: Language,
 ): LocalizedApartmentSeo {
   const text = localizationText[language];
+  const displayedPrice = getApartmentCatalogPrice(apartment);
   const address = ismail88[language];
   const type = text.type[apartment.kind];
   const category = getApartmentClassLabel(apartment.class, language);
@@ -320,7 +321,7 @@ function getCompletedLegacyLocalization(
         address,
         String(apartment.id),
         category,
-        apartment.price,
+        displayedPrice,
       ),
       capacity ? `${capacity}.` : null,
     ].filter(Boolean).join(" "),
@@ -328,7 +329,7 @@ function getCompletedLegacyLocalization(
     schemaName: text.schemaName(type, address, String(apartment.id)),
     shortDescription: [
       text.short[apartment.kind],
-      `ID ${apartment.id} · ${category} · ${apartment.price} MDL.`,
+      `ID ${apartment.id} · ${category} · ${displayedPrice} MDL.`,
       capacity ? `${capacity}.` : null,
     ].filter(Boolean).join(" "),
     layoutDescription: facts,
@@ -355,6 +356,9 @@ export function getApartmentLocalization(apartmentId: string | number, language:
   }
 
   const text = localizationText[language];
+  const apartment = getActiveApartmentById(id);
+  if (!apartment) return null;
+  const displayedPrice = getApartmentCatalogPrice(apartment);
   const address = definition.address[language];
   const type = text.type[definition.kind];
   const categoryClass: Record<ApartmentLocalizationDefinition["category"], ApartmentClass> = {
@@ -367,10 +371,10 @@ export function getApartmentLocalization(apartmentId: string | number, language:
   return {
     displayAddress: address,
     title: text.title(type, address, id),
-    description: text.description(type, address, id, category, definition.price),
+    description: text.description(type, address, id, category, displayedPrice),
     imageAlt: text.imageAlt(type, address, id, "{index}"),
     schemaName: text.schemaName(type, address, id),
-    shortDescription: text.short[definition.kind] + " ID " + id + " · " + category + " · " + definition.price + " MDL.",
+    shortDescription: text.short[definition.kind] + " ID " + id + " · " + category + " · " + displayedPrice + " MDL.",
     layoutDescription: text.layout[definition.kind],
     typeLabel: type,
     aboutTitle: text.about(type, address) + " · ID " + id,

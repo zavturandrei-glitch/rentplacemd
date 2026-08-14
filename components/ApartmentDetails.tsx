@@ -62,6 +62,8 @@ type PageCopy = {
   back: string;
   map: string;
   priceSuffix: string;
+  discountTitle: string;
+  discountDescription: string;
   selectDates: string;
   actionHint: string;
   keyDetails: string;
@@ -104,6 +106,8 @@ const pageCopy: Record<Language, PageCopy> = {
     back: "Назад ко всем квартирам",
     map: "Открыть в Google Maps",
     priceSuffix: "MDL / сутки",
+    discountTitle: "Гибкая система скидок",
+    discountDescription: "Для длительного проживания и отдельных дат возможны индивидуальные скидки. Уточняйте актуальную цену при бронировании.",
     selectDates: "Выбрать даты",
     actionHint: "Проверьте даты и отправьте запрос без предоплаты на сайте.",
     keyDetails: "Главное об объекте",
@@ -144,6 +148,8 @@ const pageCopy: Record<Language, PageCopy> = {
     back: "Înapoi la apartamente",
     map: "Deschide în Google Maps",
     priceSuffix: "MDL / zi",
+    discountTitle: "Sistem flexibil de reduceri",
+    discountDescription: "Pentru șederi de lungă durată și anumite date sunt posibile reduceri individuale. Verificați prețul actual în momentul rezervării.",
     selectDates: "Alege datele",
     actionHint: "Verificați datele și trimiteți o solicitare fără plată pe site.",
     keyDetails: "Detalii esențiale",
@@ -184,6 +190,8 @@ const pageCopy: Record<Language, PageCopy> = {
     back: "Back to apartments",
     map: "Open in Google Maps",
     priceSuffix: "MDL / night",
+    discountTitle: "Flexible discount system",
+    discountDescription: "Individual discounts may be available for longer stays and selected dates. Confirm the current price when booking.",
     selectDates: "Choose dates",
     actionHint: "Check your dates and send a request without paying on the site.",
     keyDetails: "At a glance",
@@ -224,6 +232,8 @@ const pageCopy: Record<Language, PageCopy> = {
     back: "Назад до квартир",
     map: "Відкрити в Google Maps",
     priceSuffix: "MDL / доба",
+    discountTitle: "Гнучка система знижок",
+    discountDescription: "Для тривалого проживання та окремих дат можливі індивідуальні знижки. Уточнюйте актуальну ціну під час бронювання.",
     selectDates: "Обрати дати",
     actionHint: "Перевірте дати та надішліть запит без оплати на сайті.",
     keyDetails: "Головне про об’єкт",
@@ -264,6 +274,8 @@ const pageCopy: Record<Language, PageCopy> = {
     back: "Zpět na apartmány",
     map: "Otevřít v Google Maps",
     priceSuffix: "MDL / noc",
+    discountTitle: "Flexibilní systém slev",
+    discountDescription: "Pro delší pobyty a vybrané termíny mohou být k dispozici individuální slevy. Aktuální cenu si ověřte při rezervaci.",
     selectDates: "Vybrat termín",
     actionHint: "Ověřte termín a odešlete poptávku bez platby na webu.",
     keyDetails: "Hlavní informace",
@@ -513,6 +525,14 @@ export default function ApartmentDetails({
             </h1>
             <p className="shrink-0 text-base font-black leading-none text-[#d4146f] sm:text-3xl">
               {displayedPrice} <span className="text-xs sm:text-sm">MDL</span>
+            </p>
+          </div>
+          <div className="mt-3 border-t border-[#07111f]/10 pt-3 sm:flex sm:items-baseline sm:gap-3">
+            <p className="shrink-0 text-xs font-black uppercase tracking-[0.12em] text-[#d4146f]">
+              {text.discountTitle}
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-5 text-slate-600 sm:mt-0">
+              {text.discountDescription}
             </p>
           </div>
         </article>
