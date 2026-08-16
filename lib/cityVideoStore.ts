@@ -2,6 +2,7 @@ import "server-only";
 
 import { promises as fs } from "fs";
 import path from "path";
+import { revalidateTag, unstable_cache } from "next/cache";
 import seedVideos from "@/data/cityVideos.json";
 import {
   cityVideoPlatforms,
@@ -179,12 +180,23 @@ function sortVideos(videos: CityVideo[]) {
 }
 
 async function readFromNeon() {
-  const sql = await ensureVideoTable();
+  const sql = await getNeonSql();
   if (!sql) return null;
-  const rows = await sql`SELECT id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
-    related_url, featured, published, display_order, created_at, updated_at
-    FROM city_videos
-    ORDER BY display_order ASC, event_date DESC, created_at DESC`;
+
+  let rows;
+  try {
+    rows = await sql`SELECT id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
+      related_url, featured, published, display_order, created_at, updated_at
+      FROM city_videos
+      ORDER BY display_order ASC, event_date DESC, created_at DESC`;
+  } catch (error) {
+    if ((error as { code?: string }).code !== "42P01") throw error;
+    await ensureVideoTable();
+    rows = await sql`SELECT id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
+      related_url, featured, published, display_order, created_at, updated_at
+      FROM city_videos
+      ORDER BY display_order ASC, event_date DESC, created_at DESC`;
+  }
   return sortVideos((rows as CityVideoRow[]).map(videoFromRow));
 }
 
@@ -223,8 +235,22 @@ export async function readCityVideos() {
   return sortVideos(seedVideos as CityVideo[]);
 }
 
-export async function readPublishedCityVideos() {
+async function readPublishedCityVideosUncached() {
   return (await readCityVideos()).filter((video) => video.published);
+}
+
+const readPublishedCityVideosCached = unstable_cache(
+  readPublishedCityVideosUncached,
+  ["published-city-videos"],
+  { revalidate: 300, tags: ["city-videos"] },
+);
+
+export async function readPublishedCityVideos() {
+  return readPublishedCityVideosCached();
+}
+
+function invalidatePublishedVideos() {
+  revalidateTag("city-videos", { expire: 0 });
 }
 
 export async function createCityVideo(value: unknown) {
@@ -247,6 +273,7 @@ export async function createCityVideo(value: unknown) {
       ${JSON.stringify(video.title)}::jsonb, ${JSON.stringify(video.description)}::jsonb,
       ${video.relatedUrl}, ${video.featured}, ${video.published}, ${video.displayOrder}, now(), now()
     )`;
+    invalidatePublishedVideos();
     return video;
   }
 
@@ -256,6 +283,7 @@ export async function createCityVideo(value: unknown) {
 
   const videos = await readLocalFile();
   await writeLocalFile([...videos, video]);
+  invalidatePublishedVideos();
   return video;
 }
 
@@ -282,6 +310,7 @@ export async function updateCityVideo(id: string, value: unknown) {
       RETURNING id, event_date, platform, category, source_name, video_url, thumbnail_url, title, description,
         related_url, featured, published, display_order, created_at, updated_at`;
     if (!rows[0]) throw new Error("Видео не найдено.");
+    invalidatePublishedVideos();
     return videoFromRow(rows[0] as CityVideoRow);
   }
 
@@ -294,6 +323,7 @@ export async function updateCityVideo(id: string, value: unknown) {
   if (!existing) throw new Error("Видео не найдено.");
   const updated = { ...existing, ...input, updatedAt: new Date().toISOString() };
   await writeLocalFile(videos.map((video) => video.id === id ? updated : video));
+  invalidatePublishedVideos();
   return updated;
 }
 
@@ -301,6 +331,7 @@ export async function deleteCityVideo(id: string) {
   const sql = await ensureVideoTable();
   if (sql) {
     await sql`DELETE FROM city_videos WHERE id = ${id}`;
+    invalidatePublishedVideos();
     return;
   }
   if (process.env.NODE_ENV === "production") {
@@ -308,4 +339,5 @@ export async function deleteCityVideo(id: string) {
   }
   const videos = await readLocalFile();
   await writeLocalFile(videos.filter((video) => video.id !== id));
+  invalidatePublishedVideos();
 }

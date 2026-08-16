@@ -182,7 +182,7 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
         {events.length > 0 ? (
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             {events.map((event) => (
-              <article key={event.id} className="flex flex-col rounded-[22px] bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
+              <article id={event.slug} key={event.id} className="scroll-mt-24 flex flex-col rounded-[22px] bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <p className="font-semibold capitalize">{formatDate(event.startDate, language)}</p>
                   <span className="rounded-full bg-[#fff4b9] px-3 py-1.5 text-xs font-semibold">{ui.interests[event.interest]}</span>

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
 import type { CityVideoInput } from "@/lib/cityVideoTypes";
 
 type TikTokOEmbed = { thumbnail_url?: unknown };
@@ -13,7 +14,7 @@ function asPublicImageUrl(value: unknown) {
   }
 }
 
-export async function fetchTikTokThumbnail(videoUrl: string) {
+async function requestTikTokThumbnail(videoUrl: string) {
   try {
     const response = await fetch(
       `https://www.tiktok.com/oembed?url=${encodeURIComponent(videoUrl)}`,
@@ -26,6 +27,12 @@ export async function fetchTikTokThumbnail(videoUrl: string) {
     return null;
   }
 }
+
+export const fetchTikTokThumbnail = unstable_cache(
+  requestTikTokThumbnail,
+  ["tiktok-oembed-thumbnail"],
+  { revalidate: 60 * 60, tags: ["tiktok-oembed-thumbnails"] },
+);
 
 export async function withAutomaticCityVideoThumbnail(input: CityVideoInput): Promise<CityVideoInput> {
   if (input.thumbnailUrl || input.platform !== "tiktok") return input;

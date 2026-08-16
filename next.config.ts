@@ -6,6 +6,17 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 82],
     minimumCacheTTL: 31536000,
+    localPatterns: [
+      { pathname: "/**", search: "" },
+      { pathname: "/api/video-thumbnail" },
+    ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/vi/**",
+      },
+    ],
   },
   async headers() {
     return [

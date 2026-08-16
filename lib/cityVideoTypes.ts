@@ -52,38 +52,33 @@ export function getYouTubeVideoId(value: string) {
   return null;
 }
 
-export function getTikTokVideoId(value: string) {
+export function isTikTokThumbnailUrl(value: string) {
   const url = parseUrl(value);
-  if (!url || !url.hostname.endsWith("tiktok.com")) return null;
-  return url.pathname.match(/\/video\/(\d+)/)?.[1] ?? null;
-}
-
-export function getCityVideoEmbedUrl(video: Pick<CityVideo, "platform" | "videoUrl">) {
-  if (video.platform === "youtube") {
-    const id = getYouTubeVideoId(video.videoUrl);
-    return id
-      ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1`
-      : null;
-  }
-
-  if (video.platform === "tiktok") {
-    const id = getTikTokVideoId(video.videoUrl);
-    return id
-      ? `https://www.tiktok.com/player/v1/${encodeURIComponent(id)}?autoplay=1`
-      : null;
-  }
-
-  return null;
+  if (!url) return false;
+  return [
+    "tiktokcdn.com",
+    "tiktokcdn-us.com",
+    "muscdn.com",
+    "byteoversea.com",
+    "ibytedtos.com",
+  ].some((hostname) => url.hostname === hostname || url.hostname.endsWith(`.${hostname}`));
 }
 
 export function getCityVideoThumbnail(video: Pick<CityVideo, "platform" | "videoUrl" | "thumbnailUrl">) {
+  if (video.platform === "tiktok") {
+    if (video.thumbnailUrl?.startsWith("/")) return video.thumbnailUrl;
+    const params = new URLSearchParams({ url: video.videoUrl });
+    if (video.thumbnailUrl && isTikTokThumbnailUrl(video.thumbnailUrl)) {
+      params.set("thumbnail", video.thumbnailUrl);
+    } else if (video.thumbnailUrl) {
+      return video.thumbnailUrl;
+    }
+    return `/api/video-thumbnail?${params.toString()}`;
+  }
   if (video.thumbnailUrl) return video.thumbnailUrl;
   if (video.platform === "youtube") {
     const id = getYouTubeVideoId(video.videoUrl);
     return id ? `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : null;
-  }
-  if (video.platform === "tiktok") {
-    return `/api/video-thumbnail?url=${encodeURIComponent(video.videoUrl)}`;
   }
   return null;
 }

@@ -25,6 +25,14 @@ const labels = {
   walking: { ru: "Пешие маршруты", ro: "Trasee pietonale", en: "Walking routes", uk: "Піші маршрути", cs: "Pěší trasy" },
 };
 
+const videoLabels = {
+  ru: "Видео о Кишинёве",
+  ro: "Videoclipuri despre Chișinău",
+  en: "Chisinau videos",
+  uk: "Відео про Кишинів",
+  cs: "Videa o Kišiněvě",
+};
+
 export default function GuideHub() {
   const { language } = useLanguage();
   useEffect(() => { document.title = `${guideUi.hubTitle[language]} | RentPlaceMD`; }, [language]);
@@ -62,12 +70,15 @@ export default function GuideHub() {
         </div>
 
         <nav className="mt-16 border-t border-[#15231d]/20 pt-8" aria-label={guideUi.hubTitle[language]}>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {(["restaurants", "monasteries", "dental-tourism", "transnistria"] as const).map((slug) => (
               <Link key={slug} href={href(`/guide/${slug}`)} className="border-b border-[#15231d]/15 py-4 font-serif text-xl transition hover:text-[#8b3e2f]">
                 {guidePages[slug].title[language]} →
               </Link>
             ))}
+            <Link href={href("/chisinau-videos")} className="border-b border-[#15231d]/15 py-4 font-serif text-xl transition hover:text-[#8b3e2f]">
+              {videoLabels[language]} →
+            </Link>
           </div>
         </nav>
       </div>

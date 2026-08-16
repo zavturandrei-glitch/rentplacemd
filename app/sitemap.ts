@@ -14,6 +14,9 @@ import { eventsUpdatedAt } from "@/lib/events";
 import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 import { destinations } from "@/lib/moldovaDestinations";
+import { readPublishedCityVideos } from "@/lib/cityVideoStore";
+
+export const revalidate = 3600;
 
 const routeLastModified: Record<string, Date> = {
   "": new Date("2026-07-26"),
@@ -51,7 +54,12 @@ function languageAlternates(path: string) {
   };
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const publishedVideos = await readPublishedCityVideos();
+  const videoLastModified = publishedVideos.reduce(
+    (latest, video) => Math.max(latest, new Date(video.updatedAt).getTime()),
+    routeLastModified["/chisinau-videos"].getTime(),
+  );
   const categoryRoutes = apartmentCategoryOrder.map((category) => ({
     url: baseUrl + getApartmentCategoryPath(category),
     lastModified: categoryLastModified,
@@ -122,7 +130,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...["/about", "/apartments", "/owners", "/check-in-rules", "/transfer", "/chisinau-guide", "/chisinau-videos"].map((path) => ({
       url: baseUrl + path,
-      lastModified: routeLastModified[path],
+      lastModified: path === "/chisinau-videos" ? new Date(videoLastModified) : routeLastModified[path],
       changeFrequency: "monthly" as const,
       priority: path === "/apartments" ? 0.9 : path === "/owners" ? 0.76 : path === "/chisinau-videos" ? 0.74 : 0.72,
       images: [mainSocialImageUrl],
