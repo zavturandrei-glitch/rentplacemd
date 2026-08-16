@@ -23,7 +23,7 @@ export default function CityVideoLibrary({ videos }: { videos: CityVideo[] }) {
       <section className="bg-[#fffaf0] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-6xl">
           {videos.length > 0 ? (
-            <div className="grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-7 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 xl:grid-cols-4">
               {videos.map((video) => <CityVideoCard key={video.id} video={video} layout="grid" />)}
             </div>
           ) : (

@@ -15,6 +15,7 @@ import {
   type LocalizedVideoText,
 } from "@/lib/cityVideoTypes";
 import type { Language } from "@/locales/translations";
+import { withAutomaticCityVideoThumbnail } from "@/lib/cityVideoPreview";
 
 type CityVideoRow = {
   id: string;
@@ -227,7 +228,7 @@ export async function readPublishedCityVideos() {
 }
 
 export async function createCityVideo(value: unknown) {
-  const input = normalizeCityVideoInput(value);
+  const input = await withAutomaticCityVideoThumbnail(normalizeCityVideoInput(value));
   const now = new Date().toISOString();
   const video: CityVideo = {
     ...input,
@@ -259,7 +260,7 @@ export async function createCityVideo(value: unknown) {
 }
 
 export async function updateCityVideo(id: string, value: unknown) {
-  const input = normalizeCityVideoInput(value);
+  const input = await withAutomaticCityVideoThumbnail(normalizeCityVideoInput(value));
   const sql = await ensureVideoTable();
 
   if (sql) {

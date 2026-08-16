@@ -78,9 +78,14 @@ export function getCityVideoEmbedUrl(video: Pick<CityVideo, "platform" | "videoU
 
 export function getCityVideoThumbnail(video: Pick<CityVideo, "platform" | "videoUrl" | "thumbnailUrl">) {
   if (video.thumbnailUrl) return video.thumbnailUrl;
-  if (video.platform !== "youtube") return null;
-  const id = getYouTubeVideoId(video.videoUrl);
-  return id ? `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : null;
+  if (video.platform === "youtube") {
+    const id = getYouTubeVideoId(video.videoUrl);
+    return id ? `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : null;
+  }
+  if (video.platform === "tiktok") {
+    return `/api/video-thumbnail?url=${encodeURIComponent(video.videoUrl)}`;
+  }
+  return null;
 }
 
 export function isValidPlatformUrl(platform: CityVideoPlatform, value: string) {

@@ -232,8 +232,8 @@ export default function AdminVideosManager() {
           <Field label="Ссылка на видео">
             <input type="url" required value={form.videoUrl} onChange={(event) => setForm({ ...form, videoUrl: event.target.value })} placeholder="https://..." className={inputClass} />
           </Field>
-          <Field label="Обложка — необязательно">
-            <input value={form.thumbnailUrl ?? ""} onChange={(event) => setForm({ ...form, thumbnailUrl: event.target.value || null })} placeholder="/image.webp или https://..." className={inputClass} />
+          <Field label="Обложка — необязательно (для TikTok загрузится автоматически)">
+            <input value={form.thumbnailUrl ?? ""} onChange={(event) => setForm({ ...form, thumbnailUrl: event.target.value || null })} placeholder="Оставьте пустым для автообложки" className={inputClass} />
           </Field>
           <Field label="Связанная страница — необязательно">
             <input value={form.relatedUrl ?? ""} onChange={(event) => setForm({ ...form, relatedUrl: event.target.value || null })} placeholder="/events/..." className={inputClass} />
