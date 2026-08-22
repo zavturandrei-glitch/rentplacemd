@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000,
     localPatterns: [
       { pathname: "/**", search: "" },
-      { pathname: "/api/video-thumbnail" },
+      { pathname: "/api/video-thumbnails/**", search: "" },
     ],
     remotePatterns: [
       {

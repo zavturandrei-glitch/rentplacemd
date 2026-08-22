@@ -1,11 +1,13 @@
 "use client";
 
 import Image, { type ImageLoaderProps } from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { cityVideoCategoryLabels, cityVideoUi } from "@/lib/cityVideoContent";
 import {
   getCityVideoThumbnail,
+  getCityVideoPath,
   type CityVideo,
 } from "@/lib/cityVideoTypes";
 
@@ -38,7 +40,6 @@ export default function CityVideoCard({
 }) {
   const { language } = useLanguage();
   const copy = cityVideoUi[language];
-  const automaticThumbnail = getCityVideoThumbnail({ ...video, thumbnailUrl: null });
   const [thumbnail, setThumbnail] = useState(() => getCityVideoThumbnail(video));
   const title = video.title[language];
   const description = video.description[language];
@@ -49,11 +50,9 @@ export default function CityVideoCard({
 
   return (
     <article className={`${layout === "rail" ? "w-[62vw] max-w-[232px] shrink-0 snap-start" : "w-[62vw] max-w-[232px] shrink-0 snap-start sm:w-full sm:max-w-none"} min-w-0`}>
-      <a
-        href={video.videoUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`${copy.actions.original}: ${title}`}
+      <Link
+        href={`${getCityVideoPath(video.slug)}${language === "ru" ? "" : `?lang=${language}`}`}
+        aria-label={`${copy.actions.play}: ${title}`}
         className="group block overflow-hidden rounded-[20px] bg-[#07111f] text-white shadow-[0_14px_30px_rgba(7,17,31,0.16)] ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(7,17,31,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#d4146f] active:scale-[0.99]"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-[#101e32]">
@@ -67,7 +66,7 @@ export default function CityVideoCard({
               alt=""
               loading="lazy"
               draggable={false}
-              onError={() => setThumbnail(thumbnail === automaticThumbnail ? null : automaticThumbnail)}
+              onError={() => setThumbnail(null)}
               className="object-cover transition duration-500 group-hover:scale-[1.025]"
             />
           ) : (
@@ -83,7 +82,7 @@ export default function CityVideoCard({
           <h3 className="mt-1.5 line-clamp-2 text-base font-black leading-[1.15] tracking-[-0.02em]">{title}</h3>
           {description ? <p className="mt-1.5 line-clamp-2 text-xs leading-[1.45] text-white/65">{description}</p> : null}
         </div>
-      </a>
+      </Link>
     </article>
   );
 }

@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
 import type { CityVideo, CityVideoCategory } from "@/lib/cityVideoTypes";
 import {
+  getCityVideoEmbedUrl,
+  getCityVideoPath,
+  getCityVideoThumbnail,
+} from "@/lib/cityVideoTypes";
+import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
@@ -318,8 +323,101 @@ export function buildCityVideoPageJsonLd(languageInput?: string, videos: CityVid
         "@type": "ListItem",
         position: index + 1,
         name: video.title[language],
-        url: video.videoUrl,
+        url: baseUrl + getCityVideoPath(video.slug),
       })),
     }] : []),
+  ];
+}
+
+export function getCityVideoAbsoluteThumbnail(video: CityVideo) {
+  const thumbnail = getCityVideoThumbnail(video);
+  if (!thumbnail) return null;
+  return thumbnail.startsWith("/") ? baseUrl + thumbnail : thumbnail;
+}
+
+export function getCityVideoWatchDescription(video: CityVideo, language: Language) {
+  const description = video.description[language]?.trim();
+  if (description) return description;
+  const title = video.title[language].trim();
+  return `${title}. ${video.sourceName}.`;
+}
+
+export function getCityVideoWatchMetadata(
+  video: CityVideo,
+  languageInput?: string,
+): Metadata {
+  const language = normalizeSiteLanguage(languageInput);
+  const path = getCityVideoPath(video.slug);
+  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const titleSuffix: Record<Language, string> = {
+    ru: "видео о Кишинёве",
+    ro: "videoclip despre Chișinău",
+    en: "Chisinau video",
+    uk: "відео про Кишинів",
+    cs: "video o Kišiněvě",
+  };
+  const title = `${video.title[language]} — ${titleSuffix[language]} | RentPlaceMD`;
+  const description = getCityVideoWatchDescription(video, language).slice(0, 200);
+  const thumbnail = getCityVideoAbsoluteThumbnail(video);
+  const embedUrl = getCityVideoEmbedUrl(video);
+
+  return {
+    title: { absolute: title },
+    description,
+    alternates: routeAlternates(path, languageInput),
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName,
+      type: "video.other",
+      locale: openGraphLocale[language],
+      alternateLocale: Object.values(openGraphLocale).filter((locale) => locale !== openGraphLocale[language]),
+      ...(thumbnail ? { images: [{ url: thumbnail, alt: video.title[language] }] } : {}),
+      ...(embedUrl ? { videos: [{ url: embedUrl }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(thumbnail ? { images: [thumbnail] } : {}),
+    },
+  };
+}
+
+export function buildCityVideoWatchJsonLd(
+  video: CityVideo,
+  languageInput?: string,
+) {
+  const language = normalizeSiteLanguage(languageInput);
+  const path = getCityVideoPath(video.slug);
+  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const thumbnail = getCityVideoAbsoluteThumbnail(video);
+  const embedUrl = getCityVideoEmbedUrl(video);
+  if (!thumbnail || !embedUrl) return [];
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "@id": `${url}#video`,
+      name: video.title[language],
+      description: getCityVideoWatchDescription(video, language),
+      thumbnailUrl: [thumbnail],
+      uploadDate: video.createdAt,
+      embedUrl,
+      url,
+      inLanguage: language,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+        { "@type": "ListItem", position: 2, name: cityVideoUi[language].seo.breadcrumb, item: baseUrl + cityVideosPath },
+        { "@type": "ListItem", position: 3, name: video.title[language], item: url },
+      ],
+    },
   ];
 }

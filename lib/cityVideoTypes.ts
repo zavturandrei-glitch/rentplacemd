@@ -5,15 +5,20 @@ export type CityVideoPlatform = (typeof cityVideoPlatforms)[number];
 export const cityVideoCategories = ["city", "events", "places", "food", "culture"] as const;
 export type CityVideoCategory = (typeof cityVideoCategories)[number];
 export type LocalizedVideoText = Record<Language, string>;
+export type CityVideoThumbnailStatus = "not_required" | "manual" | "stored" | "failed";
 
 export type CityVideo = {
   id: string;
+  slug: string;
   date: string;
   platform: CityVideoPlatform;
   category: CityVideoCategory;
   sourceName: string;
   videoUrl: string;
+  embedUrl: string | null;
   thumbnailUrl: string | null;
+  thumbnailStatus: CityVideoThumbnailStatus;
+  thumbnailError: string | null;
   title: LocalizedVideoText;
   description: LocalizedVideoText;
   relatedUrl: string | null;
@@ -24,7 +29,11 @@ export type CityVideo = {
   updatedAt: string;
 };
 
-export type CityVideoInput = Omit<CityVideo, "id" | "createdAt" | "updatedAt">;
+export type CityVideoInput = Omit<
+  CityVideo,
+  "id" | "createdAt" | "updatedAt" | "thumbnailStatus" | "thumbnailError"
+  | "slug" | "embedUrl"
+>;
 
 function parseUrl(value: string) {
   try {
@@ -52,9 +61,61 @@ export function getYouTubeVideoId(value: string) {
   return null;
 }
 
+export function getTikTokVideoId(value: string) {
+  const url = parseUrl(value);
+  if (!url || !url.hostname.endsWith("tiktok.com")) return null;
+  return url.pathname.match(/\/video\/(\d+)/)?.[1] ?? null;
+}
+
+export function getCityVideoEmbedUrl(
+  video: Pick<CityVideo, "platform" | "videoUrl" | "embedUrl">,
+) {
+  if (video.embedUrl) return video.embedUrl;
+  if (video.platform === "youtube") {
+    const id = getYouTubeVideoId(video.videoUrl);
+    return id ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}` : null;
+  }
+  if (video.platform === "tiktok") {
+    const id = getTikTokVideoId(video.videoUrl);
+    return id ? `https://www.tiktok.com/player/v1/${encodeURIComponent(id)}` : null;
+  }
+  const url = parseUrl(video.videoUrl);
+  if (video.platform === "instagram" && url) {
+    const match = url.pathname.match(/^\/(?:p|reel)\/([^/]+)/);
+    return match ? `https://www.instagram.com/p/${encodeURIComponent(match[1])}/embed` : null;
+  }
+  return null;
+}
+
+const cyrillicToLatin: Record<string, string> = {
+  а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z",
+  и: "i", й: "i", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r",
+  с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "c", ч: "ch", ш: "sh", щ: "sch",
+  ъ: "", ы: "y", ь: "", э: "e", ю: "yu", я: "ya", і: "i", ї: "yi", є: "e", ґ: "g",
+};
+
+export function createCityVideoSlug(title: string, id: string) {
+  const transliterated = title.toLocaleLowerCase("ru").split("")
+    .map((character) => cyrillicToLatin[character] ?? character)
+    .join("")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 64)
+    .replace(/-+$/g, "");
+  const suffix = id.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase() || "video";
+  return `${transliterated || "video"}-${suffix}`;
+}
+
+export function getCityVideoPath(slug: string) {
+  return `/chisinau-videos/${encodeURIComponent(slug)}`;
+}
+
 export function isTikTokThumbnailUrl(value: string) {
   const url = parseUrl(value);
   if (!url) return false;
+  if (url.hostname.includes("tiktokcdn")) return true;
   return [
     "tiktokcdn.com",
     "tiktokcdn-us.com",
@@ -64,16 +125,27 @@ export function isTikTokThumbnailUrl(value: string) {
   ].some((hostname) => url.hostname === hostname || url.hostname.endsWith(`.${hostname}`));
 }
 
+export function getStoredCityVideoThumbnailUrl(id: string, version?: string) {
+  const base = `/api/video-thumbnails/${encodeURIComponent(id)}`;
+  return version ? `${base}/${encodeURIComponent(version)}` : base;
+}
+
+export function isStoredCityVideoThumbnailUrl(value: string | null | undefined) {
+  return Boolean(value?.startsWith("/api/video-thumbnails/"));
+}
+
+export function hasPermanentCityVideoThumbnail(
+  video: Pick<CityVideo, "platform" | "thumbnailUrl">,
+) {
+  if (!video.thumbnailUrl) return false;
+  return video.platform !== "tiktok" || !isTikTokThumbnailUrl(video.thumbnailUrl);
+}
+
 export function getCityVideoThumbnail(video: Pick<CityVideo, "platform" | "videoUrl" | "thumbnailUrl">) {
   if (video.platform === "tiktok") {
-    if (video.thumbnailUrl?.startsWith("/")) return video.thumbnailUrl;
-    const params = new URLSearchParams({ url: video.videoUrl });
-    if (video.thumbnailUrl && isTikTokThumbnailUrl(video.thumbnailUrl)) {
-      params.set("thumbnail", video.thumbnailUrl);
-    } else if (video.thumbnailUrl) {
-      return video.thumbnailUrl;
-    }
-    return `/api/video-thumbnail?${params.toString()}`;
+    return video.thumbnailUrl && !isTikTokThumbnailUrl(video.thumbnailUrl)
+      ? video.thumbnailUrl
+      : null;
   }
   if (video.thumbnailUrl) return video.thumbnailUrl;
   if (video.platform === "youtube") {

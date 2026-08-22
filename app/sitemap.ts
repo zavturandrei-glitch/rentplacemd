@@ -15,6 +15,8 @@ import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 import { destinations } from "@/lib/moldovaDestinations";
 import { readPublishedCityVideos } from "@/lib/cityVideoStore";
+import { getCityVideoAbsoluteThumbnail } from "@/lib/cityVideoContent";
+import { getCityVideoPath } from "@/lib/cityVideoTypes";
 
 export const revalidate = 3600;
 
@@ -119,6 +121,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: languageAlternates(destination.path),
   }));
 
+  const videoRoutes = publishedVideos.map((video) => {
+    const path = getCityVideoPath(video.slug);
+    const thumbnail = getCityVideoAbsoluteThumbnail(video);
+    return {
+      url: baseUrl + path,
+      lastModified: new Date(video.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
+      ...(thumbnail ? { images: [thumbnail] } : {}),
+      alternates: languageAlternates(path),
+    };
+  });
+
   return [
     {
       url: baseUrl,
@@ -140,6 +155,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...guideRoutes,
     ...destinationRoutes,
     ...eventMonthRoutes,
+    ...videoRoutes,
     ...apartmentRoutes,
   ];
 }

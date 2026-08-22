@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {
   cityVideoPlatforms,
   cityVideoCategories,
+  getCityVideoPath,
   type CityVideo,
   type CityVideoInput,
   type LocalizedVideoText,
@@ -52,6 +53,7 @@ export default function AdminVideosManager() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [retryingId, setRetryingId] = useState<string | null>(null);
 
   useEffect(() => {
     async function checkSession() {
@@ -162,6 +164,25 @@ export default function AdminVideosManager() {
     }
     await loadVideos();
     if (editingId === id) resetForm();
+  }
+
+  async function retryThumbnail(id: string) {
+    if (retryingId) return;
+    setRetryingId(id);
+    setMessage("Получаю thumbnail...");
+    const response = await fetch("/api/admin/videos/thumbnail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    const data = (await response.json().catch(() => null)) as { error?: string } | null;
+    if (!response.ok) {
+      setMessage(data?.error ?? "Thumbnail не получен.");
+    } else {
+      await loadVideos();
+      setMessage("Thumbnail сохранён.");
+    }
+    setRetryingId(null);
   }
 
   if (sessionState === "checking") {
@@ -285,6 +306,34 @@ export default function AdminVideosManager() {
                   <span className={`rounded-full px-2.5 py-1 text-xs font-black ${video.published ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-600"}`}>{video.published ? "Опубликовано" : "Черновик"}</span>
                 </div>
                 <p className="mt-3 break-all text-xs text-slate-500">{video.videoUrl}</p>
+                {video.platform === "tiktok" ? (
+                  <div className="mt-3">
+                    <p className={`text-xs font-black ${video.thumbnailStatus === "failed" ? "text-red-700" : "text-emerald-700"}`}>
+                      {video.thumbnailStatus === "stored"
+                        ? "Thumbnail сохранён"
+                        : video.thumbnailStatus === "manual"
+                          ? "Ручная обложка"
+                          : "Thumbnail не получен"}
+                    </p>
+                    {video.thumbnailStatus === "failed" && video.thumbnailError ? (
+                      <p className="mt-1 text-xs text-red-600">{video.thumbnailError}</p>
+                    ) : null}
+                    {!video.embedUrl ? <p className="mt-1 text-xs font-black text-red-700">Video embed не получен</p> : null}
+                    {video.thumbnailStatus === "failed" || !video.embedUrl ? (
+                      <button
+                        type="button"
+                        disabled={retryingId === video.id}
+                        onClick={() => retryThumbnail(video.id)}
+                        className="mt-2 min-h-10 rounded-xl border border-amber-300 px-4 text-xs font-black text-amber-800 disabled:opacity-50"
+                      >
+                        {retryingId === video.id ? "Повторяю..." : "Повторить подготовку видео"}
+                      </button>
+                    ) : null}
+                    {video.published && video.embedUrl && video.thumbnailStatus !== "failed" ? (
+                      <Link href={getCityVideoPath(video.slug)} className="mt-2 block text-xs font-black text-[#d4146f]">Открыть watch page →</Link>
+                    ) : null}
+                  </div>
+                ) : null}
                 <div className="mt-5 flex gap-2">
                   <button type="button" onClick={() => startEdit(video)} className="min-h-10 rounded-xl bg-[#07111f] px-4 text-xs font-black text-white">Изменить</button>
                   <button type="button" onClick={() => removeVideo(video.id)} className="min-h-10 rounded-xl border border-red-200 px-4 text-xs font-black text-red-700">Удалить</button>
