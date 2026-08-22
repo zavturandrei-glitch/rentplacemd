@@ -46,6 +46,7 @@ export default function ResponsiveImage({
         <Image
           src={src}
           alt={alt}
+          unoptimized
           fill
           sizes={sizes}
           preload={priority}

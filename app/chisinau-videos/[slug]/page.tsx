@@ -75,7 +75,7 @@ export default async function CityVideoWatchPage({ params, searchParams }: PageP
             <div className={video.platform === "tiktok" ? "mx-auto w-full max-w-[430px]" : "w-full"}>
               <div className={`relative overflow-hidden rounded-[24px] bg-[#07111f] shadow-[0_18px_45px_rgba(7,17,31,0.2)] ${video.platform === "tiktok" ? "aspect-[9/16]" : "aspect-video"}`}>
                 {optimizedThumbnail ? (
-                  <Image fill preload sizes={video.platform === "tiktok" ? "(max-width: 640px) 100vw, 430px" : "(max-width: 1024px) 100vw, 800px"} src={thumbnail} alt={title} className="object-cover" />
+                  <Image unoptimized fill preload sizes={video.platform === "tiktok" ? "(max-width: 640px) 100vw, 430px" : "(max-width: 1024px) 100vw, 800px"} src={thumbnail} alt={title} className="object-cover" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={thumbnail} alt={title} className="absolute inset-0 h-full w-full object-cover" />

@@ -1,6 +1,6 @@
 "use client";
 
-import Image, { type ImageLoaderProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -18,8 +18,6 @@ const monthNames = {
   uk: ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"],
   cs: ["ledna", "února", "března", "dubna", "května", "června", "července", "srpna", "září", "října", "listopadu", "prosince"],
 } as const;
-
-const passthroughImageLoader = ({ src }: ImageLoaderProps) => src;
 
 function formatDate(value: string, language: keyof typeof monthNames) {
   const [year, month, day] = value.split("-").map(Number);
@@ -44,10 +42,6 @@ export default function CityVideoCard({
   const title = video.title[language];
   const description = video.description[language];
   const date = formatDate(video.date, language);
-  const optimizeThumbnail = Boolean(
-    thumbnail?.startsWith("/") || thumbnail?.startsWith("https://i.ytimg.com/"),
-  );
-
   return (
     <article className={`${layout === "rail" ? "w-[62vw] max-w-[232px] shrink-0 snap-start" : "w-[62vw] max-w-[232px] shrink-0 snap-start sm:w-full sm:max-w-none"} min-w-0`}>
       <Link
@@ -58,8 +52,7 @@ export default function CityVideoCard({
         <div className="relative aspect-[4/3] overflow-hidden bg-[#101e32]">
           {thumbnail ? (
             <Image
-              loader={optimizeThumbnail ? undefined : passthroughImageLoader}
-              unoptimized={!optimizeThumbnail}
+              unoptimized
               fill
               sizes="(max-width: 374px) 62vw, (max-width: 639px) 232px, (max-width: 1023px) 48vw, (max-width: 1279px) 31vw, 273px"
               src={thumbnail}
