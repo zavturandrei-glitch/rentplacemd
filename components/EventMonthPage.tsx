@@ -52,7 +52,7 @@ const text: Record<Language, {
     ctaText: "Проверьте квартиры RentPlaceMD заранее — на даты крупных фестивалей и концертов спрос обычно растёт.",
     previous: "Предыдущий месяц",
     next: "Следующий месяц",
-    categories: { concert: "Концерт", festival: "Фестиваль", theatre: "Театр и шоу", sport: "Спорт", family: "Семейное", city: "Городское", gastronomy: "Гастрономия", other: "Другое" },
+    categories: { concert: "Концерт", festival: "Фестиваль", theatre: "Театр и шоу", sport: "Спорт", business: "Бизнес и технологии", family: "Семейное", city: "Городское", gastronomy: "Гастрономия", other: "Другое" },
     interests: { "very-high": "Очень высокий спрос", high: "Высокий спрос", medium: "Средний спрос", low: "Локальный интерес" },
   },
   ro: {
@@ -69,7 +69,7 @@ const text: Record<Language, {
     ctaText: "Verificați din timp apartamentele RentPlaceMD — cererea crește de obicei la festivaluri și concerte importante.",
     previous: "Luna precedentă",
     next: "Luna următoare",
-    categories: { concert: "Concert", festival: "Festival", theatre: "Teatru și show", sport: "Sport", family: "Familie", city: "Urban", gastronomy: "Gastronomie", other: "Altele" },
+    categories: { concert: "Concert", festival: "Festival", theatre: "Teatru și show", sport: "Sport", business: "Business și tehnologie", family: "Familie", city: "Urban", gastronomy: "Gastronomie", other: "Altele" },
     interests: { "very-high": "Cerere foarte mare", high: "Cerere mare", medium: "Cerere medie", low: "Interes local" },
   },
   en: {
@@ -86,7 +86,7 @@ const text: Record<Language, {
     ctaText: "Check RentPlaceMD apartments early — demand usually rises around major festivals and concerts.",
     previous: "Previous month",
     next: "Next month",
-    categories: { concert: "Concert", festival: "Festival", theatre: "Theatre and show", sport: "Sport", family: "Family", city: "City", gastronomy: "Food and wine", other: "Other" },
+    categories: { concert: "Concert", festival: "Festival", theatre: "Theatre and show", sport: "Sport", business: "Business and technology", family: "Family", city: "City", gastronomy: "Food and wine", other: "Other" },
     interests: { "very-high": "Very high demand", high: "High demand", medium: "Medium demand", low: "Local interest" },
   },
   uk: {
@@ -103,7 +103,7 @@ const text: Record<Language, {
     ctaText: "Перевірте квартири RentPlaceMD заздалегідь — у дні великих фестивалів і концертів попит зазвичай зростає.",
     previous: "Попередній місяць",
     next: "Наступний місяць",
-    categories: { concert: "Концерт", festival: "Фестиваль", theatre: "Театр і шоу", sport: "Спорт", family: "Сімейне", city: "Міське", gastronomy: "Гастрономія", other: "Інше" },
+    categories: { concert: "Концерт", festival: "Фестиваль", theatre: "Театр і шоу", sport: "Спорт", business: "Бізнес і технології", family: "Сімейне", city: "Міське", gastronomy: "Гастрономія", other: "Інше" },
     interests: { "very-high": "Дуже високий попит", high: "Високий попит", medium: "Середній попит", low: "Локальний інтерес" },
   },
   cs: {
@@ -120,7 +120,7 @@ const text: Record<Language, {
     ctaText: "Prověřte apartmány RentPlaceMD včas — během velkých festivalů a koncertů poptávka obvykle roste.",
     previous: "Předchozí měsíc",
     next: "Následující měsíc",
-    categories: { concert: "Koncert", festival: "Festival", theatre: "Divadlo a show", sport: "Sport", family: "Rodinné", city: "Městské", gastronomy: "Gastronomie", other: "Ostatní" },
+    categories: { concert: "Koncert", festival: "Festival", theatre: "Divadlo a show", sport: "Sport", business: "Byznys a technologie", family: "Rodinné", city: "Městské", gastronomy: "Gastronomie", other: "Ostatní" },
     interests: { "very-high": "Velmi vysoká poptávka", high: "Vysoká poptávka", medium: "Střední poptávka", low: "Místní zájem" },
   },
 };
@@ -192,9 +192,14 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
                 <p className="mt-4 text-sm font-semibold text-slate-700">{event.venue[language]}</p>
                 {event.startTime ? <p className="mt-1 text-sm text-slate-500">{ui.time}: {event.startTime}</p> : null}
                 <p className="mt-4 flex-1 leading-7 text-slate-600">{event.description[language]}</p>
-                <a href={event.ticketUrl ?? event.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-11 items-center justify-center self-start rounded-full bg-[#07111f] px-5 text-sm font-semibold text-white transition hover:bg-[#d4146f]">
-                  {ui.details} ↗
-                </a>
+                <div className="mt-4 rounded-xl bg-[#fffaf0] p-4 text-sm leading-6 text-slate-700">
+                  <p className="font-semibold">{formatDate(event.demandStart, language)}–{formatDate(event.demandEnd, language)}</p>
+                  <p className="mt-1">{event.demandReason[language]}</p>
+                </div>
+                <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+                  <a href={event.ticketUrl ?? event.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#07111f] px-5 text-sm font-semibold text-white transition hover:bg-[#d4146f]">{ui.details} ↗</a>
+                  <Link href={`/apartments?lang=${language}`} className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-5 text-sm font-semibold">{ui.apartments}</Link>
+                </div>
               </article>
             ))}
           </div>
@@ -204,7 +209,7 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
       <section className="mt-12 rounded-[26px] bg-[#d4146f] p-6 text-white sm:p-10">
         <h2 className="text-3xl font-semibold">{ui.ctaTitle}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-white/80">{ui.ctaText}</p>
-        <Link href="/apartments" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">
+        <Link href={`/apartments?lang=${language}`} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">
           {ui.apartments}
         </Link>
       </section>

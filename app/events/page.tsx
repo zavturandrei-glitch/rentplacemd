@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import BackButton from "@/components/BackButton";
 import EventsCalendar from "@/components/EventsCalendar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -22,6 +21,11 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   const metadata = getGuidePageMetadata("events", first(query.lang));
   return {
     ...metadata,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+    },
     alternates: {
       ...metadata.alternates,
       canonical: metadata.alternates?.canonical?.toString().replace("/guide/events", "/events"),
@@ -54,7 +58,6 @@ export default async function EventsPage({ searchParams }: PageProps) {
     <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id="events-jsonld" data={jsonLd} />
       <Header />
-      <BackButton />
       <EventsCalendar />
       <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
         <CityVideoRail videos={pastEventVideos} placement="events" />

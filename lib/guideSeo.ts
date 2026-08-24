@@ -161,7 +161,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
       "@id": `${url}#${event.slug}`,
       name: event.title[language],
       description: event.description[language],
-      startDate: event.startDate,
+      startDate: event.startTime ? `${event.startDate}T${event.startTime}:00+03:00` : event.startDate,
       ...(event.endDate ? { endDate: event.endDate } : {}),
       eventStatus: "https://schema.org/EventScheduled",
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
@@ -179,12 +179,8 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
             }
           : {}),
       },
-      url: event.sourceUrl,
-      organizer: {
-        "@type": "Organization",
-        name: event.sourceName,
-        url: event.sourceUrl,
-      },
+      url: `${url}#${event.slug}`,
+      sameAs: [...new Set([event.sourceUrl, event.ticketUrl].filter(Boolean))],
       inLanguage: language,
     }));
 
@@ -208,7 +204,14 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
           })),
         },
       },
-      breadcrumb,
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+          { "@type": "ListItem", position: 2, name: data.title[language], item: url },
+        ],
+      },
     ];
   }
 

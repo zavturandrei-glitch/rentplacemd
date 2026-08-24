@@ -2,488 +2,105 @@ import type { Language } from "@/locales/translations";
 import { isPastChisinauDate } from "@/lib/chisinauDate";
 
 export type EventInterest = "very-high" | "high" | "medium" | "low";
-export type EventCategory =
-  | "concert"
-  | "festival"
-  | "theatre"
-  | "sport"
-  | "family"
-  | "city"
-  | "gastronomy"
-  | "other";
-
-type LocalizedText = Record<Language, string>;
+export type EventCategory = "concert" | "festival" | "theatre" | "sport" | "business" | "family" | "city" | "gastronomy" | "other";
+export type LocalizedText = Record<Language, string>;
 
 export type ChisinauEvent = {
-  id: string;
-  slug: string;
-  title: LocalizedText;
-  description: LocalizedText;
-  startDate: string;
-  endDate?: string;
-  startTime?: string;
-  venue: LocalizedText;
-  address?: LocalizedText;
-  city: "Chisinau" | "Moldova-near-Chisinau";
-  category: EventCategory;
-  interest: EventInterest;
-  sourceName: string;
-  sourceUrl: string;
-  ticketUrl?: string;
-  verifiedAt: string;
-  status: "scheduled" | "postponed" | "cancelled" | "sold-out";
+  id: string; slug: string; title: LocalizedText; description: LocalizedText;
+  demandReason: LocalizedText; startDate: string; endDate?: string;
+  demandStart: string; demandEnd: string; startTime?: string;
+  venue: LocalizedText; address?: LocalizedText;
+  city: "Chisinau" | "Moldova-near-Chisinau"; category: EventCategory;
+  interest: EventInterest; sourceName: string; sourceUrl: string; ticketUrl?: string;
+  verifiedAt: string; status: "scheduled" | "postponed" | "cancelled" | "sold-out";
   featured?: boolean;
 };
 
-const verifiedAt = "2026-07-26";
+export const eventsUpdatedAt = "2026-08-24";
+const l = (ru: string, ro: string, en: string, uk: string, cs: string): LocalizedText => ({ ru, ro, en, uk, cs });
+const same = (value: string): LocalizedText => l(value, value, value, value, value);
+const arena = same("Arena Chișinău");
+const pman = same("Piața Marii Adunări Naționale (PMAN)");
+const arenaAddress = same("Calea Orheiului 130, Stăuceni, mun. Chișinău");
+const pmanAddress = same("Piața Marii Adunări Naționale, Chișinău");
 
-function same(value: string): LocalizedText {
-  return { ru: value, ro: value, en: value, uk: value, cs: value };
-}
+const demand = {
+  national: l("Событие национального масштаба привлекает гостей со всей страны и из-за рубежа.", "Evenimentul național atrage oaspeți din toată țara și din străinătate.", "This national event draws visitors from across the country and abroad.", "Подія національного масштабу приваблює гостей з усієї країни та з-за кордону.", "Celostátní akce přivádí hosty z celé země i ze zahraničí."),
+  overlap: l("Несколько крупных событий в одни даты усиливают спрос на жильё.", "Mai multe evenimente mari în aceleași date cresc cererea de cazare.", "Several major events on the same dates increase accommodation demand.", "Кілька великих подій в одні дати посилюють попит на житло.", "Několik velkých akcí ve stejném termínu zvyšuje poptávku po ubytování."),
+  arena: l("Крупная площадка и гастрольная аудитория могут увеличить число ночёвок.", "Sala mare și publicul de turneu pot crește numărul de înnoptări.", "A large venue and touring audience can increase overnight stays.", "Великий майданчик і гастрольна аудиторія можуть збільшити кількість ночівель.", "Velká hala a zájezdové publikum mohou zvýšit počet přenocování."),
+  international: l("Международные участники, команды и сопровождающие часто приезжают на несколько дней.", "Participanții internaționali, echipele și însoțitorii sosesc adesea pentru mai multe zile.", "International participants, teams and companions often stay for several days.", "Міжнародні учасники, команди та супровід часто приїжджають на кілька днів.", "Mezinárodní účastníci, týmy a doprovod často přijíždějí na několik dní."),
+  business: l("Иностранные делегации и деловая программа создают многодневные поездки.", "Delegațiile străine și programul de afaceri generează călătorii de mai multe zile.", "Foreign delegations and the business programme create multi-day trips.", "Іноземні делегації та ділова програма створюють багатоденні поїздки.", "Zahraniční delegace a obchodní program vytvářejí vícedenní cesty."),
+  seasonal: l("Праздничный период привлекает туристов и гостей, приезжающих к близким.", "Perioada festivă atrage turiști și oaspeți veniți la cei apropiați.", "The festive period attracts tourists and people visiting relatives.", "Святковий період приваблює туристів і гостей, які їдуть до близьких.", "Sváteční období láká turisty i návštěvy příbuzných."),
+  medium: l("Заметная городская аудитория может создать дополнительный спрос на одну ночь.", "Publicul urban poate crea cerere suplimentară pentru o noapte.", "A notable city audience may create additional one-night demand.", "Помітна міська аудиторія може створити додатковий попит на одну ніч.", "Výraznější městské publikum může zvýšit poptávku na jednu noc."),
+};
 
-function venue(value: string): LocalizedText {
-  return same(value);
-}
+const concert = (name: string, place: string) => l(
+  `${name} — подтверждённый гастрольный концерт на площадке ${place}. Актуальные правила входа проверяйте у организатора.`,
+  `${name} este un concert de turneu confirmat la ${place}. Verificați regulile actuale de acces la organizator.`,
+  `${name} is a confirmed touring concert at ${place}. Check current admission rules with the organiser.`,
+  `${name} — підтверджений гастрольний концерт на майданчику ${place}. Актуальні правила входу перевіряйте в організатора.`,
+  `${name} je potvrzený koncert turné v ${place}. Aktuální pravidla vstupu ověřte u pořadatele.`,
+);
 
-function concertDescription(title: string, place: string): LocalizedText {
-  return {
-    ru: `${title} — подтверждённый концерт на площадке ${place}. Перед покупкой билета проверьте актуальные условия на странице организатора.`,
-    ro: `${title} este un concert confirmat la ${place}. Înainte de cumpărarea biletului, verificați condițiile actuale pe pagina organizatorului.`,
-    en: `${title} is a confirmed concert at ${place}. Check the organiser’s current information before buying a ticket.`,
-    uk: `${title} — підтверджений концерт на майданчику ${place}. Перед купівлею квитка перевірте актуальні умови на сторінці організатора.`,
-    cs: `${title} je potvrzený koncert v místě ${place}. Před nákupem vstupenky ověřte aktuální podmínky u pořadatele.`,
-  };
-}
-
-function festivalDescription(title: string, place: string): LocalizedText {
-  return {
-    ru: `${title} — подтверждённое публичное событие на площадке ${place}. Программа и условия посещения могут обновляться организатором.`,
-    ro: `${title} este un eveniment public confirmat la ${place}. Programul și condițiile de acces pot fi actualizate de organizator.`,
-    en: `${title} is a confirmed public event at ${place}. The organiser may update the programme and admission details.`,
-    uk: `${title} — підтверджена публічна подія на майданчику ${place}. Організатор може оновлювати програму й умови відвідування.`,
-    cs: `${title} je potvrzená veřejná akce v místě ${place}. Pořadatel může program a podmínky vstupu aktualizovat.`,
-  };
-}
-
-function showDescription(title: string, place: string): LocalizedText {
-  return {
-    ru: `${title} — подтверждённое сценическое событие на площадке ${place}. Возрастные ограничения и правила входа уточняйте у организатора.`,
-    ro: `${title} este un spectacol confirmat la ${place}. Verificați la organizator limita de vârstă și regulile de acces.`,
-    en: `${title} is a confirmed stage event at ${place}. Check age restrictions and admission rules with the organiser.`,
-    uk: `${title} — підтверджена сценічна подія на майданчику ${place}. Вікові обмеження та правила входу уточнюйте в організатора.`,
-    cs: `${title} je potvrzená scénická akce v místě ${place}. Věkové omezení a pravidla vstupu ověřte u pořadatele.`,
-  };
+type Input = Omit<ChisinauEvent, "id" | "verifiedAt" | "status" | "city" | "demandStart" | "demandEnd"> & {
+  demandStart?: string; demandEnd?: string; city?: ChisinauEvent["city"];
+};
+function e(input: Input): ChisinauEvent {
+  return { ...input, id: input.slug, demandStart: input.demandStart ?? input.startDate, demandEnd: input.demandEnd ?? input.endDate ?? input.startDate, city: input.city ?? "Chisinau", verifiedAt: eventsUpdatedAt, status: "scheduled" };
 }
 
 const events: ChisinauEvent[] = [
-  {
-    id: "amadeus-meets-felix-2026",
-    slug: "amadeus-meets-felix-2026",
-    title: same("Amadeus meets Felix"),
-    description: concertDescription("Amadeus meets Felix", "Sala cu Orgă"),
-    startDate: "2026-08-06",
-    startTime: "19:00",
-    venue: venue("Sala cu Orgă"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "medium",
-    sourceName: "iTicket",
-    sourceUrl: "https://iticket.md/event/amadeus-meets-felix",
-    ticketUrl: "https://iticket.md/event/amadeus-meets-felix",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "vali-boghean-balkanic-band-2026",
-    slug: "vali-boghean-balkanic-band-2026",
-    title: same("Vali Boghean & Balkanic Band"),
-    description: concertDescription("Vali Boghean & Balkanic Band", "Teatrul Verde"),
-    startDate: "2026-08-07",
-    startTime: "19:30",
-    venue: venue("Teatrul Verde"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "iTicket",
-    sourceUrl: "https://iticket.md/en/event/vali-boghean-balkanic-band",
-    ticketUrl: "https://iticket.md/en/event/vali-boghean-balkanic-band",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "festivalul-lupilor-2026",
-    slug: "festivalul-lupilor-2026",
-    title: same("Festivalul Lupilor 2026"),
-    description: festivalDescription("Festivalul Lupilor 2026", "Orheiul Vechi"),
-    startDate: "2026-08-07",
-    endDate: "2026-08-09",
-    venue: venue("Rezervația Cultural-Naturală „Orheiul Vechi”"),
-    city: "Moldova-near-Chisinau",
-    category: "festival",
-    interest: "very-high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/541--festivalul-lupilor-2026",
-    ticketUrl: "https://livetickets.md/ro/event/541--festivalul-lupilor-2026",
-    verifiedAt,
-    status: "scheduled",
-    featured: true,
-  },
-  {
-    id: "festivalul-binelui-2026",
-    slug: "festivalul-binelui-2026",
-    title: same("Festivalul Binelui"),
-    description: festivalDescription("Festivalul Binelui", "Teatrul Verde"),
-    startDate: "2026-08-15",
-    startTime: "19:00",
-    venue: venue("Teatrul Verde"),
-    city: "Chisinau",
-    category: "festival",
-    interest: "medium",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/583--festivalul-binelui",
-    ticketUrl: "https://livetickets.md/ro/event/583--festivalul-binelui",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "mirage-korolova-2026",
-    slug: "mirage-korolova-2026",
-    title: same("MIRAGE Festival: Korolova"),
-    description: festivalDescription("MIRAGE Festival: Korolova", "Arena Chișinău"),
-    startDate: "2026-08-15",
-    startTime: "20:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "festival",
-    interest: "very-high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/534--mirage-festival-korolova",
-    ticketUrl: "https://livetickets.md/ro/event/534--mirage-festival-korolova",
-    verifiedAt,
-    status: "scheduled",
-    featured: true,
-  },
-  {
-    id: "sub-luna-lupilor-2026",
-    slug: "sub-luna-lupilor-2026",
-    title: same("Sub Luna Lupilor"),
-    description: concertDescription("Sub Luna Lupilor", "Teatrul Verde"),
-    startDate: "2026-08-21",
-    startTime: "19:30",
-    venue: venue("Teatrul Verde"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "iTicket",
-    sourceUrl: "https://iticket.md/event/sub-luna-lupilor",
-    ticketUrl: "https://iticket.md/event/sub-luna-lupilor",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "summer-fest-2026",
-    slug: "summer-fest-2026",
-    title: same("SUMMER FEST 2026"),
-    description: festivalDescription("SUMMER FEST 2026", "Grădina Botanică"),
-    startDate: "2026-08-22",
-    endDate: "2026-08-23",
-    startTime: "12:00",
-    venue: venue("Grădina Botanică"),
-    city: "Chisinau",
-    category: "festival",
-    interest: "very-high",
-    sourceName: "Summer Fest",
-    sourceUrl: "https://summerfest.md/ru",
-    ticketUrl: "https://livetickets.md/ro/event/579--summer-fest-2026",
-    verifiedAt,
-    status: "scheduled",
-    featured: true,
-  },
-  {
-    id: "ready-fest-chisinau-2026",
-    slug: "ready-fest-chisinau-2026",
-    title: same("READY FEST 2026 CHISINAU"),
-    description: festivalDescription("READY FEST 2026 CHISINAU", "Grădina Botanică"),
-    startDate: "2026-09-12",
-    startTime: "12:00",
-    venue: venue("Grădina Botanică"),
-    city: "Chisinau",
-    category: "festival",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/501--ready-fest-2026-chisinau",
-    ticketUrl: "https://livetickets.md/ro/event/501--ready-fest-2026-chisinau",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "coldplay-by-coolplay-2026",
-    slug: "coldplay-by-coolplay-2026",
-    title: same("COLDPLAY BY COOLPLAY"),
-    description: showDescription("COLDPLAY BY COOLPLAY", "Arena Chișinău"),
-    startDate: "2026-09-17",
-    startTime: "19:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "theatre",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/575--coldplay-by-coolplay",
-    ticketUrl: "https://livetickets.md/ro/event/575--coldplay-by-coolplay",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "rock-sympho-show-iv-2026",
-    slug: "rock-sympho-show-iv-2026",
-    title: same("ROCK SYMPHO SHOW IV – 2026"),
-    description: showDescription("ROCK SYMPHO SHOW IV – 2026", "Palatul Național „Nicolae Sulac”"),
-    startDate: "2026-09-18",
-    startTime: "19:30",
-    venue: venue("Palatul Național „Nicolae Sulac”"),
-    city: "Chisinau",
-    category: "theatre",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/543--rock-sympho-show-iv-2026",
-    ticketUrl: "https://livetickets.md/ro/event/543--rock-sympho-show-iv-2026",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "ludovico-einaudi-magnifique-trio-2026",
-    slug: "ludovico-einaudi-magnifique-trio-2026",
-    title: same("LUDOVICO EINAUDI by MAGNIFIQUE TRIO"),
-    description: showDescription("LUDOVICO EINAUDI by MAGNIFIQUE TRIO", "Sala cu Orgă"),
-    startDate: "2026-10-04",
-    startTime: "18:30",
-    venue: venue("Sala cu Orgă"),
-    city: "Chisinau",
-    category: "theatre",
-    interest: "medium",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/564--ludovico-einaudi-by-magnifique-trio",
-    ticketUrl: "https://livetickets.md/ro/event/564--ludovico-einaudi-by-magnifique-trio",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "bi-2-sun-tour-2026",
-    slug: "bi-2-sun-tour-2026",
-    title: same("Би-2 «Путешествие вокруг Солнца»"),
-    description: concertDescription("Би-2 «Путешествие вокруг Солнца»", "Arena Chișinău"),
-    startDate: "2026-10-14",
-    startTime: "20:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "very-high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/522--bi-2-%22calatoria-in-jurul-soarelui%22",
-    ticketUrl: "https://livetickets.md/ro/event/522--bi-2-%22calatoria-in-jurul-soarelui%22",
-    verifiedAt,
-    status: "scheduled",
-    featured: true,
-  },
-  {
-    id: "imany-women-deserve-rage-2026",
-    slug: "imany-women-deserve-rage-2026",
-    title: same("IMANY — WOMEN DESERVE RAGE TOUR"),
-    description: concertDescription("IMANY — WOMEN DESERVE RAGE TOUR", "Arena Chișinău"),
-    startDate: "2026-10-21",
-    startTime: "20:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "very-high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/580--imany-woman-deserve-rage-tour",
-    ticketUrl: "https://livetickets.md/ro/event/580--imany-woman-deserve-rage-tour",
-    verifiedAt,
-    status: "scheduled",
-    featured: true,
-  },
-  {
-    id: "iuliana-beregoi-predestinati-2026",
-    slug: "iuliana-beregoi-predestinati-2026",
-    title: same("Iuliana Beregoi PREDESTINAȚI"),
-    description: concertDescription("Iuliana Beregoi PREDESTINAȚI", "Arena Chișinău"),
-    startDate: "2026-10-22",
-    startTime: "18:30",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/436--iuliana-beregoi-predestinati",
-    ticketUrl: "https://livetickets.md/ro/event/436--iuliana-beregoi-predestinati",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "loboda-2026",
-    slug: "loboda-2026",
-    title: same("LOBODA"),
-    description: concertDescription("LOBODA", "Arena Chișinău"),
-    startDate: "2026-10-24",
-    startTime: "20:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "very-high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/573--loboda",
-    ticketUrl: "https://livetickets.md/ro/event/573--loboda",
-    verifiedAt,
-    status: "scheduled",
-    featured: true,
-  },
-  {
-    id: "grand-chinese-circus-show-2026",
-    slug: "grand-chinese-circus-show-2026",
-    title: same("Grand Chinese Circus Show"),
-    description: showDescription("Grand Chinese Circus Show", "Arena Chișinău"),
-    startDate: "2026-10-31",
-    startTime: "19:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "family",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/620--grand-chinese-circus-show",
-    ticketUrl: "https://livetickets.md/ro/event/620--grand-chinese-circus-show",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "vanya-usovich-2026",
-    slug: "vanya-usovich-2026",
-    title: same("Ваня Усович | Кишинев 31.10"),
-    description: showDescription("Ваня Усович", "Palatul Național „Nicolae Sulac”"),
-    startDate: "2026-10-31",
-    startTime: "19:00",
-    venue: venue("Palatul Național „Nicolae Sulac”"),
-    city: "Chisinau",
-    category: "theatre",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/530--vanya-usovich-or-kishinev-3110",
-    ticketUrl: "https://livetickets.md/ro/event/530--vanya-usovich-or-kishinev-3110",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "uriah-heep-2026",
-    slug: "uriah-heep-2026",
-    title: same("Uriah Heep — The Magician’s Farewell Tour"),
-    description: concertDescription("Uriah Heep — The Magician’s Farewell Tour", "Palatul Național „Nicolae Sulac”"),
-    startDate: "2026-11-02",
-    startTime: "20:00",
-    venue: venue("Palatul Național „Nicolae Sulac”"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/569--uriah-heep-the-magician%27s-farewell-tour",
-    ticketUrl: "https://livetickets.md/ro/event/569--uriah-heep-the-magician%27s-farewell-tour",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "gandul-matei-30-ani-2026",
-    slug: "gandul-matei-30-ani-2026",
-    title: same("Gândul Mâței — Prieteni de drum — 30 de ani"),
-    description: concertDescription("Gândul Mâței — Prieteni de drum — 30 de ani", "Arena Chișinău"),
-    startDate: "2026-11-19",
-    startTime: "19:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/619--gandul-matei-prieteni-de-drum-30-de-ani",
-    ticketUrl: "https://livetickets.md/ro/event/619--gandul-matei-prieteni-de-drum-30-de-ani",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "k-pop-forever-2026",
-    slug: "k-pop-forever-2026",
-    title: same("K-POP FOREVER"),
-    description: showDescription("K-POP FOREVER", "Arena Chișinău"),
-    startDate: "2026-12-03",
-    startTime: "19:30",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "family",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/437--k-pop-forever",
-    ticketUrl: "https://livetickets.md/ro/event/437--k-pop-forever",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "ion-paladi-colindam-2026",
-    slug: "ion-paladi-colindam-2026",
-    title: same("ION PALADI „Colindăm cu drag tot neamul”"),
-    description: concertDescription("ION PALADI „Colindăm cu drag tot neamul”", "Arena Chișinău"),
-    startDate: "2026-12-12",
-    startTime: "19:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/572--ion-paladi-colindam-cu-drag-tot-neamul",
-    ticketUrl: "https://livetickets.md/ro/event/572--ion-paladi-colindam-cu-drag-tot-neamul",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "spirit-of-smokie-2026",
-    slug: "spirit-of-smokie-2026",
-    title: same("Spirit of Smokie"),
-    description: concertDescription("Spirit of Smokie", "Teatrul Național de Operă și Balet „Maria Bieșu”"),
-    startDate: "2026-12-16",
-    startTime: "19:00",
-    venue: venue("Teatrul Național de Operă și Balet „Maria Bieșu”"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/560--spirit-of-smokie",
-    ticketUrl: "https://livetickets.md/ro/event/560--spirit-of-smokie",
-    verifiedAt,
-    status: "scheduled",
-  },
-  {
-    id: "nervy-chisinau-2026",
-    slug: "nervy-chisinau-2026",
-    title: same("NERVY"),
-    description: concertDescription("NERVY", "Arena Chișinău"),
-    startDate: "2026-12-25",
-    startTime: "20:00",
-    venue: venue("Arena Chișinău"),
-    city: "Chisinau",
-    category: "concert",
-    interest: "high",
-    sourceName: "LiveTickets",
-    sourceUrl: "https://livetickets.md/ro/event/489--nervy-revin-la-chisinau",
-    ticketUrl: "https://livetickets.md/ro/event/489--nervy-revin-la-chisinau",
-    verifiedAt,
-    status: "scheduled",
-  },
+  e({ slug: "independence-day-moldova-2026", title: l("День независимости Молдовы — 35 лет", "Ziua Independenței Moldovei — 35 de ani", "Moldova Independence Day — 35th anniversary", "День незалежності Молдови — 35 років", "Den nezávislosti Moldavska — 35. výročí"), description: l("27 августа в PMAN пройдут официальные торжества: военный парад в 16:30 с более чем 2 000 участниками и 100 единицами техники, затем с 18:00 — концерт молдавских артистов.", "La 27 august, PMAN găzduiește parada militară la 16:30, cu peste 2.000 de participanți și 100 de unități de tehnică, urmată la 18:00 de un concert al artiștilor moldoveni.", "On 27 August PMAN hosts a 16:30 military parade with more than 2,000 participants and 100 vehicles, followed by a concert of Moldovan artists from 18:00.", "27 серпня на PMAN відбудеться парад о 16:30 з понад 2 000 учасників і 100 одиницями техніки, а з 18:00 — концерт молдовських артистів.", "Dne 27. srpna proběhne na PMAN v 16:30 přehlídka s více než 2 000 účastníky a 100 vozidly, od 18:00 koncert moldavských umělců."), demandReason: demand.national, startDate: "2026-08-27", demandStart: "2026-08-26", demandEnd: "2026-08-28", startTime: "16:30", venue: pman, address: pmanAddress, category: "city", interest: "very-high", sourceName: "Guvernul Republicii Moldova", sourceUrl: "https://gov.md/ro/node", featured: true }),
+
+  e({ slug: "festivalul-vinului-de-autor-2026", title: same("Festivalul Vinului de Autor 2026"), description: l("Три дня, более 40 малых виноделен, дегустации, мастер-классы и музыка во дворе Национального музея истории.", "Trei zile, peste 40 de vinării mici, degustări, masterclass-uri și muzică în curtea Muzeului Național de Istorie.", "Three days, 40+ small wineries, tastings, masterclasses and music in the National History Museum courtyard.", "Три дні, понад 40 малих виноробень, дегустації, майстер-класи й музика у дворі Національного музею історії.", "Tři dny, přes 40 malých vinařství, degustace, workshopy a hudba na nádvoří Národního historického muzea."), demandReason: demand.international, startDate: "2026-09-04", endDate: "2026-09-06", demandEnd: "2026-09-07", venue: same("Muzeul Național de Istorie a Moldovei"), address: same("Strada 31 August 1989, 121A, Chișinău"), category: "gastronomy", interest: "high", sourceName: "Festivalul Vinului de Autor", sourceUrl: "https://festival.vindeautor.md/", ticketUrl: "https://iticket.md/en/event/festivalul-vinului-de-autor-editia-a-iv-a" }),
+  e({ slug: "gocon-2026", title: same("GoCon 2026 — 10 Years Anniversary"), description: l("Двухдневный юбилейный фестиваль anime, cosplay, K-pop, игр и pop culture собирает тысячи поклонников и создателей.", "Festivalul aniversar de două zile de anime, cosplay, K-pop, jocuri și cultură pop reunește mii de fani și creatori.", "The two-day anniversary festival of anime, cosplay, K-pop, gaming and pop culture gathers thousands of fans and creators.", "Дводенний фестиваль anime, cosplay, K-pop, ігор і pop culture збирає тисячі шанувальників і творців.", "Dvoudenní festival anime, cosplaye, K-popu, her a popkultury přivádí tisíce fanoušků a tvůrců."), demandReason: demand.arena, startDate: "2026-09-05", endDate: "2026-09-06", startTime: "11:00", venue: arena, address: arenaAddress, category: "festival", interest: "high", sourceName: "GoCon", sourceUrl: "https://gocon.md/", ticketUrl: "https://arenachisinau.md/evenimente/gocon-2026-festival-aniversar" }),
+  e({ slug: "ready-fest-2026", title: same("READY FEST 2026 CHISINAU"), description: l("Open-air фестиваль в Ботаническом саду проходит в тот же уикенд, что Kids Run и Кишинёвский марафон.", "Festivalul open-air din Grădina Botanică are loc în același weekend cu Kids Run și Maratonul Chișinău.", "The Botanical Garden open-air festival shares a weekend with Kids Run and the Chișinău Marathon.", "Open-air фестиваль у Ботанічному саду проходить у той самий вікенд, що Kids Run і Кишинівський марафон.", "Open-air festival v botanické zahradě se koná ve stejný víkend jako Kids Run a Kišiněvský maraton."), demandReason: demand.overlap, startDate: "2026-09-12", demandStart: "2026-09-11", demandEnd: "2026-09-14", startTime: "12:00", venue: same("Grădina Botanică"), category: "festival", interest: "very-high", sourceName: "LiveTickets", sourceUrl: "https://livetickets.md/ro/event/501--ready-fest-2026-chisinau", ticketUrl: "https://livetickets.md/ro/event/501--ready-fest-2026-chisinau", featured: true }),
+  e({ slug: "chisinau-marathon-2026", title: l("Кишинёвский международный марафон 2026", "Maratonul Internațional Chișinău 2026", "Chișinău International Marathon 2026", "Кишинівський міжнародний марафон 2026", "Mezinárodní maraton Kišiněv 2026"), description: l("12 сентября проходят детские забеги и Sport Expo, 13 сентября — марафон, полумарафон и дистанции 5 и 10 км. Маршруты сертифицированы AIMS / World Athletics.", "La 12 septembrie au loc cursele copiilor și Sport Expo, iar la 13 septembrie maratonul, semimaratonul și cursele de 5 și 10 km. Traseele sunt certificate AIMS / World Athletics.", "Kids' races and Sport Expo take place on 12 September, followed by the marathon, half marathon and 5 km and 10 km races on 13 September. Courses are AIMS / World Athletics certified.", "12 вересня проходять дитячі забіги та Sport Expo, 13 вересня — марафон, півмарафон і дистанції 5 та 10 км. Траси сертифіковані AIMS / World Athletics.", "Dne 12. září se konají dětské běhy a Sport Expo, 13. září maraton, půlmaraton a závody na 5 a 10 km. Tratě mají certifikaci AIMS / World Athletics."), demandReason: demand.international, startDate: "2026-09-12", endDate: "2026-09-13", demandStart: "2026-09-11", demandEnd: "2026-09-14", venue: pman, address: pmanAddress, category: "sport", interest: "very-high", sourceName: "Chișinău Marathon", sourceUrl: "https://marathon.md/", ticketUrl: "https://marathon.md/en/reg", featured: true }),
+  e({ slug: "coldplay-by-coolplay-2026", title: same("COLDPLAY BY COOLPLAY"), description: concert("COLDPLAY BY COOLPLAY", "Arena Chișinău"), demandReason: demand.arena, startDate: "2026-09-17", startTime: "19:00", venue: arena, address: arenaAddress, category: "theatre", interest: "high", sourceName: "LiveTickets", sourceUrl: "https://livetickets.md/ro/event/575--coldplay-by-coolplay", ticketUrl: "https://livetickets.md/ro/event/575--coldplay-by-coolplay" }),
+  e({ slug: "rock-sympho-show-iv-2026", title: same("ROCK SYMPHO SHOW IV"), description: concert("ROCK SYMPHO SHOW IV", "Palatul Național"), demandReason: demand.medium, startDate: "2026-09-18", startTime: "19:30", venue: same("Palatul Național „Nicolae Sulac”"), category: "theatre", interest: "high", sourceName: "LiveTickets", sourceUrl: "https://livetickets.md/ro/event/543--rock-sympho-show-iv-2026", ticketUrl: "https://livetickets.md/ro/event/543--rock-sympho-show-iv-2026" }),
+  e({ slug: "sales-marketing-forum-2026", title: same("Sales & Marketing Forum Europe Moldova 2026"), description: l("Форум на 1 200+ участников включает практические сессии и networking с гостями из пяти стран.", "Forumul cu peste 1.200 de participanți include sesiuni practice și networking cu oaspeți din cinci țări.", "The 1,200+ participant forum combines practical sessions and networking with guests from five countries.", "Форум на 1 200+ учасників включає практичні сесії та networking з гостями з п'яти країн.", "Fórum pro více než 1 200 účastníků nabízí praktické bloky a networking s hosty z pěti zemí."), demandReason: demand.business, startDate: "2026-09-19", startTime: "10:00", venue: arena, address: arenaAddress, category: "business", interest: "high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/evenimente/sales--marketing-forum-europe-moldova-2026" }),
+  e({ slug: "etno-jazz-festival-2026", title: same("Etno Jazz Festival 2026"), description: l("Международный фестиваль Trigon представляет в Кишинёве музыкантов этно-джаза из разных стран.", "Festivalul internațional găzduit de Trigon aduce la Chișinău muzicieni de etno-jazz din mai multe țări.", "The international festival hosted by Trigon brings ethno-jazz musicians from several countries to Chișinău.", "Міжнародний фестиваль Trigon представляє в Кишиневі музикантів етно-джазу з різних країн.", "Mezinárodní festival pořádaný skupinou Trigon přiváží do Kišiněva etno-jazzové hudebníky z několika zemí."), demandReason: demand.international, startDate: "2026-09-23", endDate: "2026-09-24", venue: same("Chișinău"), category: "festival", interest: "high", sourceName: "Moldova Travel", sourceUrl: "https://moldova.travel/en/rutele-vietii/etno-jazz/" }),
+  e({ slug: "deeptech-gigahack-2026", title: same("DeepTech GigaHack 2026"), description: l("Крупнейший хакатон Молдовы объединяет на 48 часов IT-специалистов, исследователей и предпринимателей.", "Cel mai mare hackathon din Moldova reunește timp de 48 de ore specialiști IT, cercetători și antreprenori.", "Moldova's largest hackathon brings technologists, researchers and entrepreneurs together for 48 hours.", "Найбільший хакатон Молдови об'єднує на 48 годин IT-фахівців, дослідників і підприємців.", "Největší moldavský hackathon spojuje na 48 hodin techniky, výzkumníky a podnikatele."), demandReason: demand.international, startDate: "2026-09-25", endDate: "2026-09-27", demandStart: "2026-09-24", demandEnd: "2026-09-28", venue: same("Tekwill"), address: same("Strada Studenților 9/11, Chișinău"), category: "business", interest: "high", sourceName: "DeepTech GigaHack", sourceUrl: "https://gigahack.md/", ticketUrl: "https://gigahack.md/" }),
+  e({ slug: "moldova-business-week-2026", title: same("Moldova Business Week 2026"), description: l("Пять дней форумов, B2B-встреч и отраслевых визитов для инвесторов, экспортёров, компаний и государственных делегаций.", "Cinci zile de forumuri, întâlniri B2B și vizite sectoriale pentru investitori, exportatori, companii și delegații publice.", "Five days of forums, B2B meetings and sector visits for investors, exporters, companies and public delegations.", "П'ять днів форумів, B2B-зустрічей і галузевих візитів для інвесторів, експортерів, компаній та делегацій.", "Pět dní fór, B2B schůzek a oborových návštěv pro investory, exportéry, firmy a veřejné delegace."), demandReason: demand.business, startDate: "2026-09-28", endDate: "2026-10-02", demandStart: "2026-09-27", demandEnd: "2026-10-05", venue: same("Mai multe locații din Chișinău"), category: "business", interest: "very-high", sourceName: "Invest Moldova Agency", sourceUrl: "https://invest.gov.md/en/moldova-business-week-2026-investment-export-business-opportunities/", ticketUrl: "https://mbw.md/", featured: true }),
+  e({ slug: "moldova-faroe-islands-2026", title: l("Молдова — Фарерские острова", "Moldova — Insulele Feroe", "Moldova v Faroe Islands", "Молдова — Фарерські острови", "Moldavsko — Faerské ostrovy"), description: l("Домашний матч сборной Молдовы в Лиге наций UEFA 2026/27.", "Meci acasă al Naționalei Moldovei în Liga Națiunilor UEFA 2026/27.", "Moldova's home fixture in the 2026/27 UEFA Nations League.", "Домашній матч збірної Молдови в Лізі націй UEFA 2026/27.", "Domácí utkání Moldavska v Lize národů UEFA 2026/27."), demandReason: demand.international, startDate: "2026-09-29", startTime: "19:00", venue: same("Stadionul Zimbru"), address: same("Strada Butucului 1, Chișinău"), category: "sport", interest: "high", sourceName: "FMF", sourceUrl: "https://fmf.md/noutate/16375/liga-natiunilor-programul-meciurilor-nationalei-moldovei" }),
+
+  e({ slug: "national-wine-day-2026", title: l("Национальный день вина 2026", "Ziua Națională a Vinului 2026", "National Wine Day 2026", "Національний день вина 2026", "Národní den vína 2026"), description: l("Главный винный праздник Молдовы: винодельни со всей страны, дегустации и Wine School. Полную программу организатор ещё обновляет.", "Cea mai mare sărbătoare a vinului: vinării din toată țara, degustări și Wine School. Organizatorul încă actualizează agenda completă.", "Moldova's flagship wine celebration features wineries from across the country, tastings and Wine School. The organiser is still updating the full agenda.", "Головне винне свято Молдови: виноробні з усієї країни, дегустації та Wine School. Повну програму організатор ще оновлює.", "Největší moldavská vinařská slavnost nabízí vinařství z celé země, degustace a Wine School. Pořadatel úplný program ještě doplňuje."), demandReason: demand.overlap, startDate: "2026-10-03", endDate: "2026-10-04", demandStart: "2026-10-02", demandEnd: "2026-10-05", venue: pman, address: pmanAddress, category: "gastronomy", interest: "very-high", sourceName: "Wine of Moldova", sourceUrl: "https://wineday.wineofmoldova.com/en", featured: true }),
+  e({ slug: "ludovico-einaudi-magnifique-trio-2026", title: same("Ludovico Einaudi by Magnifique Trio"), description: concert("Ludovico Einaudi by Magnifique Trio", "Sala cu Orgă"), demandReason: demand.medium, startDate: "2026-10-04", startTime: "18:30", venue: same("Sala cu Orgă"), category: "theatre", interest: "medium", sourceName: "LiveTickets", sourceUrl: "https://livetickets.md/ro/event/564--ludovico-einaudi-by-magnifique-trio", ticketUrl: "https://livetickets.md/ro/event/564--ludovico-einaudi-by-magnifique-trio" }),
+  e({ slug: "moldova-slovakia-2026", title: l("Молдова — Словакия", "Moldova — Slovacia", "Moldova v Slovakia", "Молдова — Словаччина", "Moldavsko — Slovensko"), description: l("Домашний матч сборной Молдовы против Словакии в Лиге наций UEFA.", "Naționala Moldovei întâlnește Slovacia acasă în Liga Națiunilor UEFA.", "Moldova host Slovakia in the UEFA Nations League.", "Збірна Молдови приймає Словаччину в Лізі націй UEFA.", "Moldavsko hostí Slovensko v Lize národů UEFA."), demandReason: demand.international, startDate: "2026-10-06", startTime: "21:45", venue: same("Stadionul Zimbru"), address: same("Strada Butucului 1, Chișinău"), category: "sport", interest: "high", sourceName: "FMF", sourceUrl: "https://fmf.md/noutate/16375/liga-natiunilor-programul-meciurilor-nationalei-moldovei" }),
+  e({ slug: "gladiator-challenge-2026", title: same("Gladiator Challenge Moldova International III"), description: l("Первая международная версия собирает 100 силовых спортсменов из Молдовы и других стран Европы на два дня и 12 испытаний.", "Prima ediție internațională reunește 100 de sportivi din Moldova și alte țări europene pentru două zile și 12 probe.", "The first international edition brings 100 strength athletes from Moldova and other European countries together for two days and 12 challenges.", "Перша міжнародна версія збирає 100 силових спортсменів з Молдови та інших країн Європи на два дні й 12 випробувань.", "První mezinárodní ročník spojuje na dva dny a 12 disciplín 100 silových sportovců z Moldavska a dalších evropských zemí."), demandReason: demand.international, startDate: "2026-10-10", endDate: "2026-10-11", demandStart: "2026-10-09", demandEnd: "2026-10-12", startTime: "17:00", venue: arena, address: arenaAddress, category: "sport", interest: "very-high", sourceName: "Gladiator Challenge Moldova", sourceUrl: "https://gladiatorchallenge.md/", ticketUrl: "https://arenachisinau.md/evenimente/gladiator-challenge-moldova-international-iii", featured: true }),
+  e({ slug: "hramul-chisinau-2026", title: l("Hramul Chișinăului — День города 2026", "Hramul Orașului Chișinău 2026", "Chișinău City Day 2026", "Hramul Chișinăului — День міста 2026", "Den města Kišiněv 2026"), description: l("Подтверждены дата и массовый формат с ярмарками и культурной программой. Подробную программу 2026 мэрия опубликует ближе к событию.", "Sunt confirmate data și formatul public cu târguri și program cultural. Programul detaliat 2026 va fi publicat mai aproape de eveniment.", "The date and public format with fairs and cultural programming are confirmed. The municipality will publish the detailed 2026 schedule closer to the event.", "Дату та масовий формат із ярмарками й культурною програмою підтверджено. Детальний розклад 2026 мерія опублікує ближче до події.", "Datum a veřejný formát s trhy a kulturním programem jsou potvrzené. Podrobný program 2026 město zveřejní později."), demandReason: demand.overlap, startDate: "2026-10-14", demandStart: "2026-10-13", demandEnd: "2026-10-15", venue: pman, address: pmanAddress, category: "city", interest: "very-high", sourceName: "Oficiul Național al Turismului", sourceUrl: "https://turism.gov.md/ro/events/hramul-orasului-chisinau/", featured: true }),
+  e({ slug: "bi-2-2026", title: same("Би-2 — «Путешествие вокруг Солнца»"), description: l("Большой концерт открывает мировой тур Би-2 в Кишинёве и совпадает с Днём города.", "Concertul deschide turneul mondial Bi-2 la Chișinău și coincide cu Hramul Orașului.", "The concert opens Bi-2's world tour in Chișinău and coincides with City Day.", "Концерт відкриває світовий тур Бі-2 у Кишиневі й збігається з Днем міста.", "Koncert otevírá světové turné Bi-2 v Kišiněvě a kryje se s Dnem města."), demandReason: demand.overlap, startDate: "2026-10-14", demandStart: "2026-10-13", demandEnd: "2026-10-15", startTime: "20:00", venue: arena, address: arenaAddress, category: "concert", interest: "very-high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/ro/evenimente/bi-2-calatoria-in-jurul-soarelui", featured: true }),
+  e({ slug: "imany-2026", title: same("IMANY — Women Deserve Rage Tour"), description: concert("IMANY", "Arena Chișinău"), demandReason: demand.arena, startDate: "2026-10-21", startTime: "20:00", venue: arena, address: arenaAddress, category: "concert", interest: "high", sourceName: "Fridayticket", sourceUrl: "https://md.fridayticket.com/en", ticketUrl: "https://md.fridayticket.com/en" }),
+  e({ slug: "loboda-2026", title: same("LOBODA"), description: concert("LOBODA", "Arena Chișinău"), demandReason: demand.arena, startDate: "2026-10-24", demandStart: "2026-10-23", demandEnd: "2026-10-25", startTime: "20:00", venue: arena, address: arenaAddress, category: "concert", interest: "very-high", sourceName: "LOBODA Official", sourceUrl: "https://www.loboda.com/", ticketUrl: "https://livetickets.md/en/event/573--loboda", featured: true }),
+  e({ slug: "grand-chinese-circus-2026", title: same("Grand Chinese Circus Show — ERA"), description: l("Первая в Молдове постановка ERA объединяет китайскую акробатику, современный театр и визуальные эффекты.", "Prima prezentare ERA în Moldova combină acrobația chineză, teatrul contemporan și efectele vizuale.", "The first Moldovan ERA production combines Chinese acrobatics, contemporary theatre and visual effects.", "Перша в Молдові постановка ERA поєднує китайську акробатику, сучасний театр і візуальні ефекти.", "První moldavské uvedení ERA propojuje čínskou akrobacii, současné divadlo a vizuální efekty."), demandReason: demand.arena, startDate: "2026-10-31", startTime: "19:00", venue: arena, address: arenaAddress, category: "family", interest: "high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/ro/evenimente/grand-chinese-circus-show" }),
+
+  e({ slug: "uriah-heep-2026", title: same("Uriah Heep — The Magician’s Farewell Tour"), description: concert("Uriah Heep", "Palatul Național"), demandReason: demand.medium, startDate: "2026-11-02", startTime: "20:00", venue: same("Palatul Național „Nicolae Sulac”"), category: "concert", interest: "high", sourceName: "LiveTickets", sourceUrl: "https://livetickets.md/ro/event/569--uriah-heep-the-magician%27s-farewell-tour", ticketUrl: "https://livetickets.md/ro/event/569--uriah-heep-the-magician%27s-farewell-tour" }),
+  e({ slug: "moldova-kazakhstan-2026", title: l("Молдова — Казахстан", "Moldova — Kazahstan", "Moldova v Kazakhstan", "Молдова — Казахстан", "Moldavsko — Kazachstán"), description: l("Последний домашний матч Молдовы в группе Лиги наций UEFA 2026/27.", "Ultimul meci acasă al Moldovei în grupa Ligii Națiunilor UEFA 2026/27.", "Moldova's final home group fixture in the 2026/27 UEFA Nations League.", "Останній домашній матч Молдови в групі Ліги націй UEFA 2026/27.", "Poslední domácí skupinový zápas Moldavska v Lize národů UEFA 2026/27."), demandReason: demand.international, startDate: "2026-11-13", startTime: "19:00", venue: same("Stadionul Zimbru"), address: same("Strada Butucului 1, Chișinău"), category: "sport", interest: "high", sourceName: "FMF", sourceUrl: "https://fmf.md/noutate/16375/liga-natiunilor-programul-meciurilor-nationalei-moldovei" }),
+  e({ slug: "gandul-matei-30-ani-2026", title: same("Gândul Mâței — 30 de ani"), description: concert("Gândul Mâței", "Arena Chișinău"), demandReason: demand.arena, startDate: "2026-11-19", startTime: "19:00", venue: arena, address: arenaAddress, category: "concert", interest: "high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/evenimente/gandul-matei-prieteni-de-drum-30-de-ani" }),
+  e({ slug: "jdc-dance-weekend-2026", title: same("JDC Dance Weekend 2026"), description: l("Двухдневное международное соревнование собирает более 2 500 танцоров 5–18 лет, команды, тренеров и сопровождающих.", "Competiția internațională de două zile reunește peste 2.500 de dansatori de 5–18 ani, echipe, antrenori și însoțitori.", "The two-day international competition brings together 2,500+ dancers aged 5–18, plus teams, coaches and companions.", "Дводенне міжнародне змагання збирає понад 2 500 танцівників 5–18 років, команди, тренерів і супровід.", "Dvoudenní mezinárodní soutěž přivádí přes 2 500 tanečníků ve věku 5–18 let, týmy, trenéry a doprovod."), demandReason: demand.international, startDate: "2026-11-21", endDate: "2026-11-22", demandStart: "2026-11-20", demandEnd: "2026-11-23", startTime: "11:00", venue: arena, address: arenaAddress, category: "sport", interest: "very-high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/evenimente/jdc-dance-weekend-2026-biggest-dance-event", ticketUrl: "https://flymodern.dance/en/jdc-dance-weekend-21-22-11-26", featured: true }),
+  e({ slug: "rammstein-symphonic-2026", title: same("Rammstein Symphonic Experience"), description: l("Симфоническое прочтение музыки Rammstein с оркестром, светом и видеопроекциями.", "O reinterpretare simfonică a muzicii Rammstein cu orchestră, lumini și proiecții video.", "A symphonic reimagining of Rammstein's music with orchestra, lighting and video projections.", "Симфонічне прочитання музики Rammstein з оркестром, світлом і відеопроєкціями.", "Symfonické pojetí hudby Rammstein s orchestrem, světly a videoprojekcemi."), demandReason: demand.overlap, startDate: "2026-11-28", startTime: "19:00", venue: same("Teatrul Național de Operă și Balet „Maria Bieșu”"), category: "concert", interest: "high", sourceName: "Fest.md", sourceUrl: "https://www.fest.md/ro/evenimente/concerte/rammstein-symphonic-experience", ticketUrl: "https://www.fest.md/en/tickets/concerts/rammstein-symphonic-experience" }),
+  e({ slug: "maxim-galkin-2026", title: same("Максим Галкин — юбилейный тур «50!»"), description: concert("Максим Галкин", "Palatul Național"), demandReason: demand.overlap, startDate: "2026-11-28", startTime: "19:00", venue: same("Palatul Național „Nicolae Sulac”"), category: "theatre", interest: "high", sourceName: "Fest.md", sourceUrl: "https://www.fest.md/ru/events/concerts" }),
+
+  e({ slug: "kpop-forever-2026", title: same("K-POP FOREVER"), description: l("Международное arena-show приезжает в Кишинёв после sold-out выступлений в Ирландии.", "Show-ul internațional de arenă ajunge la Chișinău după spectacole sold-out în Irlanda.", "The international arena show comes to Chișinău after sold-out Irish dates.", "Міжнародне arena-show приїжджає до Кишинева після sold-out виступів в Ірландії.", "Mezinárodní arénová show přijíždí do Kišiněva po vyprodaných vystoupeních v Irsku."), demandReason: demand.arena, startDate: "2026-12-03", startTime: "19:30", venue: arena, address: arenaAddress, category: "family", interest: "high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/evenimente/k-pop-forever" }),
+  e({ slug: "chisinau-christmas-markets-2026", title: l("Рождественские ярмарки Кишинёва 2026", "Târgurile de Crăciun din Chișinău 2026", "Chișinău Christmas markets 2026", "Різдвяні ярмарки Кишинева 2026", "Vánoční trhy v Kišiněvě 2026"), description: l("Городской календарь подтверждает ярмарки 4–31 декабря в PMAN и сквере Оперы. Сценическая и новогодняя программа пока не опубликована.", "Calendarul municipal confirmă târgurile între 4–31 decembrie în PMAN și Scuarul Operei. Programul scenic și de Revelion nu este încă publicat.", "The city calendar confirms markets from 4–31 December in PMAN and the Opera square. Stage and New Year's Eve programmes have not yet been published.", "Міський календар підтверджує ярмарки 4–31 грудня на PMAN і в сквері Опери. Сценічну та новорічну програму ще не опубліковано.", "Městský kalendář potvrzuje trhy 4.–31. prosince na PMAN a náměstí u Opery. Jevištní a silvestrovský program zatím zveřejněn nebyl."), demandReason: demand.seasonal, startDate: "2026-12-04", endDate: "2026-12-31", venue: l("PMAN и сквер Национальной оперы", "PMAN și Scuarul TNOB", "PMAN and the National Opera square", "PMAN і сквер Національної опери", "PMAN a náměstí u Národní opery"), category: "city", interest: "high", sourceName: "Primăria Municipiului Chișinău", sourceUrl: "https://comert.chisinau.md/calendar/" }),
+  e({ slug: "plaiesii-2026", title: same("Ansamblul „Plăieșii” — „Leru-i Ler la-nalte Curți”"), description: concert("Ansamblul etnofolcloric Plăieșii", "Palatul Național"), demandReason: demand.medium, startDate: "2026-12-12", startTime: "19:00", venue: same("Palatul Național „Nicolae Sulac”"), category: "concert", interest: "medium", sourceName: "Fest.md", sourceUrl: "https://www.fest.md/ru/events/concerts" }),
+  e({ slug: "ion-paladi-2026", title: same("Ion Paladi — „Colindăm cu drag tot neamul”"), description: concert("Ion Paladi și Orchestra Lăutarii", "Arena Chișinău"), demandReason: demand.arena, startDate: "2026-12-12", startTime: "19:00", venue: arena, address: arenaAddress, category: "concert", interest: "high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/evenimente/ion-paladi--colindam-cu-drag-tot-neamul" }),
+  e({ slug: "spirit-of-smokie-2026", title: same("Spirit of Smokie"), description: concert("Spirit of Smokie", "Teatrul Național de Operă și Balet"), demandReason: demand.medium, startDate: "2026-12-16", startTime: "19:00", venue: same("Teatrul Național de Operă și Balet „Maria Bieșu”"), category: "concert", interest: "medium", sourceName: "LiveTickets", sourceUrl: "https://livetickets.md/ro/event/560--spirit-of-smokie", ticketUrl: "https://livetickets.md/ro/event/560--spirit-of-smokie" }),
+  e({ slug: "covorul-dorului-2026", title: l("Национальная ярмарка «Covorul Dorului»", "Târgul Național „Covorul Dorului”", "Covorul Dorului National Fair", "Національний ярмарок «Covorul Dorului»", "Národní veletrh Covorul Dorului"), description: l("Национальная туристическая agenda включает ярмарку молдавского ковра и ремёсел 20 декабря.", "Agenda turistică națională include târgul covorului moldovenesc și al meșteșugurilor la 20 decembrie.", "The national tourism calendar lists a Moldovan carpet and crafts fair on 20 December.", "Національна туристична agenda включає ярмарок молдовського килима й ремесел 20 грудня.", "Národní turistický kalendář uvádí na 20. prosince veletrh moldavských koberců a řemesel."), demandReason: demand.medium, startDate: "2026-12-20", venue: same("Muzeul Național de Etnografie și Istorie Naturală"), category: "festival", interest: "medium", sourceName: "Oficiul Național al Turismului", sourceUrl: "https://turism.gov.md/wp-content/uploads/2025/09/ro_agenda-de-evenimente-2026-a4-210x297mm_3mm-bleed-new.pdf" }),
+  e({ slug: "nervy-2026", title: same("NERVY"), description: concert("NERVY", "Arena Chișinău"), demandReason: demand.arena, startDate: "2026-12-25", demandStart: "2026-12-24", demandEnd: "2026-12-26", startTime: "20:00", venue: arena, address: arenaAddress, category: "concert", interest: "high", sourceName: "Arena Chișinău", sourceUrl: "https://arenachisinau.md/ro/evenimente/nervy-revin-la-chisinau" }),
 ];
 
-export const guideEvents: readonly ChisinauEvent[] = [...events].sort((a, b) =>
-  a.startDate.localeCompare(b.startDate) || (a.startTime ?? "").localeCompare(b.startTime ?? ""),
-);
-
-export function getUpcomingGuideEvents(now = new Date()) {
-  return guideEvents.filter((event) =>
-    event.status !== "cancelled" && !isPastChisinauDate(event.endDate ?? event.startDate, now),
-  );
+export const guideEvents: readonly ChisinauEvent[] = [...events].sort((a, b) => a.startDate.localeCompare(b.startDate) || (a.startTime ?? "").localeCompare(b.startTime ?? ""));
+export function getUpcomingGuideEvents(now = new Date()) { return guideEvents.filter((item) => item.status !== "cancelled" && !isPastChisinauDate(item.endDate ?? item.startDate, now)); }
+export function getUpcomingDemandEvents(now = new Date(), limit = 5) { return getUpcomingGuideEvents(now).filter((item) => item.interest === "very-high" || item.interest === "high").sort((a, b) => a.demandStart.localeCompare(b.demandStart) || a.startDate.localeCompare(b.startDate)).slice(0, limit); }
+export function assertEventData() {
+  const ids = new Set<string>();
+  guideEvents.forEach((item, index) => {
+    if (ids.has(item.id)) throw new Error(`Duplicate event id: ${item.id}`);
+    ids.add(item.id);
+    if (item.demandStart > item.demandEnd) throw new Error(`Invalid demand window: ${item.id}`);
+    if (index > 0 && guideEvents[index - 1].startDate > item.startDate) throw new Error(`Events are not chronological: ${item.id}`);
+  });
+  return true;
 }
-
-export const eventsUpdatedAt = verifiedAt;
+assertEventData();

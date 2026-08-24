@@ -181,8 +181,8 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   events: page(
     "events",
     "/guide/events.webp",
-    l("Календарь концертов и событий в Кишинёве 2026", "Calendarul concertelor și evenimentelor din Chișinău 2026", "Chișinău concerts and events calendar 2026", "Календар концертів і подій у Кишиневі 2026", "Kalendář koncertů a akcí v Kišiněvě 2026"),
-    l("Подтверждённые концерты, фестивали, спектакли и городские события с прямыми ссылками на организаторов и билеты.", "Concerte, festivaluri, spectacole și evenimente urbane confirmate, cu linkuri directe către organizatori și bilete.", "Confirmed concerts, festivals, shows and city events with direct organiser and ticket links.", "Підтверджені концерти, фестивалі, вистави й міські події з прямими посиланнями на організаторів і квитки.", "Potvrzené koncerty, festivaly, představení a městské akce s přímými odkazy na pořadatele a vstupenky."),
+    l("События и концерты в Кишинёве 2026", "Evenimente și concerte în Chișinău 2026", "Chișinău events and concerts 2026", "Події та концерти в Кишиневі 2026", "Akce a koncerty v Kišiněvě 2026"),
+    l("Афиша Кишинёва с августа по декабрь 2026: концерты, фестивали, праздники, спорт и бизнес-события. Проверяйте даты высокого спроса и подбирайте квартиру.", "Agenda Chișinăului din august până în decembrie 2026: concerte, festivaluri, sărbători, sport și business. Verifică perioadele cu cerere mare și alege un apartament.", "Chișinău listings from August to December 2026: concerts, festivals, celebrations, sport and business events, with high-demand dates and apartments.", "Афіша Кишинева з серпня до грудня 2026: концерти, фестивалі, свята, спорт і бізнес-події, дати високого попиту та квартири.", "Program Kišiněva od srpna do prosince 2026: koncerty, festivaly, slavnosti, sport a byznys, termíny vysoké poptávky a apartmány."),
     [{
       title: l("Как мы отбираем афишу", "Cum selectăm evenimentele", "How listings are selected", "Як ми відбираємо афішу", "Jak vybíráme akce"),
       body: l(

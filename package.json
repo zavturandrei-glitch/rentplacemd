@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit",
     "db:migrate:videos": "node scripts/migrate-city-videos.mjs",
     "backfill:video-thumbnails": "node --experimental-strip-types scripts/backfill-city-video-thumbnails.mjs",
+    "test": "node --test tests/*.test.mjs",
     "test:video-thumbnails": "node --experimental-strip-types --test tests/tiktokThumbnail.test.mjs"
   },
   "dependencies": {

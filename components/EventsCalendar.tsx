@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   eventsUpdatedAt,
+  getUpcomingDemandEvents,
   getUpcomingGuideEvents,
   type EventCategory,
   type EventInterest,
@@ -14,6 +15,7 @@ import {
   eventMonthPath,
   formatEventMonth,
   getChisinauMonthKey,
+  getEventMonthSeo,
   getEventsForMonth,
 } from "@/lib/eventCalendar";
 import type { Language } from "@/locales/translations";
@@ -38,6 +40,7 @@ const monthUi: Record<Language, {
   empty: string;
   archiveEmpty: string;
   important: string;
+  eventsFound: string;
 }> = {
   ru: {
     overview: "Календарь по месяцам",
@@ -48,6 +51,7 @@ const monthUi: Record<Language, {
     empty: "Подтверждённых событий пока нет",
     archiveEmpty: "Архив появится после завершения первого опубликованного месяца.",
     important: "Самые важные ближайшие события",
+    eventsFound: "Событий в афише",
   },
   ro: {
     overview: "Calendar pe luni",
@@ -58,6 +62,7 @@ const monthUi: Record<Language, {
     empty: "Nu există încă evenimente confirmate",
     archiveEmpty: "Arhiva va apărea după încheierea primei luni publicate.",
     important: "Cele mai importante evenimente viitoare",
+    eventsFound: "Evenimente în calendar",
   },
   en: {
     overview: "Calendar by month",
@@ -68,6 +73,7 @@ const monthUi: Record<Language, {
     empty: "No confirmed events yet",
     archiveEmpty: "The archive will appear after the first published month has ended.",
     important: "Most important upcoming events",
+    eventsFound: "Events listed",
   },
   uk: {
     overview: "Календар за місяцями",
@@ -78,6 +84,7 @@ const monthUi: Record<Language, {
     empty: "Підтверджених подій поки немає",
     archiveEmpty: "Архів з’явиться після завершення першого опублікованого місяця.",
     important: "Найважливіші найближчі події",
+    eventsFound: "Подій в афіші",
   },
   cs: {
     overview: "Kalendář podle měsíců",
@@ -88,6 +95,7 @@ const monthUi: Record<Language, {
     empty: "Zatím nejsou potvrzené akce",
     archiveEmpty: "Archiv se zobrazí po skončení prvního zveřejněného měsíce.",
     important: "Nejdůležitější nadcházející akce",
+    eventsFound: "Akcí v programu",
   },
 };
 
@@ -115,19 +123,21 @@ const ui: Record<Language, {
   faqTitle: string;
   faq: Array<{ q: string; a: string }>;
   updated: string;
+  demandDates: string;
+  bookEarly: string;
 }> = {
   ru: {
     back: "Назад к гиду",
     eyebrow: "RentPlaceMD · городской календарь",
-    title: "Календарь концертов и событий в Кишинёве 2026",
-    intro: "Актуальные концерты, фестивали, спектакли и крупные городские мероприятия. Планируйте поездку заранее и подбирайте квартиру RentPlaceMD рядом с местом проведения.",
+    title: "События и концерты в Кишинёве 2026",
+    intro: "Крупнейшие концерты, фестивали, городские праздники, спортивные и деловые события Кишинёва с августа по декабрь 2026 года.",
     featured: "Ближайшее важное событие",
     filters: "Фильтры календаря",
     all: "Все",
     month: "Месяц",
     interestFilter: "Ожидаемый спрос",
     empty: "По выбранным фильтрам подтверждённых событий нет.",
-    categories: { concert: "Концерты", festival: "Фестивали", theatre: "Театр и шоу", sport: "Спорт", family: "Семейные", city: "Городские события", gastronomy: "Гастрономия", other: "Другое" },
+    categories: { concert: "Концерты", festival: "Фестивали", theatre: "Театр и шоу", sport: "Спорт", business: "Бизнес и технологии", family: "Семейные", city: "Городские события", gastronomy: "Гастрономия", other: "Другое" },
     interests: { "very-high": "Очень высокий спрос", high: "Высокий спрос", medium: "Средний спрос", low: "Локальный интерес" },
     demandNote: "Редакционная оценка RentPlaceMD, основанная на масштабе площадки, известности участников и вероятном туристическом спросе.",
     time: "Начало",
@@ -146,19 +156,21 @@ const ui: Record<Language, {
       { q: "Как часто обновляется календарь?", a: "Мы перепроверяем календарь по официальным источникам и билетным платформам. Дата последнего обновления указана ниже." },
     ],
     updated: "Последнее обновление",
+    demandDates: "Период повышенного спроса",
+    bookEarly: "Рекомендуем проверять жильё заранее — без искусственной срочности.",
   },
   ro: {
     back: "Înapoi la ghid",
     eyebrow: "RentPlaceMD · calendar urban",
-    title: "Calendarul concertelor și evenimentelor din Chișinău 2026",
-    intro: "Concerte, festivaluri, spectacole și evenimente urbane importante confirmate. Planificați călătoria din timp și alegeți un apartament RentPlaceMD aproape de locație.",
+    title: "Evenimente și concerte în Chișinău 2026",
+    intro: "Cele mai importante concerte, festivaluri, sărbători urbane, competiții sportive și evenimente de business din august până în decembrie 2026.",
     featured: "Următorul eveniment important",
     filters: "Filtrele calendarului",
     all: "Toate",
     month: "Luna",
     interestFilter: "Cerere estimată",
     empty: "Nu există evenimente confirmate pentru filtrele selectate.",
-    categories: { concert: "Concerte", festival: "Festivaluri", theatre: "Teatru și show", sport: "Sport", family: "Pentru familie", city: "Evenimente urbane", gastronomy: "Gastronomie", other: "Altele" },
+    categories: { concert: "Concerte", festival: "Festivaluri", theatre: "Teatru și show", sport: "Sport", business: "Business și tehnologie", family: "Pentru familie", city: "Evenimente urbane", gastronomy: "Gastronomie", other: "Altele" },
     interests: { "very-high": "Cerere foarte mare", high: "Cerere mare", medium: "Cerere medie", low: "Interes local" },
     demandNote: "Evaluare editorială RentPlaceMD bazată pe dimensiunea locației, notorietatea participanților și cererea turistică probabilă.",
     time: "Început",
@@ -177,19 +189,21 @@ const ui: Record<Language, {
       { q: "Cât de des este actualizat calendarul?", a: "Reverificăm calendarul în surse oficiale și pe platforme de bilete. Data ultimei actualizări apare mai jos." },
     ],
     updated: "Ultima actualizare",
+    demandDates: "Perioada de cerere ridicată",
+    bookEarly: "Recomandăm verificarea cazării din timp, fără urgență artificială.",
   },
   en: {
     back: "Back to the guide",
     eyebrow: "RentPlaceMD · city calendar",
-    title: "Chișinău concerts and events calendar 2026",
-    intro: "Confirmed concerts, festivals, stage shows and major city events. Plan ahead and choose a RentPlaceMD apartment close to the venue.",
+    title: "Chișinău events and concerts 2026",
+    intro: "The leading concerts, festivals, city celebrations, sports fixtures and business events from August through December 2026.",
     featured: "Next major event",
     filters: "Calendar filters",
     all: "All",
     month: "Month",
     interestFilter: "Expected demand",
     empty: "There are no confirmed events matching these filters.",
-    categories: { concert: "Concerts", festival: "Festivals", theatre: "Theatre and shows", sport: "Sport", family: "Family", city: "City events", gastronomy: "Food and wine", other: "Other" },
+    categories: { concert: "Concerts", festival: "Festivals", theatre: "Theatre and shows", sport: "Sport", business: "Business and technology", family: "Family", city: "City events", gastronomy: "Food and wine", other: "Other" },
     interests: { "very-high": "Very high demand", high: "High demand", medium: "Medium demand", low: "Local interest" },
     demandNote: "RentPlaceMD editorial estimate based on venue scale, participant profile and likely visitor demand.",
     time: "Starts",
@@ -208,19 +222,21 @@ const ui: Record<Language, {
       { q: "How often is the calendar updated?", a: "We recheck official sources and ticket platforms. The latest verification date appears below." },
     ],
     updated: "Last updated",
+    demandDates: "Higher-demand window",
+    bookEarly: "We recommend checking accommodation early, without artificial urgency.",
   },
   uk: {
     back: "Назад до путівника",
     eyebrow: "RentPlaceMD · міський календар",
-    title: "Календар концертів і подій у Кишиневі 2026",
-    intro: "Підтверджені концерти, фестивалі, вистави та великі міські події. Плануйте поїздку заздалегідь і обирайте квартиру RentPlaceMD поруч із місцем проведення.",
+    title: "Події та концерти в Кишиневі 2026",
+    intro: "Найбільші концерти, фестивалі, міські свята, спортивні та ділові події з серпня до грудня 2026 року.",
     featured: "Найближча важлива подія",
     filters: "Фільтри календаря",
     all: "Усі",
     month: "Місяць",
     interestFilter: "Очікуваний попит",
     empty: "За вибраними фільтрами підтверджених подій немає.",
-    categories: { concert: "Концерти", festival: "Фестивалі", theatre: "Театр і шоу", sport: "Спорт", family: "Сімейні", city: "Міські події", gastronomy: "Гастрономія", other: "Інше" },
+    categories: { concert: "Концерти", festival: "Фестивалі", theatre: "Театр і шоу", sport: "Спорт", business: "Бізнес і технології", family: "Сімейні", city: "Міські події", gastronomy: "Гастрономія", other: "Інше" },
     interests: { "very-high": "Дуже високий попит", high: "Високий попит", medium: "Середній попит", low: "Локальний інтерес" },
     demandNote: "Редакційна оцінка RentPlaceMD на основі масштабу майданчика, відомості учасників та ймовірного туристичного попиту.",
     time: "Початок",
@@ -239,19 +255,21 @@ const ui: Record<Language, {
       { q: "Як часто оновлюється календар?", a: "Ми повторно перевіряємо офіційні джерела й квиткові платформи. Дата останнього оновлення вказана нижче." },
     ],
     updated: "Останнє оновлення",
+    demandDates: "Період підвищеного попиту",
+    bookEarly: "Радимо перевіряти житло заздалегідь, без штучної терміновості.",
   },
   cs: {
     back: "Zpět na průvodce",
     eyebrow: "RentPlaceMD · městský kalendář",
-    title: "Kalendář koncertů a akcí v Kišiněvě 2026",
-    intro: "Potvrzené koncerty, festivaly, představení a významné městské akce. Naplánujte cestu včas a vyberte si apartmán RentPlaceMD poblíž místa konání.",
+    title: "Akce a koncerty v Kišiněvě 2026",
+    intro: "Největší koncerty, festivaly, městské slavnosti, sportovní a obchodní akce od srpna do prosince 2026.",
     featured: "Nejbližší významná akce",
     filters: "Filtry kalendáře",
     all: "Vše",
     month: "Měsíc",
     interestFilter: "Očekávaná poptávka",
     empty: "Vybraným filtrům neodpovídá žádná potvrzená akce.",
-    categories: { concert: "Koncerty", festival: "Festivaly", theatre: "Divadlo a show", sport: "Sport", family: "Pro rodiny", city: "Městské akce", gastronomy: "Gastronomie", other: "Ostatní" },
+    categories: { concert: "Koncerty", festival: "Festivaly", theatre: "Divadlo a show", sport: "Sport", business: "Byznys a technologie", family: "Pro rodiny", city: "Městské akce", gastronomy: "Gastronomie", other: "Ostatní" },
     interests: { "very-high": "Velmi vysoká poptávka", high: "Vysoká poptávka", medium: "Střední poptávka", low: "Místní zájem" },
     demandNote: "Redakční odhad RentPlaceMD podle velikosti místa, známosti účastníků a pravděpodobné turistické poptávky.",
     time: "Začátek",
@@ -270,6 +288,8 @@ const ui: Record<Language, {
       { q: "Jak často se kalendář aktualizuje?", a: "Pravidelně kontrolujeme oficiální zdroje a vstupenkové platformy. Datum poslední kontroly je uvedeno níže." },
     ],
     updated: "Poslední aktualizace",
+    demandDates: "Období zvýšené poptávky",
+    bookEarly: "Doporučujeme ověřit ubytování včas, bez umělého nátlaku.",
   },
 };
 
@@ -291,7 +311,7 @@ function formatUpdated(date: string, language: Language) {
   }).format(new Date(`${date}T12:00:00+03:00`));
 }
 
-const categoryFilters: CategoryFilter[] = ["all", "concert", "festival", "theatre", "sport", "family", "city"];
+const categoryFilters: CategoryFilter[] = ["all", "concert", "festival", "sport", "business", "gastronomy", "theatre", "family", "city"];
 const interestFilters: InterestFilter[] = ["all", "very-high", "high", "medium", "low"];
 
 export default function EventsCalendar() {
@@ -313,8 +333,8 @@ export default function EventsCalendar() {
     && (interest === "all" || event.interest === interest),
   );
   const grouped = Object.groupBy(filtered, (event) => event.startDate.slice(0, 7));
-  const featured = events.find((event) => event.featured) ?? events[0];
-  const importantEvents = events.filter((event) => event.featured).slice(0, 3);
+  const importantEvents = useMemo(() => getUpcomingDemandEvents(new Date(), 5), []);
+  const featured = importantEvents[0] ?? events[0];
   const currentMonthKey = getChisinauMonthKey();
   const currentMonthEvents = getEventsForMonth(currentMonthKey);
   const nextMonthKey = eventMonthKeys.find((item) => item > currentMonthKey) ?? null;
@@ -340,7 +360,7 @@ export default function EventsCalendar() {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#d4146f]">{monthText.current}</p>
             <h3 className="mt-3 text-2xl font-semibold capitalize">{formatEventMonth(currentMonthKey, language)}</h3>
             <p className="mt-2 text-sm text-slate-600">
-              {currentMonthEvents.length > 0 ? `${currentMonthEvents.length} ${monthText.open.toLowerCase()}` : monthText.empty}
+              {currentMonthEvents.length > 0 ? `${monthText.eventsFound}: ${currentMonthEvents.length}` : monthText.empty}
             </p>
             {eventMonthKeys.includes(currentMonthKey) ? (
               <Link href={eventMonthPath(currentMonthKey)} className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#07111f] px-4 text-sm font-semibold text-white">
@@ -365,6 +385,8 @@ export default function EventsCalendar() {
                 <p className="text-sm font-semibold capitalize">{formatDate(event.startDate, language, true)}</p>
                 <p className="mt-2 font-semibold">{event.title[language]}</p>
                 <p className="mt-2 text-sm text-slate-500">{event.venue[language]}</p>
+                <p className="mt-3 text-xs font-semibold text-[#d4146f]">{text.demandDates}: {formatDate(event.demandStart, language)}–{formatDate(event.demandEnd, language)}</p>
+                <Link href={`/apartments?lang=${language}`} className="mt-4 inline-flex min-h-10 items-center text-sm font-semibold text-[#07111f] underline decoration-[#d4146f]/40 underline-offset-4">{text.apartments} →</Link>
               </div>
             ))}
           </div>
@@ -437,7 +459,7 @@ export default function EventsCalendar() {
         {filtered.length === 0 ? <p className="rounded-[20px] bg-white p-6 text-slate-600">{text.empty}</p> : null}
         {Object.entries(grouped).map(([monthKey, monthEvents]) => (
           <section key={monthKey}>
-            <h2 className="text-3xl font-semibold capitalize tracking-[-0.03em]">{formatDate(`${monthKey}-01`, language)}</h2>
+            <h2 className="text-3xl font-semibold tracking-[-0.03em]">{getEventMonthSeo(monthKey, language).title}</h2>
             <div className="mt-5 grid gap-4 lg:grid-cols-2">
               {monthEvents?.map((event) => (
                 <article key={event.id} className="flex flex-col rounded-[22px] bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
@@ -450,6 +472,11 @@ export default function EventsCalendar() {
                   <p className="mt-4 text-sm font-semibold text-slate-700">{event.venue[language]}</p>
                   {event.startTime ? <p className="mt-1 text-sm text-slate-500">{text.time}: {event.startTime}</p> : null}
                   <p className="mt-4 flex-1 leading-7 text-slate-600">{event.description[language]}</p>
+                  <div className="mt-4 rounded-xl bg-[#fffaf0] p-4 text-sm leading-6 text-slate-700">
+                    <p className="font-semibold">{text.demandDates}: {formatDate(event.demandStart, language)}–{formatDate(event.demandEnd, language)}</p>
+                    <p className="mt-1">{event.demandReason[language]}</p>
+                    {event.interest === "very-high" ? <p className="mt-2 font-semibold text-[#d4146f]">{text.bookEarly}</p> : null}
+                  </div>
                   <div className="mt-6 flex flex-col gap-2 sm:flex-row">
                     <a
                       href={event.ticketUrl ?? event.sourceUrl}
@@ -460,7 +487,7 @@ export default function EventsCalendar() {
                     >
                       {text.details} ↗
                     </a>
-                    <Link href="/apartments" className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-4 text-sm font-semibold transition hover:border-[#d4146f] hover:text-[#d4146f]">
+                    <Link href={`/apartments?lang=${language}`} className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-4 text-sm font-semibold transition hover:border-[#d4146f] hover:text-[#d4146f]">
                       {text.apartments}
                     </Link>
                   </div>
@@ -485,7 +512,7 @@ export default function EventsCalendar() {
         <h2 className="text-3xl font-semibold">{text.ctaTitle}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-white/80">{text.ctaText}</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <Link href="/apartments" className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">{text.apartments}</Link>
+          <Link href={`/apartments?lang=${language}`} className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">{text.apartments}</Link>
           <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/40 px-6 text-sm font-semibold">{text.contact}</a>
         </div>
       </section>
