@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
-import { eventsUpdatedAt, getUpcomingGuideEvents } from "@/lib/events";
+import { eventsUpdatedAt, getUpcomingGuideEvents, isEventEligibleForStructuredData } from "@/lib/events";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 import {
   destinations,
@@ -156,7 +156,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
   };
 
   if (slug === "events") {
-    const eventNodes = getUpcomingGuideEvents().map((event) => ({
+    const eventNodes = getUpcomingGuideEvents().filter(isEventEligibleForStructuredData).map((event) => ({
       "@type": "Event",
       "@id": `${url}#${event.slug}`,
       name: event.title[language],
@@ -165,19 +165,20 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
       ...(event.endDate ? { endDate: event.endDate } : {}),
       eventStatus: "https://schema.org/EventScheduled",
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      organizer: {
+        "@type": event.organizer.type,
+        name: event.organizer.name,
+        url: event.organizer.url,
+      },
       location: {
         "@type": "Place",
         name: event.venue[language],
-        ...(event.address
-          ? {
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: event.address[language],
-                addressLocality: "Chișinău",
-                addressCountry: "MD",
-              },
-            }
-          : {}),
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: event.address[language],
+          addressLocality: event.city === "Chisinau" ? "Chișinău" : "Moldova",
+          addressCountry: "MD",
+        },
       },
       url: `${url}#${event.slug}`,
       sameAs: [...new Set([event.sourceUrl, event.ticketUrl].filter(Boolean))],

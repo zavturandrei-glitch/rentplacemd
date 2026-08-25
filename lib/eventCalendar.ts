@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
-import { guideEvents, type ChisinauEvent } from "@/lib/events";
+import { guideEvents, isEventEligibleForStructuredData, type ChisinauEvent } from "@/lib/events";
 import {
   baseUrl,
   mainSocialImageUrl,
@@ -166,7 +166,7 @@ export function buildEventMonthJsonLd(monthKey: string, languageInput?: string) 
   const seo = getEventMonthSeo(monthKey, languageInput);
   const path = eventMonthPath(monthKey);
   const pageUrl = baseUrl + path + (languageInput ? `?lang=${seo.language}` : "");
-  const events = getEventsForMonth(monthKey);
+  const events = getEventsForMonth(monthKey).filter(isEventEligibleForStructuredData);
 
   return [
     {
@@ -191,17 +191,20 @@ export function buildEventMonthJsonLd(monthKey: string, languageInput?: string) 
           ? "https://schema.org/EventCancelled"
           : "https://schema.org/EventScheduled",
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      organizer: {
+        "@type": event.organizer.type,
+        name: event.organizer.name,
+        url: event.organizer.url,
+      },
       location: {
         "@type": "Place",
         name: event.venue[seo.language],
-        ...(event.address ? {
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: event.address[seo.language],
-            addressLocality: event.city === "Chisinau" ? "Chișinău" : "Moldova",
-            addressCountry: "MD",
-          },
-        } : {}),
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: event.address[seo.language],
+          addressLocality: event.city === "Chisinau" ? "Chișinău" : "Moldova",
+          addressCountry: "MD",
+        },
       },
       url: `${pageUrl}#${event.slug}`,
       sameAs: [...new Set([event.sourceUrl, event.ticketUrl].filter(Boolean))],

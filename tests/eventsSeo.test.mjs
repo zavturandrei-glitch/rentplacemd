@@ -41,7 +41,25 @@ test("events are represented in sitemap, Event ItemList and breadcrumbs", async 
   assert.match(sitemap, /eventsUpdatedAt/);
   assert.match(sitemap, /eventMonthRoutes/);
   assert.match(jsonLd, /"@type": "Event"/);
+  assert.match(jsonLd, /organizer:/);
+  assert.match(jsonLd, /isEventEligibleForStructuredData/);
   assert.match(jsonLd, /"@type": "ItemList"/);
   assert.match(jsonLd, /"@type": "BreadcrumbList"/);
   assert.match(robots, /allow: \["\/"/);
+});
+
+test("Event JSON-LD only exposes records with a verified organizer and full address", async () => {
+  const [events, guideJsonLd, monthJsonLd] = await Promise.all([
+    read("lib/events.ts"), read("lib/guideSeo.ts"), read("lib/eventCalendar.ts"),
+  ]);
+  assert.match(events, /verifiedEventOrganizers/);
+  assert.match(events, /"independence-day-moldova-2026"[\s\S]*Guvernul Republicii Moldova/);
+  assert.match(events, /"gladiator-challenge-2026"[\s\S]*Gladiator Challenge Moldova/);
+  assert.match(events, /"grand-chinese-circus-2026"[\s\S]*Arena Chișinău/);
+  for (const jsonLd of [guideJsonLd, monthJsonLd]) {
+    assert.match(jsonLd, /filter\(isEventEligibleForStructuredData\)/);
+    assert.match(jsonLd, /"@type": event\.organizer\.type/);
+    assert.match(jsonLd, /name: event\.organizer\.name/);
+    assert.match(jsonLd, /url: event\.organizer\.url/);
+  }
 });

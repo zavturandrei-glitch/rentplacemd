@@ -4,6 +4,11 @@ import { isPastChisinauDate } from "@/lib/chisinauDate";
 export type EventInterest = "very-high" | "high" | "medium" | "low";
 export type EventCategory = "concert" | "festival" | "theatre" | "sport" | "business" | "family" | "city" | "gastronomy" | "other";
 export type LocalizedText = Record<Language, string>;
+export type EventOrganizer = {
+  type: "Organization" | "Person";
+  name: string;
+  url: string;
+};
 
 export type ChisinauEvent = {
   id: string; slug: string; title: LocalizedText; description: LocalizedText;
@@ -12,6 +17,7 @@ export type ChisinauEvent = {
   venue: LocalizedText; address?: LocalizedText;
   city: "Chisinau" | "Moldova-near-Chisinau"; category: EventCategory;
   interest: EventInterest; sourceName: string; sourceUrl: string; ticketUrl?: string;
+  organizer?: EventOrganizer;
   verifiedAt: string; status: "scheduled" | "postponed" | "cancelled" | "sold-out";
   featured?: boolean;
 };
@@ -45,8 +51,30 @@ const concert = (name: string, place: string) => l(
 type Input = Omit<ChisinauEvent, "id" | "verifiedAt" | "status" | "city" | "demandStart" | "demandEnd"> & {
   demandStart?: string; demandEnd?: string; city?: ChisinauEvent["city"];
 };
+
+// Only first-party event hosts/brands are recorded here. Ticket sellers, listings,
+// venues that merely rent space, and RentPlace.md are deliberately not inferred.
+const verifiedEventOrganizers = {
+  "independence-day-moldova-2026": { type: "Organization", name: "Guvernul Republicii Moldova", url: "https://gov.md/" },
+  "festivalul-vinului-de-autor-2026": { type: "Organization", name: "Festivalul Vinului de Autor", url: "https://festival.vindeautor.md/" },
+  "gocon-2026": { type: "Organization", name: "GoCon", url: "https://gocon.md/" },
+  "chisinau-marathon-2026": { type: "Organization", name: "Sporter", url: "https://sporter.md/" },
+  "coldplay-by-coolplay-2026": { type: "Organization", name: "Starfish — Coldplay Tribute Show", url: "https://www.coldplaytributeshow.com/" },
+  "deeptech-gigahack-2026": { type: "Organization", name: "DeepTech GigaHack", url: "https://gigahack.md/" },
+  "moldova-business-week-2026": { type: "Organization", name: "Invest Moldova Agency", url: "https://invest.gov.md/" },
+  "moldova-faroe-islands-2026": { type: "Organization", name: "Federația Moldovenească de Fotbal", url: "https://fmf.md/" },
+  "national-wine-day-2026": { type: "Organization", name: "Wine of Moldova", url: "https://wineofmoldova.com/" },
+  "moldova-slovakia-2026": { type: "Organization", name: "Federația Moldovenească de Fotbal", url: "https://fmf.md/" },
+  "gladiator-challenge-2026": { type: "Organization", name: "Gladiator Challenge Moldova", url: "https://gladiatorchallenge.md/" },
+  "hramul-chisinau-2026": { type: "Organization", name: "Primăria Municipiului Chișinău", url: "https://chisinau.md/" },
+  "grand-chinese-circus-2026": { type: "Organization", name: "Arena Chișinău", url: "https://arenachisinau.md/" },
+  "moldova-kazakhstan-2026": { type: "Organization", name: "Federația Moldovenească de Fotbal", url: "https://fmf.md/" },
+  "jdc-dance-weekend-2026": { type: "Organization", name: "Fly Modern Dance", url: "https://flymodern.dance/" },
+  "chisinau-christmas-markets-2026": { type: "Organization", name: "Primăria Municipiului Chișinău", url: "https://chisinau.md/" },
+} as const satisfies Partial<Record<string, EventOrganizer>>;
+
 function e(input: Input): ChisinauEvent {
-  return { ...input, id: input.slug, demandStart: input.demandStart ?? input.startDate, demandEnd: input.demandEnd ?? input.endDate ?? input.startDate, city: input.city ?? "Chisinau", verifiedAt: eventsUpdatedAt, status: "scheduled" };
+  return { ...input, id: input.slug, demandStart: input.demandStart ?? input.startDate, demandEnd: input.demandEnd ?? input.endDate ?? input.startDate, city: input.city ?? "Chisinau", organizer: verifiedEventOrganizers[input.slug as keyof typeof verifiedEventOrganizers], verifiedAt: eventsUpdatedAt, status: "scheduled" };
 }
 
 const events: ChisinauEvent[] = [
@@ -93,6 +121,9 @@ const events: ChisinauEvent[] = [
 export const guideEvents: readonly ChisinauEvent[] = [...events].sort((a, b) => a.startDate.localeCompare(b.startDate) || (a.startTime ?? "").localeCompare(b.startTime ?? ""));
 export function getUpcomingGuideEvents(now = new Date()) { return guideEvents.filter((item) => item.status !== "cancelled" && !isPastChisinauDate(item.endDate ?? item.startDate, now)); }
 export function getUpcomingDemandEvents(now = new Date(), limit = 5) { return getUpcomingGuideEvents(now).filter((item) => item.interest === "very-high" || item.interest === "high").sort((a, b) => a.demandStart.localeCompare(b.demandStart) || a.startDate.localeCompare(b.startDate)).slice(0, limit); }
+export function isEventEligibleForStructuredData(event: ChisinauEvent): event is ChisinauEvent & { address: LocalizedText; organizer: EventOrganizer } {
+  return Boolean(event.address && event.organizer);
+}
 export function assertEventData() {
   const ids = new Set<string>();
   guideEvents.forEach((item, index) => {
