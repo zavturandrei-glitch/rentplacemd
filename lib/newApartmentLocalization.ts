@@ -899,19 +899,127 @@ const newApartmentCopy: Record<Language, Record<string, ApartmentCopy>> = {
   },
 };
 
+const apartment61Copy: Record<Language, ApartmentCopy> = {
+  ru: {
+    address: "Измаил 106/2 · Кишинёв",
+    title: "Двухкомнатная квартира после ремонта на Измаил 106/2 — ID 61",
+    description: "Современная двухкомнатная квартира Premium после полного ремонта на Измаил 106/2 в Кишинёве. Отдельные спальня и гостиная, до 4 гостей, оборудованная кухня, кондиционер, стиральная машина и ванна. 1000 MDL в сутки.",
+    shortDescription: "Полностью обновлённая двухкомнатная квартира с отдельной спальней и гостиной для комфортного размещения до 4 гостей.",
+    aboutTitle: "Обновлённая двухкомнатная квартира на Измаил 106/2 · ID 61",
+    typeLabel: "2 отдельные комнаты",
+    view: "Отдельная спальня + гостиная",
+    features: ["Premium", "2 отдельные комнаты", "Отдельная спальня", "Отдельная гостиная", "До 4 гостей", "Двуспальная кровать", "Раскладной диван", "Телевизор", "Кондиционер", "Стиральная машина", "Ванна", "Оборудованная кухня", "Холодильник", "Духовка", "Микроволновая печь", "Газовая варочная поверхность", "Кухонная мойка", "Посуда и столовые приборы", "Места для хранения вещей", "Современный интерьер", "Квартира после ремонта"],
+    descriptionParagraphs: [
+      "Современная двухкомнатная квартира после полного ремонта расположена по адресу Измаил 106/2 в Кишинёве. Светлый обновлённый интерьер подходит как для короткого визита, так и для более продолжительного проживания.",
+      "В отдельной спальне установлена двуспальная кровать, а в просторной гостиной — раскладной диван. Квартира рассчитана на размещение до 4 гостей.",
+      "Кухня оборудована холодильником, духовкой, микроволновой печью, газовой варочной поверхностью и мойкой; имеются посуда и столовые приборы. Также в квартире есть телевизор, кондиционер, стиральная машина, ванна и места для хранения вещей.",
+    ],
+    audienceItems: ["Для пар", "Для семей и компаний до 4 гостей", "Для кратких и продолжительных поездок"],
+    faq: [
+      { question: "Сколько гостей можно разместить в квартире ID 61?", answer: "Квартира рассчитана на размещение до 4 гостей." },
+      { question: "Какие спальные места предусмотрены?", answer: "Двуспальная кровать находится в отдельной спальне, раскладной диван — в гостиной." },
+      { question: "Какова стоимость проживания?", answer: "Стоимость составляет 1000 MDL в сутки." },
+    ],
+  },
+  ro: {
+    address: "Strada Ismail 106/2 · Chișinău",
+    title: "Apartament renovat cu 2 camere pe Strada Ismail 106/2 — ID 61",
+    description: "Apartament Premium modern cu 2 camere, complet renovat, pe Strada Ismail 106/2 din Chișinău. Dormitor și living separate, până la 4 oaspeți, bucătărie utilată, aer condiționat, mașină de spălat și cadă. 1000 MDL pe noapte.",
+    shortDescription: "Apartament complet renovat, cu dormitor și living separate, potrivit pentru un sejur confortabil alături de până la 4 oaspeți.",
+    aboutTitle: "Apartament renovat cu 2 camere pe Strada Ismail 106/2 · ID 61",
+    typeLabel: "2 camere separate",
+    view: "Dormitor separat + living",
+    features: ["Premium", "2 camere separate", "Dormitor separat", "Living separat", "Până la 4 oaspeți", "Pat matrimonial", "Canapea extensibilă", "Televizor", "Aer condiționat", "Mașină de spălat", "Cadă", "Bucătărie utilată", "Frigider", "Cuptor", "Cuptor cu microunde", "Plită pe gaz", "Chiuvetă de bucătărie", "Veselă și tacâmuri", "Spații de depozitare", "Interior modern", "Apartament renovat"],
+    descriptionParagraphs: [
+      "Apartamentul modern cu 2 camere de pe Strada Ismail 106/2 din Chișinău a fost complet renovat. Interiorul luminos și actual este potrivit atât pentru vizite scurte, cât și pentru șederi mai lungi.",
+      "Dormitorul separat are un pat matrimonial, iar livingul spațios este dotat cu o canapea extensibilă. Apartamentul poate găzdui până la 4 persoane.",
+      "Bucătăria este echipată cu frigider, cuptor, cuptor cu microunde, plită pe gaz și chiuvetă, precum și veselă și tacâmuri. Sunt disponibile televizor, aer condiționat, mașină de spălat, cadă și spații de depozitare.",
+    ],
+    audienceItems: ["Pentru cupluri", "Pentru familii și grupuri de până la 4 oaspeți", "Pentru șederi scurte sau mai lungi"],
+    faq: [
+      { question: "Câți oaspeți pot fi cazați în apartamentul ID 61?", answer: "Apartamentul poate găzdui până la 4 oaspeți." },
+      { question: "Ce locuri de dormit sunt disponibile?", answer: "Dormitorul separat are un pat matrimonial, iar livingul are o canapea extensibilă." },
+      { question: "Care este prețul pe noapte?", answer: "Prețul este de 1000 MDL pe noapte." },
+    ],
+  },
+  en: {
+    address: "106/2 Ismail Street · Chisinau",
+    title: "Renovated two-room apartment at 106/2 Ismail Street — ID 61",
+    description: "Modern fully renovated Premium two-room apartment at 106/2 Ismail Street in Chisinau. Separate bedroom and living room, up to 4 guests, equipped kitchen, air conditioning, washing machine and bathtub. 1000 MDL per night.",
+    shortDescription: "A fully renovated two-room apartment with a separate bedroom and living room, comfortably accommodating up to 4 guests.",
+    aboutTitle: "Renovated two-room apartment at 106/2 Ismail Street · ID 61",
+    typeLabel: "2 separate rooms",
+    view: "Separate bedroom + living room",
+    features: ["Premium", "2 separate rooms", "Separate bedroom", "Separate living room", "Up to 4 guests", "Double bed", "Sofa bed", "Television", "Air conditioning", "Washing machine", "Bathtub", "Equipped kitchen", "Refrigerator", "Oven", "Microwave", "Gas hob", "Kitchen sink", "Cookware and cutlery", "Storage space", "Modern interior", "Fully renovated apartment"],
+    descriptionParagraphs: [
+      "This modern two-room apartment at 106/2 Ismail Street in Chisinau has been fully renovated. Its bright, updated interior suits both short visits and longer stays.",
+      "The separate bedroom has a double bed, while the spacious living room includes a sofa bed. The apartment accommodates up to 4 guests.",
+      "The kitchen includes a refrigerator, oven, microwave, gas hob and sink, along with cookware and cutlery. The apartment also provides a television, air conditioning, washing machine, bathtub and storage space.",
+    ],
+    audienceItems: ["For couples", "For families and groups of up to 4 guests", "For short or extended stays"],
+    faq: [
+      { question: "How many guests can stay in apartment ID 61?", answer: "The apartment accommodates up to 4 guests." },
+      { question: "What sleeping arrangements are available?", answer: "There is a double bed in the separate bedroom and a sofa bed in the living room." },
+      { question: "What is the nightly price?", answer: "The price is 1000 MDL per night." },
+    ],
+  },
+  uk: {
+    address: "вул. Ізмаїл, 106/2 · Кишинів",
+    title: "Двокімнатна квартира після ремонту на вул. Ізмаїл, 106/2 — ID 61",
+    description: "Сучасна повністю оновлена двокімнатна квартира Premium на вул. Ізмаїл, 106/2 у Кишиневі. Окремі спальня й вітальня, до 4 гостей, обладнана кухня, кондиціонер, пральна машина та ванна. 1000 MDL за добу.",
+    shortDescription: "Повністю оновлена двокімнатна квартира з окремими спальнею та вітальнею для комфортного розміщення до 4 гостей.",
+    aboutTitle: "Оновлена двокімнатна квартира на вул. Ізмаїл, 106/2 · ID 61",
+    typeLabel: "2 окремі кімнати",
+    view: "Окрема спальня + вітальня",
+    features: ["Premium", "2 окремі кімнати", "Окрема спальня", "Окрема вітальня", "До 4 гостей", "Двоспальне ліжко", "Розкладний диван", "Телевізор", "Кондиціонер", "Пральна машина", "Ванна", "Обладнана кухня", "Холодильник", "Духова шафа", "Мікрохвильова піч", "Газова варильна поверхня", "Кухонна мийка", "Посуд і столові прилади", "Місця для зберігання", "Сучасний інтер’єр", "Квартира після ремонту"],
+    descriptionParagraphs: [
+      "Сучасна двокімнатна квартира на вул. Ізмаїл, 106/2 у Кишиневі повністю оновлена після ремонту. Світлий інтер’єр підходить і для коротких візитів, і для тривалішого проживання.",
+      "В окремій спальні встановлено двоспальне ліжко, а у просторій вітальні — розкладний диван. Квартира розрахована на розміщення до 4 гостей.",
+      "Кухня обладнана холодильником, духовою шафою, мікрохвильовою піччю, газовою варильною поверхнею та мийкою; є посуд і столові прилади. Також доступні телевізор, кондиціонер, пральна машина, ванна й місця для зберігання.",
+    ],
+    audienceItems: ["Для пар", "Для сімей і компаній до 4 гостей", "Для коротких і триваліших поїздок"],
+    faq: [
+      { question: "Скільки гостей можна розмістити у квартирі ID 61?", answer: "Квартира розрахована на розміщення до 4 гостей." },
+      { question: "Які спальні місця передбачені?", answer: "В окремій спальні є двоспальне ліжко, а у вітальні — розкладний диван." },
+      { question: "Яка вартість проживання?", answer: "Вартість становить 1000 MDL за добу." },
+    ],
+  },
+  cs: {
+    address: "ulice Ismail 106/2 · Kišiněv",
+    title: "Zrekonstruovaný dvoupokojový apartmán v ulici Ismail 106/2 — ID 61",
+    description: "Moderní kompletně zrekonstruovaný apartmán Premium se 2 pokoji v ulici Ismail 106/2 v Kišiněvě. Samostatná ložnice a obývací pokoj, až 4 hosté, vybavená kuchyň, klimatizace, pračka a vana. 1000 MDL za noc.",
+    shortDescription: "Kompletně zrekonstruovaný dvoupokojový apartmán se samostatnou ložnicí a obývacím pokojem až pro 4 hosty.",
+    aboutTitle: "Zrekonstruovaný dvoupokojový apartmán v ulici Ismail 106/2 · ID 61",
+    typeLabel: "2 samostatné pokoje",
+    view: "Samostatná ložnice + obývací pokoj",
+    features: ["Premium", "2 samostatné pokoje", "Samostatná ložnice", "Samostatný obývací pokoj", "Až 4 hosté", "Manželská postel", "Rozkládací pohovka", "Televize", "Klimatizace", "Pračka", "Vana", "Vybavená kuchyň", "Lednice", "Trouba", "Mikrovlnná trouba", "Plynová varná deska", "Kuchyňský dřez", "Nádobí a příbory", "Úložné prostory", "Moderní interiér", "Apartmán po rekonstrukci"],
+    descriptionParagraphs: [
+      "Moderní dvoupokojový apartmán v ulici Ismail 106/2 v Kišiněvě prošel kompletní rekonstrukcí. Světlý, aktualizovaný interiér je vhodný pro krátké návštěvy i delší pobyty.",
+      "Samostatná ložnice nabízí manželskou postel a prostorný obývací pokoj rozkládací pohovku. Apartmán ubytuje až 4 hosty.",
+      "Kuchyň je vybavena lednicí, troubou, mikrovlnnou troubou, plynovou varnou deskou a dřezem; nechybí nádobí ani příbory. K dispozici je také televize, klimatizace, pračka, vana a úložné prostory.",
+    ],
+    audienceItems: ["Pro páry", "Pro rodiny a skupiny až 4 hostů", "Pro krátké i delší pobyty"],
+    faq: [
+      { question: "Kolik hostů může bydlet v apartmánu ID 61?", answer: "Apartmán ubytuje až 4 hosty." },
+      { question: "Jaká místa na spaní jsou k dispozici?", answer: "V samostatné ložnici je manželská postel a v obývacím pokoji rozkládací pohovka." },
+      { question: "Jaká je cena za noc?", answer: "Cena je 1000 MDL za noc." },
+    ],
+  },
+};
+
 const allNewApartmentCopy: Record<Language, Record<string, ApartmentCopy>> = {
-  ru: { ...apartment15And16Copy.ru, ...newApartmentCopy.ru },
-  ro: { ...apartment15And16Copy.ro, ...newApartmentCopy.ro },
-  en: { ...apartment15And16Copy.en, ...newApartmentCopy.en },
-  uk: { ...apartment15And16Copy.uk, ...newApartmentCopy.uk },
-  cs: { ...apartment15And16Copy.cs, ...newApartmentCopy.cs },
+  ru: { ...apartment15And16Copy.ru, ...newApartmentCopy.ru, "61": apartment61Copy.ru },
+  ro: { ...apartment15And16Copy.ro, ...newApartmentCopy.ro, "61": apartment61Copy.ro },
+  en: { ...apartment15And16Copy.en, ...newApartmentCopy.en, "61": apartment61Copy.en },
+  uk: { ...apartment15And16Copy.uk, ...newApartmentCopy.uk, "61": apartment61Copy.uk },
+  cs: { ...apartment15And16Copy.cs, ...newApartmentCopy.cs, "61": apartment61Copy.cs },
 };
 
 export const newApartmentLocalizations: Record<
   string,
   Record<Language, LocalizedApartmentSeo>
 > = Object.fromEntries(
-  ["15", "16", "200", "201", "202", "203", "204", "205"].map((id) => [
+  ["15", "16", "61", "200", "201", "202", "203", "204", "205"].map((id) => [
     id,
     Object.fromEntries(
       (Object.keys(newApartmentCopy) as Language[]).map((language) => [

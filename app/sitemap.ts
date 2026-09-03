@@ -32,8 +32,8 @@ const routeLastModified: Record<string, Date> = {
 };
 const categoryLastModified = new Date("2026-08-02");
 const apartmentInventoryLastModified = new Date("2026-07-26");
-const newApartmentLastModified = new Date("2026-08-02");
-const newApartmentIds = new Set(["201", "202", "203", "204", "205"]);
+const newApartmentLastModified = new Date("2026-09-03");
+const newApartmentIds = new Set(["61", "201", "202", "203", "204", "205"]);
 
 function absoluteAssetUrl(path: string) {
   return new URL(path, baseUrl).href;
