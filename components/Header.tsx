@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useEffect, useState } from "react";
 import ApartmentIdSearch from "@/components/ApartmentIdSearch";
 import BrandLogo from "@/components/BrandLogo";
+import { useLanguage } from "@/context/LanguageContext";
 import { formatApartmentCountText } from "@/lib/apartments";
+import type { Language } from "@/locales/translations";
 
 type Lang = "RU" | "RO" | "EN" | "CS" | "UK";
-
-const LANG_STORAGE_KEY = "rentplacemd-language";
 
 const headerText: Record<
   Lang,
@@ -93,57 +93,12 @@ const headerText: Record<
   },
 };
 
-function getSavedLanguage(): Lang {
-  return "RU";
-}
-
 function useRentPlaceLanguage() {
-  const [language, setLanguage] = useState<Lang>(() => getSavedLanguage());
-
-  useEffect(() => {
-    const restoreSavedLanguage = window.setTimeout(() => {
-      const urlLanguage = new URLSearchParams(window.location.search)
-        .get("lang")
-        ?.toUpperCase() as Lang | undefined;
-      const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
-      const normalizedSaved =
-        urlLanguage && urlLanguage in headerText
-          ? urlLanguage
-          : (saved?.toUpperCase() as Lang | undefined);
-
-      if (normalizedSaved && normalizedSaved in headerText) {
-        setLanguage(normalizedSaved);
-      }
-    }, 0);
-
-    const handleLanguageChange = (event: Event) => {
-      const customEvent = event as CustomEvent<string>;
-      const nextLanguage = customEvent.detail?.toUpperCase() as Lang | undefined;
-
-      if (nextLanguage && nextLanguage in headerText) {
-        setLanguage(nextLanguage);
-      }
-    };
-
-    window.addEventListener(
-      "rentplacemd-language-change",
-      handleLanguageChange,
-    );
-    return () => {
-      window.clearTimeout(restoreSavedLanguage);
-      window.removeEventListener(
-        "rentplacemd-language-change",
-        handleLanguageChange,
-      );
-    };
-  }, []);
+  const { language: languageCode, setLanguage } = useLanguage();
+  const language = languageCode.toUpperCase() as Lang;
 
   const changeLanguage = (nextLanguage: Lang) => {
-    setLanguage(nextLanguage);
-    window.localStorage.setItem(LANG_STORAGE_KEY, nextLanguage);
-    window.dispatchEvent(
-      new CustomEvent("rentplacemd-language-change", { detail: nextLanguage }),
-    );
+    setLanguage(nextLanguage.toLowerCase() as Language);
   };
 
   return { language, changeLanguage, text: headerText[language] };

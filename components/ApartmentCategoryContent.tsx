@@ -1,9 +1,10 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import ApartmentCard from "@/components/ApartmentCard";
 import { useLanguage } from "@/context/LanguageContext";
+import { apartmentsPageContent } from "@/lib/apartmentsPageContent";
 import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   activeApartments,
@@ -279,9 +280,6 @@ export default function ApartmentCategoryContent({
     return (
       <section className="bg-[#111b2a] px-4 pb-12 pt-6 text-white sm:px-6 sm:pb-16 sm:pt-8 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h1 className="text-3xl font-black leading-tight tracking-[-0.035em] sm:text-4xl">
-            {text.catalogTitle}
-          </h1>
           <p className="mt-4 max-w-3xl rounded-xl border border-[#ffd21f]/35 bg-[#ffd21f]/8 px-4 py-3 text-sm font-bold leading-5 text-white/85">
             {text.discountNotice}
           </p>
@@ -295,7 +293,7 @@ export default function ApartmentCategoryContent({
             ))}
           </div>
           <p className="mx-auto mt-10 max-w-4xl border-t border-white/12 pt-6 text-sm font-medium leading-6 text-white/65 sm:mt-12 sm:text-base sm:leading-7">
-            {text.catalogSummary(apartments.length)}
+            {apartmentsPageContent[language].catalogSummary(apartments.length)}
           </p>
         </div>
       </section>
@@ -346,9 +344,9 @@ export default function ApartmentCategoryContent({
               <span className="h-2 w-2 rounded-full bg-[var(--category-accent)]" aria-hidden="true" />
               RentPlace · {category ? displayCategory(category) : "Chisinau"}
             </div>
-            <h2 className="mt-6 max-w-[17ch] text-balance text-[2.35rem] font-black leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.25rem]">
+            <h1 className="mt-6 max-w-[17ch] text-balance text-[2.35rem] font-black leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.25rem]">
               {category ? text.categoryTitle(displayCategory(category)) : text.allTitle}
-            </h2>
+            </h1>
           </div>
           <p className="max-w-[34rem] text-pretty text-[1.03rem] font-medium leading-7 text-[color:color-mix(in_srgb,var(--category-ink)_68%,transparent)] sm:text-lg sm:leading-8">
             {text.intro}

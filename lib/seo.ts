@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import { apartmentsPageContent } from "@/lib/apartmentsPageContent";
 import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
   formatLocalizedImageAlt,
@@ -106,7 +107,8 @@ export function normalizeSiteLanguage(language?: string): Language {
   return supportedLanguages.includes(language as Language) ? language as Language : "ru";
 }
 
-function localizedUrl(path: string, language: Language) {
+export function localizedUrl(path: string, language: Language) {
+  if (language === "ru") return baseUrl + path;
   return baseUrl + path + (path.includes("?") ? "&" : "?") + "lang=" + language;
 }
 
@@ -116,7 +118,7 @@ export function routeAlternates(path = "", language?: string) {
   return {
     canonical: url,
     languages: {
-      ru: localizedUrl(path, "ru"),
+      ru: baseUrl + path,
       ro: localizedUrl(path, "ro"),
       en: localizedUrl(path, "en"),
       uk: localizedUrl(path, "uk"),
@@ -200,7 +202,7 @@ const categorySeoLanguage: Record<Language, {
 };
 
 const apartmentsPageSeo: Record<Language, { title: string; description: string }> = {
-  ru: { title: "Все квартиры RentPlaceMD в Кишинёве", description: "Каталог квартир RentPlaceMD посуточно в Кишинёве: Эконом, Стандарт, Комфорт и Премиум. Реальные фотографии, актуальные цены, адреса и вместимость." },
+  ru: { title: "Квартиры посуточно в Кишинёве — цены и каталог", description: "Каталог квартир посуточно в Кишинёве: актуальные цены, реальные фотографии, адреса, планировки и вместимость. Выберите вариант и проверьте свободные даты." },
   ro: { title: "Toate apartamentele RentPlaceMD din Chișinău", description: "Catalogul apartamentelor RentPlaceMD în regim hotelier în Chișinău: Economic, Standard, Confort și Premium. Fotografii reale, prețuri actuale, adrese și capacitate." },
   en: { title: "All RentPlaceMD apartments in Chisinau", description: "Browse RentPlaceMD short-stay apartments in Chisinau across Economy, Standard, Comfort and Premium, with real photos, current prices, addresses and guest capacity." },
   uk: { title: "Усі квартири RentPlaceMD у Кишиневі", description: "Каталог квартир RentPlaceMD подобово в Кишиневі: Економ, Стандарт, Комфорт і Преміум. Реальні фотографії, актуальні ціни, адреси та місткість." },
@@ -343,6 +345,18 @@ export function getApartmentCategoryMenuJsonLd(languageInput?: string) {
           url: languageInput ? localizedUrl(path, language) : baseUrl + path,
         };
       }),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: apartmentsPageContent[language].faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
     },
   ];
 }
@@ -493,13 +507,12 @@ function imageObjects(images: string[], getAlt: (index: number) => string) {
   }));
 }
 
-function offerForApartment(apartment: { id: ApartmentId; price: number }) {
+function offerForApartment(apartment: { price: number }, url: string) {
   return {
     "@type": "Offer",
-    url: getApartmentUrl(apartment.id),
+    url,
     price: apartment.price,
     priceCurrency: "MDL",
-    availability: "https://schema.org/InStock",
     priceSpecification: {
       "@type": "PriceSpecification",
       price: apartment.price,
@@ -724,7 +737,7 @@ export function getApartmentJsonLd(
         name: amenityName,
         value: true,
       })),
-      offers: offerForApartment({ id, price: displayedPrice }),
+      offers: offerForApartment({ price: displayedPrice }, url),
       provider: {
         "@id": baseUrl + "/#localbusiness",
       },

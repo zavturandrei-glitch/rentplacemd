@@ -10,6 +10,7 @@ import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
+  localizedUrl,
   routeAlternates,
   siteName,
 } from "@/lib/seo";
@@ -31,7 +32,7 @@ function metadataFor(
   image = mainSocialImageUrl,
   type: "article" | "website" = "article",
 ): Metadata {
-  const url = baseUrl + path + (explicitLanguage ? `?lang=${language}` : "");
+  const url = explicitLanguage ? localizedUrl(path, language) : baseUrl + path;
   const imageUrl = image.startsWith("http") ? image : baseUrl + image;
 
   return {
@@ -97,7 +98,7 @@ export function getDestinationMetadata(slug: DestinationSlug, languageInput?: st
 export function buildDestinationJsonLd(slug: DestinationSlug, languageInput?: string) {
   const language = normalizeSiteLanguage(languageInput);
   const data = destinations[slug];
-  const url = baseUrl + data.path + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(data.path, language) : baseUrl + data.path;
   const parentPath = slug === "orheiul-vechi" ? "/chisinau-guide" : "/guide/wineries";
   const parentName = slug === "orheiul-vechi"
     ? guideUi.hubTitle[language]
@@ -139,7 +140,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
   const language = normalizeSiteLanguage(languageInput);
   const data = guidePages[slug];
   const path = guidePath(slug);
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

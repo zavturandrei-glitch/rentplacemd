@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { cityVideoCategoryLabels, cityVideoUi } from "@/lib/cityVideoContent";
@@ -45,7 +45,7 @@ export default function CityVideoCard({
   return (
     <article className={`${layout === "rail" ? "w-[62vw] max-w-[232px] shrink-0 snap-start" : "w-[62vw] max-w-[232px] shrink-0 snap-start sm:w-full sm:max-w-none"} min-w-0`}>
       <Link
-        href={`${getCityVideoPath(video.slug)}${language === "ru" ? "" : `?lang=${language}`}`}
+        href={getCityVideoPath(video.slug)}
         aria-label={`${copy.actions.play}: ${title}`}
         className="group block overflow-hidden rounded-[20px] bg-[#07111f] text-white shadow-[0_14px_30px_rgba(7,17,31,0.16)] ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(7,17,31,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#d4146f] active:scale-[0.99]"
       >

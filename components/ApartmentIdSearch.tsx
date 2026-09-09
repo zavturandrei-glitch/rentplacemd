@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { getApartmentPathById, normalizeApartmentId } from "@/lib/apartments";
+import { getLocalizedHref } from "@/lib/localizedHref";
 
 type ApartmentIdSearchProps = {
   variant: "hero" | "header";
 };
 
 export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const router = useRouter();
   const [apartmentId, setApartmentId] = useState("");
 
   function openApartmentById() {
@@ -18,7 +21,7 @@ export default function ApartmentIdSearch({ variant }: ApartmentIdSearchProps) {
     const apartmentLink = getApartmentPathById(id);
 
     if (apartmentLink) {
-      window.location.href = apartmentLink;
+      router.push(getLocalizedHref(apartmentLink, language));
       return;
     }
 

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
+import { getLocalizedHref } from "@/lib/localizedHref";
 
 const labels: Record<Language, string> = {
   ru: "← Назад",
@@ -22,7 +23,7 @@ export default function BackButton() {
       return;
     }
 
-    router.push("/");
+    router.push(getLocalizedHref("/", language));
   }
 
   return (

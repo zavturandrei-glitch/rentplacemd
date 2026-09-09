@@ -4,6 +4,7 @@ import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
+  localizedUrl,
   routeAlternates,
   siteName,
 } from "@/lib/seo";
@@ -52,7 +53,7 @@ export function getInfoMetadata(kind: LegacyInfoKind, languageInput?: string): M
   const language = normalizeSiteLanguage(languageInput);
   const item = content[kind][language];
   const path = paths[kind];
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
 
   return {
     title: item.title,
@@ -78,7 +79,7 @@ export function getInfoMetadata(kind: LegacyInfoKind, languageInput?: string): M
 export function getHomeMetadata(languageInput?: string): Metadata {
   const language = normalizeSiteLanguage(languageInput);
   const item = homeContent[language];
-  const url = baseUrl + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl("", language) : baseUrl;
 
   return {
     title: { absolute: item.title },
@@ -105,7 +106,7 @@ export function buildInfoJsonLd(kind: LegacyInfoKind, languageInput?: string) {
   const language = normalizeSiteLanguage(languageInput);
   const item = content[kind][language];
   const path = paths[kind];
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
 
   return [
     {

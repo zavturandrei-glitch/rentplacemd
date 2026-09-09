@@ -8,6 +8,8 @@ import JsonLdScript from "@/components/JsonLdScript";
 import WineriesHub from "@/components/WineriesHub";
 import { guideSlugs, isGuideSlug } from "@/lib/guide";
 import { buildGuideJsonLd, getGuidePageMetadata } from "@/lib/guideSeo";
+import { getLocalizedHref } from "@/lib/localizedHref";
+import { normalizeSiteLanguage } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -33,7 +35,7 @@ export default async function GuidePage({ params, searchParams }: PageProps) {
   if (!isGuideSlug(slug)) notFound();
   const language = first(query.lang);
   if (slug === "events") {
-    permanentRedirect(`/events${language ? `?lang=${language}` : ""}`);
+    permanentRedirect(getLocalizedHref("/events", normalizeSiteLanguage(language)));
   }
 
   return (

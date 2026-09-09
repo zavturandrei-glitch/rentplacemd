@@ -1,8 +1,10 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Language, translations } from "@/locales/translations";
+import { getLanguageSwitchHref } from "@/lib/localizedHref";
 
 type LanguageContextValue = {
   language: Language;
@@ -34,55 +36,34 @@ export function LanguageProvider({
   documentLanguage?: Language;
 }) {
   const [language, setLanguageState] = useState<Language>(initialLanguage);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const restoreSavedLanguage = window.setTimeout(() => {
-      const urlLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get("lang"));
-      const savedLanguage = urlLanguage ?? normalizeLanguage(
-        window.localStorage.getItem("rentplacemd-language")
-      );
-
-      if (savedLanguage) {
-        setLanguageState(savedLanguage);
-        window.localStorage.setItem("rentplacemd-language", savedLanguage);
-      }
-    }, 0);
-
-    function handleLanguageChange(event: Event) {
-      const nextLanguage = normalizeLanguage(
-        (event as CustomEvent<string>).detail ?? null
-      );
-
-      if (nextLanguage) {
-        setLanguageState(nextLanguage);
-        window.localStorage.setItem("rentplacemd-language", nextLanguage);
-      }
-    }
-
-    window.addEventListener("rentplacemd-language-change", handleLanguageChange);
-
-    return () => {
-      window.clearTimeout(restoreSavedLanguage);
-      window.removeEventListener("rentplacemd-language-change", handleLanguageChange);
+    const syncLanguageFromHistory = () => {
+      const urlLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get("lang")) ?? "ru";
+      setLanguageState(urlLanguage);
+      window.localStorage.setItem("rentplacemd-language", urlLanguage);
     };
+
+    window.addEventListener("popstate", syncLanguageFromHistory);
+    return () => window.removeEventListener("popstate", syncLanguageFromHistory);
   }, []);
 
   function setLanguage(nextLanguage: Language) {
     setLanguageState(nextLanguage);
     window.localStorage.setItem("rentplacemd-language", nextLanguage);
-    window.dispatchEvent(
-      new CustomEvent("rentplacemd-language-change", { detail: nextLanguage })
+    router.replace(
+      getLanguageSwitchHref(pathname, window.location.search, nextLanguage),
+      { scroll: false },
     );
   }
 
-  const value = useMemo(
-    () => ({
-      language,
-      setLanguage,
-      t: translations[language],
-    }),
-    [language]
-  );
+  const value = {
+    language,
+    setLanguage,
+    t: translations[language],
+  };
 
   useEffect(() => {
     document.documentElement.lang = documentLanguage ?? language;

@@ -4,6 +4,7 @@ import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
+  localizedUrl,
   routeAlternates,
   siteName,
 } from "@/lib/seo";
@@ -343,7 +344,7 @@ export function getOwnersWhatsappHref(language: Language) {
 export function getOwnersMetadata(languageInput?: string): Metadata {
   const language = normalizeSiteLanguage(languageInput);
   const content = ownersContent[language];
-  const url = baseUrl + ownersPath + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(ownersPath, language) : baseUrl + ownersPath;
 
   return {
     title: { absolute: content.seo.title },
@@ -371,7 +372,7 @@ export function getOwnersMetadata(languageInput?: string): Metadata {
 export function buildOwnersJsonLd(languageInput?: string) {
   const language = normalizeSiteLanguage(languageInput);
   const content = ownersContent[language];
-  const url = baseUrl + ownersPath + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(ownersPath, language) : baseUrl + ownersPath;
 
   return [
     {

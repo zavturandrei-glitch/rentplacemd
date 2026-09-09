@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import CityVideoCard from "@/components/CityVideoCard";
 import { useLanguage } from "@/context/LanguageContext";
 import { cityVideosPath, cityVideoUi } from "@/lib/cityVideoContent";
@@ -10,7 +10,7 @@ export default function CityVideoRail({ videos, placement }: { videos: CityVideo
   const { language } = useLanguage();
   const copy = cityVideoUi[language][placement];
   if (videos.length === 0) return null;
-  const href = `${cityVideosPath}?lang=${language}`;
+  const href = cityVideosPath;
 
   return (
     <section className={placement === "home" ? "bg-[#0a1525] px-4 py-8 text-white sm:px-6 sm:py-12 lg:px-8" : "mt-14 rounded-[26px] bg-[#07111f] px-5 py-8 text-white sm:px-8 sm:py-10"}>

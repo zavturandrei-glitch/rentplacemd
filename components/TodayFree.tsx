@@ -240,9 +240,9 @@ export default function TodayFree({ selectedClass }: { selectedClass?: Apartment
         <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             {selectedClass ? (
-              <h1 className="text-3xl font-black leading-tight text-white sm:text-5xl">
+              <p className="text-3xl font-black leading-tight text-white sm:text-5xl">
                 {selectedCategoryText?.title ?? text.title}
-              </h1>
+              </p>
             ) : (
               <h2 className="text-4xl font-black leading-tight text-[#d4146f] sm:text-5xl">
                 {text.title}

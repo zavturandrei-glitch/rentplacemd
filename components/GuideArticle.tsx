@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useEffect } from "react";
 import EventsCalendar from "@/components/EventsCalendar";
 import { useLanguage } from "@/context/LanguageContext";

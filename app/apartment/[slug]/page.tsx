@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ApartmentDetails, {
-  type ApartmentLocalizedSeoPayload,
-} from "@/components/ApartmentDetails";
+import ApartmentDetails from "@/components/ApartmentDetails";
 import JsonLdScript from "@/components/JsonLdScript";
 import {
   apartmentDetailsById,
   activeApartments,
   getActiveApartmentBySlug,
 } from "@/lib/apartments";
+import { getApartmentSeoLanguage } from "@/lib/apartmentLocalization";
 import {
-  getApartmentSeoLanguage,
-  hasApartmentLocalization,
-} from "@/lib/apartmentLocalization";
-import {
-  buildApartmentDescription,
-  buildApartmentTitle,
   getApartmentJsonLd,
   getApartmentMetadata,
 } from "@/lib/seo";
@@ -66,28 +59,13 @@ export default async function ApartmentPage({ params, searchParams }: ApartmentP
     language,
     typeof lang === "string" && language !== "ru",
   );
-  const languages: Language[] = ["ru", "ro", "en", "uk", "cs"];
-  const localizedSeo = Object.fromEntries(
-    languages.map((language) => [
-      language,
-      {
-        title: buildApartmentTitle(apartment.id, language),
-        description: buildApartmentDescription(apartment.id, language),
-        jsonLd: getApartmentJsonLd(apartment.id, language),
-      },
-    ]),
-  ) as ApartmentLocalizedSeoPayload;
-
   return (
     <>
       <JsonLdScript
         id={"apartment-" + apartment.id + "-jsonld"}
         data={jsonLd}
       />
-      <ApartmentDetails
-        apartment={apartmentDetailsById[String(apartment.id)]}
-        localizedSeo={hasApartmentLocalization(apartment.id) ? localizedSeo : undefined}
-      />
+      <ApartmentDetails apartment={apartmentDetailsById[String(apartment.id)]} />
     </>
   );
 }

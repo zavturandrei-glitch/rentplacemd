@@ -14,6 +14,7 @@ import {
 import { getCityVideoEmbedUrl, getCityVideoThumbnail } from "@/lib/cityVideoTypes";
 import { readPublishedCityVideoBySlug } from "@/lib/cityVideoStore";
 import { normalizeSiteLanguage } from "@/lib/seo";
+import { getLocalizedHref } from "@/lib/localizedHref";
 
 export const dynamic = "force-dynamic";
 
@@ -52,7 +53,6 @@ export default async function CityVideoWatchPage({ params, searchParams }: PageP
   const thumbnail = getCityVideoThumbnail(video);
   const embedUrl = getCityVideoEmbedUrl(video);
   if (!thumbnail || !embedUrl) notFound();
-  const localizedSuffix = languageInput ? `?lang=${language}` : "";
   const eventDate = new Intl.DateTimeFormat(dateLocales[language], {
     day: "numeric",
     month: "long",
@@ -67,7 +67,7 @@ export default async function CityVideoWatchPage({ params, searchParams }: PageP
       <Header />
       <article className="px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          <Link href={`/chisinau-videos${localizedSuffix}`} className="inline-flex min-h-11 items-center rounded-xl border border-black/10 bg-white px-4 text-sm font-black shadow-sm">
+          <Link href={getLocalizedHref("/chisinau-videos", language)} className="inline-flex min-h-11 items-center rounded-xl border border-black/10 bg-white px-4 text-sm font-black shadow-sm">
             ← {copy.back}
           </Link>
 

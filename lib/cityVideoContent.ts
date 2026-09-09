@@ -10,6 +10,7 @@ import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
+  localizedUrl,
   routeAlternates,
   siteName,
 } from "@/lib/seo";
@@ -250,7 +251,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
 export function getCityVideoMetadata(languageInput?: string): Metadata {
   const language = normalizeSiteLanguage(languageInput);
   const copy = cityVideoUi[language].seo;
-  const url = baseUrl + cityVideosPath + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(cityVideosPath, language) : baseUrl + cityVideosPath;
   return {
     title: { absolute: copy.title },
     description: copy.description,
@@ -288,7 +289,7 @@ export function getCityVideoMetadata(languageInput?: string): Metadata {
 export function buildCityVideoPageJsonLd(languageInput?: string, videos: CityVideo[] = []) {
   const language = normalizeSiteLanguage(languageInput);
   const copy = cityVideoUi[language].seo;
-  const url = baseUrl + cityVideosPath + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(cityVideosPath, language) : baseUrl + cityVideosPath;
   const itemListId = `${url}#videos`;
   const lastUpdated = videos.reduce<string | null>(
     (latest, video) => !latest || video.updatedAt > latest ? video.updatedAt : latest,
@@ -348,7 +349,7 @@ export function getCityVideoWatchMetadata(
 ): Metadata {
   const language = normalizeSiteLanguage(languageInput);
   const path = getCityVideoPath(video.slug);
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
   const titleSuffix: Record<Language, string> = {
     ru: "видео о Кишинёве",
     ro: "videoclip despre Chișinău",
@@ -392,7 +393,7 @@ export function buildCityVideoWatchJsonLd(
 ) {
   const language = normalizeSiteLanguage(languageInput);
   const path = getCityVideoPath(video.slug);
-  const url = baseUrl + path + (languageInput ? `?lang=${language}` : "");
+  const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
   const thumbnail = getCityVideoAbsoluteThumbnail(video);
   const embedUrl = getCityVideoEmbedUrl(video);
   if (!thumbnail || !embedUrl) return [];

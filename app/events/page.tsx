@@ -9,6 +9,7 @@ import { buildGuideJsonLd } from "@/lib/guideSeo";
 import { getGuidePageMetadata } from "@/lib/guideSeo";
 import { readPublishedCityVideos } from "@/lib/cityVideoStore";
 import { getChisinauDateKey } from "@/lib/chisinauDate";
+import { localizedUrl, normalizeSiteLanguage } from "@/lib/seo";
 
 type PageProps = { searchParams: Promise<{ lang?: string | string[] }> };
 
@@ -18,7 +19,9 @@ function first(value?: string | string[]) {
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const query = await searchParams;
-  const metadata = getGuidePageMetadata("events", first(query.lang));
+  const languageInput = first(query.lang);
+  const language = normalizeSiteLanguage(languageInput);
+  const metadata = getGuidePageMetadata("events", languageInput);
   return {
     ...metadata,
     robots: {
@@ -38,7 +41,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     },
     openGraph: {
       ...metadata.openGraph,
-      url: `https://rentplace.md/events${first(query.lang) ? `?lang=${first(query.lang)}` : ""}`,
+      url: languageInput ? localizedUrl("/events", language) : "https://rentplace.md/events",
       images: [{ url: `https://rentplace.md${guidePages.events.image}`, alt: guidePages.events.title.ru }],
     },
   };

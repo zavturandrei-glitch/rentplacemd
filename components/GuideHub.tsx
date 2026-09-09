@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { guidePages, guideUi } from "@/lib/guide";
@@ -36,7 +36,7 @@ const videoLabels = {
 export default function GuideHub() {
   const { language } = useLanguage();
   useEffect(() => { document.title = `${guideUi.hubTitle[language]} | RentPlaceMD`; }, [language]);
-  const href = (path: string) => `${path}?lang=${language}`;
+  const href = (path: string) => path;
 
   return (
     <section className="bg-[#f5f1e8] px-4 pb-20 pt-8 text-[#15231d] sm:px-6 lg:px-8">

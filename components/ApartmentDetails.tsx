@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
-import Link from "next/link";
+import { useMemo } from "react";
+import Link from "@/components/LocalizedLink";
 import ApartmentGallery from "@/components/ApartmentGallery";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
@@ -52,11 +52,6 @@ export type ApartmentDetailsData = {
   features?: string[];
   galleryLayout?: "standard" | "extended";
 };
-
-export type ApartmentLocalizedSeoPayload = Record<
-  Language,
-  { title: string; description: string; jsonLd: unknown }
->;
 
 type PageCopy = {
   back: string;
@@ -357,10 +352,8 @@ function getRelatedApartments(apartment: ApartmentDetailsData) {
 
 export default function ApartmentDetails({
   apartment,
-  localizedSeo,
 }: {
   apartment: ApartmentDetailsData;
-  localizedSeo?: ApartmentLocalizedSeoPayload;
 }) {
   const { language } = useLanguage();
   const text = pageCopy[language];
@@ -430,6 +423,18 @@ export default function ApartmentDetails({
     ]),
   ).slice(0, 7);
   const nearbyItems = localizedApartment?.nearbyItems?.slice(0, 4) ?? [];
+  const apartmentIntro = language === "ru"
+    ? apartment.intro
+    : localizedApartment?.shortDescription ?? apartment.intro;
+  const apartmentAboutTitle = language === "ru"
+    ? apartment.aboutTitle
+    : localizedApartment?.aboutTitle ?? apartment.aboutTitle;
+  const apartmentDescriptionParagraphs = (language === "ru"
+    ? apartment.descriptionParagraphs
+    : localizedApartment?.descriptionParagraphs ?? apartment.descriptionParagraphs
+  )?.filter((paragraph) => paragraph.trim() && paragraph.trim() !== apartmentIntro?.trim()) ?? [];
+  const visibleDescriptionParagraphs = apartmentDescriptionParagraphs.slice(0, 2);
+  const additionalDescriptionParagraphs = apartmentDescriptionParagraphs.slice(2);
   const relatedApartments = useMemo(
     () => getRelatedApartments(apartment),
     [apartment],
@@ -461,39 +466,6 @@ export default function ApartmentDetails({
   const whatsappLink =
     "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
 
-  useEffect(() => {
-    const seo = localizedSeo?.[language];
-    if (!seo) return;
-
-    const localizedTitle = `${seo.title} | RentPlaceMD`;
-    document.title = localizedTitle;
-    const observer = new MutationObserver(() => {
-      if (document.title !== localizedTitle) document.title = localizedTitle;
-    });
-    observer.observe(document.head, {
-      childList: true,
-      characterData: true,
-      subtree: true,
-    });
-
-    const updateMeta = (selector: string, content: string) => {
-      document
-        .querySelector<HTMLMetaElement>(selector)
-        ?.setAttribute("content", content);
-    };
-    updateMeta('meta[name="description"]', seo.description);
-    updateMeta('meta[property="og:title"]', seo.title);
-    updateMeta('meta[property="og:description"]', seo.description);
-    updateMeta('meta[name="twitter:title"]', seo.title);
-    updateMeta('meta[name="twitter:description"]', seo.description);
-    const jsonLdScript = document.getElementById(
-      `apartment-${apartment.id}-jsonld`,
-    );
-    if (jsonLdScript) jsonLdScript.textContent = JSON.stringify(seo.jsonLd);
-
-    return () => observer.disconnect();
-  }, [apartment.id, language, localizedSeo]);
-
   return (
     <main className="min-h-screen bg-[#111b2a] text-[#07111f]">
       <Header apartmentId={apartment.id} />
@@ -502,7 +474,7 @@ export default function ApartmentDetails({
       <div className="mx-auto mt-3 max-w-[1180px] rounded-t-[24px] bg-[#f7f4ee] px-3 pb-28 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pb-16">
         <nav
           aria-label="Breadcrumb"
-          className="mb-4 hidden items-center gap-2 text-sm font-bold text-slate-500 md:flex"
+          className="mb-4 flex items-center gap-2 overflow-hidden text-xs font-bold text-slate-500 sm:text-sm"
         >
           <Link href="/apartments" className="hover:text-[#d4146f]">
             {text.back}
@@ -576,6 +548,33 @@ export default function ApartmentDetails({
                 </li>
               ))}
             </ul>
+          </section>
+        ) : null}
+
+        {apartmentIntro || apartmentDescriptionParagraphs.length > 0 ? (
+          <section className="border-b border-[#07111f]/10 py-6 sm:py-8" aria-labelledby="apartment-about-title">
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#d4146f]">{text.about}</p>
+            <h2 id="apartment-about-title" className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+              {apartmentAboutTitle ?? `${text.about}: ${locationTitle}`}
+            </h2>
+            {apartmentIntro ? (
+              <p className="mt-4 max-w-4xl text-base font-semibold leading-7 text-slate-700">{apartmentIntro}</p>
+            ) : null}
+            {apartmentDescriptionParagraphs.length > 0 ? (
+              <div className="mt-4 max-w-4xl space-y-3 text-sm font-medium leading-6 text-slate-600 sm:text-base sm:leading-7">
+                {visibleDescriptionParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {additionalDescriptionParagraphs.length > 0 ? (
+                  <details className="group rounded-2xl border border-[#07111f]/10 bg-slate-50 px-4 py-3">
+                    <summary className="cursor-pointer list-none font-black text-[#07111f] marker:hidden">
+                      {text.moreDescription}
+                    </summary>
+                    <div className="mt-3 space-y-3">
+                      {additionalDescriptionParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                    </div>
+                  </details>
+                ) : null}
+              </div>
+            ) : null}
           </section>
         ) : null}
 

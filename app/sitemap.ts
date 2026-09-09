@@ -46,7 +46,7 @@ function uniqueAssetUrls(paths: readonly string[]) {
 function languageAlternates(path: string) {
   return {
     languages: {
-      ru: baseUrl + path + "?lang=ru",
+      ru: baseUrl + path,
       ro: baseUrl + path + "?lang=ro",
       en: baseUrl + path + "?lang=en",
       uk: baseUrl + path + "?lang=uk",

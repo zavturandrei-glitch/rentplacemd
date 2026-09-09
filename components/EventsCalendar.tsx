@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import {
@@ -386,7 +386,7 @@ export default function EventsCalendar() {
                 <p className="mt-2 font-semibold">{event.title[language]}</p>
                 <p className="mt-2 text-sm text-slate-500">{event.venue[language]}</p>
                 <p className="mt-3 text-xs font-semibold text-[#d4146f]">{text.demandDates}: {formatDate(event.demandStart, language)}–{formatDate(event.demandEnd, language)}</p>
-                <Link href={`/apartments?lang=${language}`} className="mt-4 inline-flex min-h-10 items-center text-sm font-semibold text-[#07111f] underline decoration-[#d4146f]/40 underline-offset-4">{text.apartments} →</Link>
+                <Link href="/apartments" className="mt-4 inline-flex min-h-10 items-center text-sm font-semibold text-[#07111f] underline decoration-[#d4146f]/40 underline-offset-4">{text.apartments} →</Link>
               </div>
             ))}
           </div>
@@ -487,7 +487,7 @@ export default function EventsCalendar() {
                     >
                       {text.details} ↗
                     </a>
-                    <Link href={`/apartments?lang=${language}`} className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-4 text-sm font-semibold transition hover:border-[#d4146f] hover:text-[#d4146f]">
+                    <Link href="/apartments" className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-4 text-sm font-semibold transition hover:border-[#d4146f] hover:text-[#d4146f]">
                       {text.apartments}
                     </Link>
                   </div>
@@ -512,7 +512,7 @@ export default function EventsCalendar() {
         <h2 className="text-3xl font-semibold">{text.ctaTitle}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-white/80">{text.ctaText}</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <Link href={`/apartments?lang=${language}`} className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">{text.apartments}</Link>
+          <Link href="/apartments" className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">{text.apartments}</Link>
           <a href="https://wa.me/37369990190" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/40 px-6 text-sm font-semibold">{text.contact}</a>
         </div>
       </section>

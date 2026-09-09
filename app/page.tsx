@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import HomeCommercialIntro from "@/components/HomeCommercialIntro";
 import HomeLatestApartments from "@/components/HomeLatestApartments";
 import HomeNavigation from "@/components/HomeNavigation";
 import LocationMap from "@/components/LocationMap";
@@ -28,6 +29,7 @@ export default async function Home() {
     <main className="min-h-screen overflow-x-clip bg-[#07111f]">
       <Header />
       <Hero />
+      <HomeCommercialIntro />
       <HomeNavigation />
       <HomeLatestApartments />
       <CityVideoRail videos={homeVideos} placement="home" />

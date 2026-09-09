@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import {
@@ -198,7 +198,7 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
                 </div>
                 <div className="mt-6 flex flex-col gap-2 sm:flex-row">
                   <a href={event.ticketUrl ?? event.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#07111f] px-5 text-sm font-semibold text-white transition hover:bg-[#d4146f]">{ui.details} ↗</a>
-                  <Link href={`/apartments?lang=${language}`} className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-5 text-sm font-semibold">{ui.apartments}</Link>
+                  <Link href="/apartments" className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 px-5 text-sm font-semibold">{ui.apartments}</Link>
                 </div>
               </article>
             ))}
@@ -209,7 +209,7 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
       <section className="mt-12 rounded-[26px] bg-[#d4146f] p-6 text-white sm:p-10">
         <h2 className="text-3xl font-semibold">{ui.ctaTitle}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-white/80">{ui.ctaText}</p>
-        <Link href={`/apartments?lang=${language}`} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">
+        <Link href="/apartments" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#07111f]">
           {ui.apartments}
         </Link>
       </section>

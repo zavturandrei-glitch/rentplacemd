@@ -5,6 +5,7 @@ import {
   baseUrl,
   mainSocialImageUrl,
   normalizeSiteLanguage,
+  localizedUrl,
   routeAlternates,
   siteName,
 } from "@/lib/seo";
@@ -135,7 +136,7 @@ export function getEventMonthSeo(monthKey: string, languageInput?: string) {
 export function getEventMonthMetadata(monthKey: string, languageInput?: string): Metadata {
   const seo = getEventMonthSeo(monthKey, languageInput);
   const path = eventMonthPath(monthKey);
-  const url = baseUrl + path + (languageInput ? `?lang=${seo.language}` : "");
+  const url = languageInput ? localizedUrl(path, seo.language) : baseUrl + path;
   return {
     title: { absolute: `${seo.title} | ${siteName}` },
     description: seo.description,
@@ -165,7 +166,7 @@ function eventDateTime(date: string, time?: string) {
 export function buildEventMonthJsonLd(monthKey: string, languageInput?: string) {
   const seo = getEventMonthSeo(monthKey, languageInput);
   const path = eventMonthPath(monthKey);
-  const pageUrl = baseUrl + path + (languageInput ? `?lang=${seo.language}` : "");
+  const pageUrl = languageInput ? localizedUrl(path, seo.language) : baseUrl + path;
   const events = getEventsForMonth(monthKey).filter(isEventEligibleForStructuredData);
 
   return [

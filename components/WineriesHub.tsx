@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
 import { destinationUi, destinations, winerySlugs } from "@/lib/moldovaDestinations";
 
@@ -26,7 +26,7 @@ export default function WineriesHub() {
   const { language } = useLanguage();
   const featured = destinations.cricova;
   const others = winerySlugs.slice(1);
-  const href = (path: string) => `${path}?lang=${language}`;
+  const href = (path: string) => path;
 
   return (
     <section className="bg-[#f5f1e8] px-4 pb-20 pt-8 text-[#15231d] sm:px-6 lg:px-8">

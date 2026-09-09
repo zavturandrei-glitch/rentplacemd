@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import {
@@ -9,6 +9,7 @@ import {
   type ApartmentClass,
 } from "@/lib/apartments";
 import type { Language } from "@/locales/translations";
+import { getLocalizedHref } from "@/lib/localizedHref";
 
 const textByLanguage: Record<
   Language,
@@ -87,7 +88,10 @@ export default function ApartmentCategoryNav({
               value={currentClass ?? "all"}
               onChange={(event) => {
                 const category = event.target.value as ApartmentClass | "all";
-                router.push(category === "all" ? "/apartments" : getApartmentCategoryPath(category));
+                router.push(getLocalizedHref(
+                  category === "all" ? "/apartments" : getApartmentCategoryPath(category),
+                  language,
+                ));
               }}
               className="min-w-0 bg-transparent py-2 text-sm font-black text-[#07111f] outline-none"
               aria-label={text.category}
@@ -99,6 +103,15 @@ export default function ApartmentCategoryNav({
             </select>
           </label>
         </div>
+        {currentClass ? (
+          <nav aria-label="Breadcrumb" className="mt-4 flex items-center gap-2 text-xs font-bold text-white/55 sm:text-sm">
+            <Link href="/" className="transition hover:text-[#ffd21f]">{text.home}</Link>
+            <span aria-hidden="true">/</span>
+            <Link href="/apartments" className="transition hover:text-[#ffd21f]">{text.allApartments}</Link>
+            <span aria-hidden="true">/</span>
+            <span className="text-white">{text.categories[currentClass]}</span>
+          </nav>
+        ) : null}
       </div>
     </section>
   );
