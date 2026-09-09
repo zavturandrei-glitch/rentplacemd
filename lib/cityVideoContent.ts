@@ -49,6 +49,7 @@ export type CityVideoUi = {
     events: string;
     guide: string;
     apartments: string;
+    centerApartments: string;
     attractions: string;
   };
   actions: { play: string; original: string; related: string };
@@ -85,6 +86,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       events: "Календарь событий",
       guide: "Гид по Кишинёву",
       apartments: "Квартиры посуточно",
+      centerApartments: "Квартиры в центре Кишинёва",
       attractions: "Достопримечательности",
     },
     actions: { play: "Смотреть видео", original: "Открыть оригинал", related: "Подробнее о событии" },
@@ -123,6 +125,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       events: "Calendar de evenimente",
       guide: "Ghidul Chișinăului",
       apartments: "Apartamente în regim hotelier",
+      centerApartments: "Apartamente în centrul Chișinăului",
       attractions: "Atracții turistice",
     },
     actions: { play: "Redă videoclipul", original: "Deschide originalul", related: "Detalii despre eveniment" },
@@ -161,6 +164,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       events: "Events calendar",
       guide: "Chisinau guide",
       apartments: "Short-stay apartments",
+      centerApartments: "Apartments in central Chisinau",
       attractions: "Attractions",
     },
     actions: { play: "Play video", original: "Open original", related: "Event details" },
@@ -199,6 +203,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       events: "Календар подій",
       guide: "Гід по Кишиневу",
       apartments: "Квартири подобово",
+      centerApartments: "Квартири в центрі Кишинева",
       attractions: "Визначні місця",
     },
     actions: { play: "Дивитися відео", original: "Відкрити оригінал", related: "Докладніше про подію" },
@@ -237,6 +242,7 @@ export const cityVideoUi: Record<Language, CityVideoUi> = {
       events: "Kalendář akcí",
       guide: "Průvodce Kišiněvem",
       apartments: "Krátkodobé ubytování",
+      centerApartments: "Apartmány v centru Kišiněva",
       attractions: "Památky",
     },
     actions: { play: "Přehrát video", original: "Otevřít originál", related: "Podrobnosti o akci" },

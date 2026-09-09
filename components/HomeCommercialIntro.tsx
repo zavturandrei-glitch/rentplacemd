@@ -3,6 +3,8 @@
 import Link from "@/components/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
 import { activeApartmentCount } from "@/lib/apartments";
+import { centerApartments } from "@/lib/apartmentDistricts";
+import { centerApartmentsContent } from "@/lib/centerApartmentsContent";
 import type { Language } from "@/locales/translations";
 
 const copy: Record<Language, { title: string; text: (count: number) => string; cta: string }> = {
@@ -36,6 +38,7 @@ const copy: Record<Language, { title: string; text: (count: number) => string; c
 export default function HomeCommercialIntro() {
   const { language } = useLanguage();
   const text = copy[language];
+  const centerCopy = centerApartmentsContent[language];
 
   return (
     <section className="bg-[#07111f] px-4 pb-8 text-white sm:px-6 sm:pb-12 lg:px-8">
@@ -47,6 +50,15 @@ export default function HomeCommercialIntro() {
         <Link href="/apartments" className="mt-5 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#ffd21f] px-5 text-sm font-black text-[#07111f] shadow-lg shadow-yellow-400/10">
           {text.cta}
         </Link>
+        <div className="mt-6 border-t border-white/10 pt-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+          <div>
+            <h3 className="text-lg font-black">{centerCopy.homeTitle}</h3>
+            <p className="mt-1 text-sm font-medium leading-6 text-white/65">{centerCopy.homeText(centerApartments.length)}</p>
+          </div>
+          <Link href="/apartments/center" className="mt-4 inline-flex min-h-11 shrink-0 items-center rounded-xl border border-white/20 px-4 text-sm font-black text-white transition hover:border-[#ffd21f] hover:text-[#ffd21f] sm:mt-0">
+            {centerCopy.homeLink} →
+          </Link>
+        </div>
       </div>
     </section>
   );

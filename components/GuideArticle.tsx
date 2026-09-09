@@ -16,32 +16,43 @@ const apartmentRelevantGuides = new Set<GuideSlug>([
   "attractions",
   "restaurants",
 ]);
+const centerRelevantGuides = new Set<GuideSlug>([
+  "walking-tours",
+  "museums",
+  "attractions",
+  "restaurants",
+]);
 
-const apartmentCta: Record<Language, { title: string; body: string; link: string }> = {
+const apartmentCta: Record<Language, { title: string; body: string; link: string; centerLink: string }> = {
   ru: {
     title: "Нужна квартира на время поездки?",
     body: "Сравните опубликованные варианты по классу, цене, планировке и фотографиям.",
     link: "Открыть каталог квартир",
+    centerLink: "Квартиры в центре Кишинёва",
   },
   ro: {
     title: "Ai nevoie de un apartament pentru călătorie?",
     body: "Compară opțiunile publicate după clasă, preț, compartimentare și fotografii.",
     link: "Deschide catalogul de apartamente",
+    centerLink: "Apartamente în centrul Chișinăului",
   },
   en: {
     title: "Need an apartment for your visit?",
     body: "Compare the published options by class, price, layout and photos.",
     link: "Open the apartment catalogue",
+    centerLink: "Apartments in central Chisinau",
   },
   uk: {
     title: "Потрібна квартира на час поїздки?",
     body: "Порівняйте опубліковані варіанти за класом, ціною, плануванням і фотографіями.",
     link: "Відкрити каталог квартир",
+    centerLink: "Квартири в центрі Кишинева",
   },
   cs: {
     title: "Potřebujete apartmán během návštěvy?",
     body: "Porovnejte zveřejněné nabídky podle třídy, ceny, dispozice a fotografií.",
     link: "Otevřít katalog apartmánů",
+    centerLink: "Apartmány v centru Kišiněva",
   },
 };
 
@@ -144,12 +155,19 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
             <h2 className="text-xl font-black sm:text-2xl">{apartmentCta[language].title}</h2>
             <p className="mt-2 leading-7 text-white/75">{apartmentCta[language].body}</p>
           </div>
-          <Link
-            href="/apartments"
-            className="mt-5 inline-flex min-h-11 shrink-0 items-center rounded-full bg-[#ffd21f] px-5 text-sm font-black text-[#07111f] transition hover:bg-white sm:mt-0"
-          >
-            {apartmentCta[language].link} →
-          </Link>
+          <div className="mt-5 flex shrink-0 flex-col gap-2 sm:mt-0">
+            <Link
+              href="/apartments"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#ffd21f] px-5 text-sm font-black text-[#07111f] transition hover:bg-white"
+            >
+              {apartmentCta[language].link} →
+            </Link>
+            {centerRelevantGuides.has(slug) ? (
+              <Link href="/apartments/center" className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/25 px-5 text-sm font-black text-white transition hover:border-[#ffd21f] hover:text-[#ffd21f]">
+                {apartmentCta[language].centerLink} →
+              </Link>
+            ) : null}
+          </div>
         </aside>
       ) : null}
 

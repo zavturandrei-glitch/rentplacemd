@@ -83,10 +83,11 @@ export default function CityVideoLibrary({ videos, featuredEvent }: { videos: Ci
       <section className="bg-[#efeee9] px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-2xl font-black tracking-[-0.03em] text-[#07111f] sm:text-3xl">{copy.linksTitle}</h2>
-          <nav className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label={copy.linksTitle}>
+          <nav className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" aria-label={copy.linksTitle}>
             <InternalLink href="/events" label={copy.events} />
             <InternalLink href="/chisinau-guide" label={copy.guide} />
             <InternalLink href="/apartments" label={copy.apartments} />
+            <InternalLink href="/apartments/center" label={copy.centerApartments} />
             <InternalLink href="/guide/attractions" label={copy.attractions} />
           </nav>
           <div className="mt-10 max-w-3xl border-t border-[#07111f]/10 pt-8">

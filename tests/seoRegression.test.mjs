@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
@@ -75,4 +75,59 @@ test("apartment offers do not claim static availability and use the canonical UR
   assert.doesNotMatch(offer, /availability/);
   assert.match(offer, /url,/);
   assert.match(seo, /offerForApartment\(\{ price: displayedPrice \}, url\)/);
+});
+
+test("the central Chisinau landing has server metadata, one H1 and a real inventory grid", async () => {
+  const [page, landing, districts, seo] = await Promise.all([
+    read("app/apartments/center/page.tsx"),
+    read("components/CenterApartmentsLanding.tsx"),
+    read("lib/apartmentDistricts.ts"),
+    read("lib/seo.ts"),
+  ]);
+
+  assert.match(page, /getCenterApartmentsMetadata/);
+  assert.match(page, /getCenterApartmentsJsonLd/);
+  assert.equal((landing.match(/<h1\b/g) ?? []).length, 1);
+  assert.match(landing, /centerApartments\.map/);
+  assert.match(districts, /verifiedCenterAddressFragments/);
+  assert.match(seo, /"@type": "ItemList"/);
+  assert.match(seo, /routeAlternates\(centerApartmentsPath, languageInput\)/);
+});
+
+test("Botanica is not published as a thin district landing", async () => {
+  await assert.rejects(access(new URL("../app/apartments/botanica/page.tsx", import.meta.url)));
+  const districts = await read("lib/apartmentDistricts.ts");
+  assert.match(districts, /botanicaApartments/);
+  assert.match(districts, /Cuza Vodă 1\/2/);
+});
+
+test("the center landing is localized in navigation and sitemap without a Russian duplicate", async () => {
+  const [catalog, home, details, guide, videos, sitemap] = await Promise.all([
+    read("components/ApartmentDistrictLinks.tsx"),
+    read("components/HomeCommercialIntro.tsx"),
+    read("components/ApartmentDetails.tsx"),
+    read("components/GuideArticle.tsx"),
+    read("components/CityVideoLibrary.tsx"),
+    read("app/sitemap.ts"),
+  ]);
+
+  for (const source of [catalog, home, details, guide, videos]) {
+    assert.match(source, /href="\/apartments\/center"/);
+  }
+  assert.match(sitemap, /centerApartmentsPath/);
+  assert.doesNotMatch(sitemap, /\?lang=ru/);
+});
+
+test("events retain a contextual commercial path to the apartment catalogue", async () => {
+  const [events, month] = await Promise.all([
+    read("components/EventsCalendar.tsx"),
+    read("components/EventMonthPage.tsx"),
+  ]);
+
+  assert.match(events, /Приезжаете на концерт или фестиваль/);
+  assert.match(events, /Квартиры посуточно в Кишинёве/);
+  assert.match(month, /Планируете поездку на событие/);
+  assert.match(month, /Квартиры посуточно в Кишинёве/);
+  assert.match(events, /<Link href="\/apartments"/);
+  assert.match(month, /<Link href="\/apartments"/);
 });

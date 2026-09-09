@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import { centerApartmentsContent } from "@/lib/centerApartmentsContent";
+import { centerApartments, centerApartmentsPath, isCenterApartmentId } from "@/lib/apartmentDistricts";
 import { apartmentsPageContent } from "@/lib/apartmentsPageContent";
 import { getApartmentClassLabel } from "@/lib/apartmentCategoryLocalization";
 import {
@@ -361,6 +363,77 @@ export function getApartmentCategoryMenuJsonLd(languageInput?: string) {
   ];
 }
 
+export function getCenterApartmentsMetadata(languageInput?: string): Metadata {
+  const language = normalizeSiteLanguage(languageInput);
+  const seo = centerApartmentsContent[language];
+  const url = localizedUrl(centerApartmentsPath, language);
+
+  return {
+    title: seo.metaTitle,
+    description: seo.metaDescription,
+    alternates: routeAlternates(centerApartmentsPath, languageInput),
+    openGraph: {
+      title: seo.metaTitle,
+      description: seo.metaDescription,
+      url,
+      siteName,
+      images: [{ ...mainSocialImage, alt: seo.metaTitle }],
+      locale: openGraphLocale[language],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.metaTitle,
+      description: seo.metaDescription,
+      images: [{ ...mainSocialImage, alt: seo.metaTitle }],
+    },
+  };
+}
+
+export function getCenterApartmentsJsonLd(languageInput?: string) {
+  const language = normalizeSiteLanguage(languageInput);
+  const copy = centerApartmentsContent[language];
+  const url = localizedUrl(centerApartmentsPath, language);
+  const apartmentsUrl = localizedUrl("/apartments", language);
+  const homeUrl = localizedUrl("", language);
+  const listId = url + "#apartments";
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: copy.breadcrumbHome, item: homeUrl },
+        { "@type": "ListItem", position: 2, name: copy.breadcrumbApartments, item: apartmentsUrl },
+        { "@type": "ListItem", position: 3, name: copy.breadcrumbCenter, item: url },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": url + "#collection",
+      url,
+      name: copy.metaTitle,
+      description: copy.metaDescription,
+      inLanguage: language,
+      mainEntity: { "@id": listId },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "@id": listId,
+      name: copy.inventoryTitle,
+      numberOfItems: centerApartments.length,
+      itemListElement: centerApartments.map((apartment, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: `ID ${apartment.id} · ${getApartmentDisplayAddress(apartment.id, apartment.title, language)}`,
+        url: localizedUrl(getApartmentDataPath(apartment), language),
+      })),
+    },
+  ];
+}
+
 export function getApartmentCategoryJsonLd(category: ApartmentClass, languageInput?: string) {
   const language = normalizeSiteLanguage(languageInput);
   const seo = getLocalizedCategorySeo(category, language);
@@ -465,7 +538,7 @@ export function buildApartmentKeywords(id: ApartmentId) {
     apartment.title,
     "RentPlaceMD",
     kindTitle[apartment.kind],
-    "апартаменты Кишинев центр",
+    ...(isCenterApartmentId(id) ? ["апартаменты Кишинев центр"] : []),
     "квартира " + apartment.title,
     "посуточно без посредников",
   ];

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import ApartmentsPageIntro from "@/components/ApartmentsPageIntro";
 import ApartmentsFaq from "@/components/ApartmentsFaq";
+import ApartmentDistrictLinks from "@/components/ApartmentDistrictLinks";
 import HomeCategoryLinks from "@/components/HomeCategoryLinks";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
 import ApartmentCategoryContent from "@/components/ApartmentCategoryContent";
@@ -34,6 +35,7 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
       <Header />
       <ApartmentCategoryNav backHref="/" />
       <ApartmentsPageIntro />
+      <ApartmentDistrictLinks />
       <HomeCategoryLinks />
       <ApartmentCategoryContent compactCatalog />
       <ApartmentsFaq />

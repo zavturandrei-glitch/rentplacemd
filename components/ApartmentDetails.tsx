@@ -9,6 +9,8 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
+import { isCenterApartmentId } from "@/lib/apartmentDistricts";
+import { centerApartmentsContent } from "@/lib/centerApartmentsContent";
 import { getApartmentBookedDates } from "@/lib/availability";
 import {
   formatLocalizedImageAlt,
@@ -357,6 +359,8 @@ export default function ApartmentDetails({
 }) {
   const { language } = useLanguage();
   const text = pageCopy[language];
+  const centerCopy = centerApartmentsContent[language];
+  const belongsToCenter = isCenterApartmentId(apartment.id);
   const localizedApartment = getApartmentLocalization(apartment.id, language);
   const locationTitle = getApartmentDisplayAddress(
     apartment.id,
@@ -597,6 +601,11 @@ export default function ApartmentDetails({
               <h2 className="mt-2 text-2xl font-black tracking-tight">
                 {locationTitle}
               </h2>
+              {belongsToCenter ? (
+                <Link href="/apartments/center" className="mt-3 inline-flex text-sm font-black text-[#ffd21f] underline decoration-[#ffd21f]/35 underline-offset-4 hover:decoration-[#ffd21f]">
+                  {centerCopy.apartmentLink} →
+                </Link>
+              ) : null}
               {nearbyItems.length > 0 ? (
                 <ul className="mt-3 grid gap-1 text-sm font-medium leading-5 text-white/75 sm:grid-cols-2">
                   {nearbyItems.map((item) => (
