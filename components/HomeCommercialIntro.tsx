@@ -41,21 +41,21 @@ export default function HomeCommercialIntro() {
   const centerCopy = centerApartmentsContent[language];
 
   return (
-    <section className="bg-[#07111f] px-4 pb-8 text-white sm:px-6 sm:pb-12 lg:px-8">
-      <div className="mx-auto max-w-6xl rounded-[24px] border border-white/10 bg-white/[0.05] p-5 sm:p-7">
-        <h2 className="text-2xl font-black tracking-[-0.03em] sm:text-3xl">{text.title}</h2>
-        <p className="mt-3 max-w-4xl text-sm font-medium leading-6 text-white/72 sm:text-base sm:leading-7">
+    <section className="bg-[#07111f] px-4 pb-6 text-white sm:px-6 sm:pb-10 lg:px-8">
+      <div className="mx-auto max-w-6xl rounded-[20px] border border-white/10 bg-white/[0.05] p-4 sm:rounded-[24px] sm:p-7">
+        <h2 className="text-xl font-black tracking-[-0.03em] sm:text-3xl">{text.title}</h2>
+        <p className="mt-2 max-w-4xl text-[13px] font-medium leading-5 text-white/72 sm:mt-3 sm:text-base sm:leading-7">
           {text.text(activeApartmentCount)}
         </p>
-        <Link href="/apartments" className="mt-5 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#ffd21f] px-5 text-sm font-black text-[#07111f] shadow-lg shadow-yellow-400/10">
+        <Link href="/apartments" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#ffd21f] px-4 text-[13px] font-black text-[#07111f] shadow-lg shadow-yellow-400/10 sm:mt-5 sm:min-h-12 sm:px-5 sm:text-sm">
           {text.cta}
         </Link>
-        <div className="mt-6 border-t border-white/10 pt-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+        <div className="mt-4 border-t border-white/10 pt-4 sm:mt-6 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:pt-5">
           <div>
-            <h3 className="text-lg font-black">{centerCopy.homeTitle}</h3>
-            <p className="mt-1 text-sm font-medium leading-6 text-white/65">{centerCopy.homeText(centerApartments.length)}</p>
+            <h3 className="text-base font-black sm:text-lg">{centerCopy.homeTitle}</h3>
+            <p className="mt-1 text-[13px] font-medium leading-5 text-white/65 sm:text-sm sm:leading-6">{centerCopy.homeText(centerApartments.length)}</p>
           </div>
-          <Link href="/apartments/center" className="mt-4 inline-flex min-h-11 shrink-0 items-center rounded-xl border border-white/20 px-4 text-sm font-black text-white transition hover:border-[#ffd21f] hover:text-[#ffd21f] sm:mt-0">
+          <Link href="/apartments/center" className="mt-3 inline-flex min-h-11 shrink-0 items-center rounded-xl border border-white/20 px-4 text-[13px] font-black text-white transition hover:border-[#ffd21f] hover:text-[#ffd21f] sm:mt-0 sm:text-sm">
             {centerCopy.homeLink} →
           </Link>
         </div>

@@ -29,8 +29,8 @@ export default async function Home() {
     <main className="min-h-screen overflow-x-clip bg-[#07111f]">
       <Header />
       <Hero />
-      <HomeCommercialIntro />
       <HomeNavigation />
+      <HomeCommercialIntro />
       <HomeLatestApartments />
       <CityVideoRail videos={homeVideos} placement="home" />
       <LocationMap />
