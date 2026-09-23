@@ -253,7 +253,8 @@ function verifiedFullDescription(input: VerifiedDescriptionInput) {
 export const apartments = [
   createApartment({
     id: 84,
-    video: { src: "/apartments/albisoara-16-84/video/apartment-tour.mp4", poster: "/apartments/albisoara-16-84/video/poster.webp", width: 720, height: 960 },
+    // Encoded at 1024×576 with a rotation matrix: reserve the displayed portrait ratio.
+    video: { src: "/apartments/albisoara-16-84/video/apartment-tour.mp4", poster: "/apartments/albisoara-16-84/8.webp", width: 576, height: 1024 },
     slug: "albisoara-16-84",
     title: "Albișoara 16",
     address: "Albișoara 16, Chișinău, Moldova",
@@ -269,8 +270,8 @@ export const apartments = [
     shortDescription: "Полностью отремонтированная квартира Premium на Albișoara 16: две отдельные комнаты, балкон, до 4 гостей.",
     fullDescription: "Полностью отремонтированная двухкомнатная квартира Premium-класса на Albișoara 16 в центральной части Кишинёва. Две отдельные комнаты, балкон и размещение до 4 гостей.\n\nРядом находятся Atrium, Grand Hall, Тираспольский рынок и улица Ismail. В числе ориентиров этой части города — бульвар Ștefan cel Mare, бывшая гостиница Național и ресторан Pegas.\n\nРасположение удобно для гостей, приезжающих в Кишинёв поездом или автобусом: железнодорожный вокзал, Центральный и Северный автовокзалы — полезные ориентиры при планировании маршрута.",
     amenities: ["Premium", "2 отдельные комнаты", "Балкон", "До 4 гостей", "Полный ремонт", "Центральная часть Кишинёва"],
-    photos: apartmentPhotosWithMain("albisoara-16-84", 18, "5.webp", "webp"),
-    cardPhoto: "/apartments/albisoara-16-84/5.webp",
+    photos: apartmentPhotosWithMain("albisoara-16-84", 18, "8.webp", "webp"),
+    cardPhoto: "/apartments/albisoara-16-84/8.webp",
     facadePhoto: null,
   }),
   createApartment({

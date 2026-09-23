@@ -41,7 +41,8 @@ for (const language of ["ru", "ro", "en", "uk", "cs"]) {
   assert.ok(!scripts.some(s => s["@type"] === "VideoObject"));
   const video = html.match(/<video\b[^>]*>/)?.[0];
   assert.ok(video?.includes('preload="none"'));
-  assert.ok(video?.includes('width="720" height="960"'));
+  assert.ok(video?.includes('width="576" height="1024"'));
+  assert.ok(video?.includes('poster="/apartments/albisoara-16-84/8.webp"'));
   assert.ok(!video?.includes("autoPlay"));
   const images = [...html.matchAll(/<img\b[^>]*>/g)].map(m => m[0]).filter(t => t.includes('albisoara-16-84'));
   assert.equal(images.length, 5, "Only hero plus four thumbnails rendered");
@@ -67,7 +68,7 @@ for (let i = 1; i <= 18; i++) {
   assert.equal(response.headers.get("content-type"), "image/webp");
 }
 for (const width of [256, 640, 1200]) {
-  const response = await fetch(origin + `/_next/image?url=%2Fapartments%2Falbisoara-16-84%2F5.webp&w=${width}&q=82`, { headers: { Accept: "image/webp" } });
+  const response = await fetch(origin + `/_next/image?url=%2Fapartments%2Falbisoara-16-84%2F8.webp&w=${width}&q=82`, { headers: { Accept: "image/webp" } });
   assert.equal(response.status, 200);
   console.log("Hero width", width, "bytes", (await response.arrayBuffer()).byteLength);
 }
@@ -77,6 +78,6 @@ const videoResponse = await fetch(origin + "/apartments/albisoara-16-84/video/ap
 assert.equal(videoResponse.status, 206);
 assert.equal(videoResponse.headers.get("content-type"), "video/mp4");
 assert.equal((await videoResponse.arrayBuffer()).byteLength, 1024);
-const posterResponse = await fetch(origin + "/apartments/albisoara-16-84/video/poster.webp");
+const posterResponse = await fetch(origin + "/apartments/albisoara-16-84/8.webp");
 assert.equal(posterResponse.status, 200);
 console.log("PASS:", urls.length, "apartment routes, all five languages, catalogue/category/center, 18 assets and image optimizer");

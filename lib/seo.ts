@@ -566,7 +566,7 @@ function apartmentSocialImage(id: ApartmentId) {
     url,
     secureUrl: url,
     type: path.toLowerCase().endsWith(".webp") ? "image/webp" : path.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg",
-    ...(Number(id) === 84 ? { width: 1280, height: 960 } : {}),
+    ...(Number(id) === 84 ? { width: 960, height: 1280 } : {}),
     ...(Number(id) === 6 ? { width: 1200, height: 630 } : {}),
   };
 }

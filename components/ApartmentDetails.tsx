@@ -518,6 +518,7 @@ export default function ApartmentDetails({
           <ApartmentGallery
             photos={galleryPhotos}
             thumbnailLimit={String(apartment.id) === "84" ? 4 : undefined}
+            synchronizedNavigation={String(apartment.id) === "84"}
             heroPosition={apartment.heroPosition}
             labels={{
               gallery: text.gallery,

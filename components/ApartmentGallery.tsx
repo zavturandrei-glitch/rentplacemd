@@ -20,6 +20,7 @@ type ApartmentGalleryProps = {
   photos: ApartmentGalleryPhoto[];
   heroPosition?: string;
   thumbnailLimit?: number;
+  synchronizedNavigation?: boolean;
   labels: {
     gallery: string;
     allPhotos: string;
@@ -34,6 +35,7 @@ export default function ApartmentGallery({
   heroPosition = "center 45%",
   labels,
   thumbnailLimit,
+  synchronizedNavigation = false,
 }: ApartmentGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -41,6 +43,7 @@ export default function ApartmentGallery({
   const galleryPointerStartRef = useRef<number | null>(null);
   const lightboxPointerStartRef = useRef<number | null>(null);
   const suppressGalleryClickRef = useRef(false);
+  const gestureRef = useRef<{ id: number; y: number } | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const lightboxRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -48,7 +51,10 @@ export default function ApartmentGallery({
   const activePhoto = photos[activeIndex] ?? photos[0];
   const activeLightboxIndex = lightboxIndex ?? 0;
   const activeLightboxPhoto = photos[activeLightboxIndex] ?? photos[0];
-  const thumbnailPhotos = thumbnailLimit ? photos.slice(0, thumbnailLimit) : photos;
+  const thumbnailStart = synchronizedNavigation && thumbnailLimit
+    ? Math.floor(activeIndex / thumbnailLimit) * thumbnailLimit : 0;
+  const thumbnailPhotos = thumbnailLimit
+    ? photos.slice(thumbnailStart, thumbnailStart + thumbnailLimit) : photos;
 
   const showPrevious = useCallback(() => {
     setActiveIndex((current) => (current - 1 + photos.length) % photos.length);
@@ -71,6 +77,7 @@ export default function ApartmentGallery({
   }, []);
 
   const closeLightbox = useCallback(() => {
+    if (synchronizedNavigation && lightboxIndex !== null) setActiveIndex(lightboxIndex);
     setIsLightboxVisible(false);
     if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
     closeTimeoutRef.current = window.setTimeout(() => {
@@ -78,7 +85,7 @@ export default function ApartmentGallery({
       previousFocusRef.current?.focus();
       previousFocusRef.current = null;
     }, 180);
-  }, []);
+  }, [synchronizedNavigation, lightboxIndex]);
 
   const showPreviousLightbox = useCallback(() => {
     setLightboxIndex((current) =>
@@ -95,6 +102,14 @@ export default function ApartmentGallery({
   }, [photos.length]);
 
   function handleGalleryPointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (synchronizedNavigation) {
+      galleryPointerStartRef.current = null;
+      gestureRef.current = null;
+      if (!event.isPrimary || event.button !== 0) return;
+      const button = (event.target as HTMLElement).closest("button");
+      if (button && !button.classList.contains("cursor-zoom-in")) return;
+      gestureRef.current = { id: event.pointerId, y: event.clientY };
+    }
     galleryPointerStartRef.current = event.clientX;
     suppressGalleryClickRef.current = false;
     // Keep click events on the image and navigation buttons. Capturing on
@@ -106,6 +121,11 @@ export default function ApartmentGallery({
     galleryPointerStartRef.current = null;
     if (startX === null) return;
     const distance = event.clientX - startX;
+    if (synchronizedNavigation) {
+      const gesture = gestureRef.current;
+      gestureRef.current = null;
+      if (!gesture || gesture.id !== event.pointerId || Math.abs(distance) <= Math.abs(event.clientY - gesture.y)) return;
+    }
     if (Math.abs(distance) < 44) return;
     suppressGalleryClickRef.current = true;
     if (distance > 0) showPrevious();
@@ -113,6 +133,12 @@ export default function ApartmentGallery({
   }
 
   function handleLightboxPointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (synchronizedNavigation) {
+      lightboxPointerStartRef.current = null;
+      gestureRef.current = null;
+      if (!event.isPrimary || event.button !== 0) return;
+      gestureRef.current = { id: event.pointerId, y: event.clientY };
+    }
     lightboxPointerStartRef.current = event.clientX;
     event.currentTarget.setPointerCapture(event.pointerId);
   }
@@ -122,6 +148,11 @@ export default function ApartmentGallery({
     lightboxPointerStartRef.current = null;
     if (startX === null) return;
     const distance = event.clientX - startX;
+    if (synchronizedNavigation) {
+      const gesture = gestureRef.current;
+      gestureRef.current = null;
+      if (!gesture || gesture.id !== event.pointerId || Math.abs(distance) <= Math.abs(event.clientY - gesture.y)) return;
+    }
     if (Math.abs(distance) < 44) return;
     if (distance > 0) showPreviousLightbox();
     else showNextLightbox();
@@ -196,6 +227,14 @@ export default function ApartmentGallery({
           className="group relative touch-pan-y overflow-hidden rounded-2xl bg-[#07111f] shadow-[0_14px_40px_rgba(7,17,31,0.15)]"
           onPointerDown={handleGalleryPointerDown}
           onPointerUp={handleGalleryPointerUp}
+          onDragStart={synchronizedNavigation ? (event) => event.preventDefault() : undefined}
+          onClickCapture={synchronizedNavigation ? (event) => {
+            if (suppressGalleryClickRef.current) {
+              suppressGalleryClickRef.current = false;
+              event.preventDefault();
+              event.stopPropagation();
+            }
+          } : undefined}
           onPointerCancel={() => {
             galleryPointerStartRef.current = null;
           }}
@@ -272,7 +311,9 @@ export default function ApartmentGallery({
 
         {thumbnailPhotos.length > 1 ? (
           <div className="mt-2.5 flex snap-x gap-2 overflow-x-auto pb-1 sm:grid sm:grid-cols-4 sm:overflow-visible">
-            {thumbnailPhotos.map((photo, index) => (
+            {thumbnailPhotos.map((photo, offset) => {
+              const index = thumbnailStart + offset;
+              return (
               <button
                 key={photo.src}
                 type="button"
@@ -295,7 +336,8 @@ export default function ApartmentGallery({
                   loading="lazy"
                 />
               </button>
-            ))}
+              );
+            })}
           </div>
         ) : null}
       </section>
@@ -355,6 +397,7 @@ export default function ApartmentGallery({
             onClick={(event) => event.stopPropagation()}
             onPointerDown={handleLightboxPointerDown}
             onPointerUp={handleLightboxPointerUp}
+            onDragStart={synchronizedNavigation ? (event) => event.preventDefault() : undefined}
             onPointerCancel={() => {
               lightboxPointerStartRef.current = null;
             }}
