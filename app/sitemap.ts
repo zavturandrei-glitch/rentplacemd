@@ -78,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return {
       url,
-      lastModified: newApartmentIds.has(String(apartment.id))
+      lastModified: String(apartment.id) === "84" ? new Date("2026-09-23") : newApartmentIds.has(String(apartment.id))
         ? newApartmentLastModified
         : apartmentInventoryLastModified,
       changeFrequency: "weekly" as const,

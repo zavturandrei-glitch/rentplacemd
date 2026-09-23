@@ -23,6 +23,7 @@ export type LocalizedApartmentSeo = {
   title: string;
   description: string;
   imageAlt: string;
+  imageAlts?: string[];
   facadeAlt?: string;
   schemaName: string;
   shortDescription: string;

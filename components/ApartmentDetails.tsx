@@ -41,6 +41,7 @@ export type ApartmentDetailsData = {
   address: string;
   price: number;
   images: string[];
+  video?: { src: string; poster: string; width: number; height: number };
   kind: ApartmentKind;
   class: ApartmentClass;
   guests: ApartmentGuests | null;
@@ -377,16 +378,16 @@ export default function ApartmentDetails({
   const kindLabel =
     rawKindLabel.replace(categoryLabel, "").trim() ||
     text.kinds[apartment.kind];
-  const mainPhotoAlt = localizedApartment
+  const mainPhotoAlt = localizedApartment?.imageAlts?.[0] ?? (localizedApartment
     ? formatLocalizedImageAlt(localizedApartment.imageAlt, 1)
     : format(text.mainPhotoAlt, {
         id: apartment.id,
         address: locationTitle,
-      });
+      }));
   const galleryPhotos = [
     ...apartment.images.map((src, index) => ({
       src,
-      alt:
+      alt: localizedApartment?.imageAlts?.[index] ?? (
         index === 0
           ? mainPhotoAlt
           : localizedApartment
@@ -395,7 +396,7 @@ export default function ApartmentDetails({
                 id: apartment.id,
                 index: index + 1,
                 address: locationTitle,
-              }),
+              })),
     })),
     ...(apartment.facadePhoto
       ? [
@@ -516,6 +517,7 @@ export default function ApartmentDetails({
         <div className="mt-3">
           <ApartmentGallery
             photos={galleryPhotos}
+            thumbnailLimit={String(apartment.id) === "84" ? 4 : undefined}
             heroPosition={apartment.heroPosition}
             labels={{
               gallery: text.gallery,
@@ -536,6 +538,26 @@ export default function ApartmentDetails({
             {text.selectDates}
           </a>
         </section>
+
+        {apartment.video ? (
+          <section className="mt-5" aria-labelledby="apartment-video-title">
+            <h2 id="apartment-video-title" className="mb-3 text-xl font-black">
+              {{ ru: "Видео квартиры", ro: "Video al apartamentului", en: "Apartment video", uk: "Відео квартири", cs: "Video apartmánu" }[language]}
+            </h2>
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster={apartment.video.poster}
+              src={apartment.video.src}
+              width={apartment.video.width}
+              height={apartment.video.height}
+              style={{ aspectRatio: `${apartment.video.width} / ${apartment.video.height}` }}
+              className="mx-auto w-full max-w-md rounded-2xl bg-black"
+              aria-labelledby="apartment-video-title"
+            />
+          </section>
+        ) : null}
 
         {primaryDetails.length > 0 ? (
           <section className="border-b border-[#07111f]/10 py-5 sm:py-7">

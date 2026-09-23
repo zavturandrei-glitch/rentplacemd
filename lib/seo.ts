@@ -515,7 +515,7 @@ export function apartmentImageAlt(
 ) {
   const apartment = apartmentDetailsById[String(id)];
   const localized = getApartmentSeoLocalization(id, language);
-  if (localized) return formatLocalizedImageAlt(localized.imageAlt, index);
+  if (localized) return localized.imageAlts?.[index - 1] ?? formatLocalizedImageAlt(localized.imageAlt, index);
   return "RentPlaceMD " + kindTitle[apartment.kind] + " ID " + id + ", " + apartment.title + ", фото " + index;
 }
 
@@ -565,7 +565,8 @@ function apartmentSocialImage(id: ApartmentId) {
   return {
     url,
     secureUrl: url,
-    type: path.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg",
+    type: path.toLowerCase().endsWith(".webp") ? "image/webp" : path.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg",
+    ...(Number(id) === 84 ? { width: 1280, height: 960 } : {}),
     ...(Number(id) === 6 ? { width: 1200, height: 630 } : {}),
   };
 }

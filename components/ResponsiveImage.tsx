@@ -46,7 +46,7 @@ export default function ResponsiveImage({
         <Image
           src={src}
           alt={alt}
-          unoptimized
+          unoptimized={!src.startsWith("/apartments/albisoara-16-84/")}
           fill
           sizes={sizes}
           preload={priority}

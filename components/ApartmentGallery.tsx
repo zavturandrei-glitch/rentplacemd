@@ -19,6 +19,7 @@ export type ApartmentGalleryPhoto = {
 type ApartmentGalleryProps = {
   photos: ApartmentGalleryPhoto[];
   heroPosition?: string;
+  thumbnailLimit?: number;
   labels: {
     gallery: string;
     allPhotos: string;
@@ -32,6 +33,7 @@ export default function ApartmentGallery({
   photos,
   heroPosition = "center 45%",
   labels,
+  thumbnailLimit,
 }: ApartmentGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -46,7 +48,7 @@ export default function ApartmentGallery({
   const activePhoto = photos[activeIndex] ?? photos[0];
   const activeLightboxIndex = lightboxIndex ?? 0;
   const activeLightboxPhoto = photos[activeLightboxIndex] ?? photos[0];
-  const thumbnailPhotos = photos;
+  const thumbnailPhotos = thumbnailLimit ? photos.slice(0, thumbnailLimit) : photos;
 
   const showPrevious = useCallback(() => {
     setActiveIndex((current) => (current - 1 + photos.length) % photos.length);
@@ -95,7 +97,8 @@ export default function ApartmentGallery({
   function handleGalleryPointerDown(event: PointerEvent<HTMLDivElement>) {
     galleryPointerStartRef.current = event.clientX;
     suppressGalleryClickRef.current = false;
-    event.currentTarget.setPointerCapture(event.pointerId);
+    // Keep click events on the image and navigation buttons. Capturing on
+    // the parent redirects those clicks away from their button handlers.
   }
 
   function handleGalleryPointerUp(event: PointerEvent<HTMLDivElement>) {
@@ -364,6 +367,7 @@ export default function ApartmentGallery({
                 fill
                 sizes="100vw"
                 loading="eager"
+                quality={activeLightboxPhoto.src.startsWith("/apartments/albisoara-16-84/") ? 82 : undefined}
                 className="object-contain"
               />
             </div>

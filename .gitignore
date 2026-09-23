@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local source media and apartment audit artifacts
+/.local-media/
+/audit-84-*
+/.tmp-*

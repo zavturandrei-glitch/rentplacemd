@@ -5,6 +5,7 @@ export const centerApartmentsPath = "/apartments/center";
 // These address groups are already identified as central in the RentPlaceMD
 // catalogue content and location data. Ambiguous addresses stay unclassified.
 const verifiedCenterAddressFragments = [
+  "Albișoara 16",
   "Измаил 88",
   "Измаил 31",
   "Grigore Ureche 67",

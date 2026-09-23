@@ -3,6 +3,7 @@ import type { LocalizedApartmentSeo } from "@/lib/apartmentLocalization";
 
 type ApartmentCopy = {
   address: string;
+  imageAlts?: string[];
   title: string;
   description: string;
   shortDescription: string;
@@ -284,6 +285,7 @@ function localized(
 
   return {
     displayAddress: copy.address,
+    imageAlts: copy.imageAlts,
     title: copy.title,
     description: copy.description,
     imageAlt: `${copy.title}, ${photoWord[language]} {index}`,
@@ -1007,19 +1009,272 @@ const apartment61Copy: Record<Language, ApartmentCopy> = {
   },
 };
 
+const apartment84Copy: Record<Language, ApartmentCopy> = {
+  "ru": {
+    "address": "Albișoara 16",
+    "title": "2-комнатная квартира Premium на Albișoara 16",
+    "description": "Аренда 2-комнатной квартиры Premium на Albișoara 16 в центре Кишинёва. Две отдельные комнаты, балкон, до 4 гостей. Цена 1200 MDL/сутки.",
+    "shortDescription": "Полностью отремонтированная квартира Premium в центральной части Кишинёва: две отдельные комнаты, балкон и размещение до 4 гостей.",
+    "aboutTitle": "2-комнатная квартира Premium на Albișoara 16",
+    "typeLabel": "2-комнатная квартира",
+    "view": "2 отдельные комнаты и балкон",
+    "features": [
+      "Premium",
+      "2 отдельные комнаты",
+      "Балкон",
+      "До 4 гостей",
+      "Полностью отремонтирована",
+      "Центральная часть Кишинёва"
+    ],
+    "descriptionParagraphs": [
+      "Полностью отремонтированная двухкомнатная квартира Premium-класса на Albișoara 16 в центральной части Кишинёва. Современный интерьер, две отдельные комнаты и балкон подходят для проживания до четырёх гостей. Стоимость — 1200 MDL за сутки.",
+      "Рядом находятся Atrium, Grand Hall, Тираспольский рынок и улица Ismail. В числе ориентиров этой части города — бульвар Ștefan cel Mare, бывшая гостиница Național и ресторан Pegas.",
+      "Расположение удобно для гостей, приезжающих в Кишинёв поездом или автобусом: железнодорожный вокзал, Центральный и Северный автовокзалы — полезные ориентиры при планировании маршрута."
+    ],
+    "audienceItems": [],
+    "nearbyItems": [
+      "Atrium",
+      "Grand Hall",
+      "Тираспольский рынок",
+      "Ismail"
+    ],
+    "faq": [],
+    "imageAlts": [
+      "Гостиная с угловым диваном · Albișoara 16",
+      "Коридор с видом на спальню · Albișoara 16",
+      "Прихожая с межкомнатными дверями · Albișoara 16",
+      "Вешалка и обувная полка в прихожей · Albișoara 16",
+      "Телевизор и шкаф в гостиной · Albișoara 16",
+      "Гостиная с диваном и телевизором · Albișoara 16",
+      "Застеклённый балкон с жалюзи · Albișoara 16",
+      "Спальня с двуспальной кроватью · Albișoara 16",
+      "Ванная с душем и раковиной · Albișoara 16",
+      "Раковина и зеркало в ванной · Albișoara 16",
+      "Спальня с зеркальным шкафом · Albișoara 16",
+      "Ванна и раковина, вид от двери · Albișoara 16",
+      "Общий вид ванной комнаты · Albișoara 16",
+      "Кухня с плитой и холодильником · Albișoara 16",
+      "Отдельный туалет · Albișoara 16",
+      "Обеденный стол у окна · Albișoara 16",
+      "Туалет и гигиенический душ · Albișoara 16",
+      "Кухонные шкафы и мойка · Albișoara 16"
+    ]
+  },
+  "ro": {
+    "address": "Albișoara 16",
+    "title": "Apartament Premium cu 2 camere pe Albișoara 16",
+    "description": "Apartament Premium pe Albișoara 16, în centrul Chișinăului. Complet renovat, 2 camere separate, balcon și până la 4 oaspeți. 1200 MDL/noapte.",
+    "shortDescription": "Apartament Premium complet renovat în zona centrală a Chișinăului, cu două camere separate, balcon și spațiu pentru până la 4 oaspeți.",
+    "aboutTitle": "Apartament Premium cu 2 camere pe Albișoara 16",
+    "typeLabel": "Apartament cu 2 camere",
+    "view": "2 camere separate și balcon",
+    "features": [
+      "Premium",
+      "2 camere separate",
+      "Balcon",
+      "Până la 4 oaspeți",
+      "Complet renovat",
+      "Zona centrală a Chișinăului"
+    ],
+    "descriptionParagraphs": [
+      "Apartamentul Premium de pe Albișoara 16 este complet renovat și se află în zona centrală a Chișinăului. Interiorul modern, cele două camere separate și balconul oferă un sejur confortabil pentru până la patru oaspeți. Tariful este de 1200 MDL pe noapte.",
+      "În apropiere se află Atrium, Grand Hall, Piața Tiraspol și strada Ismail. Bulevardul Ștefan cel Mare, fostul hotel Național și restaurantul Pegas sunt alte repere ale acestei zone.",
+      "Amplasarea este practică pentru cei care sosesc cu trenul sau cu autocarul. Gara feroviară, Gara Auto Centru și Gara Auto Nord sunt repere utile pentru organizarea sosirii în Chișinău."
+    ],
+    "audienceItems": [],
+    "nearbyItems": [
+      "Atrium",
+      "Grand Hall",
+      "Piața Tiraspol",
+      "Ismail"
+    ],
+    "faq": [],
+    "imageAlts": [
+      "Living cu canapea de colț · Albișoara 16",
+      "Hol cu vedere spre dormitor · Albișoara 16",
+      "Hol cu uși către camere · Albișoara 16",
+      "Cuier și suport pentru încălțăminte · Albișoara 16",
+      "Televizor și dulap în living · Albișoara 16",
+      "Living cu canapea și televizor · Albișoara 16",
+      "Balcon închis cu jaluzele · Albișoara 16",
+      "Dormitor cu pat dublu · Albișoara 16",
+      "Cadă cu duș și lavoar · Albișoara 16",
+      "Lavoar și oglindă în baie · Albișoara 16",
+      "Dormitor cu dulap cu oglindă · Albișoara 16",
+      "Cadă și lavoar văzute din ușă · Albișoara 16",
+      "Vedere de ansamblu a băii · Albișoara 16",
+      "Bucătărie cu aragaz și frigider · Albișoara 16",
+      "Toaletă separată · Albișoara 16",
+      "Masă lângă fereastră · Albișoara 16",
+      "Toaletă cu duș igienic · Albișoara 16",
+      "Dulapuri de bucătărie și chiuvetă · Albișoara 16"
+    ]
+  },
+  "en": {
+    "address": "Albișoara 16",
+    "title": "Premium two-room apartment at Albișoara 16",
+    "description": "Stay at Albișoara 16 in central Chișinău: a fully renovated Premium apartment with two separate rooms, a balcony and space for 4. 1200 MDL/night.",
+    "shortDescription": "A fully renovated Premium apartment in central Chișinău, with two separate rooms, a balcony and space for up to 4 guests.",
+    "aboutTitle": "Premium two-room apartment at Albișoara 16",
+    "typeLabel": "Two-room apartment",
+    "view": "Two separate rooms and a balcony",
+    "features": [
+      "Premium",
+      "Two separate rooms",
+      "Balcony",
+      "Up to 4 guests",
+      "Fully renovated",
+      "Central Chișinău"
+    ],
+    "descriptionParagraphs": [
+      "This fully renovated Premium apartment at Albișoara 16 offers a modern interior in central Chișinău. Two separate rooms and a balcony provide space for up to four guests. The rate is 1200 MDL per night.",
+      "Atrium, Grand Hall, Tiraspol Market and Ismail Street are nearby. Other landmarks in this part of the city include Ștefan cel Mare Boulevard, the former Național Hotel and Pegas restaurant.",
+      "The location is convenient for visitors arriving by train or coach. Chișinău railway station and the Central and Northern bus stations are useful reference points when planning your arrival."
+    ],
+    "audienceItems": [],
+    "nearbyItems": [
+      "Atrium",
+      "Grand Hall",
+      "Tiraspol Market",
+      "Ismail"
+    ],
+    "faq": [],
+    "imageAlts": [
+      "Living room with a corner sofa · Albișoara 16",
+      "Hallway looking towards the bedroom · Albișoara 16",
+      "Entrance hall with doors to the rooms · Albișoara 16",
+      "Coat rack and shoe shelf in the hall · Albișoara 16",
+      "Living room TV and wardrobe · Albișoara 16",
+      "Living room with sofa and television · Albișoara 16",
+      "Enclosed balcony with blinds · Albișoara 16",
+      "Bedroom with a double bed · Albișoara 16",
+      "Bathtub with shower and washbasin · Albișoara 16",
+      "Bathroom washbasin and mirror · Albișoara 16",
+      "Bedroom with a mirrored wardrobe · Albișoara 16",
+      "Bathtub and basin viewed from the doorway · Albișoara 16",
+      "Overview of the bathroom · Albișoara 16",
+      "Kitchen with cooker and refrigerator · Albișoara 16",
+      "Separate toilet · Albișoara 16",
+      "Dining table beside the window · Albișoara 16",
+      "Toilet with a handheld bidet shower · Albișoara 16",
+      "Kitchen cabinets and sink · Albișoara 16"
+    ]
+  },
+  "uk": {
+    "address": "Albișoara 16",
+    "title": "2-кімнатна квартира Premium на Albișoara 16",
+    "description": "Квартира Premium на Albișoara 16 у центрі Кишинева. Повний ремонт, дві окремі кімнати, балкон, до 4 гостей. Вартість — 1200 MDL за добу.",
+    "shortDescription": "Повністю відремонтована квартира Premium у центральній частині Кишинева: дві окремі кімнати, балкон і розміщення до 4 гостей.",
+    "aboutTitle": "2-кімнатна квартира Premium на Albișoara 16",
+    "typeLabel": "2-кімнатна квартира",
+    "view": "2 окремі кімнати та балкон",
+    "features": [
+      "Premium",
+      "2 окремі кімнати",
+      "Балкон",
+      "До 4 гостей",
+      "Повністю відремонтована",
+      "Центральна частина Кишинева"
+    ],
+    "descriptionParagraphs": [
+      "Повністю відремонтована двокімнатна квартира Premium на Albișoara 16 у центральній частині Кишинева. Сучасний інтер’єр, дві окремі кімнати та балкон підходять для проживання до чотирьох гостей. Вартість — 1200 MDL за добу.",
+      "Поруч розташовані Atrium, Grand Hall, Тираспольський ринок і вулиця Ismail. Серед орієнтирів цієї частини міста — бульвар Ștefan cel Mare, колишній готель Național і ресторан Pegas.",
+      "Розташування зручне для гостей, які приїжджають потягом або автобусом. Залізничний вокзал Кишинева, Центральний і Північний автовокзали допоможуть зорієнтуватися під час планування приїзду."
+    ],
+    "audienceItems": [],
+    "nearbyItems": [
+      "Atrium",
+      "Grand Hall",
+      "Тираспольський ринок",
+      "Ismail"
+    ],
+    "faq": [],
+    "imageAlts": [
+      "Вітальня з кутовим диваном · Albișoara 16",
+      "Коридор із видом на спальню · Albișoara 16",
+      "Передпокій із міжкімнатними дверима · Albișoara 16",
+      "Вішалка й полиця для взуття · Albișoara 16",
+      "Телевізор і шафа у вітальні · Albișoara 16",
+      "Вітальня з диваном і телевізором · Albișoara 16",
+      "Засклений балкон із жалюзі · Albișoara 16",
+      "Спальня з двоспальним ліжком · Albișoara 16",
+      "Ванна з душем і умивальником · Albișoara 16",
+      "Умивальник і дзеркало у ванній · Albișoara 16",
+      "Спальня із дзеркальною шафою · Albișoara 16",
+      "Ванна й умивальник, вид від дверей · Albișoara 16",
+      "Загальний вигляд ванної кімнати · Albișoara 16",
+      "Кухня з плитою та холодильником · Albișoara 16",
+      "Окремий туалет · Albișoara 16",
+      "Обідній стіл біля вікна · Albișoara 16",
+      "Туалет і гігієнічний душ · Albișoara 16",
+      "Кухонні шафи й мийка · Albișoara 16"
+    ]
+  },
+  "cs": {
+    "address": "Albișoara 16",
+    "title": "Dvoupokojový apartmán Premium na Albișoara 16",
+    "description": "Apartmán Premium na Albișoara 16 v centru Kišiněva. Po kompletní rekonstrukci, dva oddělené pokoje, balkon, až 4 hosté. Cena 1200 MDL za noc.",
+    "shortDescription": "Kompletně zrekonstruovaný apartmán Premium v centrální části Kišiněva se dvěma oddělenými pokoji a balkonem až pro 4 hosty.",
+    "aboutTitle": "Dvoupokojový apartmán Premium na Albișoara 16",
+    "typeLabel": "Dvoupokojový apartmán",
+    "view": "Dva oddělené pokoje a balkon",
+    "features": [
+      "Premium",
+      "Dva oddělené pokoje",
+      "Balkon",
+      "Až 4 hosté",
+      "Po kompletní rekonstrukci",
+      "Centrální část Kišiněva"
+    ],
+    "descriptionParagraphs": [
+      "Apartmán Premium na adrese Albișoara 16 v centrální části Kišiněva prošel kompletní rekonstrukcí. Moderní interiér, dva oddělené pokoje a balkon nabízejí zázemí až pro čtyři hosty. Cena činí 1200 MDL za noc.",
+      "V blízkosti se nacházejí Atrium, Grand Hall, tržnice Tiraspol a ulice Ismail. K dalším orientačním bodům této části města patří bulvár Ștefan cel Mare, bývalý hotel Național a restaurace Pegas.",
+      "Poloha je praktická pro hosty přijíždějící vlakem nebo autobusem. Při plánování příjezdu do Kišiněva poslouží jako orientační body železniční nádraží a centrální i severní autobusové nádraží."
+    ],
+    "audienceItems": [],
+    "nearbyItems": [
+      "Atrium",
+      "Grand Hall",
+      "Tržnice Tiraspol",
+      "Ismail"
+    ],
+    "faq": [],
+    "imageAlts": [
+      "Obývací pokoj s rohovou pohovkou · Albișoara 16",
+      "Chodba s výhledem do ložnice · Albișoara 16",
+      "Předsíň s dveřmi do pokojů · Albișoara 16",
+      "Věšák a botník v předsíni · Albișoara 16",
+      "Televize a skříň v obývacím pokoji · Albișoara 16",
+      "Obývací pokoj s pohovkou a televizí · Albișoara 16",
+      "Zasklený balkon se žaluziemi · Albișoara 16",
+      "Ložnice s manželskou postelí · Albișoara 16",
+      "Vana se sprchou a umyvadlem · Albișoara 16",
+      "Umyvadlo a zrcadlo v koupelně · Albișoara 16",
+      "Ložnice se zrcadlovou skříní · Albișoara 16",
+      "Vana a umyvadlo při pohledu ode dveří · Albișoara 16",
+      "Celkový pohled na koupelnu · Albișoara 16",
+      "Kuchyň se sporákem a lednicí · Albișoara 16",
+      "Samostatná toaleta · Albișoara 16",
+      "Jídelní stůl u okna · Albișoara 16",
+      "Toaleta s bidetovou sprškou · Albișoara 16",
+      "Kuchyňské skříňky a dřez · Albișoara 16"
+    ]
+  }
+};
+
 const allNewApartmentCopy: Record<Language, Record<string, ApartmentCopy>> = {
-  ru: { ...apartment15And16Copy.ru, ...newApartmentCopy.ru, "61": apartment61Copy.ru },
-  ro: { ...apartment15And16Copy.ro, ...newApartmentCopy.ro, "61": apartment61Copy.ro },
-  en: { ...apartment15And16Copy.en, ...newApartmentCopy.en, "61": apartment61Copy.en },
-  uk: { ...apartment15And16Copy.uk, ...newApartmentCopy.uk, "61": apartment61Copy.uk },
-  cs: { ...apartment15And16Copy.cs, ...newApartmentCopy.cs, "61": apartment61Copy.cs },
+  ru: { ...apartment15And16Copy.ru, ...newApartmentCopy.ru, "61": apartment61Copy.ru, "84": apartment84Copy.ru },
+  ro: { ...apartment15And16Copy.ro, ...newApartmentCopy.ro, "61": apartment61Copy.ro, "84": apartment84Copy.ro },
+  en: { ...apartment15And16Copy.en, ...newApartmentCopy.en, "61": apartment61Copy.en, "84": apartment84Copy.en },
+  uk: { ...apartment15And16Copy.uk, ...newApartmentCopy.uk, "61": apartment61Copy.uk, "84": apartment84Copy.uk },
+  cs: { ...apartment15And16Copy.cs, ...newApartmentCopy.cs, "61": apartment61Copy.cs, "84": apartment84Copy.cs },
 };
 
 export const newApartmentLocalizations: Record<
   string,
   Record<Language, LocalizedApartmentSeo>
 > = Object.fromEntries(
-  ["15", "16", "61", "200", "201", "202", "203", "204", "205"].map((id) => [
+  ["15", "16", "61", "84", "200", "201", "202", "203", "204", "205"].map((id) => [
     id,
     Object.fromEntries(
       (Object.keys(newApartmentCopy) as Language[]).map((language) => [
