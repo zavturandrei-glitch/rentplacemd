@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "@/components/LocalizedLink";
 import ApartmentGallery from "@/components/ApartmentGallery";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
-import AvailabilityCalendar from "@/components/AvailabilityCalendar";
+import AvailabilityCalendar, { getCalendarWhatsappHref } from "@/components/AvailabilityCalendar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ResponsiveImage from "@/components/ResponsiveImage";
@@ -468,12 +468,21 @@ export default function ApartmentDetails({
       url: `https://rentplace.md${apartmentPath}`,
     },
   );
-  const whatsappLink =
-    "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
+  const [selection, setSelection] = useState<{
+    apartmentId: string; start: string; end: string | null;
+  } | null>(null);
+  const selectedStart = selection?.apartmentId === String(apartment.id) ? selection.start : null;
+  const selectedEnd = selection?.apartmentId === String(apartment.id) ? selection.end : null;
+  const whatsappLink = selectedStart && selectedEnd
+    ? getCalendarWhatsappHref({
+        language, apartmentId: apartment.id, address: locationTitle, apartmentPath,
+        start: selectedStart, end: selectedEnd, price: displayedPrice,
+      })
+    : "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
 
   return (
     <main className="min-h-screen bg-[#111b2a] text-[#07111f]">
-      <Header apartmentId={apartment.id} />
+      <Header apartmentId={apartment.id} whatsappHref={whatsappLink} />
       <ApartmentCategoryNav currentClass={apartment.class} />
 
       <div className="mx-auto mt-3 max-w-[1180px] rounded-t-[24px] bg-[#f7f4ee] px-3 pb-28 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pb-16">
@@ -607,11 +616,14 @@ export default function ApartmentDetails({
 
         <div id="availability" className="scroll-mt-20 py-6 sm:py-8">
           <AvailabilityCalendar
+            key={apartment.id}
             apartmentId={apartment.id}
-            apartmentPath={apartmentPath}
-            address={locationTitle}
             bookedDates={bookedDates}
             price={displayedPrice}
+            selectedStart={selectedStart}
+            selectedEnd={selectedEnd}
+            onSelectionChange={(start, end) => setSelection({ apartmentId: String(apartment.id), start, end })}
+            whatsappHref={whatsappLink}
           />
         </div>
 
@@ -749,7 +761,7 @@ export default function ApartmentDetails({
         ) : null}
       </div>
 
-      <Footer />
+      <Footer whatsappHref={whatsappLink} />
       <div
         className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#07111f]/96 px-3 pt-1.5 shadow-[0_-8px_24px_rgba(7,17,31,0.2)] backdrop-blur lg:hidden"
         style={{

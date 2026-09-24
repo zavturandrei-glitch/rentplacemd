@@ -106,8 +106,10 @@ function useRentPlaceLanguage() {
 
 export default function Header({
   apartmentId,
+  whatsappHref = "https://wa.me/37369990190",
 }: {
   apartmentId?: string | number;
+  whatsappHref?: string;
 }) {
   return (
     <header
@@ -117,8 +119,8 @@ export default function Header({
           : "relative z-40 bg-white text-slate-950 shadow-xl lg:bg-gradient-to-b lg:from-[#07111f] lg:to-[#0b1628] lg:text-white lg:shadow-2xl"
       }
     >
-      <MobileHeader apartmentMode={apartmentId !== undefined} />
-      <DesktopHeader />
+      <MobileHeader apartmentMode={apartmentId !== undefined} whatsappHref={whatsappHref} />
+      <DesktopHeader whatsappHref={whatsappHref} />
       {apartmentId !== undefined ? (
         <ApartmentCompactHeader apartmentId={apartmentId} />
       ) : null}
@@ -202,7 +204,7 @@ function ApartmentCompactHeader({
   );
 }
 
-function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
+function MobileHeader({ apartmentMode, whatsappHref }: { apartmentMode: boolean; whatsappHref: string }) {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
@@ -276,7 +278,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
           <ApartmentIdSearch variant="header" />
           <div className="ml-auto flex shrink-0 items-center gap-1.5">
             <a
-              href="https://wa.me/37369990190"
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
               className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white shadow-md shadow-emerald-500/15 ring-1 ring-white/10 after:absolute after:-inset-[3px] transition active:scale-95"
@@ -307,7 +309,7 @@ function MobileHeader({ apartmentMode }: { apartmentMode: boolean }) {
   );
 }
 
-function DesktopHeader() {
+function DesktopHeader({ whatsappHref }: { whatsappHref: string }) {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
@@ -370,7 +372,7 @@ function DesktopHeader() {
 
             <div className="mt-2 flex items-center justify-end gap-1.5 xl:gap-2">
               <a
-                href="https://wa.me/37369990190"
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110 xl:h-9 xl:w-9"

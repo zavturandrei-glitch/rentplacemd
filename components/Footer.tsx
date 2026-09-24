@@ -16,13 +16,13 @@ const compactHomeCopy: Record<Language, { cta: string; bottom: string }> = {
   cs: { cta: "Zobrazit všechny apartmány", bottom: "Apartmány na den v Kišiněvě" },
 };
 
-export default function Footer({ compactHome = false }: { compactHome?: boolean }) {
+export default function Footer({ compactHome = false, whatsappHref = "https://wa.me/37369990190" }: { compactHome?: boolean; whatsappHref?: string }) {
   const { t, language } = useLanguage();
 
   return (
     <footer className="bg-gradient-to-b from-[#0b1628] to-[#07111f] text-white">
-      {compactHome ? <CompactHomeFooter t={t} language={language} /> : <MobileFooter t={t} />}
-      <DesktopFooter t={t} />
+      {compactHome ? <CompactHomeFooter t={t} language={language} /> : <MobileFooter t={t} whatsappHref={whatsappHref} />}
+      <DesktopFooter t={t} whatsappHref={whatsappHref} />
     </footer>
   );
 }
@@ -108,7 +108,7 @@ function CompactSocialLink({
   );
 }
 
-function MobileFooter({ t }: { t: FooterTranslation }) {
+function MobileFooter({ t, whatsappHref }: { t: FooterTranslation; whatsappHref: string }) {
   return (
     <div className="lg:hidden px-4 pt-8 pb-28">
       <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/25">
@@ -144,7 +144,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
 
           <div className="mt-4 grid grid-cols-3 gap-2.5">
             <a
-              href="https://wa.me/37369990190"
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-12 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 transition active:scale-95"
@@ -197,7 +197,7 @@ function MobileFooter({ t }: { t: FooterTranslation }) {
   );
 }
 
-function DesktopFooter({ t }: { t: FooterTranslation }) {
+function DesktopFooter({ t, whatsappHref }: { t: FooterTranslation; whatsappHref: string }) {
   return (
     <div className="hidden lg:block">
       <div className="mx-auto max-w-[1600px] px-10 py-10">
@@ -252,7 +252,7 @@ function DesktopFooter({ t }: { t: FooterTranslation }) {
           <div className="justify-self-end">
             <div className="flex items-center justify-end gap-3">
               <a
-                href="https://wa.me/37369990190"
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#25D366] text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-xl hover:brightness-110"

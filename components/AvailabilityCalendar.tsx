@@ -4,13 +4,16 @@ import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
 import { getChisinauDateKey, isPastChisinauDate } from "@/lib/chisinauDate";
+import { getNightCount, isStayAvailable } from "@/lib/bookingDates";
 
 type AvailabilityCalendarProps = {
   apartmentId: string | number;
-  apartmentPath: string;
-  address: string;
   bookedDates: string[];
   price: number;
+  selectedStart: string | null;
+  selectedEnd: string | null;
+  onSelectionChange: (start: string, end: string | null) => void;
+  whatsappHref: string;
 };
 
 type CalendarCopy = {
@@ -71,7 +74,7 @@ const calendarCopy: Record<Language, CalendarCopy> = {
     priceFormula: "{price} MDL × {nights}",
     bookingButton: "Уточнить бронирование",
     bookingButtonDisabled: "Сначала выберите даты",
-    whatsappMessage: "Здравствуйте! Хочу уточнить доступность квартиры ID {id}, {address}, с {start} по {end} ({nights}). Итого по указанной цене: {total} MDL. Ссылка: {url}",
+    whatsappMessage: "Здравствуйте! Хочу уточнить доступность квартиры ID {id}, {address}, с {start} по {end} ({nights}). Предварительная сумма: {total} MDL. Ссылка: {url}",
   },
   ro: {
     months: ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
@@ -100,7 +103,7 @@ const calendarCopy: Record<Language, CalendarCopy> = {
     priceFormula: "{price} MDL × {nights}",
     bookingButton: "Solicită rezervarea",
     bookingButtonDisabled: "Alegeți mai întâi datele",
-    whatsappMessage: "Bună ziua! Doresc să verific disponibilitatea apartamentului ID {id}, {address}, din {start} până în {end} ({nights}). Total la prețul afișat: {total} MDL. Link: {url}",
+    whatsappMessage: "Bună ziua! Doresc să verific disponibilitatea apartamentului ID {id}, {address}, din {start} până în {end} ({nights}). Total estimativ: {total} MDL. Link: {url}",
   },
   en: {
     months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -129,7 +132,7 @@ const calendarCopy: Record<Language, CalendarCopy> = {
     priceFormula: "{price} MDL × {nights}",
     bookingButton: "Request booking",
     bookingButtonDisabled: "Choose dates first",
-    whatsappMessage: "Hello! I would like to check apartment ID {id}, {address}, from {start} to {end} ({nights}). Total at the displayed rate: {total} MDL. Link: {url}",
+    whatsappMessage: "Hello! I would like to check apartment ID {id}, {address}, from {start} to {end} ({nights}). Estimated total: {total} MDL. Link: {url}",
   },
   uk: {
     months: ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"],
@@ -158,7 +161,7 @@ const calendarCopy: Record<Language, CalendarCopy> = {
     priceFormula: "{price} MDL × {nights}",
     bookingButton: "Уточнити бронювання",
     bookingButtonDisabled: "Спочатку оберіть дати",
-    whatsappMessage: "Добрий день! Хочу уточнити доступність квартири ID {id}, {address}, з {start} до {end} ({nights}). Разом за вказаною ціною: {total} MDL. Посилання: {url}",
+    whatsappMessage: "Добрий день! Хочу уточнити доступність квартири ID {id}, {address}, з {start} до {end} ({nights}). Попередня сума: {total} MDL. Посилання: {url}",
   },
   cs: {
     months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
@@ -187,7 +190,7 @@ const calendarCopy: Record<Language, CalendarCopy> = {
     priceFormula: "{price} MDL × {nights}",
     bookingButton: "Ověřit rezervaci",
     bookingButtonDisabled: "Nejprve vyberte termín",
-    whatsappMessage: "Dobrý den! Chci ověřit apartmán ID {id}, {address}, od {start} do {end} ({nights}). Celkem podle uvedené ceny: {total} MDL. Odkaz: {url}",
+    whatsappMessage: "Dobrý den! Chci ověřit apartmán ID {id}, {address}, od {start} do {end} ({nights}). Předběžná cena: {total} MDL. Odkaz: {url}",
   },
 };
 
@@ -256,26 +259,45 @@ function getDateRange(startKey: string, endKey: string) {
   return dates;
 }
 
-function getNightCount(startKey: string, endKey: string) {
-  const milliseconds =
-    parseDateKey(endKey).getTime() - parseDateKey(startKey).getTime();
-  return Math.round(milliseconds / 86_400_000);
+export function getCalendarWhatsappHref({
+  language, apartmentId, address, apartmentPath, start, end, price,
+}: {
+  language: Language;
+  apartmentId: string | number;
+  address: string;
+  apartmentPath: string;
+  start: string;
+  end: string;
+  price: number;
+}) {
+  const text = calendarCopy[language];
+  const nights = getNightCount(start, end);
+  const message = formatCopy(text.whatsappMessage, {
+    id: apartmentId,
+    address,
+    start: parseDateKey(start).toLocaleDateString(text.locale, { day: "2-digit", month: "2-digit", year: "numeric" }),
+    end: parseDateKey(end).toLocaleDateString(text.locale, { day: "2-digit", month: "2-digit", year: "numeric" }),
+    nights: nights === 1 ? text.oneNight : formatCopy(text.nights, { count: nights }),
+    total: nights * price,
+    url: `https://rentplace.md${apartmentPath}`,
+  });
+  return "https://wa.me/37369990190?text=" + encodeURIComponent(message);
 }
 
 export default function AvailabilityCalendar({
   apartmentId,
-  apartmentPath,
-  address,
   bookedDates,
   price,
+  selectedStart,
+  selectedEnd,
+  onSelectionChange,
+  whatsappHref,
 }: AvailabilityCalendarProps) {
   const { language } = useLanguage();
   const text = calendarCopy[language];
   const [visibleMonth, setVisibleMonth] = useState(() =>
     startOfMonth(parseDateKey(todayKey)),
   );
-  const [selectedStart, setSelectedStart] = useState<string | null>(null);
-  const [selectedEnd, setSelectedEnd] = useState<string | null>(null);
   const [rangeError, setRangeError] = useState("");
   const [currentBookedDates, setCurrentBookedDates] = useState(bookedDates);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -339,40 +361,24 @@ export default function AvailabilityCalendar({
   }, [apartmentId]);
 
   function handleDayClick(dateKey: string) {
-    if (bookedDateSet.has(dateKey) || isPastChisinauDate(dateKey)) return;
+    if (isPastChisinauDate(dateKey)) return;
     setRangeError("");
 
     if (!selectedStart || selectedEnd || dateKey < selectedStart) {
-      setSelectedStart(dateKey);
-      setSelectedEnd(null);
+      if (bookedDateSet.has(dateKey)) return;
+      onSelectionChange(dateKey, null);
       return;
     }
 
     if (dateKey === selectedStart) return;
 
-    const range = getDateRange(selectedStart, dateKey);
-    if (range.some((rangeDate) => bookedDateSet.has(rangeDate))) {
+    if (!isStayAvailable(selectedStart, dateKey, bookedDateSet)) {
       setRangeError(text.rangeUnavailable);
       return;
     }
 
-    setSelectedEnd(dateKey);
+    onSelectionChange(selectedStart, dateKey);
   }
-
-  const whatsappText =
-    selectedStart && selectedEnd
-      ? formatCopy(text.whatsappMessage, {
-          id: apartmentId,
-          address,
-          start: formatHumanDate(selectedStart, text.locale),
-          end: formatHumanDate(selectedEnd, text.locale),
-          nights: nightLabel,
-          total,
-          url: `https://rentplace.md${apartmentPath}`,
-        })
-      : "";
-  const whatsappHref =
-    "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
 
   return (
     <section
@@ -434,6 +440,8 @@ export default function AvailabilityCalendar({
             const isCurrentMonth = day.getMonth() === visibleMonth.getMonth();
             const isBooked = bookedDateSet.has(dateKey);
             const isPast = isPastChisinauDate(dateKey);
+            const canCheckOut = !!selectedStart && !selectedEnd &&
+              isStayAvailable(selectedStart, dateKey, bookedDateSet);
             const isToday = dateKey === todayKey;
             const isSelected = selectedDateSet.has(dateKey);
             const isStart = selectedStart === dateKey;
@@ -449,7 +457,7 @@ export default function AvailabilityCalendar({
                 key={dateKey}
                 type="button"
                 onClick={() => handleDayClick(dateKey)}
-                disabled={isBooked || isPast}
+                disabled={isPast || (isBooked && !canCheckOut)}
                 aria-label={label}
                 aria-pressed={isSelected}
                 className={[
@@ -457,7 +465,7 @@ export default function AvailabilityCalendar({
                   isCurrentMonth ? "" : "opacity-35",
                   isPast
                     ? "cursor-not-allowed text-slate-300"
-                    : isBooked
+                    : isBooked && !canCheckOut
                       ? "cursor-not-allowed text-slate-400 line-through decoration-slate-400/70"
                       : "text-[#07111f] hover:bg-[#fff3d1]",
                   isRangeMiddle ? "bg-[#ffe8f2] text-[#8d0f48]" : "",
