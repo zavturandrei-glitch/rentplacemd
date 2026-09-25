@@ -107,9 +107,11 @@ function useRentPlaceLanguage() {
 export default function Header({
   apartmentId,
   whatsappHref = "https://wa.me/37369990190",
+  compactHome = false,
 }: {
   apartmentId?: string | number;
   whatsappHref?: string;
+  compactHome?: boolean;
 }) {
   return (
     <header
@@ -120,7 +122,7 @@ export default function Header({
       }
     >
       <MobileHeader apartmentMode={apartmentId !== undefined} whatsappHref={whatsappHref} />
-      <DesktopHeader whatsappHref={whatsappHref} />
+      <DesktopHeader whatsappHref={whatsappHref} compactHome={compactHome} />
       {apartmentId !== undefined ? (
         <ApartmentCompactHeader apartmentId={apartmentId} />
       ) : null}
@@ -309,7 +311,7 @@ function MobileHeader({ apartmentMode, whatsappHref }: { apartmentMode: boolean;
   );
 }
 
-function DesktopHeader({ whatsappHref }: { whatsappHref: string }) {
+function DesktopHeader({ whatsappHref, compactHome }: { whatsappHref: string; compactHome: boolean }) {
   const { language, changeLanguage, text } = useRentPlaceLanguage();
 
   const languages = [
@@ -352,13 +354,13 @@ function DesktopHeader({ whatsappHref }: { whatsappHref: string }) {
         <div className="flex shrink-0 items-center justify-end gap-3 xl:gap-5">
           <ApartmentIdSearch variant="header" />
 
-          <div className="flex min-w-[190px] flex-col items-end text-right xl:min-w-[250px]">
-            <div className="mb-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300">
+          <div className={compactHome ? "grid grid-cols-[auto_auto] items-center gap-x-3 text-right" : "flex min-w-[190px] flex-col items-end text-right xl:min-w-[250px]"}>
+            <div className={`${compactHome ? "col-span-2 justify-self-end" : ""} mb-1.5 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-300`}>
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]" />
               {text.online247}
             </div>
 
-            <div className="space-y-0.5 text-[17px] font-black leading-[1.03] xl:text-[22px]">
+            <div className={`space-y-0.5 text-[17px] font-black leading-[1.03] ${compactHome ? "" : "xl:text-[22px]"}`}>
               <a
                 href="tel:+37369990190"
                 className="block transition hover:text-[#ff4fa3]"
@@ -370,7 +372,7 @@ function DesktopHeader({ whatsappHref }: { whatsappHref: string }) {
               </span>
             </div>
 
-            <div className="mt-2 flex items-center justify-end gap-1.5 xl:gap-2">
+            <div className={`${compactHome ? "" : "mt-2"} flex items-center justify-end gap-1.5 xl:gap-2`}>
               <a
                 href={whatsappHref}
                 target="_blank"

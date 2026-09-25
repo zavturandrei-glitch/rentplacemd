@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import HomeManagedApartments from "@/components/HomeManagedApartments";
 import HomeCommercialIntro from "@/components/HomeCommercialIntro";
 import HomeLatestApartments from "@/components/HomeLatestApartments";
 import HomeNavigation from "@/components/HomeNavigation";
@@ -27,8 +28,9 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#07111f]">
-      <Header />
+      <Header compactHome />
       <Hero />
+      <HomeManagedApartments />
       <HomeNavigation />
       <HomeCommercialIntro />
       <HomeLatestApartments />

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "@/components/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Hero() {
@@ -19,11 +20,14 @@ export default function Hero() {
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,17,.48)_0%,rgba(7,17,31,.68)_65%,#07111f_100%)]" />
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-6 pt-5 sm:px-6 sm:pb-12 sm:pt-12 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 pb-6 pt-5 sm:px-6 sm:pb-12 sm:pt-12 lg:px-8 lg:py-6">
         <div className="mx-auto max-w-5xl text-center">
-          <h1 className="mx-auto max-w-[360px] text-[28px] font-black leading-[1.08] tracking-tight text-white sm:max-w-5xl sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto max-w-[360px] text-[28px] font-black leading-[1.08] tracking-tight text-white sm:max-w-5xl sm:text-5xl lg:text-[42px]">
             {t.hero.title}
           </h1>
+          <Link href="/apartments" className="mt-4 hidden min-h-11 items-center justify-center rounded-xl bg-[#ffd21f] px-6 py-3 text-sm font-black text-[#07111f] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:inline-flex">
+            {t.hero.openCatalog} →
+          </Link>
 
         </div>
       </div>
