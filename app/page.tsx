@@ -24,7 +24,7 @@ export default async function Home() {
   const homeVideos = [
     ...featuredVideos,
     ...publishedVideos.filter((video) => !video.featured),
-  ].slice(0, 3);
+  ];
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#07111f]">

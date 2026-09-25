@@ -23,7 +23,7 @@ export default function CityVideoRail({ videos, placement }: { videos: CityVideo
           </div>
           <Link href={href} className="hidden min-h-11 shrink-0 items-center rounded-xl bg-white px-4 text-sm font-black text-[#07111f] shadow-sm ring-1 ring-black/5 sm:inline-flex">{copy.all}</Link>
         </div>
-        <div className="-mx-4 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
+        <div className={`-mx-4 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-px-4 px-4 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:scroll-px-0 sm:px-0 ${placement === "home" ? "sm:[&>article:nth-of-type(n+4)]:hidden" : ""}`}>
           {videos.map((video) => <CityVideoCard key={video.id} video={video} />)}
           <span className="w-1 shrink-0" aria-hidden="true" />
         </div>

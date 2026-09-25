@@ -68,7 +68,9 @@ export default function CityVideoCard({
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10" />
-          <span className="absolute bottom-3 right-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-[#d4146f] text-sm text-white shadow-lg shadow-black/35 ring-4 ring-[#07111f] transition group-hover:scale-105" aria-hidden="true">↗</span>
+          <span className="absolute bottom-3 right-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-[#d4146f] text-sm text-white shadow-lg shadow-black/35 ring-4 ring-[#07111f] transition group-hover:scale-105" aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="h-4 w-4 translate-x-px" fill="currentColor"><path d="M7 4v16l13-8z" /></svg>
+          </span>
         </div>
         <div className="min-h-[124px] px-4 pb-3.5 pt-5">
           <p className="pr-10 text-[9px] font-black uppercase leading-4 tracking-[0.12em] text-[#ff83b9]">{cityVideoCategoryLabels[video.category][language]} · {date}</p>

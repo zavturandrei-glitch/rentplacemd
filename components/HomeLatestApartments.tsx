@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "@/components/LocalizedLink";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useLanguage } from "@/context/LanguageContext";
@@ -24,9 +25,44 @@ const recommendedApartments = activeApartments.filter((apartment) =>
   ["61", "15", "16", "202", "203", "204"].includes(String(apartment.id)),
 );
 
+const navigationLabels: Record<Language, { previous: string; next: string }> = {
+  ru: { previous: "Предыдущие квартиры", next: "Следующие квартиры" },
+  ro: { previous: "Apartamentele anterioare", next: "Apartamentele următoare" },
+  en: { previous: "Previous apartments", next: "Next apartments" },
+  uk: { previous: "Попередні квартири", next: "Наступні квартири" },
+  cs: { previous: "Předchozí apartmány", next: "Další apartmány" },
+};
+
 export default function HomeLatestApartments() {
   const { language } = useLanguage();
   const copy = copyByLanguage[language];
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState({ previous: false, next: false });
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const update = () => setCanScroll({
+      previous: rail.scrollLeft > 1,
+      next: rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 1,
+    });
+    const observer = new ResizeObserver(update);
+    observer.observe(rail);
+    rail.addEventListener("scroll", update, { passive: true });
+    update();
+    return () => {
+      observer.disconnect();
+      rail.removeEventListener("scroll", update);
+    };
+  }, []);
+
+  function scrollCard(direction: number) {
+    const rail = railRef.current;
+    const card = rail?.firstElementChild;
+    if (!rail || !card) return;
+    const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap);
+    rail.scrollBy({ left: direction * step, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
 
   return (
     <section className="bg-[#07111f] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -36,12 +72,29 @@ export default function HomeLatestApartments() {
             <h2 className="text-xl font-black tracking-[-0.025em] text-white sm:text-3xl">{copy.title}</h2>
             <p className="mt-1.5 text-xs font-semibold text-white/50 sm:text-sm">{copy.hint} →</p>
           </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-2 lg:flex">
+              {(["previous", "next"] as const).map((direction) => (
+                <button
+                  key={direction}
+                  type="button"
+                  aria-label={navigationLabels[language][direction]}
+                  aria-controls="recommended-apartments-rail"
+                  disabled={!canScroll[direction]}
+                  onClick={() => scrollCard(direction === "previous" ? -1 : 1)}
+                  className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/6 text-xl text-white transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd21f] disabled:cursor-default disabled:opacity-30 disabled:hover:bg-white/6"
+                >
+                  <span aria-hidden="true">{direction === "previous" ? "←" : "→"}</span>
+                </button>
+              ))}
+            </div>
           <Link href="/apartments" className="hidden min-h-11 items-center rounded-xl border border-white/12 bg-white/6 px-4 text-sm font-black text-white sm:inline-flex">
             {copy.all}
           </Link>
+          </div>
         </div>
 
-        <div className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:gap-4 sm:px-0">
+        <div ref={railRef} id="recommended-apartments-rail" className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:gap-4 sm:px-0">
           {recommendedApartments.map((apartment, index) => {
             const address = getApartmentDisplayAddress(apartment.id, apartment.title, language);
             return (
@@ -49,7 +102,7 @@ export default function HomeLatestApartments() {
                 key={apartment.id}
                 href={getApartmentPath(apartment)}
                 aria-label={`${copy.open}: ID ${apartment.id}, ${address}`}
-                className="group w-[78vw] max-w-[310px] shrink-0 snap-start overflow-hidden rounded-[20px] border border-white/10 bg-[#111e31] text-white shadow-[0_14px_34px_rgba(0,0,0,.24)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4fa3] sm:w-[320px]"
+                className="group w-[78vw] max-w-[310px] shrink-0 snap-start overflow-hidden rounded-[20px] border border-white/10 bg-[#111e31] text-white shadow-[0_14px_34px_rgba(0,0,0,.24)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4fa3] sm:w-[320px] lg:w-[calc((100%-2rem)/3)] lg:max-w-none"
               >
                 <ResponsiveImage
                   src={apartment.cardPhoto ?? apartment.photos[0]}
@@ -80,7 +133,7 @@ export default function HomeLatestApartments() {
               </Link>
             );
           })}
-          <span className="w-1 shrink-0" aria-hidden="true" />
+          <span className="w-1 shrink-0 lg:hidden" aria-hidden="true" />
         </div>
         <Link href="/apartments" className="mt-2 inline-flex min-h-11 items-center rounded-xl border border-white/12 bg-white/6 px-4 text-sm font-black text-white sm:hidden">
           {copy.all}
