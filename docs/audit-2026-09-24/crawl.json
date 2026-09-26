@@ -1,0 +1,1827 @@
+[
+  {
+    "url": "https://rentplace.md/apartments/center",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartments/center",
+    "title": "Квартиры посуточно в центре Кишинёва — цены | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartments/center",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "CollectionPage",
+      "ItemList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/about",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/about",
+    "title": "О RentPlaceMD — квартиры посуточно и управление квартирами в Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/about",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "AboutPage",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/",
+    "title": "RentPlaceMD — квартиры посуточно в Кишинёве",
+    "canonical": "https://rentplace.md",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/owners",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/owners",
+    "title": "Управление квартирой в Кишинёве — RentPlaceMD",
+    "canonical": "https://rentplace.md/owners",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "WebPage",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/check-in-rules",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/check-in-rules",
+    "title": "Правила заселения RentPlaceMD | RentPlaceMD",
+    "canonical": "https://rentplace.md/check-in-rules",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "WebPage",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/transfer",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/transfer",
+    "title": "Трансфер из аэропорта Кишинёва | RentPlaceMD",
+    "canonical": "https://rentplace.md/transfer",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "WebPage",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-guide",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-guide",
+    "title": "Что посмотреть в Кишинёве и Молдове | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-guide",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "CollectionPage",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartments",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartments",
+    "title": "Квартиры посуточно в Кишинёве — цены и каталог | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartments",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "CollectionPage",
+      "ItemList",
+      "ItemList",
+      "FAQPage",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos",
+    "title": "Видео о Кишинёве: события и фестивали — RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "CollectionPage",
+      "BreadcrumbList",
+      "ItemList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartments/economy",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartments/economy",
+    "title": "Эконом квартиры RentPlaceMD в Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartments/economy",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "ItemList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartments/standard",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartments/standard",
+    "title": "Стандарт квартиры RentPlaceMD в Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartments/standard",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "ItemList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartments/standard-plus",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartments/standard-plus",
+    "title": "Комфорт квартиры RentPlaceMD в Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartments/standard-plus",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "ItemList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartments/premium",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartments/premium",
+    "title": "Премиум квартиры RentPlaceMD в Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartments/premium",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "ItemList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/walking-tours",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/walking-tours",
+    "title": "Пешие маршруты по Кишинёву | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/walking-tours",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/events",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/events",
+    "title": "События и концерты в Кишинёве 2026 | RentPlaceMD",
+    "canonical": "https://rentplace.md/events",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "CollectionPage",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/dental-tourism",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/dental-tourism",
+    "title": "Стоматологический туризм | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/dental-tourism",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/moldova-trips",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/moldova-trips",
+    "title": "Поездки по Молдове | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/moldova-trips",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/transnistria",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/transnistria",
+    "title": "Поездка в Приднестровский регион | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/transnistria",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/monasteries",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/monasteries",
+    "title": "Монастыри Молдовы | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/monasteries",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/museums",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/museums",
+    "title": "Музеи Кишинёва | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/museums",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/wineries",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/wineries",
+    "title": "Винодельни Молдовы | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/wineries",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/attractions",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/attractions",
+    "title": "Что посмотреть в Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/attractions",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/wineries/cricova",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/wineries/cricova",
+    "title": "Cricova — винные подземелья рядом с Кишинёвом | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/wineries/cricova",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/restaurants",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/restaurants",
+    "title": "Рестораны и местная кухня | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/restaurants",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/wineries/milestii-mici",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/wineries/milestii-mici",
+    "title": "Mileștii Mici — путешествие по подземной винной галерее | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/wineries/milestii-mici",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/wineries/purcari",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/wineries/purcari",
+    "title": "Château Purcari — винодельческое путешествие на юго-восток Молдовы | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/wineries/purcari",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/wineries/castel-mimi",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/wineries/castel-mimi",
+    "title": "Castel Mimi — винный замок в Bulboaca | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/wineries/castel-mimi",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/guide/orheiul-vechi",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/guide/orheiul-vechi",
+    "title": "Orheiul Vechi — скалы, история и монастыри Молдовы | RentPlaceMD",
+    "canonical": "https://rentplace.md/guide/orheiul-vechi",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/events/october-2026",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/events/october-2026",
+    "title": "События в Кишинёве — октябрь 2026 г. | RentPlaceMD",
+    "canonical": "https://rentplace.md/events/october-2026",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "Event",
+      "Event",
+      "Event",
+      "Event",
+      "Event",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/events/august-2026",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/events/august-2026",
+    "title": "События в Кишинёве — август 2026 г. | RentPlaceMD",
+    "canonical": "https://rentplace.md/events/august-2026",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "Event",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/events/september-2026",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/events/september-2026",
+    "title": "События в Кишинёве — сентябрь 2026 г. | RentPlaceMD",
+    "canonical": "https://rentplace.md/events/september-2026",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "Event",
+      "Event",
+      "Event",
+      "Event",
+      "Event",
+      "Event",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/events/november-2026",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/events/november-2026",
+    "title": "События в Кишинёве — ноябрь 2026 г. | RentPlaceMD",
+    "canonical": "https://rentplace.md/events/november-2026",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "Event",
+      "Event",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/events/december-2026",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/events/december-2026",
+    "title": "События в Кишинёве — декабрь 2026 г. | RentPlaceMD",
+    "canonical": "https://rentplace.md/events/december-2026",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-ad0f5a1657c648f4a134aceab5de34c7",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-ad0f5a1657c648f4a134aceab5de34c7",
+    "title": "Ready Fest Chisinau 2026 — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-ad0f5a1657c648f4a134aceab5de34c7",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-4f5c277de52646d7900db3e312e0dfed",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-4f5c277de52646d7900db3e312e0dfed",
+    "title": "Ready Fest Chisinau 2026 — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-4f5c277de52646d7900db3e312e0dfed",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-54a9f432354545bf98532c0ba1187fdf",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-54a9f432354545bf98532c0ba1187fdf",
+    "title": "Ready Fest Chisinau 2026 — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/ready-fest-chisinau-2026-54a9f432354545bf98532c0ba1187fdf",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/kisinau-summer-fest-2026-165cf3e3b096410d936facf3fca3de2d",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/kisinau-summer-fest-2026-165cf3e3b096410d936facf3fca3de2d",
+    "title": "Kisinau Summer fest 2026 — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/kisinau-summer-fest-2026-165cf3e3b096410d936facf3fca3de2d",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/summer-fest-moldova-48063be5ddf441da9551bc6dba051c20",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/summer-fest-moldova-48063be5ddf441da9551bc6dba051c20",
+    "title": "Summer fest Moldova — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/summer-fest-moldova-48063be5ddf441da9551bc6dba051c20",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/dzh-korolova-359416af41b64a90b0d887c09ba9bea4",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/dzh-korolova-359416af41b64a90b0d887c09ba9bea4",
+    "title": "Дж Королова — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/dzh-korolova-359416af41b64a90b0d887c09ba9bea4",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/korolova-a3bb6a168a08438491cbe8bb7f04edfe",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/korolova-a3bb6a168a08438491cbe8bb7f04edfe",
+    "title": "Korolova — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/korolova-a3bb6a168a08438491cbe8bb7f04edfe",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/chisinau-videos/poshlaya-molli-30df97ad1ec3462b828d8a0f347b075a",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/chisinau-videos/poshlaya-molli-30df97ad1ec3462b828d8a0f347b075a",
+    "title": "Пошлая Молли — видео о Кишинёве | RentPlaceMD",
+    "canonical": "https://rentplace.md/chisinau-videos/poshlaya-molli-30df97ad1ec3462b828d8a0f347b075a",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      "VideoObject",
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/albisoara-16-84",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/albisoara-16-84",
+    "title": "2-комнатная квартира Premium на Albișoara 16 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/albisoara-16-84",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-2",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-2",
+    "title": "Студия на Измаил, 88 — ID 2 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-2",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-3",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-3",
+    "title": "Студия Комфорт в центре Кишинёва — ID 3 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-3",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-4",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-4",
+    "title": "Студия на Измаил, 88 — ID 4 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-4",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-1",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-1",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 1 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-1",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-5",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-5",
+    "title": "Студия Комфорт — ID 5 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-5",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/cuza-voda-1-2-6",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/cuza-voda-1-2-6",
+    "title": "Квартира на Ботанике — бульвар Куза Водэ, 1/2 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/cuza-voda-1-2-6",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-7",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-7",
+    "title": "Студия на Измаил, 88 — ID 7 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-7",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-8",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-8",
+    "title": "Студия на Измаил, 88 — ID 8 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-8",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-9",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-9",
+    "title": "Студия на Измаил, 88 — ID 9 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-9",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-10",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-10",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 10 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-10",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-11",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-11",
+    "title": "Студия на Измаил, 88 — ID 11 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-11",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-12",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-12",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 12 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-12",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-13",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-13",
+    "title": "Квартира с двумя спальнями на Измаил, 88 — ID 13 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-13",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-14",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-14",
+    "title": "Студия на Измаил, 88 — ID 14 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-14",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail-31-id15",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail-31-id15",
+    "title": "Однокомнатная квартира в ультрацентре — ID 15 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail-31-id15",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-20",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-20",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 20 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-20",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/alba-iulia-103-id16",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/alba-iulia-103-id16",
+    "title": "Однокомнатная квартира в новострое — ID 16 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/alba-iulia-103-id16",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-23",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-23",
+    "title": "Студия на Измаил, 88 — ID 23 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-23",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-21",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-21",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 21 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-21",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-37",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-37",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 37 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-37",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-22",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-22",
+    "title": "Студия на Измаил, 88 — ID 22 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-22",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-38",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-38",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 38 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-38",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail-106-2-61",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail-106-2-61",
+    "title": "Двухкомнатная квартира после ремонта на Измаил 106/2 — ID 61 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail-106-2-61",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-42",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-42",
+    "title": "Квартира 2+1 на Измаил, 88 — ID 42 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-42",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/grigore-ureche-67",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/grigore-ureche-67",
+    "title": "Квартира 1+1 на Григоре Уреке, 67 — ID 67 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/grigore-ureche-67",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-110",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-110",
+    "title": "Студия на Измаил, 88 — ID 110 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-110",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-112",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-112",
+    "title": "Студия на Измаил, 88 — ID 112 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-112",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-111",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-111",
+    "title": "Студия на Измаил, 88 — ID 111 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-111",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-371",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-371",
+    "title": "Студия на Измаил, 88 — ID 371 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-371",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-30",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-30",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 30 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-30",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-25",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-25",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 25 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-25",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-301",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-301",
+    "title": "Квартира 1+1 на Измаил, 88 — ID 301 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-301",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-461",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-461",
+    "title": "Студия на Измаил, 88 — ID 461 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-461",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-463",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-463",
+    "title": "Студия на Измаил, 88 — ID 463 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-463",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-464",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-464",
+    "title": "Студия на Измаил, 88 — ID 464 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-464",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-661",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-661",
+    "title": "Студия на Измаил, 88 — ID 661 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-661",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/izmail88-692",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/izmail88-692",
+    "title": "Студия на Измаил, 88 — ID 692 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/izmail88-692",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/lev-tolstoi-63-1-77",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/lev-tolstoi-63-1-77",
+    "title": "Квартира 1+1 на Лев Толстой, 63/1 — ID 77 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/lev-tolstoi-63-1-77",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/mihai-eminescu-76-76",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/mihai-eminescu-76-76",
+    "title": "Квартира 1+1 на Михай Эминеску, 76 — ID 76 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/mihai-eminescu-76-76",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/lev-tolstoi-63-1-78",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/lev-tolstoi-63-1-78",
+    "title": "Квартира 1+1 на Лев Толстой, 63/1 — ID 78 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/lev-tolstoi-63-1-78",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/doina-ion-aldea-teodorovici-10-3",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/doina-ion-aldea-teodorovici-10-3",
+    "title": "Однокомнатная квартира на Буюканах — ID 200 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/doina-ion-aldea-teodorovici-10-3",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/coca-15-203",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/coca-15-203",
+    "title": "Премиум-студия у Дендрария — ID 203 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/coca-15-203",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/coca-15-201",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/coca-15-201",
+    "title": "Студия Комфорт на ул. Кока, 15 — ID 201 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/coca-15-201",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/coca-15-202",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/coca-15-202",
+    "title": "Студия с видом в сторону Дендрария — ID 202 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/coca-15-202",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/coca-15-204",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/coca-15-204",
+    "title": "Светлая Премиум-студия у Дендрария — ID 204 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/coca-15-204",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  },
+  {
+    "url": "https://rentplace.md/apartment/varlaam-50-205",
+    "status": 200,
+    "finalUrl": "https://rentplace.md/apartment/varlaam-50-205",
+    "title": "Апартамент в двухэтажном доме на ул. Митрополит Варлаам, 50 — ID 205 | RentPlaceMD",
+    "canonical": "https://rentplace.md/apartment/varlaam-50-205",
+    "h1": 1,
+    "parseErrors": 0,
+    "types": [
+      [
+        "Apartment",
+        "LodgingBusiness"
+      ],
+      "BreadcrumbList",
+      "Organization",
+      "WebSite",
+      [
+        "LocalBusiness",
+        "LodgingBusiness"
+      ]
+    ]
+  }
+]

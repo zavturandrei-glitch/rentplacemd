@@ -362,6 +362,7 @@ export default function AdminAvailabilityManager({ apartments }: { apartments: A
           </div>
           <div className="flex shrink-0 gap-2">
             <Link href="/admin/videos" className="inline-flex h-10 items-center rounded-2xl bg-white px-3 text-xs font-black text-[#d4146f] shadow-lg shadow-black/5 ring-1 ring-black/5">Видео</Link>
+          <Link href="/admin/excursions" className="inline-flex min-h-11 items-center rounded-xl border bg-white px-4 text-sm font-bold">Экскурсии</Link>
             <button type="button" onClick={loadAvailability} className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-black text-[#07111f] shadow-lg shadow-black/5 ring-1 ring-black/5 transition hover:-translate-y-0.5" aria-label="Обновить">↻</button>
             <button type="button" onClick={logout} className="grid h-10 w-10 place-items-center rounded-2xl bg-[#07111f] text-sm font-black text-white shadow-lg shadow-black/10 transition hover:-translate-y-0.5" aria-label="Выйти">×</button>
           </div>

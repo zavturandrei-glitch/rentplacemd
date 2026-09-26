@@ -18,18 +18,20 @@ import { readPublishedCityVideos } from "@/lib/cityVideoStore";
 import { getCityVideoAbsoluteThumbnail } from "@/lib/cityVideoContent";
 import { getCityVideoPath } from "@/lib/cityVideoTypes";
 import { centerApartmentsPath } from "@/lib/apartmentDistricts";
+import { regionalGuideSlugs } from "@/lib/regionalGuides";
 
 export const revalidate = 3600;
 
 const routeLastModified: Record<string, Date> = {
-  "": new Date("2026-07-26"),
+  "/excursions": new Date("2026-09-26"),
+  "": new Date("2026-09-26"),
   "/about": new Date("2026-07-26"),
   "/apartments": new Date("2026-08-02"),
   [centerApartmentsPath]: new Date("2026-09-09"),
   "/owners": new Date("2026-08-02"),
   "/check-in-rules": new Date("2026-07-25"),
   "/transfer": new Date("2026-07-25"),
-  "/chisinau-guide": new Date("2026-07-26"),
+  "/chisinau-guide": new Date("2026-09-26"),
   "/chisinau-videos": new Date("2026-08-02"),
 };
 const categoryLastModified = new Date("2026-08-02");
@@ -49,10 +51,10 @@ function languageAlternates(path: string) {
   return {
     languages: {
       ru: baseUrl + path,
-      ro: baseUrl + path + "?lang=ro",
-      en: baseUrl + path + "?lang=en",
-      uk: baseUrl + path + "?lang=uk",
-      cs: baseUrl + path + "?lang=cs",
+      ro: baseUrl + (path || "/") + "?lang=ro",
+      en: baseUrl + (path || "/") + "?lang=en",
+      uk: baseUrl + (path || "/") + "?lang=uk",
+      cs: baseUrl + (path || "/") + "?lang=cs",
       "x-default": baseUrl + path,
     },
   };
@@ -78,7 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return {
       url,
-      lastModified: String(apartment.id) === "84" ? new Date("2026-09-23") : newApartmentIds.has(String(apartment.id))
+      lastModified: ["77", "78"].includes(String(apartment.id)) ? new Date("2026-09-26") : String(apartment.id) === "84" ? new Date("2026-09-23") : newApartmentIds.has(String(apartment.id))
         ? newApartmentLastModified
         : apartmentInventoryLastModified,
       changeFrequency: "weekly" as const,
@@ -94,7 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const path = guidePath(slug);
     return {
       url: baseUrl + path,
-      lastModified: new Date(slug === "events" ? eventsUpdatedAt : "2026-07-25"),
+      lastModified: new Date(Math.max(new Date("2026-09-26").getTime(), new Date(slug === "events" ? eventsUpdatedAt : "2026-07-25").getTime())),
       changeFrequency: slug === "events" ? "weekly" as const : "monthly" as const,
       priority: 0.7,
       images: [baseUrl + guidePages[slug].image],
@@ -116,7 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const destinationRoutes = Object.values(destinations).map((destination) => ({
     url: baseUrl + destination.path,
-    lastModified: new Date("2026-08-02"),
+    lastModified: new Date("2026-09-26"),
     changeFrequency: "monthly" as const,
     priority: 0.76,
     images: [baseUrl + destination.image],
@@ -136,7 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return [
+  const entries: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: routeLastModified[""],
@@ -145,19 +147,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       images: [mainSocialImageUrl, baseUrl + "/main.jpg", baseUrl + "/icon.png"],
       alternates: languageAlternates(""),
     },
-    ...["/about", "/apartments", centerApartmentsPath, "/owners", "/check-in-rules", "/transfer", "/chisinau-guide", "/chisinau-videos"].map((path) => ({
+    ...["/about", "/apartments", centerApartmentsPath, "/owners", "/check-in-rules", "/transfer", "/chisinau-guide", "/excursions", "/chisinau-videos"].map((path) => ({
       url: baseUrl + path,
       lastModified: path === "/chisinau-videos" ? new Date(videoLastModified) : routeLastModified[path],
       changeFrequency: "monthly" as const,
       priority: path === "/apartments" ? 0.9 : path === centerApartmentsPath ? 0.89 : path === "/owners" ? 0.76 : path === "/chisinau-videos" ? 0.74 : 0.72,
-      images: [mainSocialImageUrl],
+      images: [path === "/excursions" ? baseUrl + "/guide/moldova-trips.webp" : mainSocialImageUrl],
       alternates: languageAlternates(path),
     })),
     ...categoryRoutes,
     ...guideRoutes,
     ...destinationRoutes,
+    ...regionalGuideSlugs.map((slug) => ({
+      url: baseUrl + `/guide/${slug}`,
+      lastModified: new Date("2026-09-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+      alternates: languageAlternates(`/guide/${slug}`),
+    })),
     ...eventMonthRoutes,
     ...videoRoutes,
     ...apartmentRoutes,
   ];
+  // Each translated canonical is a URL entry with reciprocal alternates.
+  // Apartment alternates already exclude languages without translated content.
+  return entries.flatMap((entry) => [...new Set([
+    entry.url,
+    ...Object.values(entry.alternates?.languages ?? {}).flat().map(String),
+  ])].map((url) => ({ ...entry, url })));
 }

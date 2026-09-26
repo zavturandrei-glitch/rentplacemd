@@ -1,0 +1,66 @@
+{
+  "pages": 100,
+  "languages": 5,
+  "routes": [
+    {
+      "number": "01",
+      "title": "Старый Орхей",
+      "path": "/guide/orheiul-vechi",
+      "requestable": true
+    },
+    {
+      "number": "02",
+      "title": "Крикова",
+      "path": "/guide/wineries/cricova",
+      "requestable": true
+    },
+    {
+      "number": "03",
+      "title": "Милештий Мичь",
+      "path": "/guide/wineries/milestii-mici",
+      "requestable": true
+    },
+    {
+      "number": "04",
+      "title": "Кишинёв: прогулка и кухня",
+      "path": "/guide/walking-tours",
+      "requestable": false
+    },
+    {
+      "number": "05",
+      "title": "Старый Орхей — Курки — Крикова",
+      "path": "/guide/orheiul-vechi",
+      "requestable": true
+    },
+    {
+      "number": "06",
+      "title": "Гагаузия: Комрат и Бешалма",
+      "path": "/guide/gagauzia",
+      "requestable": false
+    },
+    {
+      "number": "07",
+      "title": "Сорока и Днестр",
+      "path": "/guide/soroca",
+      "requestable": false
+    },
+    {
+      "number": "08",
+      "title": "Курки: монастырь и природа",
+      "path": "/guide/monasteries",
+      "requestable": false
+    },
+    {
+      "number": "09",
+      "title": "Castel Mimi: вино и архитектура",
+      "path": "/guide/wineries/castel-mimi",
+      "requestable": false
+    }
+  ],
+  "clientAssetsChecked": 45,
+  "privateLinksAbsentPublicly": true,
+  "adminHtmlAndRscProtected": true,
+  "loginLogoutVerified": true,
+  "privateCacheNoStore": true,
+  "checkedAt": "2026-09-26T09:09:23.684Z"
+}

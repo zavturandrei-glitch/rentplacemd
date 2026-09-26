@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
 import { destinationUi, destinations, winerySlugs } from "@/lib/moldovaDestinations";
+import { travelUi } from "@/lib/excursions";
 
 const copy = {
   title: {
@@ -66,6 +67,7 @@ export default function WineriesHub() {
           })}
         </div>
 
+        <Link href="/excursions" className="mt-10 inline-flex min-h-12 items-center rounded-xl bg-[#15231d] px-5 text-sm font-bold text-white">{travelUi.navTitle[language]} →</Link>
         <aside className="mt-14 border-l-4 border-[#8b3e2f] bg-white/70 p-6 text-base leading-7">
           {destinationUi.currentInfo[language]}
         </aside>

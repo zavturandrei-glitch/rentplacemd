@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
+import { regionalGuideSlugs, regionalGuides } from "@/lib/regionalGuides";
 import { eventsUpdatedAt, getUpcomingGuideEvents, isEventEligibleForStructuredData } from "@/lib/events";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 import {
@@ -118,17 +119,17 @@ export function buildDestinationJsonLd(slug: DestinationSlug, languageInput?: st
       about: {
         "@type": "TouristAttraction",
         name: data.officialName,
-        url: data.officialUrl,
+        url,
       },
     },
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
-        { "@type": "ListItem", position: 2, name: guideUi.hubTitle[language], item: baseUrl + "/chisinau-guide" },
+        { "@type": "ListItem", position: 1, name: siteName, item: localizedUrl("", language) },
+        { "@type": "ListItem", position: 2, name: guideUi.hubTitle[language], item: localizedUrl("/chisinau-guide", language) },
         ...(slug === "orheiul-vechi" ? [] : [
-          { "@type": "ListItem", position: 3, name: parentName, item: baseUrl + parentPath },
+          { "@type": "ListItem", position: 3, name: parentName, item: localizedUrl(parentPath, language) },
         ]),
         { "@type": "ListItem", position: slug === "orheiul-vechi" ? 3 : 4, name: data.title[language], item: url },
       ],
@@ -145,12 +146,12 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+      { "@type": "ListItem", position: 1, name: siteName, item: localizedUrl("", language) },
       {
         "@type": "ListItem",
         position: 2,
         name: guideUi.hubTitle[language],
-        item: baseUrl + "/chisinau-guide",
+        item: localizedUrl("/chisinau-guide", language),
       },
       { "@type": "ListItem", position: 3, name: data.title[language], item: url },
     ],
@@ -210,7 +211,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+          { "@type": "ListItem", position: 1, name: siteName, item: localizedUrl("", language) },
           { "@type": "ListItem", position: 2, name: data.title[language], item: url },
         ],
       },
@@ -241,28 +242,30 @@ export function buildGuideHubJsonLd(languageInput?: string) {
       "@type": "CollectionPage",
       name: guideUi.hubTitle[language],
       description: guideUi.hubIntro[language],
-      url: baseUrl + "/chisinau-guide",
+      url: localizedUrl("/chisinau-guide", language),
       inLanguage: language,
       hasPart: Object.values(guidePages).map((item) => ({
         "@type": "Article",
         name: item.title[language],
-        url: baseUrl + guidePath(item.slug),
+        url: localizedUrl(guidePath(item.slug), language),
       })).concat(Object.values(destinations).map((item) => ({
         "@type": "Article",
         name: item.title[language],
-        url: baseUrl + item.path,
+        url: localizedUrl(item.path, language),
+      }))).concat(regionalGuideSlugs.map((slug) => ({
+        "@type": "Article", name: regionalGuides[slug].title[language], url: localizedUrl(`/guide/${slug}`, language),
       }))),
     },
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: siteName, item: baseUrl },
+        { "@type": "ListItem", position: 1, name: siteName, item: localizedUrl("", language) },
         {
           "@type": "ListItem",
           position: 2,
           name: guideUi.hubTitle[language],
-          item: baseUrl + "/chisinau-guide",
+          item: localizedUrl("/chisinau-guide", language),
         },
       ],
     },

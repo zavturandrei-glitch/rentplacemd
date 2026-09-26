@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" fill="none">
+  <!-- Original RentPlaceMD illustration, created for this project. No vehicle advertised. -->
+  <defs><linearGradient id="bg" x2="600" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#19283d"/><stop offset="1" stop-color="#07111f"/></linearGradient></defs>
+  <path fill="url(#bg)" d="M0 0h600v260H0z"/>
+  <circle cx="480" cy="28" r="160" stroke="#d9b76e" stroke-opacity=".1" stroke-width="30"/>
+  <path d="M80 215h440M130 235h80m28 0h24m28 0h90" stroke="#d9b76e" stroke-opacity=".25" stroke-width="3"/>
+  <g stroke="#e9ca86" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m197 125 29-57h139l39 57 39 16v49h-25m-205 0h-38v-48l22-17Zm42 65h146M206 125h194M239 80l-18 35h71V80m15 0v35h73l-23-35M187 146h31m180 0h29"/>
+    <circle cx="226" cy="186" r="21" fill="#122033"/><circle cx="400" cy="186" r="21" fill="#122033"/>
+  </g>
+  <path d="M480 97v34m-17-17h34" stroke="#e9ca86" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+</svg>

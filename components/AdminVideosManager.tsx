@@ -215,6 +215,7 @@ export default function AdminVideosManager() {
         </div>
         <div className="flex gap-2">
           <Link href="/admin/availability" className="inline-flex min-h-11 items-center rounded-xl border border-black/10 bg-white px-4 text-sm font-black">Календарь</Link>
+          <Link href="/admin/excursions" className="inline-flex min-h-11 items-center rounded-xl border bg-white px-4 text-sm font-bold">Экскурсии</Link>
           <button type="button" onClick={logout} className="h-11 rounded-xl bg-[#07111f] px-4 text-sm font-black text-white">Выйти</button>
         </div>
       </header>

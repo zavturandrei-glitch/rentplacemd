@@ -65,7 +65,7 @@ const levTolstoi63: Record<Language, string> = {
   ru: "Лев Толстой, 63/1",
   ro: "Lev Tolstoi 63/1",
   en: "Lev Tolstoy 63/1",
-  uk: "Лев Толстой, 63/1",
+  uk: "Льва Толстого, 63/1",
   cs: "Lev Tolstoj 63/1",
 };
 

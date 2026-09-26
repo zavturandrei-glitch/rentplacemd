@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
-import { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { guidePages, guideUi } from "@/lib/guide";
 import { destinations } from "@/lib/moldovaDestinations";
+import { travelUi } from "@/lib/excursions";
+import { regionalGuideLinks } from "@/lib/regionalGuideLinks";
 
 const themes = [
   { key: "wineries", path: "/guide/wineries", image: "/guide/wineries.webp", guide: "wineries" },
@@ -35,7 +36,6 @@ const videoLabels = {
 
 export default function GuideHub() {
   const { language } = useLanguage();
-  useEffect(() => { document.title = `${guideUi.hubTitle[language]} | RentPlaceMD`; }, [language]);
   const href = (path: string) => path;
 
   return (
@@ -49,6 +49,12 @@ export default function GuideHub() {
           <p className="max-w-xl text-lg leading-8 text-[#526158]">{guideUi.hubIntro[language]}</p>
         </header>
 
+        <Link href="/excursions" className="mt-8 flex flex-col justify-between gap-3 rounded-2xl bg-[#15231d] p-6 text-white sm:flex-row sm:items-center">
+          <span><strong className="block font-serif text-2xl">{travelUi.navTitle[language]}</strong><span className="mt-2 block text-sm text-white/80">{travelUi.navText[language]}</span></span><span aria-hidden="true" className="text-3xl">→</span>
+        </Link>
+        <nav className="mt-4 grid gap-3 sm:grid-cols-2" aria-label={travelUi.culture[language]}>
+          {regionalGuideLinks.map(({ slug, title }) => <Link key={slug} href={`/guide/${slug}`} className="rounded-xl border border-[#15231d]/20 p-4 text-sm font-bold underline underline-offset-4">{title[language]} →</Link>)}
+        </nav>
         <div className="mt-10 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-12">
           {themes.map((theme, index) => {
             const page = guidePages[theme.guide];

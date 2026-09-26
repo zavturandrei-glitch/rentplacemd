@@ -6,9 +6,11 @@ const supportedLanguages = new Set(["ru", "ro", "en", "uk", "cs"]);
 
 export function proxy(request: NextRequest) {
   const requestedLanguage = request.nextUrl.searchParams.get("lang")?.toLowerCase();
-  if (requestedLanguage === "ru") {
+  const rawLanguages = request.nextUrl.searchParams.getAll("lang");
+  if (requestedLanguage === "ru" || (rawLanguages.length > 0 && (!requestedLanguage || !supportedLanguages.has(requestedLanguage) || rawLanguages.length > 1 || rawLanguages[0] !== requestedLanguage))) {
     const canonicalUrl = request.nextUrl.clone();
     canonicalUrl.searchParams.delete("lang");
+    if (requestedLanguage && requestedLanguage !== "ru" && supportedLanguages.has(requestedLanguage)) canonicalUrl.searchParams.set("lang", requestedLanguage);
     return NextResponse.redirect(canonicalUrl, 308);
   }
   const language = requestedLanguage && supportedLanguages.has(requestedLanguage)

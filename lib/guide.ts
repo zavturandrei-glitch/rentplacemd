@@ -78,8 +78,6 @@ export const guideUi = {
 };
 
 const commonSources = {
-  visitChisinau: { sourceName: "Visit Chișinău", sourceUrl: "https://visit.chisinau.md/en/", verifiedAt: "2026-07-25", updatedAt: "2026-07-25" },
-  moldovaTravel: { sourceName: "Moldova Travel", sourceUrl: "https://moldova.travel/en/", verifiedAt: "2026-07-25", updatedAt: "2026-07-25" },
   borderPolice: { sourceName: "Border Police of the Republic of Moldova", sourceUrl: "https://border.gov.md/", verifiedAt: "2026-07-25", updatedAt: "2026-07-25" },
   historyMuseum: { sourceName: "National Museum of History of Moldova", sourceUrl: "https://www.nationalmuseum.md/", verifiedAt: "2026-07-25", updatedAt: "2026-07-25" },
   artMuseum: { sourceName: "National Art Museum of Moldova", sourceUrl: "https://www.mnam.md/en", verifiedAt: "2026-07-25", updatedAt: "2026-07-25" },
@@ -176,7 +174,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.visitChisinau, commonSources.historyMuseum]
+    [commonSources.historyMuseum]
   ),
   events: page(
     "events",
@@ -193,7 +191,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         "Záznam musí mít datum, místo a přímý odkaz na primární zdroj. Neověřené nebo proběhlé akce se nezobrazují."
       ),
     }],
-    [commonSources.visitChisinau]
+    []
   ),
   "dental-tourism": page(
     "dental-tourism",
@@ -261,7 +259,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ],
       },
     ],
-    [commonSources.moldovaTravel]
+    []
   ),
   transnistria: page(
     "transnistria",
@@ -300,7 +298,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.moldovaTravel, commonSources.borderPolice]
+    [commonSources.borderPolice]
   ),
   monasteries: page(
     "monasteries",
@@ -329,7 +327,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.moldovaTravel]
+    []
   ),
   museums: page(
     "museums",
@@ -358,7 +356,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.historyMuseum, commonSources.artMuseum, commonSources.visitChisinau]
+    [commonSources.historyMuseum, commonSources.artMuseum, ]
   ),
   wineries: page(
     "wineries",
@@ -387,7 +385,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.moldovaTravel]
+    []
   ),
   attractions: page(
     "attractions",
@@ -417,7 +415,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.visitChisinau, commonSources.moldovaTravel]
+    []
   ),
   restaurants: page(
     "restaurants",
@@ -446,7 +444,7 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
         ),
       },
     ],
-    [commonSources.visitChisinau, commonSources.moldovaTravel]
+    []
   ),
 };
 

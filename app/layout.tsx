@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { headers } from "next/headers";
 import JsonLdScript from "@/components/JsonLdScript";
+import JourneyAnalytics from "@/components/JourneyAnalytics";
 import { LanguageProvider } from "@/context/LanguageContext";
 import type { Language } from "@/locales/translations";
 import {
@@ -103,7 +104,7 @@ const googleAnalyticsScript =
   "window.dataLayer = window.dataLayer || [];" +
   "function gtag(){dataLayer.push(arguments);}" +
   "gtag('js', new Date());" +
-  "gtag('config', 'G-404L3B7Q2R');";
+  "if(window.location.hostname === 'rentplace.md') gtag('config', 'G-404L3B7Q2R');";
 
 export default async function RootLayout({
   children,
@@ -130,6 +131,7 @@ export default async function RootLayout({
           documentLanguage={locksContentLanguage ? initialContentLanguage : undefined}
         >
           {children}
+          <JourneyAnalytics />
         </LanguageProvider>
 
         <JsonLdScript

@@ -22,7 +22,6 @@ export type DestinationData = {
   tripLength: Localized;
   route: Localized;
   mapUrl: string;
-  officialUrl: string;
   officialName: string;
   sections: DestinationSection[];
 };
@@ -56,11 +55,11 @@ export const destinationUi = {
   ),
   apartmentsLink: l("Посмотреть квартиры в Кишинёве", "Vezi apartamente în Chișinău", "See apartments in Chisinau", "Переглянути квартири в Кишиневі", "Zobrazit apartmány v Kišiněvě"),
   currentInfo: l(
-    "Программы, расписание и стоимость могут меняться. Перед выездом проверьте условия и забронируйте визит на официальном сайте.",
-    "Programele, orarul și tarifele se pot schimba. Verifică condițiile și rezervă vizita pe site-ul oficial înainte de plecare.",
-    "Tours, schedules and prices can change. Check current conditions and reserve on the official website before setting out.",
-    "Програми, розклад і вартість можуть змінюватися. Перед виїздом перевірте умови та забронюйте візит на офіційному сайті.",
-    "Programy, otevírací doba a ceny se mohou měnit. Před cestou ověřte podmínky a rezervujte návštěvu na oficiálním webu."
+    "Время посещения, программа и цена требуют отдельного согласования. Запрос RentPlaceMD не является подтверждённой бронью.",
+    "Ora vizitei, programul și prețul se stabilesc separat. O solicitare către RentPlaceMD nu este o rezervare confirmată.",
+    "Visit times, programmes and prices require separate agreement. A request to RentPlaceMD is not a confirmed booking.",
+    "Час візиту, програму й ціну узгоджують окремо. Запит RentPlaceMD не є підтвердженим бронюванням.",
+    "Čas návštěvy, program a cena se domlouvají zvlášť. Poptávka u RentPlaceMD není potvrzenou rezervací.",
   ),
 };
 
@@ -71,18 +70,17 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
     image: "/guide/wineries.webp",
     title: l("Cricova — винные подземелья рядом с Кишинёвом", "Cricova — galeriile vinicole de lângă Chișinău", "Cricova wine cellars near Chisinau", "Cricova — винні підземелля біля Кишинева", "Cricova — vinné sklepy nedaleko Kišiněva"),
     description: l(
-      "Практический гид по Cricova: подземные галереи, история, экскурсии, дорога из Кишинёва и официальная информация для бронирования.",
-      "Ghid practic pentru Cricova: galerii subterane, istorie, excursii, drumul din Chișinău și informații oficiale pentru rezervare.",
-      "A practical Cricova guide covering the underground galleries, history, tours, travel from Chisinau and official booking information.",
-      "Практичний гід Cricova: підземні галереї, історія, екскурсії, дорога з Кишинева та офіційна інформація для бронювання.",
-      "Praktický průvodce Cricovou: podzemní galerie, historie, prohlídky, cesta z Kišiněva a oficiální informace k rezervaci."
+      "Практический гид по Cricova: подземные галереи, история, экскурсии, дорога из Кишинёва и советы перед посещением.",
+      "Ghid practic pentru Cricova: galerii subterane, istorie, excursii, drumul din Chișinău și sfaturi înainte de vizită.",
+      "A practical Cricova guide covering the underground galleries, history, tours, travel from Chisinau and visit planning.",
+      "Практичний гід Cricova: підземні галереї, історія, екскурсії, дорога з Кишинева та поради перед візитом.",
+      "Praktický průvodce Cricovou: podzemní galerie, historie, prohlídky, cesta z Kišiněva a tipy před návštěvou."
     ),
     eyebrow: l("Винодельни Молдовы", "Vinăriile Moldovei", "Wineries of Moldova", "Виноробні Молдови", "Moldavská vinařství"),
     location: l("Город Cricova, к северу от Кишинёва", "Orașul Cricova, la nord de Chișinău", "Cricova, north of Chisinau", "Місто Cricova, на північ від Кишинева", "Cricova, severně od Kišiněva"),
     tripLength: l("Полдня с дорогой", "O jumătate de zi cu drumul", "Half a day including travel", "Пів дня разом із дорогою", "Půl dne včetně cesty"),
     route: l("Такси, автомобиль или организованный трансфер", "Taxi, automobil sau transfer organizat", "Taxi, car or organised transfer", "Таксі, автомобіль або організований трансфер", "Taxi, auto nebo organizovaný transfer"),
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Cricova+Winery+Moldova",
-    officialUrl: "https://cricova.md/en/excursii",
     officialName: "Cricova",
     sections: [
       section(
@@ -138,7 +136,6 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
     tripLength: l("Полдня с дорогой", "O jumătate de zi cu drumul", "Half a day including travel", "Пів дня разом із дорогою", "Půl dne včetně cesty"),
     route: l("Автомобиль, такси или трансфер по предварительной записи", "Automobil, taxi sau transfer cu rezervare", "Car, taxi or pre-booked transfer", "Автомобіль, таксі або трансфер за бронюванням", "Auto, taxi nebo předem objednaný transfer"),
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Milestii+Mici+Winery+Moldova",
-    officialUrl: "https://milestii-mici.md/en/tourist-spots/underground-galleries.html",
     officialName: "Mileștii Mici",
     sections: [
       section(l("Масштаб под землёй", "Scara lumii subterane", "The scale underground", "Масштаб під землею", "Rozměr podzemí"), l(
@@ -182,7 +179,6 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
     tripLength: l("Полный день с дорогой", "O zi întreagă cu drumul", "A full day including travel", "Повний день разом із дорогою", "Celý den včetně cesty"),
     route: l("Автомобиль или заранее организованный трансфер", "Automobil sau transfer organizat din timp", "Car or pre-arranged transfer", "Автомобіль або заздалегідь організований трансфер", "Auto nebo předem zajištěný transfer"),
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Chateau+Purcari+Moldova",
-    officialUrl: "https://purcariwineries.com/en/",
     officialName: "Purcari Wineries",
     sections: [
       section(l("Поместье с историей", "Un domeniu cu istorie", "An estate with history", "Маєток з історією", "Areál s historií"), l(
@@ -220,13 +216,12 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
     path: "/guide/wineries/castel-mimi",
     image: "/guide/wineries.webp",
     title: l("Castel Mimi — винный замок в Bulboaca", "Castel Mimi — castelul vinicol din Bulboaca", "Castel Mimi wine castle in Bulboaca", "Castel Mimi — винний замок у Bulboaca", "Castel Mimi — vinařský zámek v Bulboace"),
-    description: l("Гид по Castel Mimi: история Константина Мими, архитектура, экскурсии, дорога из Кишинёва и официальное бронирование.", "Ghid pentru Castel Mimi: istoria lui Constantin Mimi, arhitectură, excursii, drumul din Chișinău și rezervare oficială.", "A guide to Castel Mimi: Constantin Mimi’s history, architecture, tours, travel from Chisinau and official booking.", "Гід Castel Mimi: історія Константина Мімі, архітектура, екскурсії, дорога з Кишинева та офіційне бронювання.", "Průvodce Castel Mimi: historie Constantina Mimiho, architektura, prohlídky, cesta z Kišiněva a oficiální rezervace."),
+    description: l("Гид по Castel Mimi: история Константина Мими, архитектура, экскурсии, дорога из Кишинёва и советы перед посещением.", "Ghid pentru Castel Mimi: istoria lui Constantin Mimi, arhitectură, excursii, drumul din Chișinău și sfaturi înainte de vizită.", "A guide to Castel Mimi: Constantin Mimi’s history, architecture, tours, travel from Chisinau and visit planning.", "Гід Castel Mimi: історія Константина Мімі, архітектура, екскурсії, дорога з Кишинева та поради перед візитом.", "Průvodce Castel Mimi: historie Constantina Mimiho, architektura, prohlídky, cesta z Kišiněva a tipy před návštěvou."),
     eyebrow: l("Винодельни Молдовы", "Vinăriile Moldovei", "Wineries of Moldova", "Виноробні Молдови", "Moldavská vinařství"),
     location: l("Bulboaca, район Anenii Noi", "Bulboaca, raionul Anenii Noi", "Bulboaca, Anenii Noi district", "Bulboaca, район Anenii Noi", "Bulboaca, okres Anenii Noi"),
     tripLength: l("Полдня или неспешный день", "O jumătate de zi sau o zi relaxată", "Half a day or a relaxed full day", "Пів дня або неспішний день", "Půl dne nebo klidný celý den"),
     route: l("Автомобиль, такси, поезд до Bulboaca или трансфер", "Automobil, taxi, tren până la Bulboaca sau transfer", "Car, taxi, train to Bulboaca or transfer", "Автомобіль, таксі, потяг до Bulboaca або трансфер", "Auto, taxi, vlak do Bulboacy nebo transfer"),
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Castel+Mimi+Bulboaca",
-    officialUrl: "https://castelmimi.md/en/wine-tours/",
     officialName: "Castel Mimi",
     sections: [
       section(l("Архитектура винного поместья", "Arhitectura domeniului vinicol", "Architecture of a wine estate", "Архітектура винного маєтку", "Architektura vinařského panství"), l(
@@ -251,11 +246,11 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
         "Bulboaca leží východně od Kišiněva. Vlak může být zajímavou alternativou k autu, jízdní řád však ověřte pro konkrétní datum a návrat naplánujte předem."
       )),
       section(l("Что проверить заранее", "Ce verifici din timp", "What to check ahead", "Що перевірити заздалегідь", "Co ověřit předem"), l(
-        "На официальном сайте доступны разные типы туров. Сравните язык, длительность, состав дегустации и доступность на нужную дату. Для мероприятий часть территории может работать по особому режиму.",
-        "Site-ul oficial prezintă mai multe tipuri de tururi. Compară limba, durata, degustarea și disponibilitatea pentru data dorită. În zilele cu evenimente, unele spații pot avea un regim special.",
-        "The official site lists several tour types. Compare language, duration, tasting details and availability for your date. Parts of the estate may operate differently on event days.",
-        "На офіційному сайті є кілька типів турів. Порівняйте мову, тривалість, склад дегустації й доступність на потрібну дату. У дні подій частина території може працювати за особливим режимом.",
-        "Oficiální web nabízí několik typů prohlídek. Porovnejte jazyk, délku, degustaci a dostupnost pro své datum. Během akcí mohou části areálu fungovat v jiném režimu."
+        "Состав визита требует предварительного уточнения. Сравните язык, длительность, состав дегустации и доступность на нужную дату. Для мероприятий часть территории может работать по особому режиму.",
+        "Detaliile vizitei trebuie clarificate în prealabil. Compară limba, durata, degustarea și disponibilitatea pentru data dorită. În zilele cu evenimente, unele spații pot avea un regim special.",
+        "Visit details need to be checked in advance. Compare language, duration, tasting details and availability for your date. Parts of the estate may operate differently on event days.",
+        "Деталі візиту потрібно уточнити заздалегідь. Порівняйте мову, тривалість, склад дегустації й доступність на потрібну дату. У дні подій частина території може працювати за особливим режимом.",
+        "Podrobnosti návštěvy je třeba ověřit předem. Porovnejte jazyk, délku, degustaci a dostupnost pro své datum. Během akcí mohou části areálu fungovat v jiném režimu."
       )),
     ],
   },
@@ -270,7 +265,6 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
     tripLength: l("Полдня; полный день для прогулки и сёл", "O jumătate de zi; o zi pentru drumeție și sate", "Half a day; a full day for walking and villages", "Пів дня; повний день для прогулянки й сіл", "Půl dne; celý den na procházku a vesnice"),
     route: l("Автомобиль, такси, экскурсия или региональный транспорт", "Automobil, taxi, excursie sau transport regional", "Car, taxi, tour or regional transport", "Автомобіль, таксі, екскурсія або регіональний транспорт", "Auto, taxi, organizovaný výlet nebo regionální doprava"),
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Orheiul+Vechi+Moldova",
-    officialUrl: "https://orheiulvechi.com/en/tourism/",
     officialName: "Orheiul Vechi Cultural-Natural Reserve",
     sections: [
       section(l("Ландшафт, который читается как история", "Un peisaj citit ca istorie", "A landscape read as history", "Ландшафт, що читається як історія", "Krajina, kterou lze číst jako historii"), l(
@@ -295,11 +289,11 @@ export const destinations: Record<DestinationSlug, DestinationData> = {
         "Začněte u informačního místa, poté vystoupejte k vyhlídkám a klášteru a nechte si čas na procházku po hřebeni. Cesty jsou místy nerovné a bez stínu; po dešti může kámen i půda klouzat."
       )),
       section(l("Как подготовиться", "Cum te pregătești", "How to prepare", "Як підготуватися", "Jak se připravit"), l(
-        "Лучше приезжать в светлое время суток, взять воду, защиту от солнца и обувь с устойчивой подошвой. Расписание транспорта, билеты и режим объектов проверяйте перед поездкой на сайте заповедника; в выходные закладывайте дополнительное время.",
-        "Este mai bine să ajungi pe lumină, cu apă, protecție solară și încălțăminte stabilă. Verifică transportul, biletele și programul obiectivelor pe site-ul rezervației; în weekend păstrează timp suplimentar.",
-        "Visit in daylight and bring water, sun protection and shoes with reliable grip. Check transport, tickets and site opening arrangements on the reserve’s website; allow extra time at weekends.",
-        "Краще приїжджати у світлу пору доби, взяти воду, захист від сонця та взуття зі стійкою підошвою. Транспорт, квитки й режим об’єктів перевіряйте на сайті заповідника; у вихідні залишайте додатковий час.",
-        "Přijeďte za denního světla, vezměte vodu, ochranu před sluncem a pevnou obuv. Dopravu, vstupenky a provoz objektů ověřte na webu rezervace; o víkendech počítejte s časovou rezervou."
+        "Лучше приезжать в светлое время суток, взять воду, защиту от солнца и обувь с устойчивой подошвой. Расписание транспорта, билеты и режим объектов уточните у RentPlaceMD перед поездкой; в выходные закладывайте дополнительное время.",
+        "Este mai bine să ajungi pe lumină, cu apă, protecție solară și încălțăminte stabilă. Clarifică transportul, biletele și programul obiectivelor cu RentPlaceMD; în weekend păstrează timp suplimentar.",
+        "Visit in daylight and bring water, sun protection and shoes with reliable grip. Ask RentPlaceMD about transport, tickets and site opening arrangements; allow extra time at weekends.",
+        "Краще приїжджати у світлу пору доби, взяти воду, захист від сонця та взуття зі стійкою підошвою. Транспорт, квитки й режим об’єктів уточніть у RentPlaceMD перед поїздкою; у вихідні залишайте додатковий час.",
+        "Přijeďte za denního světla, vezměte vodu, ochranu před sluncem a pevnou obuv. Dopravu, vstupenky a provoz objektů ověřte u RentPlaceMD před cestou; o víkendech počítejte s časovou rezervou."
       )),
     ],
   },

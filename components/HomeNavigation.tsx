@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { ownersPath } from "@/lib/ownersContent";
 import type { Language } from "@/locales/translations";
+import { carUi, travelUi, l } from "@/lib/excursions";
 
 type CardKey = "quick" | "catalog" | "about" | "owners" | "guide" | "events" | "rules" | "transfer";
 type CardCopy = { title: string; text: string; alt: string };
@@ -87,7 +88,7 @@ const copyByLanguage: Record<
 };
 
 const cardDefinitions: Array<{
-  key: CardKey;
+  key: CardKey | "excursions" | "car-rental";
   href?: string;
   image: string;
   position?: string;
@@ -100,6 +101,8 @@ const cardDefinitions: Array<{
   { key: "owners", href: ownersPath, image: "/apartments/coca-15-203/1.jpg", tone: "bg-[#7360F2]", textTone: "text-white" },
   { key: "guide", href: "/chisinau-guide", image: "/guide/chisinau-cathedral-day.webp", position: "center 52%", tone: "bg-[#137C8B]", textTone: "text-white" },
   { key: "events", href: "/events", image: "/service-pages/events-concert.webp", position: "center 55%", tone: "bg-[#315C9C]", textTone: "text-white" },
+  { key: "excursions", href: "/excursions", image: "/guide/moldova-trips.webp", tone: "bg-[#3B6752]", textTone: "text-white" },
+  { key: "car-rental", href: "/car-rental", image: "/service-pages/car-36498956.webp", tone: "bg-[#263745]", textTone: "text-white" },
   { key: "rules", href: "/check-in-rules", image: "/service-pages/check-in-keys.webp", position: "center 48%", tone: "bg-[#A24F3D]", textTone: "text-white" },
   { key: "transfer", href: "/transfer", image: "/service-pages/transfer-city.webp", tone: "bg-[#846E35]", textTone: "text-white" },
 ];
@@ -121,18 +124,26 @@ export default function HomeNavigation() {
         </h2>
         <nav className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" aria-label={copy.title}>
           {cardDefinitions.map((card) => {
-            const cardCopy = copy.cards[card.key];
+            const cardCopy = card.key === "excursions"
+              ? { title: travelUi.navTitle[language], text: travelUi.navText[language], alt: "Orheiul Vechi · David Stanley · CC BY 2.0" }
+              : card.key === "car-rental"
+                ? { title: l("Аренда автомобилей", "Închiriere auto", "Car rental", "Оренда автомобілів", "Pronájem aut")[language], text: carUi.status[language], alt: `${carUi.title[language]} · ${carUi.status[language]}` }
+                : copy.cards[card.key];
             const content = (
               <>
                 <span className="relative block h-[95px] shrink-0 overflow-hidden sm:h-[104px]">
-                  <Image
+                  {card.key === "car-rental" ? <span className="absolute inset-0 grid grid-cols-[1.2fr_1fr] grid-rows-2 gap-[2px] bg-[#263745]" role="img" aria-label={cardCopy.alt}>
+                    <span className="relative row-span-2 overflow-hidden"><Image src="/service-pages/car-36498956.webp" alt="" fill sizes="(min-width:1024px) 152px, 25vw" className="object-cover" style={{ objectPosition: "47% center" }} /></span>
+                    <span className="relative overflow-hidden"><Image src="/service-pages/car-13069029.webp" alt="" fill sizes="(min-width:1024px) 124px, 21vw" className="object-cover" style={{ objectPosition: "center 59%" }} /></span>
+                    <span className="relative overflow-hidden"><Image src="/service-pages/car-12088447.webp" alt="" fill sizes="(min-width:1024px) 124px, 21vw" className="object-cover" style={{ objectPosition: "center 60%" }} /></span>
+                  </span> : <Image
                     src={card.image}
                     alt={cardCopy.alt}
                     fill
                     sizes="(min-width: 1024px) 276px, (min-width: 640px) 47vw, 46vw"
                     className="object-cover transition duration-500 group-hover:scale-[1.035]"
                     style={{ objectPosition: card.position ?? "center" }}
-                  />
+                  />}
                   <span className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/5" />
                 </span>
                 <span className="flex min-h-0 flex-1 flex-col px-3 py-1.5 sm:px-4 sm:py-2">
@@ -142,10 +153,11 @@ export default function HomeNavigation() {
                   <span className="mt-1 text-[9px] font-semibold leading-[1.12] opacity-80 min-[390px]:text-[9.5px] sm:text-[10.5px]">
                     {cardCopy.text}
                   </span>
+                  {card.key === "car-rental" && <span className="mt-1 text-[9px] leading-tight text-white/70 sm:text-[10px]">{l("Фото для иллюстрации", "Fotografii ilustrative", "Illustrative photos", "Ілюстративні фото", "Ilustrační fotografie")[language]}</span>}
                 </span>
               </>
             );
-            const classes = `group flex h-[172px] min-w-0 flex-col overflow-hidden rounded-[20px] border border-white/[0.08] shadow-[0_12px_32px_rgba(0,0,0,.2)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[.985] sm:h-[208px] ${card.tone} ${card.textTone}`;
+            const classes = `group flex h-[172px] min-w-0 flex-col overflow-hidden rounded-[20px] border border-white/[0.08] shadow-[0_12px_32px_rgba(0,0,0,.2)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[.985] sm:h-[208px] ${card.key === "rules" ? "lg:col-start-2" : ""} ${card.tone} ${card.textTone}`;
 
             return card.key === "quick" ? (
               <button key={card.key} type="button" onClick={() => setShowRequest(true)} className={`${classes} text-left`}>

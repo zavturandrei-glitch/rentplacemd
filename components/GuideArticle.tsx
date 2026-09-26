@@ -1,8 +1,8 @@
 "use client";
 
+import ExcursionRoutePanel from "@/components/ExcursionRoutePanel";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
-import { useEffect } from "react";
 import EventsCalendar from "@/components/EventsCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
@@ -60,10 +60,6 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
   const { language } = useLanguage();
   const data = guidePages[slug];
 
-  useEffect(() => {
-    document.title = `${data.title[language]} | RentPlaceMD`;
-  }, [data.title, language]);
-
   if (slug === "events") {
     return <EventsCalendar />;
   }
@@ -103,6 +99,7 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
         </div>
       </header>
 
+      <ExcursionRoutePanel path={guidePath(slug)} language={language} />
       <div className="mt-6 grid gap-5">
         {data.sections.map((section, index) => (
           <section

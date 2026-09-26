@@ -1,9 +1,10 @@
 "use client";
 
+import ExcursionRoutePanel from "@/components/ExcursionRoutePanel";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
-import { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { travelUi } from "@/lib/excursions";
 import {
   destinationUi,
   destinations,
@@ -17,10 +18,6 @@ const withLanguage = (path: string, language: string) =>
 export default function MoldovaDestinationPage({ slug }: { slug: DestinationSlug }) {
   const { language } = useLanguage();
   const data = destinations[slug];
-
-  useEffect(() => {
-    document.title = `${data.title[language]} | RentPlaceMD`;
-  }, [data.title, language]);
 
   const related = slug === "orheiul-vechi"
     ? ["cricova", "milestii-mici"] as const
@@ -49,6 +46,7 @@ export default function MoldovaDestinationPage({ slug }: { slug: DestinationSlug
       </header>
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <ExcursionRoutePanel path={data.path} language={language} />
         <section aria-labelledby="trip-facts" className="border-y border-[#15231d]/15 py-8">
           <h2 id="trip-facts" className="font-serif text-3xl">{destinationUi.facts[language]}</h2>
           <dl className="mt-7 grid gap-7 md:grid-cols-3">
@@ -64,9 +62,6 @@ export default function MoldovaDestinationPage({ slug }: { slug: DestinationSlug
             ))}
           </dl>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href={data.officialUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center bg-[#8b3e2f] px-5 text-sm font-bold text-white transition hover:bg-[#6f2f24]">
-              {destinationUi.official[language]} ↗
-            </a>
             <a href={data.mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center border border-[#15231d]/25 px-5 text-sm font-bold transition hover:bg-white">
               {destinationUi.map[language]} ↗
             </a>
@@ -88,6 +83,7 @@ export default function MoldovaDestinationPage({ slug }: { slug: DestinationSlug
 
         <section className="border-t border-[#15231d]/15 py-12" aria-labelledby="related-route">
           <h2 id="related-route" className="font-serif text-3xl">{destinationUi.related[language]}</h2>
+          <Link href="/excursions" className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-[#15231d] px-5 text-sm font-bold text-white">{travelUi.navTitle[language]} →</Link>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {related.map((item) => {
               const destination = destinations[item];
@@ -114,9 +110,7 @@ export default function MoldovaDestinationPage({ slug }: { slug: DestinationSlug
           </Link>
         </aside>
 
-        <p className="mt-8 text-xs leading-5 text-[#59675f]">
-          {data.officialName}: <a className="underline underline-offset-3" href={data.officialUrl} target="_blank" rel="noopener noreferrer">{data.officialUrl}</a>
-        </p>
+
       </div>
     </article>
   );

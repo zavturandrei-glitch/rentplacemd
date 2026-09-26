@@ -103,6 +103,7 @@ export default function ApartmentGallery({
 
   function handleGalleryPointerDown(event: PointerEvent<HTMLDivElement>) {
     if (synchronizedNavigation) {
+      suppressGalleryClickRef.current = false;
       galleryPointerStartRef.current = null;
       gestureRef.current = null;
       if (!event.isPrimary || event.button !== 0) return;

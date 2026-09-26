@@ -42,7 +42,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     openGraph: {
       ...metadata.openGraph,
       url: languageInput ? localizedUrl("/events", language) : "https://rentplace.md/events",
-      images: [{ url: `https://rentplace.md${guidePages.events.image}`, alt: guidePages.events.title.ru }],
+      images: [{ url: `https://rentplace.md${guidePages.events.image}`, alt: guidePages.events.title[language] }],
     },
   };
 }

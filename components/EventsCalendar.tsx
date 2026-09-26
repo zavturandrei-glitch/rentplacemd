@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "@/components/LocalizedLink";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { travelUi } from "@/lib/excursions";
 import {
   eventsUpdatedAt,
   getUpcomingDemandEvents,
@@ -322,10 +323,6 @@ export default function EventsCalendar() {
   const [month, setMonth] = useState("all");
   const [interest, setInterest] = useState<InterestFilter>("all");
 
-  useEffect(() => {
-    document.title = `${text.title} | RentPlaceMD`;
-  }, [text.title]);
-
   const months = useMemo(() => [...new Set(events.map((event) => event.startDate.slice(0, 7)))], [events]);
   const filtered = events.filter((event) =>
     (category === "all" || event.category === category)
@@ -343,6 +340,7 @@ export default function EventsCalendar() {
 
   return (
     <article className="mx-auto max-w-7xl px-4 pb-20 pt-4 sm:px-6 sm:pt-8 lg:px-8">
+      <Link href="/excursions" className="mb-3 mr-3 inline-flex min-h-11 items-center rounded-full bg-[#15231d] px-4 text-sm font-semibold text-white">{travelUi.navTitle[language]} →</Link>
       <Link href="/chisinau-guide" className="inline-flex min-h-11 items-center rounded-full bg-white px-4 text-sm font-semibold text-[#07111f] shadow-sm ring-1 ring-black/5 transition hover:text-[#d4146f]">
         ← {text.back}
       </Link>
