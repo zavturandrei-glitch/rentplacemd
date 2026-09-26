@@ -12,11 +12,11 @@ import {
 export type LegacyInfoKind = "about" | "rules" | "transfer";
 
 const homeContent: Record<Language, { title: string; description: string }> = {
-  ru: { title: "RentPlaceMD — квартиры посуточно в Кишинёве", description: "Квартиры посуточно в Кишинёве без посредников: реальные фотографии, актуальные цены и прямое бронирование у RentPlaceMD." },
-  ro: { title: "RentPlaceMD — apartamente în regim hotelier în Chișinău", description: "Apartamente în regim hotelier în Chișinău fără intermediari, cu fotografii reale, prețuri actuale și rezervare directă." },
-  en: { title: "RentPlaceMD — short-stay apartments in Chisinau", description: "Short-stay apartments in Chisinau without intermediaries, with real photographs, current prices and direct booking." },
-  uk: { title: "RentPlaceMD — квартири подобово в Кишиневі", description: "Квартири подобово в Кишиневі без посередників: реальні фотографії, актуальні ціни та пряме бронювання." },
-  cs: { title: "RentPlaceMD — krátkodobé pronájmy v Kišiněvě", description: "Krátkodobé pronájmy apartmánů v Kišiněvě bez prostředníků, se skutečnými fotografiemi, aktuálními cenami a přímou rezervací." },
+  ru: { title: "RentPlaceMD — квартиры посуточно в Кишинёве", description: "Квартиры посуточно в Кишинёве — прямая связь с RentPlaceMD: реальные фотографии, актуальные цены и прямое бронирование у RentPlaceMD." },
+  ro: { title: "RentPlaceMD — apartamente în regim hotelier în Chișinău", description: "Apartamente în regim hotelier în Chișinău — contact direct cu RentPlaceMD, cu fotografii reale, prețuri actuale și rezervare directă." },
+  en: { title: "RentPlaceMD — short-stay apartments in Chisinau", description: "Short-stay apartments in Chisinau — direct contact with RentPlaceMD, with real photographs, current prices and direct booking." },
+  uk: { title: "RentPlaceMD — квартири подобово в Кишиневі", description: "Квартири подобово в Кишиневі — прямий зв’язок із RentPlaceMD: реальні фотографії, актуальні ціни та пряме бронювання." },
+  cs: { title: "RentPlaceMD — krátkodobé pronájmy v Kišiněvě", description: "Krátkodobé pronájmy apartmánů v Kišiněvě — přímý kontakt s RentPlaceMD, se skutečnými fotografiemi, aktuálními cenami a přímou rezervací." },
 };
 
 const paths: Record<LegacyInfoKind, string> = {

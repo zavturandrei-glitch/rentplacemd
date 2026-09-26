@@ -59,7 +59,7 @@ export const sameAs = ["https://t.me/rentplacemd", "https://wa.me/37369990190"];
 
 export const siteTitle = "RentPlace.md — квартиры посуточно в Кишинёве";
 export const siteDescription =
-  "Квартиры посуточно в Кишинёве без посредников. Актуальные варианты, удобное бронирование и поддержка RentPlace.";
+  "Квартиры посуточно в Кишинёве. Прямая связь с RentPlaceMD. Актуальные варианты, удобное бронирование и поддержка RentPlace.";
 
 export const seoKeywords = [
   "квартиры посуточно Кишинев",
@@ -540,7 +540,7 @@ export function buildApartmentKeywords(id: ApartmentId) {
     kindTitle[apartment.kind],
     ...(isCenterApartmentId(id) ? ["апартаменты Кишинев центр"] : []),
     "квартира " + apartment.title,
-    "посуточно без посредников",
+    "прямая связь с RentPlaceMD",
   ];
 }
 

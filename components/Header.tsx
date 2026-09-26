@@ -36,8 +36,8 @@ const headerText: Record<
     checkin: "Заселение",
     apartmentsCountTop: "Более {count}",
     apartmentsCountBottom: "квартир",
-    noAgentsTop: "Без",
-    noAgentsBottom: "посредников",
+    noAgentsTop: "Прямая связь с",
+    noAgentsBottom: "RentPlaceMD",
   },
   RO: {
     tagline: "Apartamente în regim hotelier în Chișinău",
@@ -49,8 +49,8 @@ const headerText: Record<
     checkin: "Cazare",
     apartmentsCountTop: "Peste {count}",
     apartmentsCountBottom: "apartamente",
-    noAgentsTop: "Fără",
-    noAgentsBottom: "intermediari",
+    noAgentsTop: "Contact direct cu",
+    noAgentsBottom: "RentPlaceMD",
   },
   EN: {
     tagline: "Daily rent apartments in Chișinău",
@@ -62,8 +62,8 @@ const headerText: Record<
     checkin: "Check-in",
     apartmentsCountTop: "Over {count}",
     apartmentsCountBottom: "apartments",
-    noAgentsTop: "No",
-    noAgentsBottom: "middlemen",
+    noAgentsTop: "Direct contact with",
+    noAgentsBottom: "RentPlaceMD",
   },
   CS: {
     tagline: "Apartmány k pronájmu na den v Kišiněvě",
@@ -75,8 +75,8 @@ const headerText: Record<
     checkin: "Ubytování",
     apartmentsCountTop: "Více než {count}",
     apartmentsCountBottom: "apartmánů",
-    noAgentsTop: "Bez",
-    noAgentsBottom: "prostředníků",
+    noAgentsTop: "Přímý kontakt s",
+    noAgentsBottom: "RentPlaceMD",
   },
   UK: {
     tagline: "Квартири подобово в Кишиневі",
@@ -88,8 +88,8 @@ const headerText: Record<
     checkin: "Заселення",
     apartmentsCountTop: "Понад {count}",
     apartmentsCountBottom: "квартир",
-    noAgentsTop: "Без",
-    noAgentsBottom: "посередників",
+    noAgentsTop: "Прямий зв’язок із",
+    noAgentsBottom: "RentPlaceMD",
   },
 };
 

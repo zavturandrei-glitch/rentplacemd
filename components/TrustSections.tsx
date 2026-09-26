@@ -42,7 +42,7 @@ const trustText: Record<Language, TrustText> = {
     why: [
       { title: "Центр города", text: "Комплекс Измаил 88 - удобная точка для деловых поездок, отдыха и коротких остановок." },
       { title: "Заселение 24/7", text: "Можно согласовать приезд поздно вечером или рано утром, без сложной бюрократии." },
-      { title: "Без посредников", text: "Прямая связь по телефону, WhatsApp, Viber и Telegram, без лишних комиссий." },
+      { title: "Прямая связь с RentPlaceMD", text: "Прямая связь по телефону, WhatsApp, Viber и Telegram, без лишних комиссий." },
       { title: "Единый стандарт", text: "Фото, карточки и описание приведены к одному визуальному уровню для спокойного выбора." },
     ],
     nearby: ["Центр города", "Кафе и рестораны", "Магазины", "Общественный транспорт", "Деловые адреса", "Парковка рядом"],
@@ -73,7 +73,7 @@ const trustText: Record<Language, TrustText> = {
     why: [
       { title: "Centru", text: "Ismail 88 este o locatie comoda pentru calatorii scurte sau business." },
       { title: "Cazare 24/7", text: "Ora sosirii se poate coordona flexibil." },
-      { title: "Fara intermediari", text: "Contact direct prin telefon, WhatsApp, Viber si Telegram." },
+      { title: "Contact direct cu RentPlaceMD", text: "Contact direct prin telefon, WhatsApp, Viber si Telegram." },
       { title: "Standard unic", text: "Fotografii si carduri aliniate pentru o alegere usoara." },
     ],
     nearby: ["Centru", "Cafenele", "Magazine", "Transport", "Zone business", "Parcare aproape"],
@@ -104,7 +104,7 @@ const trustText: Record<Language, TrustText> = {
     why: [
       { title: "City center", text: "Ismail 88 is convenient for business, leisure and short stays." },
       { title: "24/7 check-in", text: "Arrival can be coordinated late at night or early in the morning." },
-      { title: "No middlemen", text: "Direct contact by phone, WhatsApp, Viber and Telegram." },
+      { title: "Direct contact with RentPlaceMD", text: "Direct contact by phone, WhatsApp, Viber and Telegram." },
       { title: "Consistent standard", text: "Photos and cards are aligned for a calm, confident choice." },
     ],
     nearby: ["City center", "Cafes", "Shops", "Transport", "Business areas", "Nearby parking"],
@@ -135,7 +135,7 @@ const trustText: Record<Language, TrustText> = {
     why: [
       { title: "Центр міста", text: "Комплекс Ізмаїл 88 - зручна точка для ділових поїздок, відпочинку і коротких зупинок." },
       { title: "Заселення 24/7", text: "Можна узгодити приїзд пізно ввечері або рано вранці." },
-      { title: "Без посередників", text: "Прямий зв'язок телефоном, WhatsApp, Viber і Telegram." },
+      { title: "Прямий зв’язок із RentPlaceMD", text: "Прямий зв'язок телефоном, WhatsApp, Viber і Telegram." },
       { title: "Єдиний стандарт", text: "Фото, картки й опис приведені до одного візуального рівня для спокійного вибору." },
     ],
     nearby: ["Центр міста", "Кафе і ресторани", "Магазини", "Громадський транспорт", "Ділові адреси", "Парковка поруч"],
@@ -166,7 +166,7 @@ const trustText: Record<Language, TrustText> = {
     why: [
       { title: "Centrum mesta", text: "Komplex Ismail 88 je pohodlne misto pro pracovni cesty, odpocinek i kratke zastavky." },
       { title: "Ubytovani 24/7", text: "Prijezd lze domluvit pozde vecer nebo brzy rano." },
-      { title: "Bez prostredniku", text: "Primy kontakt telefonem, pres WhatsApp, Viber a Telegram." },
+      { title: "Přímý kontakt s RentPlaceMD", text: "Primy kontakt telefonem, pres WhatsApp, Viber a Telegram." },
       { title: "Jednotny standard", text: "Fotografie, karty a popis jsou sjednocene pro klidny vyber." },
     ],
     nearby: ["Centrum mesta", "Kavarny a restaurace", "Obchody", "Verejna doprava", "Business adresy", "Parkovani pobliz"],
