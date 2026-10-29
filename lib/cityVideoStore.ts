@@ -1,4 +1,5 @@
 import "server-only";
+import { existingDatabaseUrl } from "@/lib/existingDatabase.mjs";
 
 import { promises as fs } from "fs";
 import path from "path";
@@ -58,7 +59,7 @@ const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const thumbnailExtensions = ["jpg", "png", "webp", "avif"] as const;
 
 function getDatabaseUrl() {
-  return process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.NEON_DATABASE_URL || "";
+  return existingDatabaseUrl(process.env, "videos");
 }
 
 async function getNeonSql() {

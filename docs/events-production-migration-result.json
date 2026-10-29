@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-29T18:51:39.839Z",
+  "branchId": "br-lively-recipe-b9a5h4gk",
+  "migrated": true,
+  "productionSecretConfigured": true,
+  "existingTablesChanged": false,
+  "databaseUrlChanged": false,
+  "snapshotId": "snap-odd-morning-b9lxuoyv",
+  "preExistingTableCount": 0,
+  "schemaVerified": true,
+  "serviceRecordVerified": true,
+  "connectionVerified": true,
+  "productionOnlySecretVerified": true
+}

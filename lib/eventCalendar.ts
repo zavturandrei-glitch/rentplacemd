@@ -1,3 +1,4 @@
+import { eventMonths, eventOverlapsMonth, eventDateTime, eventSchemaStatus, eventPageLanguages } from "@/lib/eventDates";
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
 import { guideEvents, isEventEligibleForStructuredData, type ChisinauEvent } from "@/lib/events";
@@ -71,7 +72,7 @@ const seoText: Record<Language, {
   },
 };
 
-export const eventMonthKeys = [...new Set(guideEvents.map((event) => event.startDate.slice(0, 7)))].sort();
+export const eventMonthKeys = eventMonths(guideEvents);
 
 export function eventMonthPath(monthKey: string) {
   const [year, month] = monthKey.split("-").map(Number);
@@ -87,9 +88,9 @@ export function parseEventMonthSlug(slug: string) {
   return `${match[2]}-${String(monthIndex + 1).padStart(2, "0")}`;
 }
 
-export function getEventsForMonth(monthKey: string): readonly ChisinauEvent[] {
-  return guideEvents.filter(
-    (event) => event.status !== "cancelled" && event.startDate.startsWith(monthKey),
+export function getEventsForMonth(monthKey: string, inventory = guideEvents): readonly ChisinauEvent[] {
+  return inventory.filter(
+    (event) => eventOverlapsMonth(event, monthKey),
   );
 }
 
@@ -112,7 +113,8 @@ export function getChisinauMonthKey(now = new Date()) {
   return `${year}-${month}`;
 }
 
-export function getAdjacentEventMonths(monthKey: string) {
+export function getAdjacentEventMonths(monthKey: string, inventory = guideEvents) {
+  const eventMonthKeys = eventMonths(inventory);
   const index = eventMonthKeys.indexOf(monthKey);
   return {
     previous: index > 0 ? eventMonthKeys[index - 1] : null,
@@ -128,19 +130,23 @@ export function getEventMonthSeo(monthKey: string, languageInput?: string) {
     month,
     title: seoText[language].title(month),
     description: seoText[language].description(month),
-    intro: seoText[language].intro(month),
+    intro: seoText[language].intro(month.replace(/[.]$/, "")),
     calendar: seoText[language].calendar,
   };
 }
 
-export function getEventMonthMetadata(monthKey: string, languageInput?: string): Metadata {
+export function getEventMonthMetadata(monthKey: string, languageInput?: string, inventory = guideEvents): Metadata {
   const seo = getEventMonthSeo(monthKey, languageInput);
   const path = eventMonthPath(monthKey);
   const url = languageInput ? localizedUrl(path, seo.language) : baseUrl + path;
+  const monthEvents = getEventsForMonth(monthKey, inventory);
+  const languages = eventPageLanguages(monthEvents);
+  const alternates = routeAlternates(path, languageInput);
   return {
+    robots: { index: monthEvents.length > 0 && languages.includes(seo.language), follow: true },
     title: { absolute: `${seo.title} | ${siteName}` },
     description: seo.description,
-    alternates: routeAlternates(path, languageInput),
+    alternates: { ...alternates, languages: Object.fromEntries(Object.entries(alternates.languages ?? {}).filter(([language]) => language === "x-default" || languages.includes(language as Language))) },
     openGraph: {
       title: seo.title,
       description: seo.description,
@@ -159,15 +165,11 @@ export function getEventMonthMetadata(monthKey: string, languageInput?: string):
   };
 }
 
-function eventDateTime(date: string, time?: string) {
-  return time ? `${date}T${time}:00` : date;
-}
-
-export function buildEventMonthJsonLd(monthKey: string, languageInput?: string) {
+export function buildEventMonthJsonLd(monthKey: string, languageInput?: string, inventory = guideEvents) {
   const seo = getEventMonthSeo(monthKey, languageInput);
   const path = eventMonthPath(monthKey);
   const pageUrl = languageInput ? localizedUrl(path, seo.language) : baseUrl + path;
-  const events = getEventsForMonth(monthKey).filter(isEventEligibleForStructuredData);
+  const events = getEventsForMonth(monthKey, inventory).filter(isEventEligibleForStructuredData).filter(event => !event.translatedLanguages || event.translatedLanguages.includes(seo.language));
 
   return [
     {
@@ -182,15 +184,13 @@ export function buildEventMonthJsonLd(monthKey: string, languageInput?: string) 
     ...events.map((event) => ({
       "@context": "https://schema.org",
       "@type": "Event",
+      "@id": localizedUrl(`/events/event/${event.slug}`, seo.language) + "#event",
       name: event.title[seo.language],
       description: event.description[seo.language],
       startDate: eventDateTime(event.startDate, event.startTime),
       ...(event.endDate ? { endDate: eventDateTime(event.endDate) } : {}),
-      eventStatus: event.status === "postponed"
-        ? "https://schema.org/EventPostponed"
-        : event.status === "cancelled"
-          ? "https://schema.org/EventCancelled"
-          : "https://schema.org/EventScheduled",
+      eventStatus: eventSchemaStatus(event.status, event.previousStartDate),
+      ...(event.previousStartDate ? { previousStartDate: event.previousStartDate } : {}),
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
       organizer: {
         "@type": event.organizer.type,
@@ -207,9 +207,10 @@ export function buildEventMonthJsonLd(monthKey: string, languageInput?: string) 
           addressCountry: "MD",
         },
       },
-      url: `${pageUrl}#${event.slug}`,
+      url: localizedUrl(`/events/event/${event.slug}`, seo.language),
       sameAs: [...new Set([event.sourceUrl, event.ticketUrl].filter(Boolean))],
-      mainEntityOfPage: pageUrl,
+      mainEntityOfPage: localizedUrl(`/events/event/${event.slug}`, seo.language),
+      ...(event.image ? { image: baseUrl + event.image.path } : {}),
       inLanguage: seo.language,
     })),
   ];

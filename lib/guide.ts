@@ -179,8 +179,8 @@ export const guidePages: Record<GuideSlug, GuidePageData> = {
   events: page(
     "events",
     "/guide/events.webp",
-    l("События и концерты в Кишинёве 2026", "Evenimente și concerte în Chișinău 2026", "Chișinău events and concerts 2026", "Події та концерти в Кишиневі 2026", "Akce a koncerty v Kišiněvě 2026"),
-    l("Афиша Кишинёва с августа по декабрь 2026: концерты, фестивали, праздники, спорт и бизнес-события. Проверяйте даты высокого спроса и подбирайте квартиру.", "Agenda Chișinăului din august până în decembrie 2026: concerte, festivaluri, sărbători, sport și business. Verifică perioadele cu cerere mare și alege un apartament.", "Chișinău listings from August to December 2026: concerts, festivals, celebrations, sport and business events, with high-demand dates and apartments.", "Афіша Кишинева з серпня до грудня 2026: концерти, фестивалі, свята, спорт і бізнес-події, дати високого попиту та квартири.", "Program Kišiněva od srpna do prosince 2026: koncerty, festivaly, slavnosti, sport a byznys, termíny vysoké poptávky a apartmány."),
+    l("События и концерты в Кишинёве", "Evenimente și concerte în Chișinău", "Chișinău events and concerts", "Події та концерти в Кишиневі", "Akce a koncerty v Kišiněvě"),
+    l("Афиша Кишинёва на ближайшие месяцы: концерты, фестивали, праздники, спорт и бизнес-события. Проверяйте даты высокого спроса и подбирайте квартиру.", "Agenda Chișinăului pentru lunile următoare: concerte, festivaluri, sărbători, sport și business. Verifică perioadele cu cerere mare și alege un apartament.", "Chișinău listings for the coming months: concerts, festivals, celebrations, sport and business events, with high-demand dates and apartments.", "Афіша Кишинева на найближчі місяці: концерти, фестивалі, свята, спорт і бізнес-події, дати високого попиту та квартири.", "Program Kišiněva na příští měsíce: koncerty, festivaly, slavnosti, sport a byznys, termíny vysoké poptávky a apartmány."),
     [{
       title: l("Как мы отбираем афишу", "Cum selectăm evenimentele", "How listings are selected", "Як ми відбираємо афішу", "Jak vybíráme akce"),
       body: l(

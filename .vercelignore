@@ -1,3 +1,7 @@
 .local-media/
 audit-84-*
 .tmp-*
+.env*
+.vercel/
+.git/
+.codex*

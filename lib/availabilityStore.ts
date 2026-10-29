@@ -1,4 +1,5 @@
 import { promises as fs } from "fs";
+import { existingDatabaseUrl } from "@/lib/existingDatabase.mjs";
 import path from "path";
 import seedAvailability from "@/data/availability.json";
 import { apartments } from "@/lib/apartments";
@@ -91,7 +92,7 @@ function recordsFromRows(rows: BookedDateRow[]) {
 }
 
 function getPostgresUrl() {
-  return process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.NEON_DATABASE_URL || "";
+  return existingDatabaseUrl(process.env, "availability");
 }
 
 function getSupabaseConfig() {

@@ -24,14 +24,14 @@ test("events expose demand windows and all five localized SEO variants", async (
   ]);
   assert.match(events, /demandStart/);
   assert.match(events, /demandEnd/);
-  assert.match(events, /export const eventsUpdatedAt = "2026-08-24"/);
-  assert.match(guide, /События и концерты в Кишинёве 2026/);
-  assert.match(guide, /Evenimente și concerte în Chișinău 2026/);
-  assert.match(guide, /Chișinău events and concerts 2026/);
-  assert.match(guide, /Події та концерти в Кишиневі 2026/);
-  assert.match(guide, /Akce a koncerty v Kišiněvě 2026/);
+  assert.match(events, /export const eventsUpdatedAt = "2026-10-29"/);
+  assert.match(guide, /События и концерты в Кишинёве/);
+  assert.match(guide, /Evenimente și concerte în Chișinău/);
+  assert.match(guide, /Chișinău events and concerts/);
+  assert.match(guide, /Події та концерти в Кишиневі/);
+  assert.match(guide, /Akce a koncerty v Kišiněvě/);
   assert.match(calendar, /getEventMonthSeo/);
-  assert.match(page, /index: true/);
+  assert.match(page, /index: indexable/);
 });
 
 test("events are represented in sitemap, Event ItemList and breadcrumbs", async () => {
@@ -55,7 +55,7 @@ test("Event JSON-LD only exposes records with a verified organizer and full addr
   assert.match(events, /verifiedEventOrganizers/);
   assert.match(events, /"independence-day-moldova-2026"[\s\S]*Guvernul Republicii Moldova/);
   assert.match(events, /"gladiator-challenge-2026"[\s\S]*Gladiator Challenge Moldova/);
-  assert.match(events, /"grand-chinese-circus-2026"[\s\S]*Arena Chișinău/);
+  assert.match(events, /"jdc-dance-weekend-2026"[\s\S]*JDC Community/);
   for (const jsonLd of [guideJsonLd, monthJsonLd]) {
     assert.match(jsonLd, /filter\(isEventEligibleForStructuredData\)/);
     assert.match(jsonLd, /"@type": event\.organizer\.type/);

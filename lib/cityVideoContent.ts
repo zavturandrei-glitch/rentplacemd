@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getCityVideoIdentity } from "@/lib/cityVideoIdentity";
 import type { Language } from "@/locales/translations";
 import type { CityVideo, CityVideoCategory } from "@/lib/cityVideoTypes";
 import {
@@ -342,19 +343,22 @@ export function getCityVideoAbsoluteThumbnail(video: CityVideo) {
   return thumbnail.startsWith("/") ? baseUrl + thumbnail : thumbnail;
 }
 
-export function getCityVideoWatchDescription(video: CityVideo, language: Language) {
+export function getCityVideoWatchDescription(video: CityVideo, language: Language, inventory: readonly CityVideo[] = []) {
+  const identity = getCityVideoIdentity(video, language, inventory);
   const description = video.description[language]?.trim();
-  if (description) return description;
+  if (description) return identity.descriptionPrefix + description;
   const title = video.title[language].trim();
-  return `${title}. ${video.sourceName}.`;
+  return `${identity.descriptionPrefix}${title}. ${video.sourceName}.`;
 }
 
 export function getCityVideoWatchMetadata(
   video: CityVideo,
   languageInput?: string,
+  inventory: readonly CityVideo[] = [],
 ): Metadata {
   const language = normalizeSiteLanguage(languageInput);
-  const path = getCityVideoPath(video.slug);
+  const identity = getCityVideoIdentity(video, language, inventory);
+  const path = getCityVideoPath(identity.canonical.slug);
   const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
   const titleSuffix: Record<Language, string> = {
     ru: "видео о Кишинёве",
@@ -363,8 +367,8 @@ export function getCityVideoWatchMetadata(
     uk: "відео про Кишинів",
     cs: "video o Kišiněvě",
   };
-  const title = `${video.title[language]} — ${titleSuffix[language]} | RentPlaceMD`;
-  const description = getCityVideoWatchDescription(video, language).slice(0, 200);
+  const title = `${identity.title} — ${titleSuffix[language]} | RentPlaceMD`;
+  const description = getCityVideoWatchDescription(video, language, inventory).slice(0, 200);
   const thumbnail = getCityVideoAbsoluteThumbnail(video);
   const embedUrl = getCityVideoEmbedUrl(video);
 
@@ -372,7 +376,7 @@ export function getCityVideoWatchMetadata(
     title: { absolute: title },
     description,
     alternates: routeAlternates(path, languageInput),
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
+    robots: { index: !identity.duplicate, follow: true, googleBot: { index: !identity.duplicate, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
     openGraph: {
       title,
       description,
@@ -396,8 +400,10 @@ export function getCityVideoWatchMetadata(
 export function buildCityVideoWatchJsonLd(
   video: CityVideo,
   languageInput?: string,
+  inventory: readonly CityVideo[] = [],
 ) {
   const language = normalizeSiteLanguage(languageInput);
+  if (getCityVideoIdentity(video, language, inventory).duplicate) return [];
   const path = getCityVideoPath(video.slug);
   const url = languageInput ? localizedUrl(path, language) : baseUrl + path;
   const thumbnail = getCityVideoAbsoluteThumbnail(video);
@@ -409,8 +415,8 @@ export function buildCityVideoWatchJsonLd(
       "@context": "https://schema.org",
       "@type": "VideoObject",
       "@id": `${url}#video`,
-      name: video.title[language],
-      description: getCityVideoWatchDescription(video, language),
+      name: getCityVideoIdentity(video, language, inventory).title,
+      description: getCityVideoWatchDescription(video, language, inventory),
       thumbnailUrl: [thumbnail],
       uploadDate: video.createdAt,
       embedUrl,

@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-10-29T16:50:07.638Z",
+  "environment": "preview",
+  "expectedBranchId": "br-wild-band-b9c3gc4d",
+  "deploymentAllowed": false,
+  "remoteVariablesModified": false,
+  "variableNames": [
+    "DATABASE_URL",
+    "EVENTS_DATABASE_URL",
+    "NEON_DATABASE_URL",
+    "NEON_DATABASE_URL_UNPOOLED",
+    "NEON_PGDATABASE",
+    "NEON_PGHOST",
+    "NEON_PGHOST_UNPOOLED",
+    "NEON_PGPASSWORD",
+    "NEON_PGUSER",
+    "NEON_POSTGRES_DATABASE",
+    "NEON_POSTGRES_HOST",
+    "NEON_POSTGRES_PASSWORD",
+    "NEON_POSTGRES_PRISMA_URL",
+    "NEON_POSTGRES_URL",
+    "NEON_POSTGRES_URL_NON_POOLING",
+    "NEON_POSTGRES_URL_NO_SSL",
+    "NEON_POSTGRES_USER",
+    "NEON_PROJECT_ID"
+  ],
+  "selectedCalendarVariable": "EVENTS_DATABASE_URL",
+  "connectionAvailability": [
+    {
+      "variable": "EVENTS_DATABASE_URL",
+      "exportable": false
+    },
+    {
+      "variable": "NEON_DATABASE_URL",
+      "exportable": false
+    },
+    {
+      "variable": "NEON_POSTGRES_URL",
+      "exportable": false
+    },
+    {
+      "variable": "NEON_DATABASE_URL_UNPOOLED",
+      "exportable": false
+    },
+    {
+      "variable": "NEON_POSTGRES_URL_NON_POOLING",
+      "exportable": false
+    }
+  ],
+  "sharedDatabaseFallbackDisabled": true,
+  "legacyNeonFallbackDisabled": true,
+  "result": "remote-connection-unverifiable"
+}

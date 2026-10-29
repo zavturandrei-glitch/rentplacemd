@@ -1,5 +1,7 @@
 "use client";
 
+import EventCover from "@/components/EventCover";
+import EventNotice from "@/components/EventNotice";
 import Link from "@/components/LocalizedLink";
 import { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -10,7 +12,7 @@ import {
   getEventMonthSeo,
   getEventsForMonth,
 } from "@/lib/eventCalendar";
-import type { EventCategory, EventInterest } from "@/lib/events";
+import type { ChisinauEvent, EventCategory, EventInterest } from "@/lib/events";
 import type { Language } from "@/locales/translations";
 
 const localeByLanguage: Record<Language, string> = {
@@ -134,15 +136,15 @@ function formatDate(date: string, language: Language) {
   }).format(new Date(`${date}T12:00:00+03:00`));
 }
 
-export default function EventMonthPage({ monthKey }: { monthKey: string }) {
+export default function EventMonthPage({ monthKey, inventory }: { monthKey: string; inventory: readonly ChisinauEvent[] }) {
   const { language } = useLanguage();
   const ui = text[language];
   const seo = getEventMonthSeo(monthKey, language);
-  const events = getEventsForMonth(monthKey);
+  const events = getEventsForMonth(monthKey, inventory);
   const highDemandEvents = events.filter(
-    (event) => event.interest === "very-high" || event.interest === "high",
+    (event) => event.status !== "cancelled" && event.status !== "postponed" && event.status !== "sold-out" && (event.interest === "very-high" || event.interest === "high"),
   );
-  const adjacent = getAdjacentEventMonths(monthKey);
+  const adjacent = getAdjacentEventMonths(monthKey, inventory);
 
   useEffect(() => {
     document.title = `${seo.title} | RentPlaceMD`;
@@ -183,15 +185,17 @@ export default function EventMonthPage({ monthKey }: { monthKey: string }) {
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             {events.map((event) => (
               <article id={event.slug} key={event.id} className="scroll-mt-24 flex flex-col rounded-[22px] bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
+                  <EventCover event={event} language={language} />
+                  <EventNotice event={event} language={language} />
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <p className="font-semibold capitalize">{formatDate(event.startDate, language)}</p>
                   <span className="rounded-full bg-[#fff4b9] px-3 py-1.5 text-xs font-semibold">{ui.interests[event.interest]}</span>
                 </div>
-                <h3 className="mt-5 text-2xl font-semibold leading-tight">{event.title[language]}</h3>
+                <h3 lang={event.translatedLanguages && !event.translatedLanguages.includes(language) ? "ru" : language} className="mt-5 text-2xl font-semibold leading-tight"><Link href={`/events/event/${event.slug}`}>{event.title[language]}</Link></h3>
                 <p className="mt-2 text-sm font-medium text-[#d4146f]">{ui.categories[event.category]}</p>
                 <p className="mt-4 text-sm font-semibold text-slate-700">{event.venue[language]}</p>
                 {event.startTime ? <p className="mt-1 text-sm text-slate-500">{ui.time}: {event.startTime}</p> : null}
-                <p className="mt-4 flex-1 leading-7 text-slate-600">{event.description[language]}</p>
+                <p lang={event.translatedLanguages && !event.translatedLanguages.includes(language) ? "ru" : language} className="mt-4 flex-1 leading-7 text-slate-600">{event.description[language]}</p>
                 <div className="mt-4 rounded-xl bg-[#fffaf0] p-4 text-sm leading-6 text-slate-700">
                   <p className="font-semibold">{formatDate(event.demandStart, language)}–{formatDate(event.demandEnd, language)}</p>
                   <p className="mt-1">{event.demandReason[language]}</p>

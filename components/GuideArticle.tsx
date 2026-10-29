@@ -3,7 +3,6 @@
 import ExcursionRoutePanel from "@/components/ExcursionRoutePanel";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
-import EventsCalendar from "@/components/EventsCalendar";
 import { useLanguage } from "@/context/LanguageContext";
 import { guidePages, guidePath, guideUi, type GuideSlug } from "@/lib/guide";
 import type { Language } from "@/locales/translations";
@@ -61,7 +60,7 @@ export default function GuideArticle({ slug }: { slug: GuideSlug }) {
   const data = guidePages[slug];
 
   if (slug === "events") {
-    return <EventsCalendar />;
+    return <Link href="/events">{data.title[language]} →</Link>;
   }
 
   return (

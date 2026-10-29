@@ -1,0 +1,12 @@
+{
+  "notice": "Это описание формата, не готовые события. Загружайте массив реальных подтверждённых записей. Этот объект намеренно не принимается импортом.",
+  "requiredFields": ["slug", "title.ru", "description.ru", "venue.ru", "startDate", "category", "status", "sourceUrl"],
+  "optionalFields": ["endDate", "startTime", "previousStartDate", "sourceName", "ticketUrl", "organizer", "address", "translatedLanguages"],
+  "languages": ["ru", "ro", "en", "uk", "cs"],
+  "categories": ["concert", "festival", "theatre", "sport", "business", "family", "city", "gastronomy", "other"],
+  "statuses": ["scheduled", "postponed", "cancelled", "sold-out"],
+  "dateFormat": "YYYY-MM-DD",
+  "timeFormat": "HH:mm in Europe/Chisinau; omit if unknown",
+  "limit": "1–100 events, JSON array, up to 500 KB",
+  "publishing": "review queue only"
+}

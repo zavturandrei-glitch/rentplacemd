@@ -213,7 +213,8 @@ export default function AdminVideosManager() {
           <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d4146f]">RentPlaceMD Admin</p>
           <h1 className="mt-1 text-3xl font-black">Видео</h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/events" className="inline-flex min-h-11 items-center rounded-xl border bg-white px-4 text-sm font-bold">События</Link>
           <Link href="/admin/availability" className="inline-flex min-h-11 items-center rounded-xl border border-black/10 bg-white px-4 text-sm font-black">Календарь</Link>
           <Link href="/admin/excursions" className="inline-flex min-h-11 items-center rounded-xl border bg-white px-4 text-sm font-bold">Экскурсии</Link>
           <button type="button" onClick={logout} className="h-11 rounded-xl bg-[#07111f] px-4 text-sm font-black text-white">Выйти</button>

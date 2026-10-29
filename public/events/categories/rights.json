@@ -1,0 +1,17 @@
+{
+  "creator": "RentPlaceMD project",
+  "createdAt": "2026-10-29",
+  "source": "Original SVG artwork created in this repository; no third-party assets",
+  "usage": "Generic category illustration, not an official event poster",
+  "files": [
+    "concert.svg",
+    "festival.svg",
+    "theatre.svg",
+    "sport.svg",
+    "business.svg",
+    "family.svg",
+    "city.svg",
+    "gastronomy.svg",
+    "other.svg"
+  ]
+}

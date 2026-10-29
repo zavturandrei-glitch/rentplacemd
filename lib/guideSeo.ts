@@ -1,3 +1,5 @@
+import type { ChisinauEvent } from "@/lib/events";
+import { eventDateTime, eventSchemaStatus } from "@/lib/eventDates";
 import type { Metadata } from "next";
 import type { Language } from "@/locales/translations";
 import { regionalGuideSlugs, regionalGuides } from "@/lib/regionalGuides";
@@ -137,7 +139,7 @@ export function buildDestinationJsonLd(slug: DestinationSlug, languageInput?: st
   ];
 }
 
-export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
+export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string, inventory?: readonly ChisinauEvent[]) {
   const language = normalizeSiteLanguage(languageInput);
   const data = guidePages[slug];
   const path = guidePath(slug);
@@ -158,14 +160,15 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
   };
 
   if (slug === "events") {
-    const eventNodes = getUpcomingGuideEvents().filter(isEventEligibleForStructuredData).map((event) => ({
+    const eventNodes = getUpcomingGuideEvents(new Date(), inventory).filter(isEventEligibleForStructuredData).filter(event => !event.translatedLanguages || event.translatedLanguages.includes(language)).map((event) => ({
       "@type": "Event",
-      "@id": `${url}#${event.slug}`,
+      "@id": localizedUrl(`/events/event/${event.slug}`, language) + "#event",
       name: event.title[language],
       description: event.description[language],
-      startDate: event.startTime ? `${event.startDate}T${event.startTime}:00+03:00` : event.startDate,
+      startDate: eventDateTime(event.startDate, event.startTime),
       ...(event.endDate ? { endDate: event.endDate } : {}),
-      eventStatus: "https://schema.org/EventScheduled",
+      eventStatus: eventSchemaStatus(event.status, event.previousStartDate),
+      ...(event.previousStartDate ? { previousStartDate: event.previousStartDate } : {}),
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
       organizer: {
         "@type": event.organizer.type,
@@ -182,7 +185,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
           addressCountry: "MD",
         },
       },
-      url: `${url}#${event.slug}`,
+      url: localizedUrl(`/events/event/${event.slug}`, language),
       sameAs: [...new Set([event.sourceUrl, event.ticketUrl].filter(Boolean))],
       inLanguage: language,
     }));
@@ -195,7 +198,7 @@ export function buildGuideJsonLd(slug: GuideSlug, languageInput?: string) {
         description: data.description[language],
         url,
         inLanguage: language,
-        dateModified: eventsUpdatedAt,
+        dateModified: inventory?.reduce((latest, event) => event.verifiedAt > latest ? event.verifiedAt : latest, eventsUpdatedAt) ?? eventsUpdatedAt,
         publisher: { "@type": "Organization", name: siteName, url: baseUrl },
         mainEntity: {
           "@type": "ItemList",

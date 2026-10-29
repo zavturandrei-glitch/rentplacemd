@@ -3,6 +3,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { neon } from "@neondatabase/serverless";
+import { existingDatabaseUrl } from "../lib/existingDatabase.mjs";
 import { downloadTikTokThumbnail } from "../lib/tiktokThumbnail.ts";
 import { resolveTikTokEmbedUrl } from "../lib/tiktokThumbnail.ts";
 import { createCityVideoSlug, getCityVideoEmbedUrl } from "../lib/cityVideoTypes.ts";
@@ -143,6 +144,6 @@ async function backfillLocalFile() {
   };
 }
 
-const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.NEON_DATABASE_URL;
+const databaseUrl = existingDatabaseUrl(process.env, "videos");
 const result = databaseUrl ? await backfillDatabase(databaseUrl) : await backfillLocalFile();
 console.log(JSON.stringify(result));

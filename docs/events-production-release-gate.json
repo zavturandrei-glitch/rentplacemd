@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-29T18:46:40.309Z",
+  "method": "Neon schema GET only",
+  "project": "rentplacemd-db",
+  "branchId": "br-lively-recipe-b9a5h4gk",
+  "branchName": "main",
+  "status": 200,
+  "schemaRetrieved": true,
+  "eventTables": {
+    "state": false,
+    "images": false
+  },
+  "dataChanged": false
+}

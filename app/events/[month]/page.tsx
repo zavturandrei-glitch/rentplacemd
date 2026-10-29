@@ -1,3 +1,5 @@
+import { readEventInventory } from "@/lib/eventStore";
+import { eventMonths } from "@/lib/eventDates";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import EventMonthPage from "@/components/EventMonthPage";
@@ -29,22 +31,24 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const [{ month }, query] = await Promise.all([params, searchParams]);
+  const inventory = await readEventInventory();
   const monthKey = parseEventMonthSlug(month);
-  if (!monthKey || !eventMonthKeys.includes(monthKey)) return {};
-  return getEventMonthMetadata(monthKey, first(query.lang));
+  if (!monthKey || !eventMonths(inventory).includes(monthKey)) return {};
+  return getEventMonthMetadata(monthKey, first(query.lang), inventory);
 }
 
 export default async function MonthlyEventsPage({ params, searchParams }: PageProps) {
   const [{ month }, query] = await Promise.all([params, searchParams]);
+  const inventory = await readEventInventory();
   const monthKey = parseEventMonthSlug(month);
-  if (!monthKey || !eventMonthKeys.includes(monthKey)) notFound();
+  if (!monthKey || !eventMonths(inventory).includes(monthKey)) notFound();
   const language = first(query.lang);
 
   return (
     <main className="min-h-screen bg-[#fffaf0]">
-      <JsonLdScript id={`events-${month}-jsonld`} data={buildEventMonthJsonLd(monthKey, language)} />
+      <JsonLdScript id={`events-${month}-jsonld`} data={buildEventMonthJsonLd(monthKey, language, inventory)} />
       <Header />
-      <EventMonthPage monthKey={monthKey} />
+      <EventMonthPage monthKey={monthKey} inventory={inventory} />
       <Footer />
     </main>
   );

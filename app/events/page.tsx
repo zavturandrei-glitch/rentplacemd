@@ -1,3 +1,5 @@
+import { eventPageLanguages } from "@/lib/eventDates";
+import { readEventInventory } from "@/lib/eventStore";
 import type { Metadata } from "next";
 import EventsCalendar from "@/components/EventsCalendar";
 import Footer from "@/components/Footer";
@@ -21,19 +23,21 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   const query = await searchParams;
   const languageInput = first(query.lang);
   const language = normalizeSiteLanguage(languageInput);
+  const languages = eventPageLanguages(await readEventInventory());
+  const indexable = languages.includes(language);
   const metadata = getGuidePageMetadata("events", languageInput);
   return {
     ...metadata,
     robots: {
-      index: true,
+      index: indexable,
       follow: true,
-      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+      googleBot: { index: indexable, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
     },
     alternates: {
       ...metadata.alternates,
       canonical: metadata.alternates?.canonical?.toString().replace("/guide/events", "/events"),
       languages: Object.fromEntries(
-        Object.entries(metadata.alternates?.languages ?? {}).map(([language, url]) => [
+        Object.entries(metadata.alternates?.languages ?? {}).filter(([lang]) => lang === "x-default" || languages.includes(lang as typeof language)).map(([language, url]) => [
           language,
           String(url).replace("/guide/events", "/events"),
         ]),
@@ -50,7 +54,8 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 export default async function EventsPage({ searchParams }: PageProps) {
   const query = await searchParams;
   const language = first(query.lang);
-  const jsonLd = buildGuideJsonLd("events", language).map((entry) => {
+  const inventory = await readEventInventory();
+  const jsonLd = buildGuideJsonLd("events", language, inventory).map((entry) => {
     const serialized = JSON.stringify(entry).replaceAll("/guide/events", "/events");
     return JSON.parse(serialized) as unknown;
   });
@@ -61,7 +66,7 @@ export default async function EventsPage({ searchParams }: PageProps) {
     <main className="min-h-screen bg-[#fffaf0]">
       <JsonLdScript id="events-jsonld" data={jsonLd} />
       <Header />
-      <EventsCalendar />
+      <EventsCalendar initialDate={getChisinauDateKey()} inventory={inventory} />
       <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
         <CityVideoRail videos={pastEventVideos} placement="events" />
       </div>

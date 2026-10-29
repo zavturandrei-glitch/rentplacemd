@@ -1,3 +1,7 @@
+import type { Language } from "@/locales/translations";
+import { getCityVideoIdentity } from "@/lib/cityVideoIdentity";
+import { readEventInventory } from "@/lib/eventStore";
+import { eventMonths, eventPageLanguages } from "@/lib/eventDates";
 import type { MetadataRoute } from "next";
 import {
   activeApartments,
@@ -11,7 +15,7 @@ import {
   mainSocialImageUrl,
 } from "@/lib/seo";
 import { eventsUpdatedAt } from "@/lib/events";
-import { eventMonthKeys, eventMonthPath } from "@/lib/eventCalendar";
+import { eventMonthPath } from "@/lib/eventCalendar";
 import { guidePages, guidePath, guideSlugs } from "@/lib/guide";
 import { destinations } from "@/lib/moldovaDestinations";
 import { readPublishedCityVideos } from "@/lib/cityVideoStore";
@@ -61,6 +65,9 @@ function languageAlternates(path: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const inventory = await readEventInventory();
+  const eventMonthKeys = eventMonths(inventory);
+  const eventModified = new Date(inventory.reduce((latest, event) => event.verifiedAt > latest ? event.verifiedAt : latest, eventsUpdatedAt));
   const publishedVideos = await readPublishedCityVideos();
   const videoLastModified = publishedVideos.reduce(
     (latest, video) => Math.max(latest, new Date(video.updatedAt).getTime()),
@@ -96,11 +103,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const path = guidePath(slug);
     return {
       url: baseUrl + path,
-      lastModified: new Date(Math.max(new Date("2026-09-26").getTime(), new Date(slug === "events" ? eventsUpdatedAt : "2026-07-25").getTime())),
+      lastModified: slug === "events" ? eventModified : new Date("2026-09-26"),
       changeFrequency: slug === "events" ? "weekly" as const : "monthly" as const,
       priority: 0.7,
       images: [baseUrl + guidePages[slug].image],
-      alternates: languageAlternates(path),
+      alternates: slug === "events" ? { languages: Object.fromEntries(Object.entries(languageAlternates(path).languages).filter(([language]) => language === "x-default" || eventPageLanguages(inventory).includes(language as Language))) } : languageAlternates(path),
     };
   });
 
@@ -108,11 +115,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const path = eventMonthPath(monthKey);
     return {
       url: baseUrl + path,
-      lastModified: new Date(eventsUpdatedAt),
+      lastModified: eventModified,
       changeFrequency: "weekly" as const,
       priority: 0.74,
       images: [baseUrl + guidePages.events.image],
-      alternates: languageAlternates(path),
+      alternates: { languages: Object.fromEntries(Object.entries(languageAlternates(path).languages).filter(([language]) => language === "x-default" || eventPageLanguages(inventory.filter(event => event.startDate.slice(0, 7) <= monthKey && (event.endDate ?? event.startDate).slice(0, 7) >= monthKey)).includes(language as Language))) },
     };
   });
 
@@ -125,7 +132,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: languageAlternates(destination.path),
   }));
 
-  const videoRoutes = publishedVideos.map((video) => {
+  const videoRoutes = publishedVideos.filter(video => !getCityVideoIdentity(video, "ru", publishedVideos).duplicate).map((video) => {
     const path = getCityVideoPath(video.slug);
     const thumbnail = getCityVideoAbsoluteThumbnail(video);
     return {
@@ -166,6 +173,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: languageAlternates(`/guide/${slug}`),
     })),
     ...eventMonthRoutes,
+    ...inventory.map(event => ({ url: baseUrl + `/events/event/${event.slug}`, lastModified: new Date(event.verifiedAt), changeFrequency: "weekly" as const, images: [baseUrl + (event.image?.path ?? `/events/categories/${event.category}.svg`)], alternates: { languages: Object.fromEntries((event.translatedLanguages ?? ["ru", "ro", "en", "uk", "cs"]).map(language => [language, baseUrl + `/events/event/${event.slug}` + (language === "ru" ? "" : `?lang=${language}`)])) } })),
     ...videoRoutes,
     ...apartmentRoutes,
   ];

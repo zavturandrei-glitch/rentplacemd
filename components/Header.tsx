@@ -221,14 +221,14 @@ function MobileHeader({ apartmentMode, whatsappHref }: { apartmentMode: boolean;
     <div className="lg:hidden bg-[#07111f] text-white shadow-2xl">
       <div className="border-b border-white/10 bg-[#050b14] px-3 py-1">
         <div className="flex items-center justify-between gap-2">
-          <div className="flex min-w-0 items-center gap-2">
+          <div className="flex min-w-0 items-center gap-1 min-[360px]:gap-2">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 type="button"
                 title={lang.display}
                 onClick={() => changeLanguage(lang.code as Lang)}
-                className={`flex min-h-6 items-center gap-1 text-[10px] font-black transition active:scale-95 ${language === lang.code ? "text-[#ffd21f]" : "text-white/85"}`}
+                className={`flex min-h-6 shrink-0 items-center gap-0.5 text-[10px] font-black transition active:scale-95 min-[360px]:gap-1 ${language === lang.code ? "text-[#ffd21f]" : "text-white/85"}`}
                 aria-label={lang.display}
               >
                 <span className="h-3 w-[18px] overflow-hidden rounded-[3px] shadow-sm ring-1 ring-white/10">

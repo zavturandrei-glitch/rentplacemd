@@ -3,6 +3,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { neon } from "@neondatabase/serverless";
+import { existingDatabaseUrl } from "../lib/existingDatabase.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -20,7 +21,7 @@ async function loadLocalEnvironment() {
 
 export async function migrateCityVideos() {
   await loadLocalEnvironment();
-  const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.NEON_DATABASE_URL;
+  const databaseUrl = existingDatabaseUrl(process.env, "videos");
   if (!databaseUrl) throw new Error("DATABASE_URL не настроен; миграция БД не выполнена.");
   const migration = await readFile(path.join(root, "migrations", "001_city_videos.sql"), "utf8");
   const sql = neon(databaseUrl);

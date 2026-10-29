@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-29T16:32:34.190Z",
+  "branch": "br-wild-band-b9c3gc4d",
+  "migrated": false,
+  "testEventRemoved": true,
+  "branchVerified": true,
+  "migrationAlreadyPresent": true,
+  "structureVerified": true,
+  "writeReadAcrossClients": true,
+  "updatePersistedAcrossClients": true,
+  "onlyExpectedTables": true,
+  "existingDataChanged": false,
+  "databaseUrlModified": false,
+  "deployed": false
+}

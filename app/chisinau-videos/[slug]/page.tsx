@@ -12,7 +12,8 @@ import {
   getCityVideoWatchMetadata,
 } from "@/lib/cityVideoContent";
 import { getCityVideoEmbedUrl, getCityVideoThumbnail } from "@/lib/cityVideoTypes";
-import { readPublishedCityVideoBySlug } from "@/lib/cityVideoStore";
+import { readPublishedCityVideos } from "@/lib/cityVideoStore";
+import { getCityVideoIdentity } from "@/lib/cityVideoIdentity";
 import { normalizeSiteLanguage } from "@/lib/seo";
 import { getLocalizedHref } from "@/lib/localizedHref";
 
@@ -35,21 +36,23 @@ const watchCopy = {
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
-  const video = await readPublishedCityVideoBySlug(slug);
+  const inventory = await readPublishedCityVideos();
+  const video = inventory.find(item => item.slug === slug);
   if (!video) return { title: "Видео не найдено", robots: { index: false, follow: false } };
-  return getCityVideoWatchMetadata(video, first(query.lang));
+  return getCityVideoWatchMetadata(video, first(query.lang), inventory);
 }
 
 export default async function CityVideoWatchPage({ params, searchParams }: PageProps) {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
-  const video = await readPublishedCityVideoBySlug(slug);
+  const inventory = await readPublishedCityVideos();
+  const video = inventory.find(item => item.slug === slug);
   if (!video) notFound();
 
   const languageInput = first(query.lang);
   const language = normalizeSiteLanguage(languageInput);
   const copy = watchCopy[language];
-  const title = video.title[language];
-  const description = getCityVideoWatchDescription(video, language);
+  const title = getCityVideoIdentity(video, language, inventory).title;
+  const description = getCityVideoWatchDescription(video, language, inventory);
   const thumbnail = getCityVideoThumbnail(video);
   const embedUrl = getCityVideoEmbedUrl(video);
   if (!thumbnail || !embedUrl) notFound();
@@ -63,7 +66,7 @@ export default async function CityVideoWatchPage({ params, searchParams }: PageP
 
   return (
     <main className="min-h-screen bg-[#fffaf0] text-[#07111f]">
-      <JsonLdScript id="city-video-watch-jsonld" data={buildCityVideoWatchJsonLd(video, languageInput)} />
+      <JsonLdScript id="city-video-watch-jsonld" data={buildCityVideoWatchJsonLd(video, languageInput, inventory)} />
       <Header />
       <article className="px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-6xl">

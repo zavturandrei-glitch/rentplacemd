@@ -1,0 +1,52 @@
+{
+  "checkedAt": "2026-10-29T18:22:46.642Z",
+  "projectId": "prj_1n4XSnLrr6VJr0YAzJRhtTCq63Jv",
+  "productionModified": false,
+  "productionDeploymentBefore": "dpl_DpiqhzsTXudH3JPhtXu8szgFWTfi",
+  "protection": "all_except_custom_domains",
+  "responseFields": [
+    "status",
+    "deployment",
+    "message",
+    "next"
+  ],
+  "deploymentId": "dpl_8wREfty22QTxG2Yv6vhTcsPzkm96",
+  "url": "https://rentplacemd-8h63oebz5-123235251.vercel.app",
+  "readyState": "READY",
+  "created": true,
+  "anonymousChecks": [
+    {
+      "path": "/events",
+      "status": 302,
+      "blockedForAnonymous": true
+    },
+    {
+      "path": "/events/november-2026",
+      "status": 302,
+      "blockedForAnonymous": true
+    },
+    {
+      "path": "/events/december-2026",
+      "status": 302,
+      "blockedForAnonymous": true
+    },
+    {
+      "path": "/events/january-2027",
+      "status": 302,
+      "blockedForAnonymous": true
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 302,
+      "blockedForAnonymous": true
+    },
+    {
+      "path": "/events/categories/concert.svg",
+      "status": 302,
+      "blockedForAnonymous": true
+    }
+  ],
+  "productionDeploymentAfter": "dpl_DpiqhzsTXudH3JPhtXu8szgFWTfi",
+  "productionUnchanged": true,
+  "authenticatedBrowserChecksPending": true
+}

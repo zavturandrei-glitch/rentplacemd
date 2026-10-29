@@ -1,6 +1,11 @@
 "use client";
 
+import { eventMonths } from "@/lib/eventDates";
+import type { ChisinauEvent } from "@/lib/events";
+import EventCover from "@/components/EventCover";
+import EventNotice from "@/components/EventNotice";
 import Link from "@/components/LocalizedLink";
+import { useCalendarDate } from "@/components/useCalendarDate";
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { travelUi } from "@/lib/excursions";
@@ -12,10 +17,8 @@ import {
   type EventInterest,
 } from "@/lib/events";
 import {
-  eventMonthKeys,
   eventMonthPath,
   formatEventMonth,
-  getChisinauMonthKey,
   getEventMonthSeo,
   getEventsForMonth,
 } from "@/lib/eventCalendar";
@@ -130,8 +133,8 @@ const ui: Record<Language, {
   ru: {
     back: "Назад к гиду",
     eyebrow: "RentPlaceMD · городской календарь",
-    title: "События и концерты в Кишинёве 2026",
-    intro: "Крупнейшие концерты, фестивали, городские праздники, спортивные и деловые события Кишинёва с августа по декабрь 2026 года.",
+    title: "События и концерты в Кишинёве",
+    intro: "Крупнейшие концерты, фестивали, городские праздники, спортивные и деловые события Кишинёва на ближайшие месяцы.",
     featured: "Ближайшее важное событие",
     filters: "Фильтры календаря",
     all: "Все",
@@ -163,8 +166,8 @@ const ui: Record<Language, {
   ro: {
     back: "Înapoi la ghid",
     eyebrow: "RentPlaceMD · calendar urban",
-    title: "Evenimente și concerte în Chișinău 2026",
-    intro: "Cele mai importante concerte, festivaluri, sărbători urbane, competiții sportive și evenimente de business din august până în decembrie 2026.",
+    title: "Evenimente și concerte în Chișinău",
+    intro: "Cele mai importante concerte, festivaluri, sărbători urbane, competiții sportive și evenimente de business pentru lunile următoare.",
     featured: "Următorul eveniment important",
     filters: "Filtrele calendarului",
     all: "Toate",
@@ -196,8 +199,8 @@ const ui: Record<Language, {
   en: {
     back: "Back to the guide",
     eyebrow: "RentPlaceMD · city calendar",
-    title: "Chișinău events and concerts 2026",
-    intro: "The leading concerts, festivals, city celebrations, sports fixtures and business events from August through December 2026.",
+    title: "Chișinău events and concerts",
+    intro: "The leading concerts, festivals, city celebrations, sports fixtures and business events for the coming months.",
     featured: "Next major event",
     filters: "Calendar filters",
     all: "All",
@@ -229,8 +232,8 @@ const ui: Record<Language, {
   uk: {
     back: "Назад до путівника",
     eyebrow: "RentPlaceMD · міський календар",
-    title: "Події та концерти в Кишиневі 2026",
-    intro: "Найбільші концерти, фестивалі, міські свята, спортивні та ділові події з серпня до грудня 2026 року.",
+    title: "Події та концерти в Кишиневі",
+    intro: "Найбільші концерти, фестивалі, міські свята, спортивні та ділові події на найближчі місяці.",
     featured: "Найближча важлива подія",
     filters: "Фільтри календаря",
     all: "Усі",
@@ -262,8 +265,8 @@ const ui: Record<Language, {
   cs: {
     back: "Zpět na průvodce",
     eyebrow: "RentPlaceMD · městský kalendář",
-    title: "Akce a koncerty v Kišiněvě 2026",
-    intro: "Největší koncerty, festivaly, městské slavnosti, sportovní a obchodní akce od srpna do prosince 2026.",
+    title: "Akce a koncerty v Kišiněvě",
+    intro: "Největší koncerty, festivaly, městské slavnosti, sportovní a obchodní akce na příští měsíce.",
     featured: "Nejbližší významná akce",
     filters: "Filtry kalendáře",
     all: "Vše",
@@ -315,10 +318,13 @@ function formatUpdated(date: string, language: Language) {
 const categoryFilters: CategoryFilter[] = ["all", "concert", "festival", "sport", "business", "gastronomy", "theatre", "family", "city"];
 const interestFilters: InterestFilter[] = ["all", "very-high", "high", "medium", "low"];
 
-export default function EventsCalendar() {
+export default function EventsCalendar({ initialDate, inventory }: { initialDate: string; inventory: readonly ChisinauEvent[] }) {
+  const latestUpdatedAt = inventory.reduce((latest, event) => event.verifiedAt > latest ? event.verifiedAt : latest, eventsUpdatedAt);
+  const date = useCalendarDate(initialDate);
+  const now = useMemo(() => new Date(`${date}T12:00:00+02:00`), [date]);
   const { language } = useLanguage();
   const text = ui[language];
-  const events = useMemo(() => getUpcomingGuideEvents(), []);
+  const events = useMemo(() => getUpcomingGuideEvents(now, inventory), [now, inventory]);
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [month, setMonth] = useState("all");
   const [interest, setInterest] = useState<InterestFilter>("all");
@@ -330,10 +336,11 @@ export default function EventsCalendar() {
     && (interest === "all" || event.interest === interest),
   );
   const grouped = Object.groupBy(filtered, (event) => event.startDate.slice(0, 7));
-  const importantEvents = useMemo(() => getUpcomingDemandEvents(new Date(), 5), []);
+  const importantEvents = useMemo(() => getUpcomingDemandEvents(now, 5, inventory), [now, inventory]);
   const featured = importantEvents[0] ?? events[0];
-  const currentMonthKey = getChisinauMonthKey();
-  const currentMonthEvents = getEventsForMonth(currentMonthKey);
+  const eventMonthKeys = eventMonths(inventory);
+  const currentMonthKey = date.slice(0, 7);
+  const currentMonthEvents = getEventsForMonth(currentMonthKey, inventory);
   const nextMonthKey = eventMonthKeys.find((item) => item > currentMonthKey) ?? null;
   const archiveMonthKeys = eventMonthKeys.filter((item) => item < currentMonthKey).reverse();
   const monthText = monthUi[language];
@@ -441,7 +448,7 @@ export default function EventsCalendar() {
             {text.month}
             <select value={month} onChange={(event) => setMonth(event.target.value)} className="min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-medium">
               <option value="all">{text.all}</option>
-              {months.map((item) => <option key={item} value={item}>{formatDate(`${item}-01`, language)}</option>)}
+              {months.map((item) => <option key={item} value={item}>{formatEventMonth(item, language)}</option>)}
             </select>
           </label>
           <label className="grid gap-2 text-sm font-semibold">
@@ -461,15 +468,17 @@ export default function EventsCalendar() {
             <div className="mt-5 grid gap-4 lg:grid-cols-2">
               {monthEvents?.map((event) => (
                 <article key={event.id} className="flex flex-col rounded-[22px] bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
+                  <EventCover event={event} language={language} />
+                  <EventNotice event={event} language={language} />
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="font-semibold capitalize">{formatDate(event.startDate, language, true)}</p>
                     <span className="rounded-full bg-[#fff4b9] px-3 py-1.5 text-xs font-semibold text-[#07111f]">{text.interests[event.interest]}</span>
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-tight">{event.title[language]}</h3>
+                  <h3 lang={event.translatedLanguages && !event.translatedLanguages.includes(language) ? "ru" : language} className="mt-5 text-2xl font-semibold leading-tight"><Link href={`/events/event/${event.slug}`}>{event.title[language]}</Link></h3>
                   <p className="mt-2 text-sm font-medium text-[#d4146f]">{text.categories[event.category]}</p>
                   <p className="mt-4 text-sm font-semibold text-slate-700">{event.venue[language]}</p>
                   {event.startTime ? <p className="mt-1 text-sm text-slate-500">{text.time}: {event.startTime}</p> : null}
-                  <p className="mt-4 flex-1 leading-7 text-slate-600">{event.description[language]}</p>
+                  <p lang={event.translatedLanguages && !event.translatedLanguages.includes(language) ? "ru" : language} className="mt-4 flex-1 leading-7 text-slate-600">{event.description[language]}</p>
                   <div className="mt-4 rounded-xl bg-[#fffaf0] p-4 text-sm leading-6 text-slate-700">
                     <p className="font-semibold">{text.demandDates}: {formatDate(event.demandStart, language)}–{formatDate(event.demandEnd, language)}</p>
                     <p className="mt-1">{event.demandReason[language]}</p>
@@ -527,7 +536,7 @@ export default function EventsCalendar() {
         </div>
       </section>
 
-      <p className="mt-10 text-sm text-slate-500">{text.updated}: {formatUpdated(eventsUpdatedAt, language)}</p>
+      <p className="mt-10 text-sm text-slate-500">{text.updated}: {formatUpdated(latestUpdatedAt, language)}</p>
     </article>
   );
 }

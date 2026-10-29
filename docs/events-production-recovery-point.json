@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-29T18:49:45.722Z",
+  "created": true,
+  "status": 200,
+  "snapshot": {
+    "id": "snap-odd-morning-b9lxuoyv",
+    "name": "snap-odd-morning-b9lxuoyv",
+    "source_branch_id": "br-lively-recipe-b9a5h4gk",
+    "created_at": "2026-10-29T18:49:44Z",
+    "manual": true
+  },
+  "operations": [
+    {
+      "id": "785f9834-d457-41bb-971c-965fc696f342",
+      "status": "running",
+      "branch_id": "br-patient-cloud-b9lgz6sc",
+      "action": "create_branch"
+    },
+    {
+      "id": "7708fd8e-9826-4a1d-983a-1c791304ac4a",
+      "status": "scheduling",
+      "branch_id": "br-patient-cloud-b9lgz6sc",
+      "action": "timeline_archive"
+    },
+    {
+      "id": "403efc20-43b7-47c1-9e28-838d6f6f661e",
+      "status": "scheduling",
+      "action": "epc_sync"
+    }
+  ],
+  "migrationApplied": false,
+  "operationChecks": [
+    {
+      "id": "785f9834-d457-41bb-971c-965fc696f342",
+      "status": "finished"
+    },
+    {
+      "id": "7708fd8e-9826-4a1d-983a-1c791304ac4a",
+      "status": "finished"
+    },
+    {
+      "id": "403efc20-43b7-47c1-9e28-838d6f6f661e",
+      "status": "finished"
+    }
+  ],
+  "ready": true
+}

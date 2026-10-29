@@ -1,0 +1,207 @@
+{
+  "checkedAt": "2026-10-29T16:32:56.492Z",
+  "environment": "local build using verified Neon Preview",
+  "pages": [
+    {
+      "path": "/events",
+      "language": "ru",
+      "status": 200,
+      "title": "События и концерты в Кишинёве | RentPlaceMD",
+      "canonical": "https://rentplace.md/events",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events",
+      "language": "ro",
+      "status": 200,
+      "title": "Evenimente și concerte în Chișinău | RentPlaceMD",
+      "canonical": "https://rentplace.md/events?lang=ro",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events",
+      "language": "en",
+      "status": 200,
+      "title": "Chișinău events and concerts | RentPlaceMD",
+      "canonical": "https://rentplace.md/events?lang=en",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events",
+      "language": "uk",
+      "status": 200,
+      "title": "Події та концерти в Кишиневі | RentPlaceMD",
+      "canonical": "https://rentplace.md/events?lang=uk",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events",
+      "language": "cs",
+      "status": 200,
+      "title": "Akce a koncerty v Kišiněvě | RentPlaceMD",
+      "canonical": "https://rentplace.md/events?lang=cs",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/october-2026",
+      "language": "ru",
+      "status": 200,
+      "title": "События в Кишинёве — октябрь 2026 г. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/october-2026",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/october-2026",
+      "language": "ro",
+      "status": 200,
+      "title": "Evenimente în Chișinău — octombrie 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/october-2026?lang=ro",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/october-2026",
+      "language": "en",
+      "status": 200,
+      "title": "Events in Chișinău — October 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/october-2026?lang=en",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/october-2026",
+      "language": "uk",
+      "status": 200,
+      "title": "Події в Кишиневі — жовтень 2026 р. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/october-2026?lang=uk",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/october-2026",
+      "language": "cs",
+      "status": 200,
+      "title": "Akce v Kišiněvě — říjen 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/october-2026?lang=cs",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/november-2026",
+      "language": "ru",
+      "status": 200,
+      "title": "События в Кишинёве — ноябрь 2026 г. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/november-2026",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/november-2026",
+      "language": "ro",
+      "status": 200,
+      "title": "Evenimente în Chișinău — noiembrie 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/november-2026?lang=ro",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/november-2026",
+      "language": "en",
+      "status": 200,
+      "title": "Events in Chișinău — November 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/november-2026?lang=en",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/november-2026",
+      "language": "uk",
+      "status": 200,
+      "title": "Події в Кишиневі — листопад 2026 р. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/november-2026?lang=uk",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/november-2026",
+      "language": "cs",
+      "status": 200,
+      "title": "Akce v Kišiněvě — listopad 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/november-2026?lang=cs",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/december-2026",
+      "language": "ru",
+      "status": 200,
+      "title": "События в Кишинёве — декабрь 2026 г. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/december-2026",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/december-2026",
+      "language": "ro",
+      "status": 200,
+      "title": "Evenimente în Chișinău — decembrie 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/december-2026?lang=ro",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/december-2026",
+      "language": "en",
+      "status": 200,
+      "title": "Events in Chișinău — December 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/december-2026?lang=en",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/december-2026",
+      "language": "uk",
+      "status": 200,
+      "title": "Події в Кишиневі — грудень 2026 р. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/december-2026?lang=uk",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/december-2026",
+      "language": "cs",
+      "status": 200,
+      "title": "Akce v Kišiněvě — prosinec 2026 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/december-2026?lang=cs",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/january-2027",
+      "language": "ru",
+      "status": 200,
+      "title": "События в Кишинёве — январь 2027 г. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/january-2027",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/january-2027",
+      "language": "ro",
+      "status": 200,
+      "title": "Evenimente în Chișinău — ianuarie 2027 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/january-2027?lang=ro",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/january-2027",
+      "language": "en",
+      "status": 200,
+      "title": "Events in Chișinău — January 2027 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/january-2027?lang=en",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/january-2027",
+      "language": "uk",
+      "status": 200,
+      "title": "Події в Кишиневі — січень 2027 р. | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/january-2027?lang=uk",
+      "jsonLdBlocks": 2
+    },
+    {
+      "path": "/events/january-2027",
+      "language": "cs",
+      "status": 200,
+      "title": "Akce v Kišiněvě — leden 2027 | RentPlaceMD",
+      "canonical": "https://rentplace.md/events/january-2027?lang=cs",
+      "jsonLdBlocks": 2
+    }
+  ],
+  "sitemapChecked": true
+}

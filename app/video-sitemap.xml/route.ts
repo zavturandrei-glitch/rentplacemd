@@ -2,6 +2,7 @@ import { getCityVideoAbsoluteThumbnail, getCityVideoWatchDescription } from "@/l
 import { getCityVideoEmbedUrl, getCityVideoPath } from "@/lib/cityVideoTypes";
 import { readPublishedCityVideos } from "@/lib/cityVideoStore";
 import { baseUrl } from "@/lib/seo";
+import { getCityVideoIdentity } from "@/lib/cityVideoIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,11 +19,13 @@ function escapeXml(value: string) {
 export async function GET() {
   const videos = await readPublishedCityVideos();
   const entries = videos.flatMap((video) => {
+    const identity = getCityVideoIdentity(video, "ru", videos);
+    if (identity.duplicate) return [];
     const thumbnail = getCityVideoAbsoluteThumbnail(video);
     const player = getCityVideoEmbedUrl(video);
     if (!thumbnail || !player) return [];
-    const title = video.title.ru.slice(0, 100);
-    const description = getCityVideoWatchDescription(video, "ru").slice(0, 2048);
+    const title = identity.title.slice(0, 100);
+    const description = getCityVideoWatchDescription(video, "ru", videos).slice(0, 2048);
     return [`  <url>
     <loc>${escapeXml(baseUrl + getCityVideoPath(video.slug))}</loc>
     <video:video>
