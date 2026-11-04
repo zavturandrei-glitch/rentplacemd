@@ -1,0 +1,635 @@
+[
+  {
+    "id": "beauty-2027",
+    "slug": "beauty-2027",
+    "title": {
+      "ru": "BEAUTY 2027",
+      "ro": "BEAUTY 2027",
+      "en": "BEAUTY 2027",
+      "uk": "BEAUTY 2027",
+      "cs": "BEAUTY 2027"
+    },
+    "description": {
+      "ru": "BEAUTY 2027: 2027-02-25, CIE Moldexpo. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "BEAUTY 2027: 2027-02-25, CIE Moldexpo. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "BEAUTY 2027: 2027-02-25, CIE Moldexpo. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "BEAUTY 2027: 2027-02-25, CIE Moldexpo. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "BEAUTY 2027: 2027-02-25, CIE Moldexpo. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-02-25",
+    "endDate": "2027-02-28",
+    "demandStart": "2027-02-25",
+    "demandEnd": "2027-02-28",
+    "venue": {
+      "ru": "CIE Moldexpo",
+      "ro": "CIE Moldexpo",
+      "en": "CIE Moldexpo",
+      "uk": "CIE Moldexpo",
+      "cs": "CIE Moldexpo"
+    },
+    "address": {
+      "ru": "Strada Ghioceilor 1, Chișinău",
+      "ro": "Strada Ghioceilor 1, Chișinău",
+      "en": "Strada Ghioceilor 1, Chișinău",
+      "uk": "Strada Ghioceilor 1, Chișinău",
+      "cs": "Strada Ghioceilor 1, Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "business",
+    "interest": "high",
+    "sourceName": "Moldexpo",
+    "sourceUrl": "https://beauty.moldexpo.md/o-vystavke/",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "feteasca-run-2027",
+    "slug": "feteasca-run-2027",
+    "title": {
+      "ru": "Feteasca Run 2027",
+      "ro": "Feteasca Run 2027",
+      "en": "Feteasca Run 2027",
+      "uk": "Feteasca Run 2027",
+      "cs": "Feteasca Run 2027"
+    },
+    "description": {
+      "ru": "Feteasca Run 2027: 2027-09-25, Casa Vinicolă Luca, Cricova. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "Feteasca Run 2027: 2027-09-25, Casa Vinicolă Luca, Cricova. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "Feteasca Run 2027: 2027-09-25, Casa Vinicolă Luca, Cricova. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "Feteasca Run 2027: 2027-09-25, Casa Vinicolă Luca, Cricova. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "Feteasca Run 2027: 2027-09-25, Casa Vinicolă Luca, Cricova. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-09-25",
+    "demandStart": "2027-09-25",
+    "demandEnd": "2027-09-25",
+    "venue": {
+      "ru": "Casa Vinicolă Luca, Cricova",
+      "ro": "Casa Vinicolă Luca, Cricova",
+      "en": "Casa Vinicolă Luca, Cricova",
+      "uk": "Casa Vinicolă Luca, Cricova",
+      "cs": "Casa Vinicolă Luca, Cricova"
+    },
+    "address": {
+      "ru": "Strada Buna Vestire 17, Cricova",
+      "ro": "Strada Buna Vestire 17, Cricova",
+      "en": "Strada Buna Vestire 17, Cricova",
+      "uk": "Strada Buna Vestire 17, Cricova",
+      "cs": "Strada Buna Vestire 17, Cricova"
+    },
+    "city": "Moldova-near-Chisinau",
+    "category": "sport",
+    "interest": "medium",
+    "sourceName": "Carpe Diem",
+    "sourceUrl": "https://www.carpediem.md/events",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "skryptonite-2027",
+    "slug": "skryptonite-2027",
+    "title": {
+      "ru": "SKRYPTONITE",
+      "ro": "SKRYPTONITE",
+      "en": "SKRYPTONITE",
+      "uk": "SKRYPTONITE",
+      "cs": "SKRYPTONITE"
+    },
+    "description": {
+      "ru": "SKRYPTONITE: 2027-01-23, 19:00, Arena Chișinău. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "SKRYPTONITE: 2027-01-23, 19:00, Arena Chișinău. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "SKRYPTONITE: 2027-01-23, 19:00, Arena Chișinău. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "SKRYPTONITE: 2027-01-23, 19:00, Arena Chișinău. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "SKRYPTONITE: 2027-01-23, 19:00, Arena Chișinău. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-01-23",
+    "startTime": "19:00",
+    "demandStart": "2027-01-23",
+    "demandEnd": "2027-01-23",
+    "venue": {
+      "ru": "Arena Chișinău",
+      "ro": "Arena Chișinău",
+      "en": "Arena Chișinău",
+      "uk": "Arena Chișinău",
+      "cs": "Arena Chișinău"
+    },
+    "address": {
+      "ru": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "ro": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "en": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "uk": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "cs": "Calea Orheiului 130, Stăuceni, mun. Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "high",
+    "sourceName": "LiveTickets",
+    "sourceUrl": "https://livetickets.md/en/event/578--skryptonite",
+    "ticketUrl": "https://livetickets.md/en/event/578--skryptonite",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "skillet-2027",
+    "slug": "skillet-2027",
+    "title": {
+      "ru": "SKILLET — After the Storm",
+      "ro": "SKILLET — After the Storm",
+      "en": "SKILLET — After the Storm",
+      "uk": "SKILLET — After the Storm",
+      "cs": "SKILLET — After the Storm"
+    },
+    "description": {
+      "ru": "SKILLET — After the Storm: 2027-07-25, 20:00, Arena Chișinău — Open Air. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "SKILLET — After the Storm: 2027-07-25, 20:00, Arena Chișinău — Open Air. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "SKILLET — After the Storm: 2027-07-25, 20:00, Arena Chișinău — Open Air. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "SKILLET — After the Storm: 2027-07-25, 20:00, Arena Chișinău — Open Air. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "SKILLET — After the Storm: 2027-07-25, 20:00, Arena Chișinău — Open Air. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-07-25",
+    "startTime": "20:00",
+    "demandStart": "2027-07-25",
+    "demandEnd": "2027-07-25",
+    "venue": {
+      "ru": "Arena Chișinău — Open Air",
+      "ro": "Arena Chișinău — Open Air",
+      "en": "Arena Chișinău — Open Air",
+      "uk": "Arena Chișinău — Open Air",
+      "cs": "Arena Chișinău — Open Air"
+    },
+    "address": {
+      "ru": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "ro": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "en": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "uk": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "cs": "Calea Orheiului 130, Stăuceni, mun. Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "high",
+    "sourceName": "LiveTickets",
+    "sourceUrl": "https://livetickets.md/ru/event/719--skillet-coming-to-chisinau",
+    "ticketUrl": "https://livetickets.md/ru/event/719--skillet-coming-to-chisinau",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "till-lindemann-2027",
+    "slug": "till-lindemann-2027",
+    "title": {
+      "ru": "Till Lindemann — World Tour 2027",
+      "ro": "Till Lindemann — World Tour 2027",
+      "en": "Till Lindemann — World Tour 2027",
+      "uk": "Till Lindemann — World Tour 2027",
+      "cs": "Till Lindemann — World Tour 2027"
+    },
+    "description": {
+      "ru": "Till Lindemann — World Tour 2027: 2027-11-30, Arena Chișinău. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "Till Lindemann — World Tour 2027: 2027-11-30, Arena Chișinău. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "Till Lindemann — World Tour 2027: 2027-11-30, Arena Chișinău. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "Till Lindemann — World Tour 2027: 2027-11-30, Arena Chișinău. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "Till Lindemann — World Tour 2027: 2027-11-30, Arena Chișinău. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-11-30",
+    "demandStart": "2027-11-30",
+    "demandEnd": "2027-11-30",
+    "venue": {
+      "ru": "Arena Chișinău",
+      "ro": "Arena Chișinău",
+      "en": "Arena Chișinău",
+      "uk": "Arena Chișinău",
+      "cs": "Arena Chișinău"
+    },
+    "address": {
+      "ru": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "ro": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "en": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "uk": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "cs": "Calea Orheiului 130, Stăuceni, mun. Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "very-high",
+    "sourceName": "Entertix",
+    "sourceUrl": "https://www.entertix.md/events/42437/till-lindemann-world-tour-2027-30-november-2027-chisinau-arena-chisinau.html",
+    "ticketUrl": "https://www.entertix.md/events/42437/till-lindemann-world-tour-2027-30-november-2027-chisinau-arena-chisinau.html",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "the-las-vegas-show-2027",
+    "slug": "the-las-vegas-show-2027",
+    "title": {
+      "ru": "The Las Vegas Show",
+      "ro": "The Las Vegas Show",
+      "en": "The Las Vegas Show",
+      "uk": "The Las Vegas Show",
+      "cs": "The Las Vegas Show"
+    },
+    "description": {
+      "ru": "The Las Vegas Show: 2027-02-24, 19:30, Arena Chișinău. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "The Las Vegas Show: 2027-02-24, 19:30, Arena Chișinău. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "The Las Vegas Show: 2027-02-24, 19:30, Arena Chișinău. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "The Las Vegas Show: 2027-02-24, 19:30, Arena Chișinău. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "The Las Vegas Show: 2027-02-24, 19:30, Arena Chișinău. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-02-24",
+    "startTime": "19:30",
+    "demandStart": "2027-02-24",
+    "demandEnd": "2027-02-24",
+    "venue": {
+      "ru": "Arena Chișinău",
+      "ro": "Arena Chișinău",
+      "en": "Arena Chișinău",
+      "uk": "Arena Chișinău",
+      "cs": "Arena Chișinău"
+    },
+    "address": {
+      "ru": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "ro": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "en": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "uk": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "cs": "Calea Orheiului 130, Stăuceni, mun. Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "medium",
+    "sourceName": "Entertix",
+    "sourceUrl": "https://www.entertix.md/en/events",
+    "ticketUrl": "https://www.entertix.md/en/events",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "valery-meladze-11-november-2026",
+    "slug": "valery-meladze-11-november-2026",
+    "title": {
+      "ru": "Валерий Меладзе",
+      "ro": "Валерий Меладзе",
+      "en": "Валерий Меладзе",
+      "uk": "Валерий Меладзе",
+      "cs": "Валерий Меладзе"
+    },
+    "description": {
+      "ru": "Валерий Меладзе: 2026-11-11, 20:00, Arena Chișinău. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "Валерий Меладзе: 2026-11-11, 20:00, Arena Chișinău. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "Валерий Меладзе: 2026-11-11, 20:00, Arena Chișinău. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "Валерий Меладзе: 2026-11-11, 20:00, Arena Chișinău. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "Валерий Меладзе: 2026-11-11, 20:00, Arena Chișinău. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2026-11-11",
+    "startTime": "20:00",
+    "demandStart": "2026-11-11",
+    "demandEnd": "2026-11-11",
+    "venue": {
+      "ru": "Arena Chișinău",
+      "ro": "Arena Chișinău",
+      "en": "Arena Chișinău",
+      "uk": "Arena Chișinău",
+      "cs": "Arena Chișinău"
+    },
+    "address": {
+      "ru": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "ro": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "en": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "uk": "Calea Orheiului 130, Stăuceni, mun. Chișinău",
+      "cs": "Calea Orheiului 130, Stăuceni, mun. Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "very-high",
+    "sourceName": "Valery Meladze",
+    "sourceUrl": "https://meladze.eu/concerts",
+    "verifiedAt": "2026-11-04",
+    "status": "sold-out",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "3-sud-est-18-november-2026",
+    "slug": "3-sud-est-18-november-2026",
+    "title": {
+      "ru": "3 SUD EST",
+      "ro": "3 SUD EST",
+      "en": "3 SUD EST",
+      "uk": "3 SUD EST",
+      "cs": "3 SUD EST"
+    },
+    "description": {
+      "ru": "3 SUD EST: 2026-11-18, 19:00, Palatul Național „Nicolae Sulac”. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "3 SUD EST: 2026-11-18, 19:00, Palatul Național „Nicolae Sulac”. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "3 SUD EST: 2026-11-18, 19:00, Palatul Național „Nicolae Sulac”. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "3 SUD EST: 2026-11-18, 19:00, Palatul Național „Nicolae Sulac”. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "3 SUD EST: 2026-11-18, 19:00, Palatul Național „Nicolae Sulac”. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2026-11-18",
+    "startTime": "19:00",
+    "demandStart": "2026-11-18",
+    "demandEnd": "2026-11-18",
+    "venue": {
+      "ru": "Palatul Național „Nicolae Sulac”",
+      "ro": "Palatul Național „Nicolae Sulac”",
+      "en": "Palatul Național „Nicolae Sulac”",
+      "uk": "Palatul Național „Nicolae Sulac”",
+      "cs": "Palatul Național „Nicolae Sulac”"
+    },
+    "address": {
+      "ru": "Strada Pușkin 21, Chișinău",
+      "ro": "Strada Pușkin 21, Chișinău",
+      "en": "Strada Pușkin 21, Chișinău",
+      "uk": "Strada Pușkin 21, Chișinău",
+      "cs": "Strada Pușkin 21, Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "medium",
+    "sourceName": "Entertix",
+    "sourceUrl": "https://www.entertix.md/events/39491/3-sud-est-18-november-2026-palatul-national-chisinau.html",
+    "ticketUrl": "https://www.entertix.md/events/39491/3-sud-est-18-november-2026-palatul-national-chisinau.html",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "3-sud-est-19-november-2026",
+    "slug": "3-sud-est-19-november-2026",
+    "title": {
+      "ru": "3 SUD EST",
+      "ro": "3 SUD EST",
+      "en": "3 SUD EST",
+      "uk": "3 SUD EST",
+      "cs": "3 SUD EST"
+    },
+    "description": {
+      "ru": "3 SUD EST: 2026-11-19, 19:00, Palatul Național „Nicolae Sulac”. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "3 SUD EST: 2026-11-19, 19:00, Palatul Național „Nicolae Sulac”. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "3 SUD EST: 2026-11-19, 19:00, Palatul Național „Nicolae Sulac”. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "3 SUD EST: 2026-11-19, 19:00, Palatul Național „Nicolae Sulac”. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "3 SUD EST: 2026-11-19, 19:00, Palatul Național „Nicolae Sulac”. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2026-11-19",
+    "startTime": "19:00",
+    "demandStart": "2026-11-19",
+    "demandEnd": "2026-11-19",
+    "venue": {
+      "ru": "Palatul Național „Nicolae Sulac”",
+      "ro": "Palatul Național „Nicolae Sulac”",
+      "en": "Palatul Național „Nicolae Sulac”",
+      "uk": "Palatul Național „Nicolae Sulac”",
+      "cs": "Palatul Național „Nicolae Sulac”"
+    },
+    "address": {
+      "ru": "Strada Pușkin 21, Chișinău",
+      "ro": "Strada Pușkin 21, Chișinău",
+      "en": "Strada Pușkin 21, Chișinău",
+      "uk": "Strada Pușkin 21, Chișinău",
+      "cs": "Strada Pușkin 21, Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "medium",
+    "sourceName": "Entertix",
+    "sourceUrl": "https://www.entertix.md/events/39492/3-sud-est-19-november-2026-palatul-national-chisinau.html",
+    "ticketUrl": "https://www.entertix.md/events/39492/3-sud-est-19-november-2026-palatul-national-chisinau.html",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "vali-boghean-2026",
+    "slug": "vali-boghean-2026",
+    "title": {
+      "ru": "Vali Boghean Band",
+      "ro": "Vali Boghean Band",
+      "en": "Vali Boghean Band",
+      "uk": "Vali Boghean Band",
+      "cs": "Vali Boghean Band"
+    },
+    "description": {
+      "ru": "Vali Boghean Band: 2026-12-29, 19:00, Palatul Național „Nicolae Sulac”. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "Vali Boghean Band: 2026-12-29, 19:00, Palatul Național „Nicolae Sulac”. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "Vali Boghean Band: 2026-12-29, 19:00, Palatul Național „Nicolae Sulac”. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "Vali Boghean Band: 2026-12-29, 19:00, Palatul Național „Nicolae Sulac”. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "Vali Boghean Band: 2026-12-29, 19:00, Palatul Național „Nicolae Sulac”. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2026-12-29",
+    "startTime": "19:00",
+    "demandStart": "2026-12-29",
+    "demandEnd": "2026-12-29",
+    "venue": {
+      "ru": "Palatul Național „Nicolae Sulac”",
+      "ro": "Palatul Național „Nicolae Sulac”",
+      "en": "Palatul Național „Nicolae Sulac”",
+      "uk": "Palatul Național „Nicolae Sulac”",
+      "cs": "Palatul Național „Nicolae Sulac”"
+    },
+    "address": {
+      "ru": "Strada Pușkin 21, Chișinău",
+      "ro": "Strada Pușkin 21, Chișinău",
+      "en": "Strada Pușkin 21, Chișinău",
+      "uk": "Strada Pușkin 21, Chișinău",
+      "cs": "Strada Pușkin 21, Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "concert",
+    "interest": "medium",
+    "sourceName": "Entertix",
+    "sourceUrl": "https://www.entertix.md/events/42399/vali-boghean-band-29-december-2026-palatul-national-chisinau.html",
+    "ticketUrl": "https://www.entertix.md/events/42399/vali-boghean-band-29-december-2026-palatul-national-chisinau.html",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  },
+  {
+    "id": "sukhishvili-2027",
+    "slug": "sukhishvili-2027",
+    "title": {
+      "ru": "Sukhishvili",
+      "ro": "Sukhishvili",
+      "en": "Sukhishvili",
+      "uk": "Sukhishvili",
+      "cs": "Sukhishvili"
+    },
+    "description": {
+      "ru": "Sukhishvili: 2027-01-29, 19:30, Palatul Național „Nicolae Sulac”. Дата указана в объявлении; время показывается, если опубликовано; правила входа сверяйте по ссылке источника.",
+      "ro": "Sukhishvili: 2027-01-29, 19:30, Palatul Național „Nicolae Sulac”. Data este anunțată; ora este afișată dacă a fost publicată; consultați regulile de acces la sursă.",
+      "en": "Sukhishvili: 2027-01-29, 19:30, Palatul Național „Nicolae Sulac”. The listing confirms the date; the start time is shown when published; consult the source for admission details.",
+      "uk": "Sukhishvili: 2027-01-29, 19:30, Palatul Național „Nicolae Sulac”. Дату підтверджує оголошення; час показано, якщо опубліковано; правила входу дивіться за посиланням джерела.",
+      "cs": "Sukhishvili: 2027-01-29, 19:30, Palatul Național „Nicolae Sulac”. Oznámení potvrzuje datum; čas je uveden, pokud byl zveřejněn; podmínky vstupu najdete u zdroje."
+    },
+    "demandReason": {
+      "ru": "Событие может увеличить спрос на ночёвку; наличие жилья проверяется отдельно.",
+      "ro": "Evenimentul poate crește cererea de cazare; disponibilitatea se verifică separat.",
+      "en": "The event may increase overnight demand; accommodation availability is checked separately.",
+      "uk": "Подія може збільшити попит на ночівлю; наявність житла перевіряється окремо.",
+      "cs": "Akce může zvýšit zájem o přenocování; dostupnost ubytování se ověřuje samostatně."
+    },
+    "startDate": "2027-01-29",
+    "startTime": "19:30",
+    "demandStart": "2027-01-29",
+    "demandEnd": "2027-01-29",
+    "venue": {
+      "ru": "Palatul Național „Nicolae Sulac”",
+      "ro": "Palatul Național „Nicolae Sulac”",
+      "en": "Palatul Național „Nicolae Sulac”",
+      "uk": "Palatul Național „Nicolae Sulac”",
+      "cs": "Palatul Național „Nicolae Sulac”"
+    },
+    "address": {
+      "ru": "Strada Pușkin 21, Chișinău",
+      "ro": "Strada Pușkin 21, Chișinău",
+      "en": "Strada Pușkin 21, Chișinău",
+      "uk": "Strada Pușkin 21, Chișinău",
+      "cs": "Strada Pușkin 21, Chișinău"
+    },
+    "city": "Chisinau",
+    "category": "theatre",
+    "interest": "medium",
+    "sourceName": "Entertix",
+    "sourceUrl": "https://www.entertix.md/events/39599/sukhishvili-29-january-2027-palatul-national-chisinau.html",
+    "ticketUrl": "https://www.entertix.md/events/39599/sukhishvili-29-january-2027-palatul-national-chisinau.html",
+    "verifiedAt": "2026-11-04",
+    "status": "scheduled",
+    "translatedLanguages": [
+      "ru",
+      "ro",
+      "en",
+      "uk",
+      "cs"
+    ]
+  }
+]

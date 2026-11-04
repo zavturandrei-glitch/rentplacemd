@@ -6,14 +6,14 @@ import {validateEvent,mergeEvents,emptyEventState} from '../lib/eventsWorkflow.t
 import {chisinauDate,eventMonths} from '../lib/eventDates.ts';
 
 test('new November/December listings validate in all five languages and retain supplied start times',()=>{
-  assert.equal(autumn2026Events.length,10);
-  assert.equal(new Set(autumn2026Events.map(e=>e.slug)).size,10);
+  assert.equal(autumn2026Events.length,21);
+  assert.equal(new Set(autumn2026Events.map(e=>e.slug)).size,21);
   for(const event of autumn2026Events){
     const validated=validateEvent(event);
     assert.deepEqual(validated.translatedLanguages,['ru','ro','en','uk','cs']);
-    assert.match(event.sourceUrl,/^https:\/\/(livetickets\.md|sohoclub\.md)\//);
+    assert.match(event.sourceUrl,/^https:\/\/(livetickets\.md|sohoclub\.md|www\.entertix\.md|meladze\.eu|beauty\.moldexpo\.md|www\.carpediem\.md)\//);
     assert.equal(validated.startTime,event.startTime);
-    assert.ok(event.startDate>='2026-11-01' && event.startDate<='2026-12-31');
+    assert.ok(event.startDate>='2026-11-01' && event.startDate<='2027-12-31');
   }
 });
 test('sold-out status survives state updates; admin merges do not duplicate the source listing',()=>{
@@ -45,3 +45,6 @@ test('calendar has exactly one daily Hobby cron, with no build-time refresh',asy
   const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
   assert.doesNotMatch(pkg.scripts.build,/migrat|refresh|cron/);
 });
+
+
+
