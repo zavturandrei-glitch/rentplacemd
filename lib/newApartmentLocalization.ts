@@ -1,4 +1,5 @@
 import type { Language } from "@/locales/translations";
+import {albisoaraRefreshAlts} from './albisoaraRefreshAlts';
 import type { LocalizedApartmentSeo } from "@/lib/apartmentLocalization";
 
 type ApartmentCopy = {
@@ -285,7 +286,7 @@ function localized(
 
   return {
     displayAddress: copy.address,
-    imageAlts: copy.imageAlts,
+    imageAlts: id==='84'?albisoaraRefreshAlts[language]:copy.imageAlts,
     title: copy.title,
     description: copy.description,
     imageAlt: `${copy.title}, ${photoWord[language]} {index}`,
