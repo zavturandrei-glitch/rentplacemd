@@ -9,6 +9,7 @@ import {
 } from "@/lib/apartments";
 import { normalizeApartmentId } from "@/lib/apartmentId";
 import { newApartmentLocalizations } from "@/lib/newApartmentLocalization";
+import {cornuluiLocalizations} from './cornuluiLocalization';
 
 type LocalizedApartmentKind = Apartment["kind"];
 
@@ -345,6 +346,7 @@ function getCompletedLegacyLocalization(
 
 export function getApartmentLocalization(apartmentId: string | number, language: Language) {
   const id = normalizeApartmentId(apartmentId);
+  if(id==='132') return cornuluiLocalizations[language];
   const newApartmentLocalization = newApartmentLocalizations[id]?.[language];
   if (newApartmentLocalization) return newApartmentLocalization;
   if (id === "6") return cuzaVoda12[language];
@@ -422,7 +424,7 @@ export function getApartmentSeoLocalization(apartmentId: string | number, langua
 
 export function hasApartmentLocalization(apartmentId: string | number) {
   const id = normalizeApartmentId(apartmentId);
-  return id === "6" || completedLegacyApartmentIds.has(id) || Boolean(newApartmentLocalizations[id]) || Boolean(localizationDefinitions[id]);
+  return id === "132" || id === "6" || completedLegacyApartmentIds.has(id) || Boolean(newApartmentLocalizations[id]) || Boolean(localizationDefinitions[id]);
 }
 
 const allLocalizedLanguages: readonly Language[] = ["ru", "ro", "en", "uk", "cs"];

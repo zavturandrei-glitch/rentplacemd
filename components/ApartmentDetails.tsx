@@ -355,8 +355,10 @@ function getRelatedApartments(apartment: ApartmentDetailsData) {
 
 export default function ApartmentDetails({
   apartment,
+  children,
 }: {
   apartment: ApartmentDetailsData;
+  children?: import('react').ReactNode;
 }) {
   const { language } = useLanguage();
   const text = pageCopy[language];
@@ -761,6 +763,7 @@ export default function ApartmentDetails({
         ) : null}
       </div>
 
+      {children}
       <Footer whatsappHref={whatsappLink} />
       <div
         className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#07111f]/96 px-3 pt-1.5 shadow-[0_-8px_24px_rgba(7,17,31,0.2)] backdrop-blur lg:hidden"

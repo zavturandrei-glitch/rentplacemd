@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ApartmentDetails from "@/components/ApartmentDetails";
 import JsonLdScript from "@/components/JsonLdScript";
+import {readPublishedCityVideos} from '@/lib/cityVideoStore';
+import ApartmentLinkedVideos from '@/components/ApartmentLinkedVideos';
 import {
   apartmentDetailsById,
   activeApartments,
@@ -59,13 +61,18 @@ export default async function ApartmentPage({ params, searchParams }: ApartmentP
     language,
     typeof lang === "string" && language !== "ru",
   );
+  const linkedVideos=String(apartment.id)==='132'
+    ? (await readPublishedCityVideos()).filter(video=>video.relatedUrl===`/apartment/${apartment.slug}`)
+    : [];
   return (
     <>
       <JsonLdScript
         id={"apartment-" + apartment.id + "-jsonld"}
         data={jsonLd}
       />
-      <ApartmentDetails apartment={apartmentDetailsById[String(apartment.id)]} />
+      <ApartmentDetails apartment={apartmentDetailsById[String(apartment.id)]}>
+        {linkedVideos.length>0 && <ApartmentLinkedVideos videos={linkedVideos} />}
+      </ApartmentDetails>
     </>
   );
 }
