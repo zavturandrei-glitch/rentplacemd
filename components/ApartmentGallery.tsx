@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 import {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type PointerEvent,
@@ -25,11 +24,14 @@ type ApartmentGalleryProps = {
   labels: {
     gallery: string;
     allPhotos: string;
+    back: string;
     previous: string;
     next: string;
     close: string;
   };
 };
+
+const lightboxArrowClass = "flex h-12 w-16 items-center justify-center rounded-xl border border-white/35 bg-white/10 text-white transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-white";
 
 export default function ApartmentGallery({
   photos,
@@ -40,7 +42,7 @@ export default function ApartmentGallery({
 }: ApartmentGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [loadedSrc,setLoadedSrc]=useState('');
+  const [loadedSrc, setLoadedSrc] = useState('');
   const galleryPointerStartRef = useRef<number | null>(null);
   const lightboxPointerStartRef = useRef<number | null>(null);
   const suppressGalleryClickRef = useRef(false);
@@ -129,8 +131,6 @@ export default function ApartmentGallery({
   }
 
   function handleLightboxPointerDown(event: PointerEvent<HTMLDivElement>) {
-    lightboxPointerStartRef.current = null;
-    gestureRef.current = null;
     if (!event.isPrimary || event.button !== 0) return;
     gestureRef.current = { id: event.pointerId, y: event.clientY };
     lightboxPointerStartRef.current = event.clientX;
@@ -138,13 +138,14 @@ export default function ApartmentGallery({
   }
 
   function handleLightboxPointerUp(event: PointerEvent<HTMLDivElement>) {
+    if (gestureRef.current?.id !== event.pointerId) return;
     const startX = lightboxPointerStartRef.current;
     lightboxPointerStartRef.current = null;
     if (startX === null) return;
     const distance = event.clientX - startX;
     const gesture = gestureRef.current;
     gestureRef.current = null;
-    if (!gesture || gesture.id !== event.pointerId || Math.abs(distance) <= Math.abs(event.clientY - gesture.y)*1.25) return;
+    if (!gesture || gesture.id !== event.pointerId || Math.abs(distance) <= Math.abs(event.clientY - gesture.y) * 1.25) return;
     if (Math.abs(distance) < 44) return;
     if (distance > 0) showPreviousLightbox();
     else showNextLightbox();
@@ -199,15 +200,6 @@ export default function ApartmentGallery({
     Object.assign(document.body.style,{position:'fixed',top:`-${y}px`,width:'100%',overflow:'hidden'});
     return ()=>{Object.assign(document.body.style,old);window.scrollTo({top:y,behavior:'instant'});};
   },[isOpen]);
-
-  const lightboxDots = useMemo(() => {
-    if (photos.length <= 7) return photos.map((_, index) => index);
-    return Array.from(
-      { length: 7 },
-      (_, offset) =>
-        (activeLightboxIndex - 3 + offset + photos.length) % photos.length,
-    );
-  }, [activeLightboxIndex, photos]);
 
   if (!activePhoto) return null;
 
@@ -266,7 +258,7 @@ export default function ApartmentGallery({
                 event.stopPropagation();
                 openLightbox(activeIndex);
               }}
-              className="pointer-events-auto min-h-10 rounded-xl bg-white px-3.5 text-xs font-black text-[#07111f] shadow-lg"
+              className="pointer-events-auto min-h-11 rounded-xl bg-white px-3.5 text-xs font-black text-[#07111f] shadow-lg"
             >
               {labels.allPhotos}
             </button>
@@ -341,57 +333,49 @@ export default function ApartmentGallery({
           aria-modal="true"
           aria-label={labels.gallery}
         >
-          <div
-            className="pointer-events-none absolute left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/70 px-4 py-2 text-sm font-black"
-            style={{top:'calc(env(safe-area-inset-top, 0px) + 16px)'}}
-            aria-live="polite"
-          >
-            {activeLightboxIndex + 1} / {photos.length}
-          </div>
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={closeLightbox}
-            className="absolute z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
-            style={{top:'calc(env(safe-area-inset-top, 0px) + 12px)',right:'calc(env(safe-area-inset-right, 0px) + 12px)'}}
-            aria-label={labels.close}
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>
-          </button>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              showPreviousLightbox();
+          <header
+            className="z-40 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 bg-[#080a0d] pb-2"
+            style={{
+              paddingTop: "calc(env(safe-area-inset-top, 0px) + 8px)",
+              paddingLeft: "calc(env(safe-area-inset-left, 0px) + 8px)",
+              paddingRight: "calc(env(safe-area-inset-right, 0px) + 8px)",
             }}
-            className="absolute top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white sm:h-14 sm:w-14"
-            style={{left:'calc(env(safe-area-inset-left, 0px) + 12px)'}}
-            aria-label={labels.previous}
           >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
-          </button>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              showNextLightbox();
-            }}
-            className="absolute top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white sm:h-14 sm:w-14"
-            style={{right:'calc(env(safe-area-inset-right, 0px) + 12px)'}}
-            aria-label={labels.next}
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
-          </button>
-
+            <button
+              type="button"
+              onClick={closeLightbox}
+              className="inline-flex min-h-12 min-w-12 items-center justify-center gap-1.5 justify-self-start rounded-xl border border-white/40 px-2.5 text-sm font-bold hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-white"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7"/></svg>
+              {labels.back}
+            </button>
+            <span className="whitespace-nowrap text-sm font-bold tabular-nums" aria-live="polite">
+              {activeLightboxIndex + 1} / {photos.length}
+            </span>
+            <button
+              ref={closeButtonRef}
+              type="button"
+              aria-label={labels.close}
+              onClick={closeLightbox}
+              className="inline-flex size-12 items-center justify-center justify-self-end rounded-xl bg-white text-[#080a0d] hover:bg-white/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>
+            </button>
+          </header>
           <div
-            className="flex min-h-0 flex-1 touch-pan-y items-center justify-center px-2 sm:px-20"
-            style={{paddingTop:'calc(env(safe-area-inset-top, 0px) + 76px)',paddingBottom:'calc(env(safe-area-inset-bottom, 0px) + 60px)'}}
-            onClick={(event) => event.stopPropagation()}
+            className="flex min-h-0 flex-1 touch-pan-y select-none items-center justify-center"
+            style={{
+              paddingLeft: "calc(env(safe-area-inset-left, 0px) + 8px)",
+              paddingRight: "calc(env(safe-area-inset-right, 0px) + 8px)",
+            }}
             onPointerDown={handleLightboxPointerDown}
             onPointerUp={handleLightboxPointerUp}
             onDragStart={(event) => event.preventDefault()}
-            onPointerCancel={() => {
-              lightboxPointerStartRef.current = null;
+            onPointerCancel={(event) => {
+              if (gestureRef.current?.id === event.pointerId) {
+                lightboxPointerStartRef.current = null;
+                gestureRef.current = null;
+              }
             }}
           >
             <div className="relative h-full w-full max-w-6xl" aria-busy={loadedSrc!==activeLightboxPhoto.src}>
@@ -401,41 +385,59 @@ export default function ApartmentGallery({
                 src={activeLightboxPhoto.src}
                 alt={activeLightboxPhoto.alt}
                 fill
-                sizes="100vw"
+                sizes="(min-width: 1152px) 1152px, 100vw"
                 loading="eager"
                 quality={activeLightboxPhoto.src.startsWith("/apartments/albisoara-16-84/") ? 82 : undefined}
                 className="object-contain"
                 draggable={false}
                 onLoad={()=>setLoadedSrc(activeLightboxPhoto.src)}
               />
-              {photos.length>1 && <Image src={photos[(activeLightboxIndex+1)%photos.length].src} alt="" aria-hidden="true" fill sizes="100vw" loading="eager" className="pointer-events-none object-contain opacity-0"/>}
-            </div>
-          </div>
-
-          <div
-            className="absolute inset-x-0 bottom-0 z-20 flex justify-center bg-gradient-to-t from-black via-black/80 to-transparent px-3 pb-4 pt-8"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="flex items-center gap-2">
-              {lightboxDots.map((index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => setLightboxIndex(index)}
-                  className={[
-                    "h-3 rounded-full transition-[width,background-color] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white",
-                    index === activeLightboxIndex
-                      ? "w-8 bg-[#ffd21f]"
-                      : "w-3 bg-white/55 hover:bg-white",
-                  ].join(" ")}
-                  aria-label={photos[index].alt}
-                  aria-current={
-                    index === activeLightboxIndex ? "true" : undefined
-                  }
+              {photos.length > 1 && [...new Set([
+                (activeLightboxIndex - 1 + photos.length) % photos.length,
+                (activeLightboxIndex + 1) % photos.length,
+              ])].map((index) => (
+                <Image
+                  key={photos[index].src}
+                  src={photos[index].src}
+                  alt=""
+                  aria-hidden="true"
+                  fill
+                  sizes="(min-width: 1152px) 1152px, 100vw"
+                  loading="eager"
+                  fetchPriority="low"
+                  quality={photos[index].src.startsWith("/apartments/albisoara-16-84/") ? 82 : undefined}
+                  className="pointer-events-none opacity-0"
+                  draggable={false}
                 />
               ))}
             </div>
           </div>
+
+          <footer
+            className="flex shrink-0 justify-center gap-5 px-2 pt-2"
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 8px)" }}
+          >
+            {photos.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={showPreviousLightbox}
+                  className={lightboxArrowClass}
+                  aria-label={labels.previous}
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={showNextLightbox}
+                  className={lightboxArrowClass}
+                  aria-label={labels.next}
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+                </button>
+              </>
+            )}
+          </footer>
         </div>,document.body
       ) : null}
     </>

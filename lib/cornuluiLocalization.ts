@@ -8,8 +8,16 @@ const text={
  cs:['Apartmán Premium v Buiucani — ID 132','Dvoupokojový apartmán o rozloze 80 m² na adrese Cornului 13/2, Buiucani. Druhé podlaží, až 4 hosté, uzavřený areál a vlastní parkovací místo. 1200 MDL za noc.','Dva pokoje','Buiucani','Myčka nádobí|Podlahové vytápění|Dvě klimatizace|Samostatné vytápění|Okenní rolety|Trezor|Pračka|Dvě koupelny s toaletou|Bidet|Dvě televize s YouTube|Zařízená lodžie|Vlastní parkovací místo|Uzavřený areál','Obývací pokoj s pohovkou|Ložnice s postelí|Ložnice a televize|Toaleta s umyvadlem|Koupelna s bidetem|Vana|Lodžie s pracovním místem|Okna lodžie|Pohled na lodžii|Chodba|Trezor|Ovládání podlahového vytápění'],
 } satisfies Record<Language,string[]>;
 const building:Record<Language,string>={ru:'Современная качественная новостройка в тихом жилом районе.',ro:'Bloc nou de calitate într-o zonă rezidențială liniștită.',en:'A modern, quality residential building in a quiet neighbourhood.',uk:'Сучасна якісна новобудова в тихому житловому районі.',cs:'Moderní kvalitní novostavba v klidné obytné čtvrti.'};
+const kitchenPhotoAlt: Record<Language, string> = {
+  ru: "Кухня",
+  ro: "Bucătărie",
+  en: "Kitchen",
+  uk: "Кухня",
+  cs: "Kuchyň",
+};
+
 export const cornuluiLocalizations=Object.fromEntries(Object.entries(text).map(([lang,t])=>[lang,{
- displayAddress:'Cornului 13/2 · '+t[3]+' · Chișinău',title:t[0],description:t[1],imageAlt:t[0],imageAlts:[0,1,3,4,5,6,9,10,11].map(i=>t[5].split('|')[i]).map(s=>s+' · Cornului 13/2 · ID 132'),schemaName:t[0],shortDescription:t[1],layoutDescription:t[3],typeLabel:t[2],aboutTitle:t[0],features:t[4].split('|'),descriptionParagraphs:[t[1],building[lang as Language],t[4].split('|').join(', ')],audienceItems:[],nearbyItems:[],faq:[],
+ displayAddress:'Cornului 13/2 · '+t[3]+' · Chișinău',title:t[0],description:t[1],imageAlt:t[0],imageAlts:[0,-1,1,3,4,5,6,9,10,11].map(i=>i === -1 ? kitchenPhotoAlt[lang as Language] : t[5].split('|')[i]).map(s=>s+' · Cornului 13/2 · ID 132'),schemaName:t[0],shortDescription:t[1],layoutDescription:t[3],typeLabel:t[2],aboutTitle:t[0],features:t[4].split('|'),descriptionParagraphs:[t[1],building[lang as Language],t[4].split('|').join(', ')],audienceItems:[],nearbyItems:[],faq:[],
 }])) as unknown as Record<Language,LocalizedApartmentSeo>;
 
 

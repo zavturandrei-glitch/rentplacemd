@@ -679,6 +679,7 @@ const allApartmentsLabel: Record<Language, string> = {
 };
 
 export function buildSiteJsonLd() {
+  const catalogPrices = activeApartments.map(getApartmentCatalogPrice);
   return [
     {
       "@context": "https://schema.org",
@@ -721,7 +722,7 @@ export function buildSiteJsonLd() {
       ),
       logo: baseUrl + "/brand/rentplace-icon-gold-v3-512.png",
       telephone: phoneNumbers,
-      priceRange: "800-1500 MDL",
+      priceRange: `${Math.min(...catalogPrices)}-${Math.max(...catalogPrices)} MDL`,
       address: {
         "@type": "PostalAddress",
         ...address,

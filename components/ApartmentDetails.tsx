@@ -89,6 +89,7 @@ type PageCopy = {
   call: string;
   gallery: string;
   allPhotos: string;
+  galleryBack: string;
   previousPhoto: string;
   nextPhoto: string;
   closeGallery: string;
@@ -133,6 +134,7 @@ const pageCopy: Record<Language, PageCopy> = {
     call: "Позвонить",
     gallery: "Галерея квартиры",
     allPhotos: "Все фото",
+    galleryBack: "Назад",
     previousPhoto: "Предыдущее фото",
     nextPhoto: "Следующее фото",
     closeGallery: "Закрыть галерею",
@@ -175,6 +177,7 @@ const pageCopy: Record<Language, PageCopy> = {
     call: "Sună",
     gallery: "Galeria apartamentului",
     allPhotos: "Toate fotografiile",
+    galleryBack: "Înapoi",
     previousPhoto: "Fotografia precedentă",
     nextPhoto: "Fotografia următoare",
     closeGallery: "Închide galeria",
@@ -217,6 +220,7 @@ const pageCopy: Record<Language, PageCopy> = {
     call: "Call",
     gallery: "Apartment gallery",
     allPhotos: "All photos",
+    galleryBack: "Back",
     previousPhoto: "Previous photo",
     nextPhoto: "Next photo",
     closeGallery: "Close gallery",
@@ -259,6 +263,7 @@ const pageCopy: Record<Language, PageCopy> = {
     call: "Подзвонити",
     gallery: "Галерея квартири",
     allPhotos: "Усі фото",
+    galleryBack: "Назад",
     previousPhoto: "Попереднє фото",
     nextPhoto: "Наступне фото",
     closeGallery: "Закрити галерею",
@@ -301,6 +306,7 @@ const pageCopy: Record<Language, PageCopy> = {
     call: "Zavolat",
     gallery: "Galerie apartmánu",
     allPhotos: "Všechny fotografie",
+    galleryBack: "Zpět",
     previousPhoto: "Předchozí fotografie",
     nextPhoto: "Další fotografie",
     closeGallery: "Zavřít galerii",
@@ -534,6 +540,7 @@ export default function ApartmentDetails({
             labels={{
               gallery: text.gallery,
               allPhotos: text.allPhotos,
+              back: text.galleryBack,
               previous: text.previousPhoto,
               next: text.nextPhoto,
               close: text.closeGallery,

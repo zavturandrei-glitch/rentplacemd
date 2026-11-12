@@ -256,7 +256,7 @@ export const apartments = [
     shortDescription:'Двухкомнатная квартира Премиум на Буюканах: 80 м², до 4 гостей, собственная парковка.',
     fullDescription:'Квартира ID 132 по адресу Cornului 13/2, Буюканы, Кишинёв. Две комнаты, 80 м², второй этаж, до четырёх гостей. Современная качественная новостройка в тихом жилом районе, закрытая территория и собственное парковочное место.\n\nПосудомоечная и стиральная машины, тёплый пол, два кондиционера, автономное отопление, ролеты, сейф, два санузла, биде и два телевизора с YouTube. Оборудованная лоджия показана на фотографиях. Стоимость — 1200 MDL за сутки.',
     amenities:['Посудомоечная машина','Тёплый пол','Два кондиционера','Автономное отопление','Ролеты на окнах','Сейф','Стиральная машина','Два санузла','Биде','Два телевизора с YouTube','Оборудованная лоджия','Собственное парковочное место','Закрытая территория'],
-    photos:[5,4,14,15,16,11,7,9,13].map(n=>`/apartments/cornului-13-2/${n}.webp`),cardPhoto:'/apartments/cornului-13-2/5.webp',facadePhoto:null,
+    photos:[5,17,4,14,15,16,11,7,9,13].map(n=>`/apartments/cornului-13-2/${n}.webp`),cardPhoto:'/apartments/cornului-13-2/5.webp',facadePhoto:null,
   }),
   createApartment({
     id: 84,
@@ -1587,14 +1587,10 @@ export function formatApartmentCountText(text: string) {
   return text.replaceAll("{count}", String(activeApartmentCount));
 }
 
-export const ECONOMY_CATALOG_DISCOUNT_MDL = 100;
-
 export function getApartmentCatalogPrice(
-  apartment: Pick<Apartment, "class" | "price">,
+  apartment: Pick<Apartment, "price">,
 ) {
-  return apartment.class === "economy"
-    ? Math.max(0, apartment.price - ECONOMY_CATALOG_DISCOUNT_MDL)
-    : apartment.price;
+  return apartment.price;
 }
 
 export function getApartmentsByClass(category: ApartmentClass) {

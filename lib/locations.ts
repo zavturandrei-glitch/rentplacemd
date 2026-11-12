@@ -20,7 +20,7 @@ const locationDefinitions: readonly LocationDefinition[] = [
   {
     // OpenStreetMap building way 895300688, address Cornului 13/2; checked 2026-11-04.
     key:'cornului-13-2',primaryApartmentId:132,name:'Cornului 13/2',
-    address:'Strada Cornului 13/2, Chișinău, Moldova',latitude:47.0198892,longitude:28.7956585,
+    address:'Strada Cornului 13/2, Buiucani, Chișinău, Moldova',latitude:47.0198892,longitude:28.7956585,
     matchesAddress:(address)=>address.includes('Cornului 13/2'),
   },
   {
