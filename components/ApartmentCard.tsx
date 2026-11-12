@@ -69,7 +69,7 @@ export default function ApartmentCard({
         ? copy.twoBedroom
         : copy.oneBedroom
   );
-  const hasLocalizedDistrict = ["15", "16", "61", "132", "200", "201", "202", "203", "204", "205"].includes(String(apartment.id));
+  const hasLocalizedDistrict = ["15", "16", "52", "61", "132", "200", "201", "202", "203", "204", "205"].includes(String(apartment.id));
   const district = hasLocalizedDistrict
     ? localized?.layoutDescription
     : String(apartment.id) === "6"
@@ -90,7 +90,7 @@ export default function ApartmentCard({
     >
       <ResponsiveImage
         src={apartment.cardPhoto ?? apartment.photos[0]}
-        alt={copy.alt(apartment.id, address)}
+        alt={apartment.district === "buiucani" ? localized?.imageAlt ?? copy.alt(apartment.id, address) : copy.alt(apartment.id, address)}
         className="aspect-[4/3]"
         imgClassName="transition duration-500 group-hover:scale-[1.03]"
         sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"

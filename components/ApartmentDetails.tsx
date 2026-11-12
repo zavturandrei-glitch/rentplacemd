@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "@/components/LocalizedLink";
 import ApartmentGallery from "@/components/ApartmentGallery";
 import ApartmentCategoryNav from "@/components/ApartmentCategoryNav";
-import AvailabilityCalendar, { getCalendarWhatsappHref } from "@/components/AvailabilityCalendar";
+import AvailabilityCalendar, { bookingGuestLabels, getCalendarWhatsappHref } from "@/components/AvailabilityCalendar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ResponsiveImage from "@/components/ResponsiveImage";
@@ -481,10 +481,13 @@ export default function ApartmentDetails({
   } | null>(null);
   const selectedStart = selection?.apartmentId === String(apartment.id) ? selection.start : null;
   const selectedEnd = selection?.apartmentId === String(apartment.id) ? selection.end : null;
+  const [bookingGuests, setBookingGuests] = useState(2);
+  const showGuestCount = String(apartment.id) === "52";
   const whatsappLink = selectedStart && selectedEnd
     ? getCalendarWhatsappHref({
         language, apartmentId: apartment.id, address: locationTitle, apartmentPath,
         start: selectedStart, end: selectedEnd, price: displayedPrice,
+        guests: showGuestCount ? bookingGuests : undefined,
       })
     : "https://wa.me/37369990190?text=" + encodeURIComponent(whatsappText);
 
@@ -624,6 +627,19 @@ export default function ApartmentDetails({
         ) : null}
 
         <div id="availability" className="scroll-mt-20 py-6 sm:py-8">
+          {showGuestCount && (
+            <label className="mb-3 flex items-center gap-3 text-sm font-bold">
+              {bookingGuestLabels[language]}
+              <select
+                className="min-h-11 rounded-lg border border-[#07111f]/20 bg-white px-3"
+                value={bookingGuests}
+                onChange={(event) => setBookingGuests(Number(event.target.value))}
+              >
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+              </select>
+            </label>
+          )}
           <AvailabilityCalendar
             key={apartment.id}
             apartmentId={apartment.id}

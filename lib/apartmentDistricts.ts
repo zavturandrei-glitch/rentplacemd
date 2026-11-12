@@ -17,6 +17,10 @@ export function isCenterApartment(apartment: Pick<Apartment, "address">) {
   return verifiedCenterAddressFragments.some((fragment) => apartment.address.includes(fragment));
 }
 
+export function isBuiucaniApartment(apartment: Pick<Apartment, "district" | "address">) {
+  return apartment.district === "buiucani" || /\bBuiucani\b|Буюкан/iu.test(apartment.address);
+}
+
 export const centerApartments = activeApartments.filter(isCenterApartment);
 const centerApartmentIds = new Set(centerApartments.map((apartment) => String(apartment.id)));
 

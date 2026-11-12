@@ -6,6 +6,14 @@ import type { Language } from "@/locales/translations";
 import { getChisinauDateKey, isPastChisinauDate } from "@/lib/chisinauDate";
 import { getNightCount, isStayAvailable } from "@/lib/bookingDates";
 
+export const bookingGuestLabels: Record<Language, string> = {
+  ru: "Количество гостей",
+  ro: "Număr de oaspeți",
+  en: "Number of guests",
+  uk: "Кількість гостей",
+  cs: "Počet hostů",
+};
+
 type AvailabilityCalendarProps = {
   apartmentId: string | number;
   bookedDates: string[];
@@ -260,7 +268,7 @@ function getDateRange(startKey: string, endKey: string) {
 }
 
 export function getCalendarWhatsappHref({
-  language, apartmentId, address, apartmentPath, start, end, price,
+  language, apartmentId, address, apartmentPath, start, end, price, guests,
 }: {
   language: Language;
   apartmentId: string | number;
@@ -269,6 +277,7 @@ export function getCalendarWhatsappHref({
   start: string;
   end: string;
   price: number;
+  guests?: number;
 }) {
   const text = calendarCopy[language];
   const nights = getNightCount(start, end);
@@ -281,7 +290,8 @@ export function getCalendarWhatsappHref({
     total: nights * price,
     url: `https://rentplace.md${apartmentPath}`,
   });
-  return "https://wa.me/37369990190?text=" + encodeURIComponent(message);
+  const guestCount = guests === undefined ? "" : ` ${bookingGuestLabels[language]}: ${guests}.`;
+  return "https://wa.me/37369990190?text=" + encodeURIComponent(message + guestCount);
 }
 
 export default function AvailabilityCalendar({

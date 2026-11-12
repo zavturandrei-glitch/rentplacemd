@@ -18,6 +18,7 @@ export type Apartment = {
   slug: string;
   title: string;
   address: string;
+  district?: "buiucani";
   floor: number | null;
   entrance: string | null;
   apartmentNumber: string | null;
@@ -251,6 +252,27 @@ function verifiedFullDescription(input: VerifiedDescriptionInput) {
 }
 
 export const apartments = [
+  createApartment({
+    id: 52,
+    slug: "ion-creanga-5-2",
+    title: "Ion Creangă 5/2",
+    address: "str. Ion Creangă 5/2, Chișinău, Moldova",
+    district: "buiucani",
+    floor: 6,
+    entrance: null,
+    apartmentNumber: null,
+    class: "premium",
+    price: 1000,
+    guests: 2,
+    rooms: "studio",
+    beds: 1,
+    kind: "studio",
+    shortDescription: "Однокомнатная квартира Премиум на Буюканах, 35 м², до двух гостей.",
+    fullDescription: "Новый жилой дом у Дендрария. Шестой этаж с лифтом, новый ремонт, современная мебель и двуспальная кровать.",
+    amenities: ["Wi-Fi", "Кондиционер", "Автономное отопление", "Двуспальная кровать", "Smart TV с YouTube", "Стиральная машина", "Холодильник", "Газовая плита", "Микроволновая печь", "Электрочайник", "Застеклённый балкон", "Лифт", "Бесплатная парковка", "Постельное бельё и полотенца", "Фен", "Утюг"],
+    photos: apartmentPhotos("ion-creanga-5-2", 6, "webp"),
+    facadePhoto: null,
+  }),
   createApartment({
     id:132,slug:'cornului-13-2',title:'Cornului 13/2',address:'Cornului 13/2, Buiucani, Chișinău',floor:2,entrance:null,apartmentNumber:null,class:'premium',price:1200,guests:4,rooms:'1+1',beds:null,kind:'oneBedroom',
     shortDescription:'Двухкомнатная квартира Премиум на Буюканах: 80 м², до 4 гостей, собственная парковка.',

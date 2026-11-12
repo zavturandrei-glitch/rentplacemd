@@ -18,6 +18,16 @@ type LocationDefinition = {
 // results on 2026-08-02. The address remains the source for external map links.
 const locationDefinitions: readonly LocationDefinition[] = [
   {
+    // Yandex Maps address record: strada Ion Creangă 5/2, Chișinău.
+    key: "ion-creanga-5-2",
+    primaryApartmentId: 52,
+    name: "Ion Creangă 5/2",
+    address: "str. Ion Creangă 5/2, Chișinău, Moldova",
+    latitude: 47.032595,
+    longitude: 28.806204,
+    matchesAddress: (address) => address.includes("Ion Creangă 5/2"),
+  },
+  {
     // OpenStreetMap building way 895300688, address Cornului 13/2; checked 2026-11-04.
     key:'cornului-13-2',primaryApartmentId:132,name:'Cornului 13/2',
     address:'Strada Cornului 13/2, Buiucani, Chișinău, Moldova',latitude:47.0198892,longitude:28.7956585,

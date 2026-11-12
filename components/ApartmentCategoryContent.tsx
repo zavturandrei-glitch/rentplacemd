@@ -1,6 +1,7 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
+import { isBuiucaniApartment } from "@/lib/apartmentDistricts";
 import Link from "@/components/LocalizedLink";
 import ApartmentCard from "@/components/ApartmentCard";
 import { useLanguage } from "@/context/LanguageContext";
@@ -263,6 +264,14 @@ const categoryThemes: Record<
   },
 };
 
+const catalogFilterCopy = {
+  ru: ["Район", "Все районы", "Буюканы", "Цена до, MDL", "Гостей", "Любое", "По заданным параметрам квартир нет."],
+  ro: ["Sector", "Toate sectoarele", "Buiucani", "Preț maxim, MDL", "Oaspeți", "Oricâți", "Nu există apartamente pentru filtrele alese."],
+  en: ["District", "All districts", "Buiucani", "Max price, MDL", "Guests", "Any", "No apartments match these filters."],
+  uk: ["Район", "Усі райони", "Буюкани", "Ціна до, MDL", "Гостей", "Будь-яка кількість", "За вибраними фільтрами квартир немає."],
+  cs: ["Čtvrť", "Všechny čtvrti", "Buiucani", "Cena do, MDL", "Hosté", "Libovolný počet", "Zvoleným filtrům neodpovídá žádný apartmán."],
+} satisfies Record<Language, string[]>;
+
 export default function ApartmentCategoryContent({
   category,
   compactCatalog = false,
@@ -276,15 +285,47 @@ export default function ApartmentCategoryContent({
     ? activeApartments.filter((apartment) => apartment.class === category)
     : activeApartments;
 
+  const [buiucaniOnly, setBuiucaniOnly] = useState(false);
+  const [maxPrice, setMaxPrice] = useState("");
+  const [minGuests, setMinGuests] = useState("");
+  const [districtLabel, allDistricts, buiucaniLabel, priceLabel, guestLabel, anyGuests, emptyLabel] = catalogFilterCopy[language];
+
   if (compactCatalog) {
+    const visibleApartments = apartments.filter((apartment) =>
+      (!buiucaniOnly || isBuiucaniApartment(apartment)) &&
+      (!maxPrice || getApartmentCatalogPrice(apartment) <= Number(maxPrice)) &&
+      (!minGuests || (apartment.guests ?? 0) >= Number(minGuests)),
+    );
+    const fieldClass = "mt-1 block min-h-11 w-full rounded-lg border border-white/20 bg-[#07111f] px-3 text-white";
     return (
       <section className="bg-[#111b2a] px-4 pb-12 pt-6 text-white sm:px-6 sm:pb-16 sm:pt-8 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <p className="mt-4 max-w-3xl rounded-xl border border-[#ffd21f]/35 bg-[#ffd21f]/8 px-4 py-3 text-sm font-bold leading-5 text-white/85">
             {text.discountNotice}
           </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <label className="text-sm font-bold">
+              {districtLabel}
+              <select className={fieldClass} value={buiucaniOnly ? "buiucani" : ""} onChange={(event) => setBuiucaniOnly(event.target.value === "buiucani")}>
+                <option value="">{allDistricts}</option>
+                <option value="buiucani">{buiucaniLabel}</option>
+              </select>
+            </label>
+            <label className="text-sm font-bold">
+              {priceLabel}
+              <input className={fieldClass} type="number" min="0" step="1" value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)} />
+            </label>
+            <label className="text-sm font-bold">
+              {guestLabel}
+              <select className={fieldClass} value={minGuests} onChange={(event) => setMinGuests(event.target.value)}>
+                <option value="">{anyGuests}</option>
+                {[1, 2, 3, 4, 5, 6].map((count) => <option key={count} value={count}>{count}</option>)}
+              </select>
+            </label>
+          </div>
+          {visibleApartments.length === 0 && <p className="mt-5" role="status">{emptyLabel}</p>}
           <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {apartments.map((apartment, index) => (
+            {visibleApartments.map((apartment, index) => (
               <ApartmentCard
                 key={apartment.id}
                 apartment={apartment}
